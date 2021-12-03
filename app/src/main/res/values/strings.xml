@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Hilt-MVVM-Compose-Movie</string>
+    <string name="app_title">Movie world</string>
 </resources>

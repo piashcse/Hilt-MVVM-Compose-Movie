@@ -12,7 +12,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.NavController
 
 @Composable
-fun HomeDetail(navController: NavController){
+fun HomeDetail(navController: NavController) {
     Box(modifier = Modifier.fillMaxSize()) {
         Button(
             onClick = { navController.popBackStack() },

@@ -6,8 +6,8 @@ import retrofit2.Response
 import javax.inject.Inject
 
 class MovieRepository @Inject constructor(private val dataSource: MovieDataSource) {
-    suspend fun getRepositoryList(): Response<BaseModel> {
-        return dataSource.getMovieList()
+    suspend fun getRepositoryList(page: String): Response<BaseModel> {
+        return dataSource.getMovieList(page)
 
     }
 }

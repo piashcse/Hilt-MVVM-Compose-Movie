@@ -6,7 +6,7 @@ import javax.inject.Inject
 
 class MovieDataSource @Inject constructor(private val apiService: ApiService) {
 
-    suspend fun getMovieList(): Response<BaseModel> {
-        return apiService.getMovieList()
+    suspend fun getMovieList(page: String): Response<BaseModel> {
+        return apiService.getMovieList(page)
     }
 }

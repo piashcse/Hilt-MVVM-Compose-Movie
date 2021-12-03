@@ -5,48 +5,69 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.BlendMode.Companion.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.paging.LoadState
+import androidx.paging.compose.LazyPagingItems
+import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberImagePainter
+import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel.HomeViewModel
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.HiltMVVMComposeMovieTheme
 import com.piashcse.hilt_mvvm_compose_movie.utils.AppConstants
-import timber.log.Timber
+import com.piashcse.hilt_mvvm_compose_movie.utils.items
 
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun HomeScreen(navController: NavController){
+fun HomeScreen(navController: NavController) {
     val viewModel = hiltViewModel<HomeViewModel>()
-    val loading = viewModel.loading.value
+    /*val loading = viewModel.loading.value
     val movies = viewModel.movies.value
     LaunchedEffect(true) {
-        viewModel.getMovieList()
-    }
-    Timber.e("loading : $loading movie ${movies?.results?.size}")
-    DefaultPreview(movies?.results, loading, navController )
+        viewModel.getMovieList("1")
+    }*/
+    val paginationData: LazyPagingItems<MovieItem> = viewModel.movie.collectAsLazyPagingItems()
+    DefaultPreview(paginationData, navController)
 }
+
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun DefaultPreview(movies: List<MovieItem>?, loading: Boolean, navController: NavController) {
+fun DefaultPreview(movies: LazyPagingItems<MovieItem>?, navController: NavController) {
+    val progressBar = remember { mutableStateOf(false) }
     HiltMVVMComposeMovieTheme {
-        CircularIndeterminateProgressBar(isDisplayed = loading, 0.5f)
-        movies?.let {
-            MovieList(it, navController)
+        Column {
+            HomeAppBarPreview()
+            CircularIndeterminateProgressBar(isDisplayed = progressBar.value, 0.4f)
+            movies?.let {
+                MovieList(it, navController, progressBar)
+            }
+        }
+    }
+    movies?.apply {
+        when{
+            loadState.refresh is LoadState.Loading ->{
+                progressBar.value = true
+            }
+            loadState.append is LoadState.Loading ->{
+               progressBar.value = true
+            }
+            loadState.append is LoadState.NotLoading ->{
+                  progressBar.value = false
+            }
         }
     }
 }
@@ -54,29 +75,55 @@ fun DefaultPreview(movies: List<MovieItem>?, loading: Boolean, navController: Na
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun MovieList(movies: List<MovieItem>, navController: NavController) {
-    LazyVerticalGrid(cells =  GridCells.Fixed(2), content ={
-        items(items = movies) { item ->
-            MovieItemView(item, navController)
-        }
-    })
+fun MovieList(movies: LazyPagingItems<MovieItem>, navController: NavController, durationState: MutableState<Boolean>) {
+    LazyVerticalGrid(
+        cells = GridCells.Fixed(2),
+        modifier = Modifier.padding(start = 5.dp, top = 5.dp, end = 5.dp),
+        content = {
+            items(movies) { item ->
+                item?.let {
+                    MovieItemView(item, navController)
+                }
+            }
+        })
 }
 
 @ExperimentalMaterialApi
 @Composable
 fun MovieItemView(item: MovieItem, navController: NavController) {
-       Card(elevation = 0.dp, onClick = { navController.navigate("HomeDetail")}) {
-           Column(modifier = Modifier.padding(10.dp)) {
-               Image(
-                   painter = rememberImagePainter(AppConstants.IMAGE_URL.plus(item.posterPath)),
-                   contentDescription = null,
-                   contentScale = ContentScale.Crop,
-                   modifier = Modifier
-                       .size(250.dp)
-                       .clip(RoundedCornerShape(10.dp))
-               )
-           }
-       }
+    Card(elevation = 0.dp, onClick = { navController.navigate("HomeDetail") }) {
+        Column(modifier = Modifier.padding(5.dp)) {
+            Image(
+                painter = rememberImagePainter(AppConstants.IMAGE_URL.plus(item.posterPath)),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .size(250.dp)
+                    .clip(RoundedCornerShape(10.dp))
+            )
+        }
+    }
+}
+
+@Composable
+fun HomeAppBarPreview() {
+    HomeAppBar(
+        title = stringResource(R.string.app_title),
+        openSearch = {},
+        openFilters = {}
+    )
+}
+
+@Composable
+fun HomeAppBar(title: String, openSearch: () -> Unit, openFilters: () -> Unit) {
+    TopAppBar(
+        title = { Text(text = title) },
+        actions = {
+            IconButton(onClick = openSearch) {
+                Icon(imageVector = Icons.Filled.Search, contentDescription = "Search")
+            }
+        }
+    )
 }
 
 

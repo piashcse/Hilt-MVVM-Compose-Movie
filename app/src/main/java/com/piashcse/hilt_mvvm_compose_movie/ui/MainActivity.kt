@@ -14,19 +14,18 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.HiltMVVMComposeMovieTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class MainActivity : AppCompatActivity(){
-
-    @OptIn(ExperimentalMaterialApi::class,ExperimentalFoundationApi::class)
+class MainActivity : AppCompatActivity() {
+    @OptIn(ExperimentalMaterialApi::class, ExperimentalFoundationApi::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            HiltMVVMComposeMovieTheme{
+            HiltMVVMComposeMovieTheme {
                 val navController = rememberNavController()
-                NavHost(navController = navController, startDestination = "home"){
-                    composable("home"){
+                NavHost(navController = navController, startDestination = "home") {
+                    composable("home") {
                         HomeScreen(navController = navController)
                     }
-                    composable("homeDetail"){
+                    composable("homeDetail") {
                         HomeDetail(navController = navController)
                     }
                 }

@@ -1,6 +1,7 @@
 package com.piashcse.hilt_mvvm_compose_movie.di
 
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiService
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.PagingDataSource
 import com.piashcse.hilt_mvvm_compose_movie.utils.AppConstants
 import dagger.Module
 import dagger.Provides
@@ -56,6 +57,11 @@ object NetworkModule {
     @Provides
     fun provideRestApiService(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
+    }
+
+    @Provides
+    fun providePagingDataSource(apiService : ApiService) : PagingDataSource {
+       return PagingDataSource(apiService)
     }
 
 }
