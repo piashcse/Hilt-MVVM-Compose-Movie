@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.paging.compose.LazyPagingItems
 import okhttp3.ResponseBody
 import org.json.JSONObject
+import kotlin.time.Duration.Companion.minutes
 
 fun ResponseBody.jsonData(): JSONObject {
     return JSONObject(this.string())
@@ -21,3 +22,22 @@ fun <T: Any> LazyGridScope.items(
         itemContent(lazyPagingItems[index])
     }
 }
+
+fun Int.hourMinutes(): String{
+    return "${this.minutes.inWholeHours}h ${this % 60}m"
+}
+/*
+fun Modifier.clickable(
+    enabled: Boolean = true,
+    onClickLabel: String? = null,
+    role: Role? = null,
+    onClick: () -> Unit
+) = composed(
+    inspectorInfo = debugInspectorInfo {
+        name = "clickable"
+        properties["enabled"] = enabled
+        properties["onClickLabel"] = onClickLabel
+        properties["role"] = role
+        properties["onClick"] = onClick
+    }
+)*/

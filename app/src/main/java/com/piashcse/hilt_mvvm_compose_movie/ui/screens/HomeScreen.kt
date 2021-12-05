@@ -2,6 +2,7 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.GridCells
 import androidx.compose.foundation.lazy.LazyVerticalGrid
@@ -23,9 +24,11 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberImagePainter
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
+import com.piashcse.hilt_mvvm_compose_movie.navigation.NavigationScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel.HomeViewModel
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.HiltMVVMComposeMovieTheme
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.defaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.utils.AppConstants
 import com.piashcse.hilt_mvvm_compose_movie.utils.items
 
@@ -34,11 +37,6 @@ import com.piashcse.hilt_mvvm_compose_movie.utils.items
 @Composable
 fun HomeScreen(navController: NavController) {
     val viewModel = hiltViewModel<HomeViewModel>()
-    /*val loading = viewModel.loading.value
-    val movies = viewModel.movies.value
-    LaunchedEffect(true) {
-        viewModel.getMovieList("1")
-    }*/
     val paginationData: LazyPagingItems<MovieItem> = viewModel.movie.collectAsLazyPagingItems()
     DefaultPreview(paginationData, navController)
 }
@@ -49,7 +47,7 @@ fun HomeScreen(navController: NavController) {
 fun DefaultPreview(movies: LazyPagingItems<MovieItem>?, navController: NavController) {
     val progressBar = remember { mutableStateOf(false) }
     HiltMVVMComposeMovieTheme {
-        Column {
+        Column (modifier = Modifier.background(defaultBackgroundColor)){
             HomeAppBarPreview()
             CircularIndeterminateProgressBar(isDisplayed = progressBar.value, 0.4f)
             movies?.let {
@@ -58,15 +56,15 @@ fun DefaultPreview(movies: LazyPagingItems<MovieItem>?, navController: NavContro
         }
     }
     movies?.apply {
-        when{
-            loadState.refresh is LoadState.Loading ->{
+        when {
+            loadState.refresh is LoadState.Loading -> {
                 progressBar.value = true
             }
-            loadState.append is LoadState.Loading ->{
-               progressBar.value = true
+            loadState.append is LoadState.Loading -> {
+                progressBar.value = true
             }
-            loadState.append is LoadState.NotLoading ->{
-                  progressBar.value = false
+            loadState.append is LoadState.NotLoading -> {
+                progressBar.value = false
             }
         }
     }
@@ -75,7 +73,11 @@ fun DefaultPreview(movies: LazyPagingItems<MovieItem>?, navController: NavContro
 @ExperimentalMaterialApi
 @ExperimentalFoundationApi
 @Composable
-fun MovieList(movies: LazyPagingItems<MovieItem>, navController: NavController, durationState: MutableState<Boolean>) {
+fun MovieList(
+    movies: LazyPagingItems<MovieItem>,
+    navController: NavController,
+    durationState: MutableState<Boolean>
+) {
     LazyVerticalGrid(
         cells = GridCells.Fixed(2),
         modifier = Modifier.padding(start = 5.dp, top = 5.dp, end = 5.dp),
@@ -91,7 +93,9 @@ fun MovieList(movies: LazyPagingItems<MovieItem>, navController: NavController, 
 @ExperimentalMaterialApi
 @Composable
 fun MovieItemView(item: MovieItem, navController: NavController) {
-    Card(elevation = 0.dp, onClick = { navController.navigate("HomeDetail") }) {
+    Card(elevation = 0.dp, onClick = {
+        navController.navigate(NavigationScreen.MovieDetail.MOVIE_DETAIL.plus("/${item.id}"))
+    }) {
         Column(modifier = Modifier.padding(5.dp)) {
             Image(
                 painter = rememberImagePainter(AppConstants.IMAGE_URL.plus(item.posterPath)),

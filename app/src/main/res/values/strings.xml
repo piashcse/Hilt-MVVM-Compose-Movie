@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Hilt-MVVM-Compose-Movie</string>
     <string name="app_title">Movie world</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="release_date">Release Date</string>
+    <string name="rating">Rating</string>
+    <string name="language">Language</string>
+    <string name="duration">Duration</string>
+    <string name="movie_detail">Movie detail</string>
+    <string name="similar">Similar</string>
 </resources>
