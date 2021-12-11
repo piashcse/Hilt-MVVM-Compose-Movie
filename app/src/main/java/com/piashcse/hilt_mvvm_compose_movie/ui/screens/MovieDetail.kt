@@ -12,7 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,7 +31,6 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.defaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.secondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.utils.AppConstants
 import com.piashcse.hilt_mvvm_compose_movie.utils.hourMinutes
-import timber.log.Timber
 
 @Composable
 fun MovieDetail(navController: NavController?, movieId: Int) {
@@ -41,8 +39,8 @@ fun MovieDetail(navController: NavController?, movieId: Int) {
     val movieDetail = viewModel.movieDetail.value
     val recommendedMovie = viewModel.recommendedMovie.value
     LaunchedEffect(true) {
-        viewModel.getMovieDetail(movieId)
-        viewModel.getRecommendedMovie(movieId, 1)
+        viewModel.movieDetailApi(movieId)
+        viewModel.recommendedMovieApi(movieId, 1)
     }
 
     Column(

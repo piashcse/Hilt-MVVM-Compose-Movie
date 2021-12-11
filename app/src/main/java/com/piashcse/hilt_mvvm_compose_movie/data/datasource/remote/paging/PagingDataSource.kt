@@ -19,7 +19,7 @@ class PagingDataSource @Inject constructor(private val apiService: ApiService)  
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieItem> {
         return try {
             val nextPage = params.key ?: 1
-            val movieList = apiService.getMovieList(nextPage)
+            val movieList = apiService.movieList(nextPage)
             Timber.e("api call : ${movieList.body()!!.page}")
             LoadResult.Page(
                 data = movieList.body()!!.results,
