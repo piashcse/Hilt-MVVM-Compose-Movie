@@ -9,7 +9,7 @@ import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
-class PagingDataSource @Inject constructor(private val apiService: ApiService)  :
+class PagingDataSource @Inject constructor(private val apiService: ApiService) :
     PagingSource<Int, MovieItem>() {
 
     override fun getRefreshKey(state: PagingState<Int, MovieItem>): Int? {
@@ -20,11 +20,11 @@ class PagingDataSource @Inject constructor(private val apiService: ApiService)  
         return try {
             val nextPage = params.key ?: 1
             val movieList = apiService.movieList(nextPage)
-            Timber.e("api call : ${movieList.body()!!.page}")
+            Timber.e("api call : ${movieList.page}")
             LoadResult.Page(
-                data = movieList.body()!!.results,
+                data = movieList.results,
                 prevKey = if (nextPage == 1) null else nextPage - 1,
-                nextKey = if (movieList.body() == null) null else movieList.body()!!.page + 1
+                nextKey = movieList.page + 1
             )
         } catch (exception: IOException) {
             Timber.e("exception ${exception.message}")

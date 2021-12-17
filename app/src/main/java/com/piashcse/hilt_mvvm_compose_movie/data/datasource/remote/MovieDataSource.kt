@@ -7,15 +7,15 @@ import javax.inject.Inject
 
 class MovieDataSource @Inject constructor(private val apiService: ApiService) {
 
-    suspend fun movieList(page: Int): Response<BaseModel> {
+    suspend fun movieList(page: Int): BaseModel {
         return apiService.movieList(page)
     }
 
-    suspend fun movieDetail(movieId: Int): Response<MovieDetail> {
+    suspend fun movieDetail(movieId: Int): MovieDetail {
         return apiService.movieDetail(movieId)
     }
 
-    suspend fun recommendedMovie(movieId: Int, page: Int): Response<BaseModel> {
+    suspend fun recommendedMovie(movieId: Int, page: Int): BaseModel {
         return apiService.recommendedMovie(movieId, page)
     }
 

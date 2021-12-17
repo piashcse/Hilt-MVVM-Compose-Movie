@@ -10,12 +10,14 @@ import retrofit2.http.Query
 
 interface ApiService {
     @GET(AppConstants.MOVIE_LIST)
-    suspend fun movieList(@Query("page") one:Int): Response<BaseModel>
+    suspend fun movieList(@Query("page") one: Int): BaseModel
+
     @GET(AppConstants.MOVIE_DETAIL)
-    suspend fun movieDetail(@Path("movieId") movieId:Int): Response<MovieDetail>
+    suspend fun movieDetail(@Path("movieId") movieId: Int): MovieDetail
+
     @GET(AppConstants.RECOMMENDED_MOVIE)
-    suspend fun recommendedMovie(@Path("movieId") movieId:Int, @Query("page") one:Int): Response<BaseModel>
+    suspend fun recommendedMovie(@Path("movieId") movieId: Int, @Query("page") one: Int): BaseModel
 
     @GET(AppConstants.SEARCH_MOVIE)
-    suspend fun search(@Query("query") searchKey:String): BaseModel
+    suspend fun search(@Query("query") searchKey: String): BaseModel
 }

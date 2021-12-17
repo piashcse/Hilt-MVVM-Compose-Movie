@@ -11,7 +11,6 @@ import androidx.paging.cachedIn
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.PagingDataSource
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
-import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.MovieRepository
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,12 +22,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(private val repo: MovieRepository) : ViewModel() {
-    val movies: MutableState<BaseModel?> = mutableStateOf(null)
-    val movieDetail: MutableState<MovieDetail?> = mutableStateOf(null)
-    val recommendedMovie: MutableState<BaseModel?> = mutableStateOf(null)
+    val movies: MutableState<DataState<BaseModel>?> = mutableStateOf(null)
     val searchData: MutableState<DataState<BaseModel>?> = mutableStateOf(null)
-    val loading = mutableStateOf(false)
-    val error: MutableState<String?> = mutableStateOf(null)
 
     @Inject
     lateinit var pagingDataSource: PagingDataSource
@@ -38,79 +33,26 @@ class HomeViewModel @Inject constructor(private val repo: MovieRepository) : Vie
 
     fun getMovieList(page: Int) {
         viewModelScope.launch {
-            loading.value = true
-            try {
-                val response = repo.movieList(page)
-                if (response.isSuccessful) {
-                    loading.value = false
-                    val result = response.body() as BaseModel
-                    movies.value = result
-                } else {
-                    loading.value = false
-                    error.value = response.errorBody().toString()
-                }
-
-            } catch (e: Throwable) {
-                error.value = e.message
-            }
+            repo.movieList(page).onEach {
+                movies.value = it
+            }.launchIn(viewModelScope)
         }
     }
-
-    fun movieDetailApi(movieId: Int) {
-        viewModelScope.launch {
-            loading.value = true
-            try {
-                val response = repo.movieDetail(movieId)
-                if (response.isSuccessful) {
-                    loading.value = false
-                    val result = response.body() as MovieDetail
-                    movieDetail.value = result
-                } else {
-                    loading.value = false
-                    error.value = response.errorBody().toString()
-                }
-
-            } catch (e: Throwable) {
-                error.value = e.message
-            }
-        }
-    }
-
-    fun recommendedMovieApi(movieId: Int, page: Int) {
-        viewModelScope.launch {
-            loading.value = true
-            try {
-                val response = repo.recommendedMovie(movieId, page)
-                if (response.isSuccessful) {
-                    loading.value = false
-                    val result = response.body() as BaseModel
-                    recommendedMovie.value = result
-                } else {
-                    loading.value = false
-                    error.value = response.errorBody().toString()
-                }
-
-            } catch (e: Throwable) {
-                error.value = e.message
-            }
-        }
-    }
-
 
     @ExperimentalCoroutinesApi
     @FlowPreview
-    fun searchApi(searchKey:String){
-       viewModelScope.launch {
-           flowOf(searchKey).debounce(300)
-               .filter {
-                   it.trim().isEmpty().not()
-               }
-               .distinctUntilChanged()
-               .flatMapLatest {
-                   repo.search(it)
-               }.collect {
+    fun searchApi(searchKey: String) {
+        viewModelScope.launch {
+            flowOf(searchKey).debounce(300)
+                .filter {
+                    it.trim().isEmpty().not()
+                }
+                .distinctUntilChanged()
+                .flatMapLatest {
+                    repo.search(it)
+                }.collect {
                     searchData.value = it
-               }
-       }
+                }
+        }
     }
 }
