@@ -27,7 +27,6 @@ import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.navigation.NavigationScreen
-import com.piashcse.hilt_mvvm_compose_movie.ui.component.AppBarWithArrow
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel.MovieDetailViewModel
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
@@ -36,6 +35,7 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.secondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.utils.AppConstants
 import com.piashcse.hilt_mvvm_compose_movie.utils.hourMinutes
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
+import timber.log.Timber
 
 @Composable
 fun MovieDetail(navController: NavController?, movieId: Int) {
@@ -55,9 +55,6 @@ fun MovieDetail(navController: NavController?, movieId: Int) {
                 defaultBackgroundColor
             )
     ) {
-        AppBarWithArrow(stringResource(R.string.movie_detail)) {
-            navController?.popBackStack()
-        }
         CircularIndeterminateProgressBar(isDisplayed = progressBar.value, 0.4f)
         movieDetail?.let { it ->
             if (it is DataState.Success<MovieDetail>) {
@@ -241,5 +238,4 @@ fun RecommendedMovie(navController: NavController?, recommendedMovie: List<Movie
             })
         }
     }
-
 }

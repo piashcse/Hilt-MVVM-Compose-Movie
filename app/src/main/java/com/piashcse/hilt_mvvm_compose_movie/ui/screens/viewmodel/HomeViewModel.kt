@@ -27,6 +27,7 @@ class HomeViewModel @Inject constructor(private val repo: MovieRepository) : Vie
 
     @Inject
     lateinit var pagingDataSource: PagingDataSource
+
     val movie: Flow<PagingData<MovieItem>> = Pager(PagingConfig(pageSize = 5)) {
         pagingDataSource
     }.flow.cachedIn(viewModelScope)

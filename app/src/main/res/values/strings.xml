@@ -13,4 +13,8 @@
     <string name="screen_two">Screen two</string>
     <string name="open_drawer">Open drawer</string>
     <string name="rating_search">Rating :</string>
+    <string name="yes">Yes</string>
+    <string name="do_you_want_to_exit_the_app">Do you want to exit the app?</string>
+    <string name="close_the_app">Close the app</string>
+    <string name="no">No</string>
 </resources>

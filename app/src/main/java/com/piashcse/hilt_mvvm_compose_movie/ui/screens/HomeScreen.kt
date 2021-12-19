@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberImagePainter
@@ -46,79 +47,17 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.secondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.utils.AppConstants
 import com.piashcse.hilt_mvvm_compose_movie.utils.items
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
+import kotlinx.coroutines.flow.Flow
 
 @ExperimentalFoundationApi
 @Composable
-fun HomeScreen(navController: NavController, openDrawer: () -> Unit) {
-    val viewModel = hiltViewModel<HomeViewModel>()
+fun HomeScreen(navController: NavController, viewModel: HomeViewModel, isAppBarVisible:MutableState<Boolean>, movies: LazyPagingItems<MovieItem> = viewModel.movie.collectAsLazyPagingItems() ) {
     val progressBar = remember { mutableStateOf(false) }
     val searchProgressBar = remember { mutableStateOf(false) }
-    val movies: LazyPagingItems<MovieItem> = viewModel.movie.collectAsLazyPagingItems()
     val searchData = viewModel.searchData
-    var text by remember { mutableStateOf("") }
-    val isAppBarVisible = remember { mutableStateOf(true) }
-    val focusRequester = FocusRequester()
-    BackHandler(isAppBarVisible.value.not()) {
-        isAppBarVisible.value = true
-    }
+
     HiltMVVMComposeMovieTheme {
         Column(modifier = Modifier.background(defaultBackgroundColor)) {
-            if (isAppBarVisible.value) {
-                HomeAppBar(
-                    title = stringResource(R.string.app_title),
-                    openDrawer = { openDrawer() },
-                    openFilters = {
-                        isAppBarVisible.value = false
-                    }
-                )
-            } else {
-                TextField(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .focusRequester(focusRequester),
-                    value = text,
-                    colors = TextFieldDefaults.textFieldColors(
-                        backgroundColor = blue,
-                        cursorColor = Color.Black,
-                        disabledLabelColor = blue,
-                        focusedIndicatorColor = Color.Transparent,
-                        unfocusedIndicatorColor = Color.Transparent
-                    ),
-                    onValueChange = {
-                        text = it
-                        viewModel.searchApi(it)
-                    },
-                    //shape = RoundedCornerShape(8.dp),
-                    singleLine = true,
-                    trailingIcon = {
-                        if (text.trim().isNotEmpty()) {
-                            Icon(Icons.Filled.Clear,
-                                contentDescription = "clear text",
-                                modifier = Modifier
-                                    .padding(end = 16.dp)
-                                    .offset(x = 10.dp)
-                                    .clickable {
-                                        text = ""
-                                    }
-                            )
-                        } else {
-                            Icon(Icons.Filled.Search,
-                                contentDescription = "search",
-                                modifier = Modifier
-                                    .padding(end = 16.dp)
-                                    .offset(x = 10.dp)
-                                    .clickable {
-
-                                    }
-                            )
-                        }
-                    }
-                )
-                LaunchedEffect(Unit) {
-                    focusRequester.requestFocus()
-                }
-            }
-
             Box {
                 Column {
                     CircularIndeterminateProgressBar(isDisplayed = progressBar.value, 0.4f)
@@ -246,23 +185,5 @@ fun MovieItemView(item: MovieItem, navController: NavController) {
     }
 }
 
-@Composable
-fun HomeAppBar(title: String, openDrawer: () -> Unit, openFilters: () -> Unit) {
-    TopAppBar(
-        title = { Text(text = title) },
-        navigationIcon = {
-            IconButton(onClick = {
-                openDrawer()
-            }) {
-                Icon(Icons.Default.Menu, "Menu")
-            }
-        },
-        actions = {
-            IconButton(onClick = openFilters) {
-                Icon(imageVector = Icons.Filled.Search, contentDescription = "Search")
-            }
-        }
-    )
-}
 
 
