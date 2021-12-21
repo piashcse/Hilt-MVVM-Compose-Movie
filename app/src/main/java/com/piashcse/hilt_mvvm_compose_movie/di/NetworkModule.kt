@@ -1,7 +1,10 @@
 package com.piashcse.hilt_mvvm_compose_movie.di
 
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiService
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.PagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.NowPlayingPagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.PopularPagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.TopRatedPagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.UpcomingPagingDataSource
 import com.piashcse.hilt_mvvm_compose_movie.utils.AppConstants
 import dagger.Module
 import dagger.Provides
@@ -28,7 +31,7 @@ object NetworkModule {
     }
 
     @Provides
-    fun provideOkHttpClient( loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
+    fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
         val okHttpClient = OkHttpClient().newBuilder()
 
         okHttpClient.callTimeout(40, TimeUnit.SECONDS)
@@ -46,7 +49,11 @@ object NetworkModule {
     }
 
     @Provides
-    fun provideRetrofitClient(baseUrl: String, okHttpClient: OkHttpClient, converterFactory: Converter.Factory): Retrofit {
+    fun provideRetrofitClient(
+        baseUrl: String,
+        okHttpClient: OkHttpClient,
+        converterFactory: Converter.Factory
+    ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .client(okHttpClient)
@@ -60,8 +67,25 @@ object NetworkModule {
     }
 
     @Provides
-    fun providePagingDataSource(apiService : ApiService) : PagingDataSource {
-       return PagingDataSource(apiService)
+    fun provideNowPlayingPagingDataSource(apiService: ApiService): NowPlayingPagingDataSource {
+        return NowPlayingPagingDataSource(apiService)
     }
+
+    @Provides
+    fun providePopularPagingDataSource(apiService: ApiService): PopularPagingDataSource {
+        return PopularPagingDataSource(apiService)
+    }
+
+
+    @Provides
+    fun provideTopRatedPagingDataSource(apiService: ApiService): TopRatedPagingDataSource {
+        return TopRatedPagingDataSource(apiService)
+    }
+
+    @Provides
+    fun provideUpcomingPagingDataSource(apiService: ApiService): UpcomingPagingDataSource {
+        return UpcomingPagingDataSource(apiService)
+    }
+
 
 }

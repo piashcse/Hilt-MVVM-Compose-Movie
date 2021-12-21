@@ -8,7 +8,10 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.PagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.NowPlayingPagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.PopularPagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.TopRatedPagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.UpcomingPagingDataSource
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.MovieRepository
@@ -26,10 +29,31 @@ class HomeViewModel @Inject constructor(private val repo: MovieRepository) : Vie
     val searchData: MutableState<DataState<BaseModel>?> = mutableStateOf(null)
 
     @Inject
-    lateinit var pagingDataSource: PagingDataSource
+    lateinit var pagingDataSource: NowPlayingPagingDataSource
 
-    val movie: Flow<PagingData<MovieItem>> = Pager(PagingConfig(pageSize = 5)) {
+    @Inject
+    lateinit var popularPagingDataSource: PopularPagingDataSource
+
+    @Inject
+    lateinit var topRatedPagingDataSource: TopRatedPagingDataSource
+
+    @Inject
+    lateinit var upcomingPagingDataSource: UpcomingPagingDataSource
+
+    val nowPlayingMovies: Flow<PagingData<MovieItem>> = Pager(PagingConfig(pageSize = 5)) {
         pagingDataSource
+    }.flow.cachedIn(viewModelScope)
+
+    val popularMovies: Flow<PagingData<MovieItem>> = Pager(PagingConfig(pageSize = 5)) {
+        popularPagingDataSource
+    }.flow.cachedIn(viewModelScope)
+
+    val topRatedMovies: Flow<PagingData<MovieItem>> = Pager(PagingConfig(pageSize = 5)) {
+        topRatedPagingDataSource
+    }.flow.cachedIn(viewModelScope)
+
+    val upcomingMovies: Flow<PagingData<MovieItem>> = Pager(PagingConfig(pageSize = 5)) {
+        upcomingPagingDataSource
     }.flow.cachedIn(viewModelScope)
 
     fun getMovieList(page: Int) {

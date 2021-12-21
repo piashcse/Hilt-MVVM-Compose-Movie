@@ -2,13 +2,12 @@ package com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote
 
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
-import retrofit2.Response
 import javax.inject.Inject
 
 class MovieDataSource @Inject constructor(private val apiService: ApiService) {
 
     suspend fun movieList(page: Int): BaseModel {
-        return apiService.movieList(page)
+        return apiService.nowPlayingmovieList(page)
     }
 
     suspend fun movieDetail(movieId: Int): MovieDetail {

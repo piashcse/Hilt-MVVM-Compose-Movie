@@ -1,6 +1,5 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.screens
 
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,25 +11,16 @@ import androidx.compose.foundation.lazy.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Clear
-import androidx.compose.material.icons.filled.Menu
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.focus.focusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.paging.LoadState
-import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberImagePainter
@@ -41,17 +31,15 @@ import com.piashcse.hilt_mvvm_compose_movie.navigation.NavigationScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel.HomeViewModel
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.HiltMVVMComposeMovieTheme
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.blue
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.defaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.secondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.utils.AppConstants
 import com.piashcse.hilt_mvvm_compose_movie.utils.items
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
-import kotlinx.coroutines.flow.Flow
 
 @ExperimentalFoundationApi
 @Composable
-fun HomeScreen(navController: NavController, viewModel: HomeViewModel, isAppBarVisible:MutableState<Boolean>, movies: LazyPagingItems<MovieItem> = viewModel.movie.collectAsLazyPagingItems() ) {
+fun HomeScreen(navController: NavController, viewModel: HomeViewModel, isAppBarVisible:MutableState<Boolean>, movies: LazyPagingItems<MovieItem> = viewModel.nowPlayingMovies.collectAsLazyPagingItems() ) {
     val progressBar = remember { mutableStateOf(false) }
     val searchProgressBar = remember { mutableStateOf(false) }
     val searchData = viewModel.searchData

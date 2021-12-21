@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.navigation.NavController
+import androidx.paging.compose.collectAsLazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.HomeScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel.HomeViewModel
 
@@ -17,6 +18,7 @@ fun Upcoming(
     HomeScreen(
         navController = navController,
         viewModel = viewModel,
-        isAppBarVisible = isAppBarVisible
+        isAppBarVisible = isAppBarVisible,
+        movies = viewModel.upcomingMovies.collectAsLazyPagingItems()
     )
 }

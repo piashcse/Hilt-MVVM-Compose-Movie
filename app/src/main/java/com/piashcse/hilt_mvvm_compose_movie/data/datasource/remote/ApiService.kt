@@ -9,7 +9,16 @@ import retrofit2.http.Query
 
 interface ApiService {
     @GET(AppConstants.MOVIE_LIST)
-    suspend fun movieList(@Query("page") one: Int): BaseModel
+    suspend fun nowPlayingmovieList(@Query("page") one: Int): BaseModel
+
+    @GET(AppConstants.POPULAR_MOVIE_LIST)
+    suspend fun popularMovieList(@Query("page") one: Int): BaseModel
+
+    @GET(AppConstants.TOP_RATED_MOVIE_LIST)
+    suspend fun topRatedMovieList(@Query("page") one: Int): BaseModel
+
+    @GET(AppConstants.UP_COMING_MOVIE_LIST)
+    suspend fun upcomingMovieList(@Query("page") one: Int): BaseModel
 
     @GET(AppConstants.MOVIE_DETAIL)
     suspend fun movieDetail(@Path("movieId") movieId: Int): MovieDetail
