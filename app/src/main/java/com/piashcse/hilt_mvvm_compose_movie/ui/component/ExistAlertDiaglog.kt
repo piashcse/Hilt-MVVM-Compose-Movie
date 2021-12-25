@@ -18,7 +18,7 @@ import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
 
 
 @Composable
-fun ExitAlertDialog(navController: NavController) {
+fun ExitAlertDialog(navController: NavController, cancel: (isOpen: Boolean) -> Unit,  ok: () -> Unit) {
     val openDialog = remember { mutableStateOf(true) }
     if (currentRoute(navController = navController) == NavigationScreen.HOME && openDialog.value) {
         AlertDialog(
@@ -30,7 +30,7 @@ fun ExitAlertDialog(navController: NavController) {
                 Text(
                     text = stringResource(R.string.close_the_app),
                     fontWeight = FontWeight.Bold,
-                    fontSize = 16.sp
+                    fontSize = 18.sp
                 )
             },
             text = {
@@ -40,6 +40,7 @@ fun ExitAlertDialog(navController: NavController) {
                 TextButton(
                     onClick = {
                         openDialog.value = false
+                        ok()
                     }) {
                     Text(
                         stringResource(R.string.yes),
@@ -52,6 +53,7 @@ fun ExitAlertDialog(navController: NavController) {
                 TextButton(
                     onClick = {
                         openDialog.value = false
+                        cancel(false)
                     }) {
                     Text(
                         stringResource(R.string.no),

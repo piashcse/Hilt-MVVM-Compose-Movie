@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.component
+package com.piashcse.hilt_mvvm_compose_movie.ui.component.appbar
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable

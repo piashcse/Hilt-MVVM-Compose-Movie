@@ -1,5 +1,7 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.screens
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -15,6 +17,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -28,21 +31,35 @@ import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.navigation.NavigationScreen
+import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.ExitAlertDialog
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel.HomeViewModel
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.HiltMVVMComposeMovieTheme
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.defaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.secondaryFontColor
-import com.piashcse.hilt_mvvm_compose_movie.utils.AppConstants
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.utils.items
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 
 @ExperimentalFoundationApi
 @Composable
-fun HomeScreen(navController: NavController, viewModel: HomeViewModel, isAppBarVisible:MutableState<Boolean>, movies: LazyPagingItems<MovieItem> = viewModel.nowPlayingMovies.collectAsLazyPagingItems() ) {
+fun HomeScreen(
+    navController: NavController,
+    viewModel: HomeViewModel,
+    isAppBarVisible: MutableState<Boolean>,
+    movies: LazyPagingItems<MovieItem> = viewModel.nowPlayingMovies.collectAsLazyPagingItems()
+) {
+    val activity = (LocalContext.current as? Activity)
     val progressBar = remember { mutableStateOf(false) }
     val searchProgressBar = remember { mutableStateOf(false) }
+    val openDialog = remember { mutableStateOf(false) }
     val searchData = viewModel.searchData
+
+    BackHandler(enabled = (currentRoute(navController) == NavigationScreen.HOME)) {
+        // execute your custome logic here
+        openDialog.value = true
+    }
 
     HiltMVVMComposeMovieTheme {
         Column(modifier = Modifier.background(defaultBackgroundColor)) {
@@ -87,7 +104,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel, isAppBarV
                                         }) {
                                         Image(
                                             painter = rememberImagePainter(
-                                                AppConstants.IMAGE_URL.plus(
+                                                ApiURL.IMAGE_URL.plus(
                                                     item.backdropPath
                                                 )
                                             ),
@@ -122,6 +139,13 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel, isAppBarV
                 }
             }
 
+        }
+        if (openDialog.value) {
+            ExitAlertDialog(navController, {
+                openDialog.value = it
+            }, {
+                activity?.finish()
+            })
         }
     }
     movies.apply {
@@ -160,7 +184,7 @@ fun HomeScreen(navController: NavController, viewModel: HomeViewModel, isAppBarV
 fun MovieItemView(item: MovieItem, navController: NavController) {
     Column(modifier = Modifier.padding(5.dp)) {
         Image(
-            painter = rememberImagePainter(AppConstants.IMAGE_URL.plus(item.posterPath)),
+            painter = rememberImagePainter(ApiURL.IMAGE_URL.plus(item.posterPath)),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier

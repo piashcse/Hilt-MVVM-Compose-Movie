@@ -8,10 +8,8 @@ import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
 import androidx.paging.cachedIn
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.NowPlayingPagingDataSource
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.PopularPagingDataSource
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.TopRatedPagingDataSource
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.UpcomingPagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.*
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiService
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.MovieRepository
@@ -40,25 +38,42 @@ class HomeViewModel @Inject constructor(private val repo: MovieRepository) : Vie
     @Inject
     lateinit var upcomingPagingDataSource: UpcomingPagingDataSource
 
-    val nowPlayingMovies: Flow<PagingData<MovieItem>> = Pager(PagingConfig(pageSize = 5)) {
+    @Inject
+    lateinit var apiService: ApiService
+
+    val nowPlayingMovies: Flow<PagingData<MovieItem>> = Pager(PagingConfig(pageSize = 1)) {
         pagingDataSource
     }.flow.cachedIn(viewModelScope)
 
-    val popularMovies: Flow<PagingData<MovieItem>> = Pager(PagingConfig(pageSize = 5)) {
+    val popularMovies: Flow<PagingData<MovieItem>> = Pager(PagingConfig(pageSize = 1)) {
         popularPagingDataSource
     }.flow.cachedIn(viewModelScope)
 
-    val topRatedMovies: Flow<PagingData<MovieItem>> = Pager(PagingConfig(pageSize = 5)) {
+    val topRatedMovies: Flow<PagingData<MovieItem>> = Pager(PagingConfig(pageSize = 1)) {
         topRatedPagingDataSource
     }.flow.cachedIn(viewModelScope)
 
-    val upcomingMovies: Flow<PagingData<MovieItem>> = Pager(PagingConfig(pageSize = 5)) {
+    val upcomingMovies: Flow<PagingData<MovieItem>> = Pager(PagingConfig(pageSize = 1)) {
         upcomingPagingDataSource
     }.flow.cachedIn(viewModelScope)
+
+    fun moviesByGenre(genreId: String): Flow<PagingData<MovieItem>> =
+        Pager(PagingConfig(pageSize = 1)) {
+            GenrePagingDataSource(apiService, genreId)
+        }.flow.cachedIn(viewModelScope)
+
 
     fun getMovieList(page: Int) {
         viewModelScope.launch {
             repo.movieList(page).onEach {
+                movies.value = it
+            }.launchIn(viewModelScope)
+        }
+    }
+
+    fun moviesByGenreId(page: Int, genreId: String) {
+        viewModelScope.launch {
+            repo.moviesByGenreId(page, genreId).onEach {
                 movies.value = it
             }.launchIn(viewModelScope)
         }

@@ -32,10 +32,9 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel.MovieDetailView
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.defaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.secondaryFontColor
-import com.piashcse.hilt_mvvm_compose_movie.utils.AppConstants
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.utils.hourMinutes
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
-import timber.log.Timber
 
 @Composable
 fun MovieDetail(navController: NavController?, movieId: Int) {
@@ -60,7 +59,7 @@ fun MovieDetail(navController: NavController?, movieId: Int) {
             if (it is DataState.Success<MovieDetail>) {
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                     Image(
-                        painter = rememberImagePainter(AppConstants.IMAGE_URL.plus(it.data.poster_path)),
+                        painter = rememberImagePainter(ApiURL.IMAGE_URL.plus(it.data.poster_path)),
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier
@@ -218,7 +217,7 @@ fun RecommendedMovie(navController: NavController?, recommendedMovie: List<Movie
                     )
                 ) {
                     Image(
-                        painter = rememberImagePainter(AppConstants.IMAGE_URL.plus(item.posterPath)),
+                        painter = rememberImagePainter(ApiURL.IMAGE_URL.plus(item.posterPath)),
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier

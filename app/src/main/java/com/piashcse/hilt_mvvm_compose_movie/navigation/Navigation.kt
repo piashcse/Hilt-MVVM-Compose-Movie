@@ -13,12 +13,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.piashcse.hilt_mvvm_compose_movie.R
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.GenreScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.HomeScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.Popular
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.TopRated
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.Upcoming
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel.HomeViewModel
+import timber.log.Timber
 
 @ExperimentalFoundationApi
 @Composable
@@ -55,6 +57,24 @@ fun Navigation(
                 homeViewModel,
                 isAppBarVisible
             )
+        }
+        composable(
+            NavigationScreen.NAVIGATION_DRAWER_WITH_GENRE_ID,
+            arguments = listOf(navArgument(NavigationScreen.GENRE_ID) {
+                type = NavType.StringType
+            })
+        ) {
+            val genreId =
+                it.arguments?.getString(NavigationScreen.GENRE_ID)
+            Timber.e("genre id $genreId")
+            genreId?.let {
+                GenreScreen(
+                    navController = navController,
+                    homeViewModel,
+                    isAppBarVisible,
+                    genreId
+                )
+            }
         }
         composable(
             NavigationScreen.MovieDetail.MOVIE_DETAIL.plus(NavigationScreen.MovieDetail.MOVIE_DETAIL_PATH),

@@ -1,7 +1,9 @@
 package com.piashcse.hilt_mvvm_compose_movie.data.repository
 
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.MovieDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.MovieDataSource
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
+import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
+import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import kotlinx.coroutines.flow.Flow
@@ -49,6 +51,28 @@ class MovieRepository @Inject constructor(private val dataSource: MovieDataSourc
         try {
             val searchResult = dataSource.search(searchKey)
             emit(DataState.Success(searchResult))
+
+        } catch (e: Exception) {
+            emit(DataState.Error(e))
+        }
+    }
+
+    suspend fun genreList(): Flow<DataState<Genres>> = flow {
+        emit(DataState.Loading)
+        try {
+            val genreResult = dataSource.genreList()
+            emit(DataState.Success(genreResult))
+
+        } catch (e: Exception) {
+            emit(DataState.Error(e))
+        }
+    }
+
+    suspend fun moviesByGenreId(page: Int, genreId: String): Flow<DataState<BaseModel>> = flow {
+        emit(DataState.Loading)
+        try {
+            val genreResult = dataSource.moviesByGenreId(page, genreId)
+            emit(DataState.Success(genreResult))
 
         } catch (e: Exception) {
             emit(DataState.Error(e))

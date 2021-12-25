@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.compose.setContent
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.ExperimentalFoundationApi
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.drawer.NavigationDrawer
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.MainScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.HiltMVVMComposeMovieTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -15,7 +15,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             HiltMVVMComposeMovieTheme {
-                NavigationDrawer()
+                MainScreen()
             }
         }
     }

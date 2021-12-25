@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging
+package com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -9,7 +9,7 @@ import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
-class TopRatedPagingDataSource @Inject constructor(private val apiService: ApiService) :
+class NowPlayingPagingDataSource @Inject constructor(private val apiService: ApiService) :
     PagingSource<Int, MovieItem>() {
 
     override fun getRefreshKey(state: PagingState<Int, MovieItem>): Int? {
@@ -19,7 +19,7 @@ class TopRatedPagingDataSource @Inject constructor(private val apiService: ApiSe
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieItem> {
         return try {
             val nextPage = params.key ?: 1
-            val movieList = apiService.topRatedMovieList(nextPage)
+            val movieList = apiService.nowPlayingMovieList(nextPage)
             LoadResult.Page(
                 data = movieList.results,
                 prevKey = if (nextPage == 1) null else nextPage - 1,

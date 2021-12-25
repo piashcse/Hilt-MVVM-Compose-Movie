@@ -17,4 +17,5 @@
     <string name="do_you_want_to_exit_the_app">Do you want to exit the app?</string>
     <string name="close_the_app">Close the app</string>
     <string name="no">No</string>
+    <string name="there_is_no_internet">There is no internet!</string>
 </resources>

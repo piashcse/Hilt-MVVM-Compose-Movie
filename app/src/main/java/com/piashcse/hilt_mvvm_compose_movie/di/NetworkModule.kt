@@ -1,11 +1,11 @@
 package com.piashcse.hilt_mvvm_compose_movie.di
 
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiService
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.NowPlayingPagingDataSource
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.PopularPagingDataSource
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.TopRatedPagingDataSource
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.UpcomingPagingDataSource
-import com.piashcse.hilt_mvvm_compose_movie.utils.AppConstants
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.NowPlayingPagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.PopularPagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.TopRatedPagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.UpcomingPagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit
 object NetworkModule {
     @Provides
     fun provideBaseURL(): String {
-        return AppConstants.BASE_URL
+        return ApiURL.BASE_URL
     }
 
     @Provides
