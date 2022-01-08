@@ -7,25 +7,23 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Icon
 import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.Movie
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.navigation.NavigationScreen
 import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel.NavDrawerViewModel
-import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
-import timber.log.Timber
 
 @Composable
-fun DrawerUI(navController: NavController, genres: List<Genre>, closeDrawer: () -> Unit) {
+fun DrawerUI(
+    navController: NavController,
+    genres: List<Genre>,
+    closeDrawer: (genreName: String) -> Unit
+) {
     LazyColumn(
         modifier = Modifier
             .fillMaxHeight()
@@ -36,22 +34,10 @@ fun DrawerUI(navController: NavController, genres: List<Genre>, closeDrawer: () 
                 selected = currentRoute(navController) == "",
                 onItemClick = {
                     navController.navigate(NavigationScreen.NAVIGATION_DRAWER.plus("/${it.id}")) {
-                        // Pop up to the start destination of the graph to
-                        // avoid building up a large stack of destinations
-                        // on the back stack as users select items
-                        navController.graph.startDestinationRoute?.let { route ->
-                            popUpTo(route) {
-                                saveState = true
-                            }
-                        }
-                        // Avoid multiple copies of the same destination when
-                        // reselecting the same item
-                        launchSingleTop = true
-                        // Restore state when reselecting a previously selected item
-                        restoreState = true
+                       launchSingleTop = true
                     }
                     // Close drawer
-                    closeDrawer()
+                    closeDrawer(it.name)
                 })
         })
     }
@@ -68,7 +54,7 @@ fun DrawerItem(item: Genre, selected: Boolean, onItemClick: (Genre) -> Unit) {
             .padding(start = 10.dp)
     ) {
         Icon(
-            Icons.Outlined.Favorite, "", modifier = Modifier
+            Icons.Outlined.Movie, "", modifier = Modifier
                 .height(24.dp)
                 .width(24.dp)
         )

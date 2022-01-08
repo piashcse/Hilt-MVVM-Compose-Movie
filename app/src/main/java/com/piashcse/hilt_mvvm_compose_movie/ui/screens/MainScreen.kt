@@ -21,7 +21,7 @@ import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
 import com.piashcse.hilt_mvvm_compose_movie.navigation.navigationTitle
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.appbar.AppBarWithArrow
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.NavigationItem
-import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchBar
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.appbar.SearchBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.appbar.HomeAppBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.drawer.DrawerUI
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel.HomeViewModel
@@ -38,18 +38,19 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen() {
     val homeViewModel = hiltViewModel<HomeViewModel>()
+    val drawerViewModel = hiltViewModel<NavDrawerViewModel>()
     val isAppBarVisible = remember { mutableStateOf(true) }
+    val genreName = remember { mutableStateOf("") }
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     // genre list for navigation drawer
-    val drawerViewModel = hiltViewModel<NavDrawerViewModel>()
     val genres = drawerViewModel.genres.value
     // internet connection
     val connection by connectivityState()
     val isConnected = connection === ConnectionState.Available
 
-    // genre api for firt time
+    // genre api call for first time
     LaunchedEffect(true) {
         drawerViewModel.genreList()
     }
@@ -60,8 +61,13 @@ fun MainScreen() {
             when (currentRoute(navController)) {
                 NavigationScreen.HOME, NavigationScreen.POPULAR, NavigationScreen.TOP_RATED, NavigationScreen.UP_COMING, NavigationScreen.NAVIGATION_DRAWER -> {
                     if (isAppBarVisible.value) {
+                        val appTitle: String =
+                            if (currentRoute(navController) == NavigationScreen.NAVIGATION_DRAWER)
+                                genreName.value
+                            else
+                                stringResource(R.string.app_title)
                         HomeAppBar(
-                            title = stringResource(R.string.app_title),
+                            title = appTitle,
                             openDrawer = {
                                 scope.launch {
                                     scaffoldState.drawerState.apply {
@@ -88,6 +94,7 @@ fun MainScreen() {
             // Drawer content
             if (genres is DataState.Success<Genres>) {
                 DrawerUI(navController, genres.data.genres) {
+                    genreName.value = it
                     scope.launch {
                         scaffoldState.drawerState.close()
                     }
@@ -96,7 +103,7 @@ fun MainScreen() {
         },
         floatingActionButton = {
             when (currentRoute(navController)) {
-                NavigationScreen.HOME, NavigationScreen.POPULAR, NavigationScreen.TOP_RATED, NavigationScreen.UP_COMING, NavigationScreen.NAVIGATION_DRAWER -> {
+                NavigationScreen.HOME, NavigationScreen.POPULAR, NavigationScreen.TOP_RATED, NavigationScreen.UP_COMING -> {
                     FloatingActionButton(
                         onClick = {
                             isAppBarVisible.value = false
@@ -110,7 +117,7 @@ fun MainScreen() {
         },
         bottomBar = {
             when (currentRoute(navController)) {
-                NavigationScreen.HOME, NavigationScreen.POPULAR, NavigationScreen.TOP_RATED, NavigationScreen.UP_COMING, NavigationScreen.NAVIGATION_DRAWER -> {
+                NavigationScreen.HOME, NavigationScreen.POPULAR, NavigationScreen.TOP_RATED, NavigationScreen.UP_COMING -> {
                     BottomNavigationUI(navController)
                 }
             }

@@ -150,11 +150,16 @@ fun HomeScreen(
     }
     movies.apply {
         when {
+            // data is loading for first time
             loadState.refresh is LoadState.Loading -> {
                 progressBar.value = true
             }
+            // data is loading for second time or pagination
             loadState.append is LoadState.Loading -> {
                 progressBar.value = true
+            }
+            loadState.refresh is LoadState.NotLoading -> {
+                progressBar.value = false
             }
             loadState.append is LoadState.NotLoading -> {
                 progressBar.value = false

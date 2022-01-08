@@ -27,7 +27,7 @@ sealed class NavigationItem(
 
     object Popular : NavigationItem(NavigationScreen.POPULAR, {
         Icon(
-            Icons.Filled.Settings,
+            Icons.Filled.Timeline,
             contentDescription = "search",
             modifier = Modifier
                 .padding(end = 16.dp)

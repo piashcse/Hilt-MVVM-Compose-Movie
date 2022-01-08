@@ -15,12 +15,12 @@ import androidx.navigation.navArgument
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.GenreScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.HomeScreen
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.Login
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.Popular
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.TopRated
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.Upcoming
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel.HomeViewModel
-import timber.log.Timber
 
 @ExperimentalFoundationApi
 @Composable
@@ -35,6 +35,11 @@ fun Navigation(
                 navController = navController,
                 homeViewModel,
                 isAppBarVisible
+            )
+        }
+        composable(NavigationScreen.LOGIN) {
+            Login(
+                navController = navController
             )
         }
         composable(NavigationScreen.POPULAR) {
@@ -63,10 +68,8 @@ fun Navigation(
             arguments = listOf(navArgument(NavigationScreen.GENRE_ID) {
                 type = NavType.StringType
             })
-        ) {
-            val genreId =
-                it.arguments?.getString(NavigationScreen.GENRE_ID)
-            Timber.e("genre id $genreId")
+        ) { backStack ->
+            val genreId = backStack.arguments?.getString(NavigationScreen.GENRE_ID)
             genreId?.let {
                 GenreScreen(
                     navController = navController,
@@ -105,6 +108,7 @@ fun Navigation(
 fun navigationTitle(navController: NavController): String {
     return when (currentRoute(navController)) {
         NavigationScreen.MovieDetail.MOVIE_DETAIL -> stringResource(id = R.string.movie_detail)
+        NavigationScreen.LOGIN -> stringResource(id = R.string.login)
         else -> {
             ""
         }

@@ -2,7 +2,7 @@ package com.piashcse.hilt_mvvm_compose_movie.navigation
 
 object NavigationScreen {
     const val HOME = "home"
-    const val DRAWER = "drawer"
+    const val LOGIN = "login"
     const val POPULAR = "popular"
     const val TOP_RATED = "toprated"
     const val UP_COMING = "upcoming"
