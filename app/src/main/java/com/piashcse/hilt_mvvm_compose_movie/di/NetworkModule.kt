@@ -1,10 +1,7 @@
 package com.piashcse.hilt_mvvm_compose_movie.di
 
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.*
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiService
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.NowPlayingPagingDataSource
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.PopularPagingDataSource
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.TopRatedPagingDataSource
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.UpcomingPagingDataSource
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import dagger.Module
 import dagger.Provides
