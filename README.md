@@ -1,6 +1,8 @@
 # What is this project?
 This is a simple movie app with jetpack compose 
 
+<img  alt="GIF"  width="230px" height="430px" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/composemovie.gif" />
+
 # Main Features
 1. Kotlin
 1. MVVM
