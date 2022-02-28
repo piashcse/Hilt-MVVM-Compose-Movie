@@ -26,18 +26,3 @@ fun <T: Any> LazyGridScope.items(
 fun Int.hourMinutes(): String{
     return "${this.minutes.inWholeHours}h ${this % 60}m"
 }
-/*
-fun Modifier.clickable(
-    enabled: Boolean = true,
-    onClickLabel: String? = null,
-    role: Role? = null,
-    onClick: () -> Unit
-) = composed(
-    inspectorInfo = debugInspectorInfo {
-        name = "clickable"
-        properties["enabled"] = enabled
-        properties["onClickLabel"] = onClickLabel
-        properties["role"] = role
-        properties["onClick"] = onClick
-    }
-)*/

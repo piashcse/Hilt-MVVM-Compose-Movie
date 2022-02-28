@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.moviedetail
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf

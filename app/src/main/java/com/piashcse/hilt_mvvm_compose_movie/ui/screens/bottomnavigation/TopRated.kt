@@ -5,8 +5,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.navigation.NavController
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.HomeScreen
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel.HomeViewModel
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.home.HomeScreen
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.home.HomeViewModel
 
 @ExperimentalFoundationApi
 @Composable
@@ -19,6 +19,6 @@ fun TopRated(
         navController = navController,
         viewModel = viewModel,
         isAppBarVisible = isAppBarVisible,
-        movies = viewModel.topRatedMovies.collectAsLazyPagingItems()
+        movies = viewModel.topRatedMovies().collectAsLazyPagingItems()
     )
 }

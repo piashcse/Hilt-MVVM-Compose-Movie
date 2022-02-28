@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.moviedetail
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -28,7 +28,6 @@ import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.navigation.NavigationScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel.MovieDetailViewModel
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.defaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.secondaryFontColor
@@ -38,13 +37,13 @@ import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 
 @Composable
 fun MovieDetail(navController: NavController?, movieId: Int) {
-    val viewModel = hiltViewModel<MovieDetailViewModel>()
+    val movieDetailViewModel = hiltViewModel<MovieDetailViewModel>()
     val progressBar = remember { mutableStateOf(false) }
-    val movieDetail = viewModel.movieDetail.value
-    val recommendedMovie = viewModel.recommendedMovie.value
+    val movieDetail = movieDetailViewModel.movieDetail.value
+    val recommendedMovie = movieDetailViewModel.recommendedMovie.value
     LaunchedEffect(true) {
-        viewModel.movieDetailApi(movieId)
-        viewModel.recommendedMovieApi(movieId, 1)
+        movieDetailViewModel.movieDetailApi(movieId)
+        movieDetailViewModel.recommendedMovieApi(movieId, 1)
     }
 
     Column(

@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.home
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
@@ -34,7 +34,6 @@ import com.piashcse.hilt_mvvm_compose_movie.navigation.NavigationScreen
 import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.ExitAlertDialog
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel.HomeViewModel
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.HiltMVVMComposeMovieTheme
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.defaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.secondaryFontColor
@@ -48,7 +47,7 @@ fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel,
     isAppBarVisible: MutableState<Boolean>,
-    movies: LazyPagingItems<MovieItem> = viewModel.nowPlayingMovies.collectAsLazyPagingItems()
+    movies: LazyPagingItems<MovieItem> = viewModel.nowPlayingMovies().collectAsLazyPagingItems()
 ) {
     val activity = (LocalContext.current as? Activity)
     val progressBar = remember { mutableStateOf(false) }

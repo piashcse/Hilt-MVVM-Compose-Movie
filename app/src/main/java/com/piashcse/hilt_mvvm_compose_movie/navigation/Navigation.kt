@@ -14,13 +14,13 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.GenreScreen
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.HomeScreen
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.home.HomeScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.Login
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.MovieDetail
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.Popular
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.TopRated
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.Upcoming
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel.HomeViewModel
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.home.HomeViewModel
 
 @ExperimentalFoundationApi
 @Composable

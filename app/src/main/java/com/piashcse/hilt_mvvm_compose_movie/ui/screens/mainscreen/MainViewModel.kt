@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NavDrawerViewModel @Inject constructor(private val repo: MovieRepository) : ViewModel() {
+class MainViewModel @Inject constructor(private val repo: MovieRepository) : ViewModel() {
     val genres: MutableState<DataState<Genres>?> = mutableStateOf(null)
     fun genreList() {
         viewModelScope.launch {

@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
@@ -24,8 +24,7 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.component.NavigationItem
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.appbar.SearchBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.appbar.HomeAppBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.drawer.DrawerUI
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel.HomeViewModel
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.viewmodel.NavDrawerViewModel
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.home.HomeViewModel
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.floatingActionBackground
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.ConnectionState
@@ -38,21 +37,21 @@ import kotlinx.coroutines.launch
 @Composable
 fun MainScreen() {
     val homeViewModel = hiltViewModel<HomeViewModel>()
-    val drawerViewModel = hiltViewModel<NavDrawerViewModel>()
+    val mainViewModel = hiltViewModel<MainViewModel>()
     val isAppBarVisible = remember { mutableStateOf(true) }
     val genreName = remember { mutableStateOf("") }
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     // genre list for navigation drawer
-    val genres = drawerViewModel.genres.value
+    val genres = mainViewModel.genres.value
     // internet connection
     val connection by connectivityState()
     val isConnected = connection === ConnectionState.Available
 
     // genre api call for first time
     LaunchedEffect(true) {
-        drawerViewModel.genreList()
+        mainViewModel.genreList()
     }
 
     Scaffold(

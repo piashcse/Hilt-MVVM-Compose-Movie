@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging
+package com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging
 
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
@@ -23,7 +23,7 @@ class UpcomingPagingDataSource @Inject constructor(private val apiService: ApiSe
             LoadResult.Page(
                 data = movieList.results,
                 prevKey = if (nextPage == 1) null else nextPage - 1,
-                nextKey = movieList.page + 1
+                nextKey = if (movieList.results.isNotEmpty()) movieList.page + 1 else null
             )
         } catch (exception: IOException) {
             Timber.e("exception ${exception.message}")
