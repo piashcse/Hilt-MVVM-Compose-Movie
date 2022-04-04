@@ -23,8 +23,7 @@
   - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) - Stores UI-related data that isn't destroyed on UI changes.
   - [ViewBinding](https://developer.android.com/topic/libraries/view-binding) - Generates a binding class for each XML layout file present in that module and allows you to more easily write code that interacts with views.
 - [Dependency Injection](https://developer.android.com/training/dependency-injection)
-  - [Hilt](https://dagger.dev/hilt) - Easier way to incorporate Dagger DI into Android apps. **This is in the [main branch](https://github.com/wajahatkarim3/Imagine)**.
-  - [Dagger2](https://dagger.dev/) - Standard library to incorporate Dagger dependency injection into an Android application. **This is in a separate [dagger branch](https://github.com/wajahatkarim3/Imagine/tree/dagger-branch).**
+  - [Hilt](https://dagger.dev/hilt) - Easier way to incorporate Dagger DI into Android apps.
 - [Retrofit](https://square.github.io/retrofit/) - A type-safe HTTP client for Android and Java.
 - [Material Components for Android](https://github.com/material-components/material-components-android) - Modular and customizable Material Design UI components for Android.
 
