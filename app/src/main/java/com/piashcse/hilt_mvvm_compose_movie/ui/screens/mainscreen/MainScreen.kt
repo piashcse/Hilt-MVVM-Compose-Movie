@@ -32,8 +32,7 @@ import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.connectivity
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
-@ExperimentalCoroutinesApi
-@ExperimentalFoundationApi
+
 @Composable
 fun MainScreen() {
     val homeViewModel = hiltViewModel<HomeViewModel>()

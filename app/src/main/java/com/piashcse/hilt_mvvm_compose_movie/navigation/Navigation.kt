@@ -1,6 +1,5 @@
 package com.piashcse.hilt_mvvm_compose_movie.navigation
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
@@ -22,7 +21,7 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.TopRated
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.Upcoming
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.home.HomeViewModel
 
-@ExperimentalFoundationApi
+
 @Composable
 fun Navigation(
     navController: NavHostController,
@@ -34,7 +33,8 @@ fun Navigation(
             HomeScreen(
                 navController = navController,
                 homeViewModel,
-                isAppBarVisible
+                isAppBarVisible,
+                homeViewModel.nowPlayingMovies()
             )
         }
         composable(NavigationScreen.LOGIN) {

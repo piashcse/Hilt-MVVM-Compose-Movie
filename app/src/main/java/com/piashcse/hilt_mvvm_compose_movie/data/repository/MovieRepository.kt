@@ -103,7 +103,6 @@ class MovieRepository @Inject constructor(
         config = PagingConfig(pageSize = 2)
     ).flow
 
-
     fun genrePagingDataSource(genreId: String) = Pager(
         pagingSourceFactory = { GenrePagingDataSource(apiService, genreId) },
         config = PagingConfig(pageSize = 2)

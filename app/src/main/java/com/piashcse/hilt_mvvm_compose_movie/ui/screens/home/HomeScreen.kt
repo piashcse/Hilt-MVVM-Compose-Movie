@@ -2,7 +2,6 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.home
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -24,6 +23,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.paging.LoadState
+import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberImagePainter
@@ -40,23 +40,24 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.secondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.utils.items
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
+import kotlinx.coroutines.flow.Flow
 
-@ExperimentalFoundationApi
 @Composable
 fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel,
     isAppBarVisible: MutableState<Boolean>,
-    movies: LazyPagingItems<MovieItem> = viewModel.nowPlayingMovies().collectAsLazyPagingItems()
+    movies: Flow<PagingData<MovieItem>>
 ) {
     val activity = (LocalContext.current as? Activity)
     val progressBar = remember { mutableStateOf(false) }
     val searchProgressBar = remember { mutableStateOf(false) }
     val openDialog = remember { mutableStateOf(false) }
     val searchData = viewModel.searchData
+    val moviesItems: LazyPagingItems<MovieItem> = movies.collectAsLazyPagingItems()
 
     BackHandler(enabled = (currentRoute(navController) == NavigationScreen.HOME)) {
-        // execute your custome logic here
+        // execute your custom logic here
         openDialog.value = true
     }
 
@@ -71,7 +72,7 @@ fun HomeScreen(
                         columns = GridCells.Fixed(2),
                         modifier = Modifier.padding(start = 5.dp, top = 5.dp, end = 5.dp),
                         content = {
-                            items(movies) { item ->
+                            items(moviesItems) { item ->
                                 item?.let {
                                     MovieItemView(item, navController)
                                 }
@@ -147,7 +148,7 @@ fun HomeScreen(
             })
         }
     }
-    movies.apply {
+    moviesItems.apply {
         when {
             // data is loading for first time
             loadState.refresh is LoadState.Loading -> {

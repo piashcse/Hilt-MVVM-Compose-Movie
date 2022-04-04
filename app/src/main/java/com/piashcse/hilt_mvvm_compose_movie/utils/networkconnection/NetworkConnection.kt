@@ -9,11 +9,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.produceState
 import androidx.compose.ui.platform.LocalContext
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.InternalCoroutinesApi
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.collect
 
 /**
  * Network utility to get current state of internet connection
@@ -37,7 +34,6 @@ private fun getCurrentConnectivityState(
     return if (connected) ConnectionState.Available else ConnectionState.Unavailable
 }
 
-@OptIn(ExperimentalCoroutinesApi::class)
 fun Context.observeConnectivityAsFlow() = callbackFlow {
     val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -72,7 +68,6 @@ fun networkCallback(callback: (ConnectionState) -> Unit): ConnectivityManager.Ne
     }
 }
 
-@OptIn(InternalCoroutinesApi::class)
 @Composable
 fun connectivityState(): State<ConnectionState> {
     val context = LocalContext.current
