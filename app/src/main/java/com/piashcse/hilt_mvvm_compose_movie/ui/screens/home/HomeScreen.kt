@@ -40,6 +40,7 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.secondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.utils.items
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
+import com.piashcse.hilt_mvvm_compose_movie.utils.pagingLoadingState
 import kotlinx.coroutines.flow.Flow
 
 @Composable
@@ -148,25 +149,9 @@ fun HomeScreen(
             })
         }
     }
-    moviesItems.apply {
-        when {
-            // data is loading for first time
-            loadState.refresh is LoadState.Loading -> {
-                progressBar.value = true
-            }
-            // data is loading for second time or pagination
-            loadState.append is LoadState.Loading -> {
-                progressBar.value = true
-            }
-            loadState.refresh is LoadState.NotLoading -> {
-                progressBar.value = false
-            }
-            loadState.append is LoadState.NotLoading -> {
-                progressBar.value = false
-            }
-        }
+    pagingLoadingState(pagingItems = moviesItems) {
+        progressBar.value = it
     }
-
 
     searchData.let {
         when (it.value) {
