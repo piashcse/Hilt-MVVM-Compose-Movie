@@ -2,20 +2,19 @@
 ### Movie app with jetpack compose 
 
 <div align="center">
-  <img  alt="GIF"  width="280px" height="460px" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/composemovie.gif" />
+  <img  alt="GIF"  width="280px" height="460px" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/composemovie.gif" />
 </div>
 
 # Main Features
-1. Kotlin
-1. MVVM
-1. Hilt
-1. Jetpack Compose
-1. Navigation Components
-1. Retrofit2
-1. Single Activity Architecture
+1. Movie list 
+2. Movie detail
+3. Bottom navigation
+4. Search filter for movie
+5. Genre movie in navigation drawer
 
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
+- [Jetpack Compose](https://developer.android.com/jetpack/compose) - Jetpack Compose is Android’s modern toolkit for building native UI.
 - [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) - For asynchronous and more..
 - [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/) - A cold asynchronous data stream that sequentially emits values and completes normally or with an exception.
 - [Android Architecture Components](https://developer.android.com/topic/libraries/architecture) - Collection of libraries that help you design robust, testable, and maintainable apps.
