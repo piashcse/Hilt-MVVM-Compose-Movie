@@ -2,7 +2,9 @@
 ### Movie app with jetpack compose 
 
 <div align="center">
-  <img  alt="GIF"  width="280px" height="460px" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/composemovie.gif" />
+  <img width="280px" height="460px" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_20220405_200233.png" />
+    <img  alt="GIF"  width="280px" height="460px" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/composemovie.gif" />
+    <img width="280px" height="460px" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_20220405_200201.png" />
 </div>
 
 # Main Features
