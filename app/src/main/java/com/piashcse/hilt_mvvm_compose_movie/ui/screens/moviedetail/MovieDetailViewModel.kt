@@ -18,7 +18,6 @@ class MovieDetailViewModel @Inject constructor(private val repo: MovieRepository
     val movieDetail: MutableState<DataState<MovieDetail>?> = mutableStateOf(null)
     val recommendedMovie: MutableState<DataState<BaseModel>?> = mutableStateOf(null)
 
-
     fun movieDetailApi(movieId: Int) {
         viewModelScope.launch {
             repo.movieDetail(movieId).onEach {

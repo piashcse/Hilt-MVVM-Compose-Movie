@@ -34,13 +34,14 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.secondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.utils.hourMinutes
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
+import com.piashcse.hilt_mvvm_compose_movie.utils.pagingLoadingState
 
 @Composable
 fun MovieDetail(navController: NavController?, movieId: Int) {
     val movieDetailViewModel = hiltViewModel<MovieDetailViewModel>()
     val progressBar = remember { mutableStateOf(false) }
-    val movieDetail = movieDetailViewModel.movieDetail.value
-    val recommendedMovie = movieDetailViewModel.recommendedMovie.value
+    val movieDetail = movieDetailViewModel.movieDetail
+    val recommendedMovie = movieDetailViewModel.recommendedMovie
     LaunchedEffect(true) {
         movieDetailViewModel.movieDetailApi(movieId)
         movieDetailViewModel.recommendedMovieApi(movieId, 1)
@@ -54,7 +55,7 @@ fun MovieDetail(navController: NavController?, movieId: Int) {
             )
     ) {
         CircularIndeterminateProgressBar(isDisplayed = progressBar.value, 0.4f)
-        movieDetail?.let { it ->
+        movieDetail.value?.let { it ->
             if (it is DataState.Success<MovieDetail>) {
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                     Image(
@@ -151,7 +152,7 @@ fun MovieDetail(navController: NavController?, movieId: Int) {
                             fontSize = 13.sp,
                             modifier = Modifier.padding(bottom = 10.dp)
                         )
-                        recommendedMovie?.let {
+                        recommendedMovie.value?.let {
                             if (it is DataState.Success<BaseModel>) {
                                 RecommendedMovie(navController, it.data.results)
                             }
@@ -160,32 +161,11 @@ fun MovieDetail(navController: NavController?, movieId: Int) {
                 }
             }
         }
-
-        recommendedMovie?.let {
-            when (it) {
-                is DataState.Success<BaseModel> -> {
-                    progressBar.value = false
-                }
-                is DataState.Loading -> {
-                    progressBar.value = true
-                }
-                is DataState.Error -> {
-                    progressBar.value = false
-                }
-            }
+        recommendedMovie.pagingLoadingState {
+            progressBar.value = it
         }
-        movieDetail?.let {
-            when (it) {
-                is DataState.Success<MovieDetail> -> {
-                    progressBar.value = false
-                }
-                is DataState.Loading -> {
-                    progressBar.value = true
-                }
-                is DataState.Error -> {
-                    progressBar.value = false
-                }
-            }
+        movieDetail.pagingLoadingState {
+            progressBar.value = it
         }
     }
 }

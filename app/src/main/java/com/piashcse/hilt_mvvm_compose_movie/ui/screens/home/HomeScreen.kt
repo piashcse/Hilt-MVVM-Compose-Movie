@@ -22,7 +22,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.paging.LoadState
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
@@ -149,24 +148,11 @@ fun HomeScreen(
             })
         }
     }
-    pagingLoadingState(pagingItems = moviesItems) {
+    moviesItems.pagingLoadingState {
         progressBar.value = it
     }
-
-    searchData.let {
-        when (it.value) {
-            is DataState.Success<BaseModel> -> {
-                searchProgressBar.value = false
-            }
-            is DataState.Loading -> {
-                searchProgressBar.value = true
-            }
-            is DataState.Error -> {
-                searchProgressBar.value = false
-            }
-            else -> {
-            }
-        }
+    searchData.pagingLoadingState {
+        progressBar.value = it
     }
 }
 
