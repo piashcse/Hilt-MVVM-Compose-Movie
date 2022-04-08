@@ -41,6 +41,7 @@ import com.piashcse.hilt_mvvm_compose_movie.utils.items
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.pagingLoadingState
 import kotlinx.coroutines.flow.Flow
+import timber.log.Timber
 
 @Composable
 fun HomeScreen(
@@ -61,7 +62,7 @@ fun HomeScreen(
         openDialog.value = true
     }
 
-    HiltMVVMComposeMovieTheme {
+    Column(modifier = Modifier.background(defaultBackgroundColor)) {
         Column(modifier = Modifier.background(defaultBackgroundColor)) {
             Box {
                 Column {

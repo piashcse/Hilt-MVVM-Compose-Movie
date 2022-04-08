@@ -132,8 +132,8 @@ fun MainScreen() {
                 }
             }
         }
-    ) {
-        Navigation(navController, isAppBarVisible, homeViewModel)
+    ){
+        Navigation(navController, isAppBarVisible, homeViewModel,  Modifier.padding(it))
     }
 }
 

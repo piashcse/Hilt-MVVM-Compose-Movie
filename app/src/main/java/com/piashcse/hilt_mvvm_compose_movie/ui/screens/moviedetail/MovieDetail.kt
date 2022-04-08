@@ -37,7 +37,7 @@ import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.pagingLoadingState
 
 @Composable
-fun MovieDetail(navController: NavController?, movieId: Int) {
+fun MovieDetail(navController: NavController, movieId: Int) {
     val movieDetailViewModel = hiltViewModel<MovieDetailViewModel>()
     val progressBar = remember { mutableStateOf(false) }
     val movieDetail = movieDetailViewModel.movieDetail

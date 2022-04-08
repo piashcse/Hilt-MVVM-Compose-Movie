@@ -3,7 +3,6 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.navigation.NavController
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.home.HomeScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.home.HomeViewModel
 
@@ -18,6 +17,6 @@ fun Upcoming(
         navController = navController,
         viewModel = viewModel,
         isAppBarVisible = isAppBarVisible,
-        movies = viewModel.upcomingMovies()
+        movies = viewModel.upcomingMovies
     )
 }

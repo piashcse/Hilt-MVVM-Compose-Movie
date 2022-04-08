@@ -21,21 +21,13 @@ import javax.inject.Inject
 class HomeViewModel @Inject constructor(private val repo: MovieRepository) : ViewModel() {
     val searchData: MutableState<DataState<BaseModel>?> = mutableStateOf(null)
 
-    fun nowPlayingMovies(): Flow<PagingData<MovieItem>> {
-        return repo.nowPlayingPagingDataSource().cachedIn(viewModelScope)
-    }
+    val nowPlayingMovies = repo.nowPlayingPagingDataSource().cachedIn(viewModelScope)
 
-    fun popularMovies(): Flow<PagingData<MovieItem>> {
-        return repo.popularPagingDataSource().cachedIn(viewModelScope)
-    }
+    val popularMovies = repo.popularPagingDataSource().cachedIn(viewModelScope)
 
-    fun topRatedMovies(): Flow<PagingData<MovieItem>> {
-        return repo.topRatedPagingDataSource().cachedIn(viewModelScope)
-    }
+    val topRatedMovies = repo.topRatedPagingDataSource().cachedIn(viewModelScope)
 
-    fun upcomingMovies(): Flow<PagingData<MovieItem>> {
-        return repo.upcomingPagingDataSource().cachedIn(viewModelScope)
-    }
+    val upcomingMovies = repo.upcomingPagingDataSource().cachedIn(viewModelScope)
 
     fun moviesByGenre(genreId: String): Flow<PagingData<MovieItem>> {
         return repo.genrePagingDataSource(genreId).cachedIn(viewModelScope)

@@ -3,6 +3,7 @@ package com.piashcse.hilt_mvvm_compose_movie.navigation
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import androidx.navigation.NavHostController
@@ -26,15 +27,16 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.screens.home.HomeViewModel
 fun Navigation(
     navController: NavHostController,
     isAppBarVisible: MutableState<Boolean>,
-    homeViewModel: HomeViewModel
+    homeViewModel: HomeViewModel,
+    modifier: Modifier
 ) {
-    NavHost(navController, startDestination = "home") {
+    NavHost(navController, startDestination = "home", modifier) {
         composable(NavigationScreen.HOME) {
             HomeScreen(
                 navController = navController,
                 homeViewModel,
                 isAppBarVisible,
-                homeViewModel.nowPlayingMovies()
+                homeViewModel.nowPlayingMovies
             )
         }
         composable(NavigationScreen.LOGIN) {
@@ -86,12 +88,12 @@ fun Navigation(
             })
         ) {
             label = stringResource(R.string.movie_detail)
-            val movieItem =
+            val movieId =
                 it.arguments?.getInt(NavigationScreen.MovieDetail.MOVIE_ITEM)
-            if (movieItem != null) {
+            if (movieId != null) {
                 MovieDetail(
                     navController = navController,
-                    movieItem
+                    movieId
                 )
             }
             /*movieItem?.fromPrettyJson<MovieItem>()

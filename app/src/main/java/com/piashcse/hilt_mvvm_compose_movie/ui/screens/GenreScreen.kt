@@ -2,9 +2,7 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.home.HomeScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.home.HomeViewModel
 
@@ -15,10 +13,9 @@ fun GenreScreen(
     isAppBarVisible: MutableState<Boolean>,
     genreId: String
 ) {
-    val homeViewModel = hiltViewModel<HomeViewModel>()
     HomeScreen(
         navController = navController,
-        viewModel = homeViewModel,
+        viewModel = viewModel,
         isAppBarVisible = isAppBarVisible,
         movies = viewModel.moviesByGenre(genreId)
     )

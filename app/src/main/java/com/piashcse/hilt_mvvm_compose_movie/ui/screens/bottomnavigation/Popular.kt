@@ -17,6 +17,6 @@ fun Popular(
         navController = navController,
         viewModel = viewModel,
         isAppBarVisible = isAppBarVisible,
-        movies = viewModel.popularMovies()
+        movies = viewModel.popularMovies
     )
 }
