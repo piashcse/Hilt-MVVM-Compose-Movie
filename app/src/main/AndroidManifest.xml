@@ -12,11 +12,11 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.HiltMVVMComposeMovie">
+        android:theme="@style/Theme.splashScreenTheme">
         <activity
-            android:name=".ui.MainActivity"
+            android:name=".ui.screens.activity.MainActivity"
             android:exported="true"
-            android:theme="@style/Theme.HiltMVVMComposeMovie.NoActionBar">
+            android:theme="@style/Theme.splashScreenTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -4,10 +4,8 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.paging.PagingData
 import androidx.paging.cachedIn
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
-import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.MovieRepository
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,9 +27,7 @@ class HomeViewModel @Inject constructor(private val repo: MovieRepository) : Vie
 
     val upcomingMovies = repo.upcomingPagingDataSource().cachedIn(viewModelScope)
 
-    fun moviesByGenre(genreId: String): Flow<PagingData<MovieItem>> {
-        return repo.genrePagingDataSource(genreId).cachedIn(viewModelScope)
-    }
+    fun moviesByGenre(genreId: String) = repo.genrePagingDataSource(genreId).cachedIn(viewModelScope)
 
     @ExperimentalCoroutinesApi
     @FlowPreview

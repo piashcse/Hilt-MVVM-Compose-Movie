@@ -1,6 +1,5 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen
 
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -29,7 +28,6 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.floatingActionBackground
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.ConnectionState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.connectivityState
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.launch
 
 

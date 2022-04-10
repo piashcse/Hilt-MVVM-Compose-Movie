@@ -93,4 +93,7 @@ dependencies {
     implementation "io.coil-kt:coil-compose:1.4.0"
     implementation 'com.google.code.gson:gson:2.8.9'
 
+    // splash screen
+    implementation "androidx.core:core-splashscreen:1.0.0-beta02"
+
 }

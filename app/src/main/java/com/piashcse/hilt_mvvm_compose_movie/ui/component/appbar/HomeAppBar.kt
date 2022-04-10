@@ -7,10 +7,12 @@ import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.Purple500
 
 @Composable
 fun HomeAppBar(title: String, openDrawer: () -> Unit, openFilters: () -> Unit) {
     TopAppBar(
+        backgroundColor = Purple500,
         title = { Text(text = title) },
         navigationIcon = {
             IconButton(onClick = {
