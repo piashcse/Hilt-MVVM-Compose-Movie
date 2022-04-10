@@ -18,24 +18,27 @@ import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigation
 import com.piashcse.hilt_mvvm_compose_movie.navigation.NavigationScreen
 import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
 import com.piashcse.hilt_mvvm_compose_movie.navigation.navigationTitle
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.appbar.AppBarWithArrow
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.NavigationItem
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchUI
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.appbar.SearchBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.appbar.HomeAppBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.drawer.DrawerUI
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.home.HomeViewModel
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.floatingActionBackground
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.ConnectionState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.connectivityState
+import com.piashcse.hilt_mvvm_compose_movie.utils.pagingLoadingState
 import kotlinx.coroutines.launch
 
 
 @Composable
 fun MainScreen() {
-    val homeViewModel = hiltViewModel<HomeViewModel>()
+  //  val homeViewModel = hiltViewModel<HomeViewModel>()
     val mainViewModel = hiltViewModel<MainViewModel>()
     val isAppBarVisible = remember { mutableStateOf(true) }
+    val searchProgressBar = remember { mutableStateOf(false) }
     val genreName = remember { mutableStateOf("") }
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
@@ -76,7 +79,7 @@ fun MainScreen() {
                             }
                         )
                     } else {
-                        SearchBar(isAppBarVisible, homeViewModel)
+                        SearchBar(isAppBarVisible, mainViewModel)
                     }
                 }
                 else -> {
@@ -130,8 +133,24 @@ fun MainScreen() {
                 }
             }
         }
-    ){
-        Navigation(navController, isAppBarVisible, homeViewModel,  Modifier.padding(it))
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxWidth()
+        ) {
+            Navigation(navController, Modifier.padding(it))
+            Column {
+                CircularIndeterminateProgressBar(isDisplayed = searchProgressBar.value, 0.1f)
+                if (isAppBarVisible.value.not()) {
+                    SearchUI(navController, mainViewModel.searchData) {
+                        isAppBarVisible.value = true
+                    }
+                }
+            }
+        }
+        mainViewModel.searchData.pagingLoadingState {
+            searchProgressBar.value = it
+        }
     }
 }
 

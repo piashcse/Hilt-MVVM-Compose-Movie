@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
 import androidx.compose.material.icons.Icons
@@ -20,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.Purple500
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.Typography
 
 @Composable
 fun AppBarWithArrow(
@@ -52,9 +54,8 @@ fun AppBarWithArrow(
                     .padding(8.dp)
                     .align(Alignment.CenterVertically),
                 text = title ?: "",
-                color = Color.White,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.Bold
+                style = MaterialTheme.typography.h6,
+                color = Color.White
             )
         }
     }

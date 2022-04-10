@@ -13,30 +13,23 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.piashcse.hilt_mvvm_compose_movie.R
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.GenreScreen
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.home.HomeScreen
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.genre.GenreScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.Login
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.nowplaying.NowPlaying
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.moviedetail.MovieDetail
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.Popular
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.TopRated
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.Upcoming
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.home.HomeViewModel
-
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.popular.Popular
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.toprated.TopRated
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.upcoming.Upcoming
 
 @Composable
 fun Navigation(
     navController: NavHostController,
-    isAppBarVisible: MutableState<Boolean>,
-    homeViewModel: HomeViewModel,
     modifier: Modifier
 ) {
     NavHost(navController, startDestination = "home", modifier) {
         composable(NavigationScreen.HOME) {
-            HomeScreen(
+            NowPlaying(
                 navController = navController,
-                homeViewModel,
-                isAppBarVisible,
-                homeViewModel.nowPlayingMovies
             )
         }
         composable(NavigationScreen.LOGIN) {
@@ -46,23 +39,17 @@ fun Navigation(
         }
         composable(NavigationScreen.POPULAR) {
             Popular(
-                navController = navController,
-                homeViewModel,
-                isAppBarVisible
+                navController = navController
             )
         }
         composable(NavigationScreen.TOP_RATED) {
             TopRated(
-                navController = navController,
-                homeViewModel,
-                isAppBarVisible
+                navController = navController
             )
         }
         composable(NavigationScreen.UP_COMING) {
             Upcoming(
-                navController = navController,
-                homeViewModel,
-                isAppBarVisible
+                navController = navController
             )
         }
         composable(
@@ -75,8 +62,6 @@ fun Navigation(
             genreId?.let {
                 GenreScreen(
                     navController = navController,
-                    homeViewModel,
-                    isAppBarVisible,
                     genreId
                 )
             }

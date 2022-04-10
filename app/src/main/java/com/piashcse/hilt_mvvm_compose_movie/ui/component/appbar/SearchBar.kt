@@ -18,13 +18,13 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.home.HomeViewModel
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.MainViewModel
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.blue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
 @Composable
-fun SearchBar(isAppBarVisible:MutableState<Boolean>, viewModel: HomeViewModel){
+fun SearchBar(isAppBarVisible:MutableState<Boolean>, viewModel: MainViewModel){
     var text by remember { mutableStateOf("") }
     val focusRequester = FocusRequester()
     BackHandler(isAppBarVisible.value.not()) {

@@ -1,9 +1,6 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.component.appbar
 
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
-import androidx.compose.material.Text
-import androidx.compose.material.TopAppBar
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.runtime.Composable
@@ -13,7 +10,12 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.Purple500
 fun HomeAppBar(title: String, openDrawer: () -> Unit, openFilters: () -> Unit) {
     TopAppBar(
         backgroundColor = Purple500,
-        title = { Text(text = title) },
+        title = {
+            Text(
+                text = title,
+                style = MaterialTheme.typography.h6,
+            )
+        },
         navigationIcon = {
             IconButton(onClick = {
                 openDrawer()
