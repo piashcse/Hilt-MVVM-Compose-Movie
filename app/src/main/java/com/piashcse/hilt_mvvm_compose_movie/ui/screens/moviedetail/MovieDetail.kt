@@ -4,14 +4,12 @@ import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -28,10 +26,10 @@ import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.navigation.NavigationScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.defaultBackgroundColor
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.secondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.SubtitlePrimary
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.SubtitleSecondary
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.*
 import com.piashcse.hilt_mvvm_compose_movie.utils.hourMinutes
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.pagingLoadingState
@@ -42,6 +40,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
     val progressBar = remember { mutableStateOf(false) }
     val movieDetail = movieDetailViewModel.movieDetail
     val recommendedMovie = movieDetailViewModel.recommendedMovie
+
     LaunchedEffect(true) {
         movieDetailViewModel.movieDetailApi(movieId)
         movieDetailViewModel.recommendedMovieApi(movieId, 1)
@@ -88,55 +87,35 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                         ) {
 
                             Column(Modifier.weight(1f)) {
-                                Text(
+                                SubtitlePrimary(
                                     text = it.data.original_language,
-                                    color = FontColor,
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Medium
                                 )
-                                Text(
-                                    text = stringResource(R.string.language),
-                                    color = secondaryFontColor,
-                                    fontSize = 10.sp,
+                                SubtitleSecondary(
+                                    text = stringResource(R.string.language)
                                 )
                             }
                             Column(Modifier.weight(1f)) {
-                                Text(
+                                SubtitlePrimary(
                                     text = it.data.vote_average.toString(),
-                                    color = FontColor,
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Medium
                                 )
-                                Text(
-                                    text = stringResource(R.string.rating),
-                                    color = secondaryFontColor,
-                                    fontSize = 10.sp,
+                                SubtitleSecondary(
+                                    text = stringResource(R.string.rating)
                                 )
                             }
                             Column(Modifier.weight(1f)) {
-                                Text(
-                                    text = it.data.runtime.hourMinutes(),
-                                    color = FontColor,
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Medium
+                                SubtitlePrimary(
+                                    text = it.data.runtime.hourMinutes()
                                 )
-                                Text(
-                                    text = stringResource(R.string.duration),
-                                    color = secondaryFontColor,
-                                    fontSize = 10.sp,
+                                SubtitleSecondary(
+                                    text = stringResource(R.string.duration)
                                 )
                             }
                             Column(Modifier.weight(1f)) {
-                                Text(
-                                    text = it.data.release_date,
-                                    color = FontColor,
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Medium
+                                SubtitlePrimary(
+                                    text = it.data.release_date
                                 )
-                                Text(
-                                    text = stringResource(R.string.release_date),
-                                    color = secondaryFontColor,
-                                    fontSize = 10.sp,
+                                SubtitleSecondary(
+                                    text = stringResource(R.string.release_date)
                                 )
                             }
                         }
@@ -203,7 +182,7 @@ fun RecommendedMovie(navController: NavController?, recommendedMovie: List<Movie
                             .fillMaxWidth()
                             .height(190.dp)
                             .width(140.dp)
-                            .clip(RoundedCornerShape(10.dp))
+                            .cornerRadius10()
                             .clickable {
                                 navController?.navigate(
                                     NavigationScreen.MovieDetail.MOVIE_DETAIL.plus(

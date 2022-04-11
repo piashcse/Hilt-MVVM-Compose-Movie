@@ -1,6 +1,7 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.theme
 
 import androidx.compose.material.Typography
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -13,7 +14,6 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),
-    /* Other default text styles to override
     button = TextStyle(
         fontFamily = FontFamily.Default,
         fontWeight = FontWeight.W500,
@@ -24,6 +24,26 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp
     )
-    */
 
 )
+
+val Typography.subTitlePrimary: TextStyle
+    @Composable
+    get() {
+        return TextStyle(
+            fontFamily = FontFamily.Default,
+            color = FontColor,
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium
+        )
+    }
+
+val Typography.subTitleSecondary: TextStyle
+    @Composable
+    get() {
+        return TextStyle(
+            fontFamily = FontFamily.Default,
+            color = secondaryFontColor,
+            fontSize = 10.sp,
+        )
+    }

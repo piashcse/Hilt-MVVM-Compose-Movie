@@ -35,14 +35,13 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun MainScreen() {
-  //  val homeViewModel = hiltViewModel<HomeViewModel>()
     val mainViewModel = hiltViewModel<MainViewModel>()
-    val isAppBarVisible = remember { mutableStateOf(true) }
-    val searchProgressBar = remember { mutableStateOf(false) }
-    val genreName = remember { mutableStateOf("") }
     val navController = rememberNavController()
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
+    val isAppBarVisible = remember { mutableStateOf(true) }
+    val searchProgressBar = remember { mutableStateOf(false) }
+    val genreName = remember { mutableStateOf("") }
     // genre list for navigation drawer
     val genres = mainViewModel.genres.value
     // internet connection
