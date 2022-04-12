@@ -9,10 +9,12 @@
 
 # Main Features
 1. Movie list 
-2. Movie detail
-3. Bottom navigation
-4. Search filter for movie
-5. Genre movie in navigation drawer
+2. Pagination with paging3
+3. Movie detail
+4. Bottom navigation
+5. Search filter for movie
+6. Genre movie in navigation drawer
+7. Network connection state with SnackBar
 
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
@@ -22,7 +24,7 @@
 - [Android Architecture Components](https://developer.android.com/topic/libraries/architecture) - Collection of libraries that help you design robust, testable, and maintainable apps.
   - [LiveData](https://developer.android.com/topic/libraries/architecture/livedata) - Data objects that notify views when the underlying database changes.
   - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) - Stores UI-related data that isn't destroyed on UI changes.
-  - [ViewBinding](https://developer.android.com/topic/libraries/view-binding) - Generates a binding class for each XML layout file present in that module and allows you to more easily write code that interacts with views.
+  - [Paging3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) - The Paging library helps you load and display pages of data from a larger dataset from local storage or over network
 - [Dependency Injection](https://developer.android.com/training/dependency-injection)
   - [Hilt](https://dagger.dev/hilt) - Easier way to incorporate Dagger DI into Android apps.
 - [Retrofit](https://square.github.io/retrofit/) - A type-safe HTTP client for Android and Java.
