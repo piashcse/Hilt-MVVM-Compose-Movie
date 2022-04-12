@@ -19,3 +19,4 @@ val Shapes = Shapes(
 )
 
 fun Modifier.cornerRadius10() = graphicsLayer(shape = RoundedCornerShape(10.dp), clip = true)
+fun Modifier.cornerRadius40() = graphicsLayer(shape = RoundedCornerShape(40.dp), clip = true)

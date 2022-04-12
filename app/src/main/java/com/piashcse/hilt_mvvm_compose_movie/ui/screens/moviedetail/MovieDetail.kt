@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
@@ -27,6 +28,8 @@ import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.navigation.NavigationScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
+import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
+import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Cast
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.SubtitlePrimary
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.SubtitleSecondary
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.*
@@ -40,10 +43,12 @@ fun MovieDetail(navController: NavController, movieId: Int) {
     val progressBar = remember { mutableStateOf(false) }
     val movieDetail = movieDetailViewModel.movieDetail
     val recommendedMovie = movieDetailViewModel.recommendedMovie
+    val artist = movieDetailViewModel.artist
 
     LaunchedEffect(true) {
         movieDetailViewModel.movieDetailApi(movieId)
         movieDetailViewModel.recommendedMovieApi(movieId, 1)
+        movieDetailViewModel.movieCredit(movieId)
     }
 
     Column(
@@ -136,6 +141,11 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                                 RecommendedMovie(navController, it.data.results)
                             }
                         }
+                        artist.value?.let {
+                            if (it is DataState.Success<Artist>) {
+                                ArtistAndCrew(navController, it.data.cast)
+                            }
+                        }
                     }
                 }
             }
@@ -191,6 +201,47 @@ fun RecommendedMovie(navController: NavController?, recommendedMovie: List<Movie
                                 )
                             }
                     )
+                }
+            })
+        }
+    }
+}
+
+@Composable
+fun ArtistAndCrew(navController: NavController?, cast: List<Cast>) {
+    Column(modifier = Modifier.padding(bottom = 10.dp)) {
+        Text(
+            text = stringResource(R.string.cast),
+            color = FontColor,
+            fontSize = 17.sp,
+            fontWeight = FontWeight.SemiBold
+        )
+        LazyRow(modifier = Modifier.fillMaxHeight()) {
+            items(cast, itemContent = { item ->
+                Column(
+                    modifier = Modifier.padding(
+                        start = 0.dp,
+                        end = 10.dp,
+                        top = 5.dp,
+                        bottom = 5.dp
+                    ),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Image(
+                        painter = rememberImagePainter(ApiURL.IMAGE_URL.plus(item.profilePath)),
+                        contentDescription = null,
+                        contentScale = ContentScale.FillBounds,
+                        modifier = Modifier.padding(bottom = 5.dp)
+                            .fillMaxWidth()
+                            .height(80.dp)
+                            .width(80.dp)
+                            .cornerRadius40()
+                            .clickable {
+
+                            }
+                    )
+                    SubtitleSecondary(text = item.name)
                 }
             })
         }

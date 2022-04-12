@@ -9,6 +9,7 @@
     <string name="duration">Duration</string>
     <string name="movie_detail">Movie detail</string>
     <string name="similar">Similar</string>
+    <string name="cast">Cast</string>
     <string name="screen_one">Screen one</string>
     <string name="screen_two">Screen two</string>
     <string name="open_drawer">Open drawer</string>

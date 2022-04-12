@@ -13,4 +13,5 @@ object ApiURL {
     const val SEARCH_MOVIE ="search/movie?api_key=$API_KEY&language=en-US&page=1&include_adult=false"
     const val GENRE_LIST ="genre/movie/list?api_key=$API_KEY&language=en-US"
     const val GENRE_MOVIES_BY_ID ="discover/movie?api_key=$API_KEY&language=en-US"
+    const val MOVIE_CREDIT ="movie/{movieId}/credits?api_key=$API_KEY&language=en-US"
 }
