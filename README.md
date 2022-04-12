@@ -1,5 +1,7 @@
-# What is this project?
-### Movie app with jetpack compose 
+# Movie World built with compose 
+[![API](https://img.shields.io/badge/API-16%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
+[![Build Status](https://travis-ci.org/skydoves/TheMovies2.svg?branch=master)](https://travis-ci.org/piashcse/Hilt-MVVM-Compose-Movie)
+<a href="https://github.com/piashcse"><img alt="License" src="https://img.shields.io/static/v1?label=GitHub&message=piashcse&color=C51162"/></a>
 
 <div align="center">
   <img width="280px" height="460px" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_20220405_200233.png" />
