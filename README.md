@@ -18,6 +18,11 @@
 6. Genre movie in navigation drawer
 7. Network connection state with SnackBar
 
+## Architecture
+  - MVVM Architecture (Composable View - ViewModel - Model)
+  - Repository pattern
+  - Hilt - dependency injection
+
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
 - [Jetpack Compose](https://developer.android.com/jetpack/compose) - Jetpack Compose is Android’s modern toolkit for building native UI.
