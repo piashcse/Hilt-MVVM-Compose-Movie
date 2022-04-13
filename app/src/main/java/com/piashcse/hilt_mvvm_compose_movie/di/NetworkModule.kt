@@ -17,16 +17,25 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object NetworkModule {
+    /**
+     * Provides BaseUrl as string
+     */
     @Singleton
     @Provides
     fun provideBaseURL(): String {
         return ApiURL.BASE_URL
     }
+    /**
+     * Provides LoggingInterceptor for api information
+     */
     @Singleton
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
         return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
     }
+    /**
+     * Provides custom OkkHttp
+     */
     @Singleton
     @Provides
     fun provideOkHttpClient(loggingInterceptor: HttpLoggingInterceptor): OkHttpClient {
@@ -40,11 +49,17 @@ object NetworkModule {
         okHttpClient.build()
         return okHttpClient.build()
     }
+    /**
+     * Provides converter factory for retrofit
+     */
     @Singleton
     @Provides
     fun provideConverterFactory(): Converter.Factory {
         return GsonConverterFactory.create()
     }
+    /**
+     * Provides ApiServices client for Retrofit
+     */
     @Singleton
     @Provides
     fun provideRetrofitClient(
@@ -58,6 +73,9 @@ object NetworkModule {
             .addConverterFactory(converterFactory)
             .build()
     }
+    /**
+     * Provides Api Service using retrofit
+     */
     @Singleton
     @Provides
     fun provideRestApiService(retrofit: Retrofit): ApiService {
