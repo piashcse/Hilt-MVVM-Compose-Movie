@@ -15,4 +15,9 @@ object NavigationScreen {
         const val MOVIE_ITEM = "movieItem"
         const val MOVIE_DETAIL_PATH = "/{movieItem}"
     }
+    object ArtistDetail {
+        const val ARTIST_DETAIL = "artistDetail"
+        const val ARTIST_ID = "artistId"
+        const val ARTIST_DETAIL_PATH = "/{artistId}"
+    }
 }

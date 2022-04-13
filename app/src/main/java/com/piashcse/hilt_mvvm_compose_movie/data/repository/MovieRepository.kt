@@ -7,6 +7,7 @@ import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.*
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
+import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import kotlinx.coroutines.flow.Flow
@@ -89,6 +90,17 @@ class MovieRepository @Inject constructor(
         try {
             val artistResult = apiService.movieCredit(movieId)
             emit(DataState.Success(artistResult))
+
+        } catch (e: Exception) {
+            emit(DataState.Error(e))
+        }
+    }
+
+    suspend fun artistDetail(personId: Int): Flow<DataState<ArtistDetail>> = flow {
+        emit(DataState.Loading)
+        try {
+            val artistDetailResult = apiService.artistDetail(personId)
+            emit(DataState.Success(artistDetailResult))
 
         } catch (e: Exception) {
             emit(DataState.Error(e))

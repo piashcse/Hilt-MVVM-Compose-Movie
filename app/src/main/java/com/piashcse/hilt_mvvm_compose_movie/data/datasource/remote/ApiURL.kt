@@ -14,4 +14,5 @@ object ApiURL {
     const val GENRE_LIST ="genre/movie/list?api_key=$API_KEY&language=en-US"
     const val GENRE_MOVIES_BY_ID ="discover/movie?api_key=$API_KEY&language=en-US"
     const val MOVIE_CREDIT ="movie/{movieId}/credits?api_key=$API_KEY&language=en-US"
+    const val ARTIST_DETAIL ="person/{personId}?api_key=$API_KEY&language=en-US"
 }

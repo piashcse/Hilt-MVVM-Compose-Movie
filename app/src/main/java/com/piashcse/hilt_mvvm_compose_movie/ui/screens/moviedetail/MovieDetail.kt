@@ -189,7 +189,6 @@ fun RecommendedMovie(navController: NavController?, recommendedMovie: List<Movie
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier
-                            .fillMaxWidth()
                             .height(190.dp)
                             .width(140.dp)
                             .cornerRadius10()
@@ -232,13 +231,17 @@ fun ArtistAndCrew(navController: NavController?, cast: List<Cast>) {
                         painter = rememberImagePainter(ApiURL.IMAGE_URL.plus(item.profilePath)),
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds,
-                        modifier = Modifier.padding(bottom = 5.dp)
-                            .fillMaxWidth()
+                        modifier = Modifier
+                            .padding(bottom = 5.dp)
                             .height(80.dp)
                             .width(80.dp)
                             .cornerRadius40()
                             .clickable {
-
+                                navController?.navigate(
+                                    NavigationScreen.ArtistDetail.ARTIST_DETAIL.plus(
+                                        "/${item.id}"
+                                    )
+                                )
                             }
                     )
                     SubtitleSecondary(text = item.name)

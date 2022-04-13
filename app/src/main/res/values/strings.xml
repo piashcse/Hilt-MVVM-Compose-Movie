@@ -22,4 +22,10 @@
     <string name="enter_username">Enter username</string>
     <string name="enter_password">Enter password</string>
     <string name="login">Login</string>
+    <string name="artist_detail">Artist detail</string>
+    <string name="know_for">Known for</string>
+    <string name="biography">Biography</string>
+    <string name="gender">Gender</string>
+    <string name="birth_day">Birthday</string>
+    <string name="place_of_birth">Place of Birt</string>
 </resources>

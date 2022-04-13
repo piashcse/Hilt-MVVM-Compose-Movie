@@ -15,6 +15,7 @@ import androidx.navigation.navArgument
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.genre.GenreScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.Login
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.artistdetail.ArtistDetail
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.nowplaying.NowPlaying
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.popular.Popular
@@ -88,6 +89,21 @@ fun Navigation(
                     )
                 }*/
         }
+        composable(
+            NavigationScreen.ArtistDetail.ARTIST_DETAIL.plus(NavigationScreen.ArtistDetail.ARTIST_DETAIL_PATH),
+            arguments = listOf(navArgument(NavigationScreen.ArtistDetail.ARTIST_ID) {
+                type = NavType.IntType
+            })
+        ) {
+            label = stringResource(R.string.artist_detail)
+            val artistId =
+                it.arguments?.getInt(NavigationScreen.ArtistDetail.ARTIST_ID)
+            if (artistId != null) {
+                ArtistDetail(
+                    artistId
+                )
+            }
+        }
     }
 }
 
@@ -95,6 +111,7 @@ fun Navigation(
 fun navigationTitle(navController: NavController): String {
     return when (currentRoute(navController)) {
         NavigationScreen.MovieDetail.MOVIE_DETAIL -> stringResource(id = R.string.movie_detail)
+        NavigationScreen.ArtistDetail.ARTIST_DETAIL -> stringResource(id = R.string.artist_detail)
         NavigationScreen.LOGIN -> stringResource(id = R.string.login)
         else -> {
             ""

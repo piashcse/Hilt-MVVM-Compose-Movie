@@ -11,3 +11,11 @@ fun ResponseBody.jsonData(): JSONObject {
 fun Int.hourMinutes(): String {
     return "${this.minutes.inWholeHours}h ${this % 60}m"
 }
+
+fun Int.genderInString(): String {
+    return when (this) {
+        1 -> "Female"
+        2 -> "Male"
+        else -> ""
+    }
+}

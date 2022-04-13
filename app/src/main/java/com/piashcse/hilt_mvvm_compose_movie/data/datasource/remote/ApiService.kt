@@ -3,6 +3,7 @@ package com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
+import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 import retrofit2.http.GET
 import retrofit2.http.Path
@@ -41,4 +42,7 @@ interface ApiService {
 
     @GET(ApiURL.MOVIE_CREDIT)
     suspend fun movieCredit(@Path("movieId") movieId: Int): Artist
+
+    @GET(ApiURL.ARTIST_DETAIL)
+    suspend fun artistDetail(@Path("personId") personId: Int): ArtistDetail
 }
