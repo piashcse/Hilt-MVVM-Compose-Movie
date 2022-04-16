@@ -16,10 +16,11 @@ A simple project using [The Movie DB](https://www.themoviedb.org) based on Kotli
 1. Movie list 
 2. Pagination with paging3
 3. Movie detail
-4. Bottom navigation
-5. Search filter for movie
-6. Genre movie in navigation drawer
-7. Network connection state with SnackBar
+4. Artist info and artist detail
+5. Bottom navigation
+6. Search filter for movie
+7. Genre movie in navigation drawer
+8. Network connection state with SnackBar
 
 ## Architecture
   - MVVM Architecture (Composable View - ViewModel - Model)
