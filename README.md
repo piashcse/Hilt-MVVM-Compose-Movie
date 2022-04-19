@@ -7,9 +7,10 @@ A simple project using [The Movie DB](https://www.themoviedb.org) based on Kotli
 
 
 <p float="left">
-  <img width="33%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_20220405_200233.png" />
-  <img width="33%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_20220405_200201.png" />
-  <img width="33%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/composemovie.gif" />
+  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_20220420_022455.png" />
+  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_20220420_022546.png" />
+  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_20220420_021842.png" />
+  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/composemovie.gif" />
 </p>
 
 # Main Features
