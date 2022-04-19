@@ -6,11 +6,11 @@
 A simple project using [The Movie DB](https://www.themoviedb.org) based on Kotlin MVVM architecture and compose.<br>
 
 
-<div align="center">
+<p float="left">
   <img width="33%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_20220405_200233.png" />
    <img width="33%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_20220405_200201.png" />
     <img alt="GIF" width="33%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/composemovie.gif" />
-</div>
+</p>
 
 # Main Features
 1. Movie list 
