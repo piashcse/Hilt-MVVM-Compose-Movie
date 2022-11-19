@@ -13,14 +13,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.piashcse.hilt_mvvm_compose_movie.R
-import com.piashcse.hilt_mvvm_compose_movie.navigation.NavigationScreen
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
 
 
 @Composable
 fun ExitAlertDialog(navController: NavController, cancel: (isOpen: Boolean) -> Unit,  ok: () -> Unit) {
     val openDialog = remember { mutableStateOf(true) }
-    if (currentRoute(navController = navController) == NavigationScreen.HOME && openDialog.value) {
+    if (currentRoute(navController = navController) == Screen.Home.route && openDialog.value) {
         AlertDialog(
             onDismissRequest = {
             },

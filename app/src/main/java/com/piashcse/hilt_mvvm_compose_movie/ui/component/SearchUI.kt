@@ -22,9 +22,9 @@ import coil.compose.rememberImagePainter
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
-import com.piashcse.hilt_mvvm_compose_movie.navigation.NavigationScreen
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.defaultBackgroundColor
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.secondaryFontColor
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 
 @Composable
@@ -35,7 +35,7 @@ fun SearchUI(navController:NavController, searchData: MutableState<DataState<Bas
             .heightIn(0.dp, 350.dp) // define max height
             .padding(start = 10.dp, end = 10.dp)
             .clip(RoundedCornerShape(bottomStart = 15.dp, bottomEnd = 15.dp))
-            .background(color = defaultBackgroundColor)
+            .background(color = DefaultBackgroundColor)
             .padding(top = 8.dp)
 
     ) {
@@ -47,7 +47,7 @@ fun SearchUI(navController:NavController, searchData: MutableState<DataState<Bas
                         .clickable {
                             itemClick.invoke()
                             navController.navigate(
-                                NavigationScreen.MovieDetail.MOVIE_DETAIL.plus(
+                                Screen.MovieDetail.route.plus(
                                     "/${item.id}"
                                 )
                             )
@@ -76,7 +76,7 @@ fun SearchUI(navController:NavController, searchData: MutableState<DataState<Bas
                             )
                             Text(
                                 text = "${stringResource(R.string.rating_search)}${item.voteAverage}",
-                                color = secondaryFontColor,
+                                color = SecondaryFontColor,
                                 fontSize = 10.sp,
                                 modifier = Modifier.padding(start = 8.dp)
                             )

@@ -19,7 +19,7 @@ import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.MainViewModel
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.blue
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.Blue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 
 @ExperimentalCoroutinesApi
@@ -37,9 +37,9 @@ fun SearchBar(isAppBarVisible:MutableState<Boolean>, viewModel: MainViewModel){
                 .focusRequester(focusRequester),
             value = text,
             colors = TextFieldDefaults.textFieldColors(
-                backgroundColor = blue,
+                backgroundColor = Blue,
                 cursorColor = Color.Black,
-                disabledLabelColor = blue,
+                disabledLabelColor = Blue,
                 focusedIndicatorColor = Color.Transparent,
                 unfocusedIndicatorColor = Color.Transparent
             ),

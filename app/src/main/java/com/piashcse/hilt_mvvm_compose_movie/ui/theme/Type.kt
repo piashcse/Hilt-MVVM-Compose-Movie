@@ -43,7 +43,7 @@ val Typography.subTitleSecondary: TextStyle
     get() {
         return TextStyle(
             fontFamily = FontFamily.Default,
-            color = secondaryFontColor,
+            color = SecondaryFontColor,
             fontSize = 10.sp,
         )
     }
@@ -53,7 +53,7 @@ val Typography.bioGrapyText: TextStyle
     get() {
         return TextStyle(
             fontFamily = FontFamily.Default,
-            color = secondaryFontColor,
+            color = SecondaryFontColor,
             fontSize = 14.sp,
         )
     }

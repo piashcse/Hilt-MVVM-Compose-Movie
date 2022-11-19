@@ -25,11 +25,11 @@ import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
-import com.piashcse.hilt_mvvm_compose_movie.navigation.NavigationScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Cast
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.SubtitlePrimary
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.SubtitleSecondary
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.*
@@ -55,7 +55,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
         modifier = Modifier
             .fillMaxSize()
             .background(
-                defaultBackgroundColor
+                DefaultBackgroundColor
             )
     ) {
         CircularIndeterminateProgressBar(isDisplayed = progressBar.value, 0.4f)
@@ -132,7 +132,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                         )
                         Text(
                             text = it.data.overview,
-                            color = secondaryFontColor,
+                            color = SecondaryFontColor,
                             fontSize = 13.sp,
                             modifier = Modifier.padding(bottom = 10.dp)
                         )
@@ -194,7 +194,7 @@ fun RecommendedMovie(navController: NavController?, recommendedMovie: List<Movie
                             .cornerRadius10()
                             .clickable {
                                 navController?.navigate(
-                                    NavigationScreen.MovieDetail.MOVIE_DETAIL.plus(
+                                    Screen.MovieDetail.route.plus(
                                         "/${item.id}"
                                     )
                                 )
@@ -238,7 +238,7 @@ fun ArtistAndCrew(navController: NavController?, cast: List<Cast>) {
                             .cornerRadius40()
                             .clickable {
                                 navController?.navigate(
-                                    NavigationScreen.ArtistDetail.ARTIST_DETAIL.plus(
+                                    Screen.ArtistDetail.route.plus(
                                         "/${item.id}"
                                     )
                                 )

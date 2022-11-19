@@ -14,18 +14,14 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
-import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigation
-import com.piashcse.hilt_mvvm_compose_movie.navigation.NavigationScreen
-import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
-import com.piashcse.hilt_mvvm_compose_movie.navigation.navigationTitle
+import com.piashcse.hilt_mvvm_compose_movie.navigation.*
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.appbar.AppBarWithArrow
-import com.piashcse.hilt_mvvm_compose_movie.ui.component.NavigationItem
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchUI
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.appbar.SearchBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.appbar.HomeAppBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.drawer.DrawerUI
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.floatingActionBackground
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FloatingActionBackground
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.ConnectionState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.connectivityState
@@ -53,89 +49,71 @@ fun MainScreen() {
         mainViewModel.genreList()
     }
 
-    Scaffold(
-        scaffoldState = scaffoldState,
-        topBar = {
-            when (currentRoute(navController)) {
-                NavigationScreen.HOME, NavigationScreen.POPULAR, NavigationScreen.TOP_RATED, NavigationScreen.UP_COMING, NavigationScreen.NAVIGATION_DRAWER -> {
-                    if (isAppBarVisible.value) {
-                        val appTitle: String =
-                            if (currentRoute(navController) == NavigationScreen.NAVIGATION_DRAWER)
-                                genreName.value
-                            else
-                                stringResource(R.string.app_title)
-                        HomeAppBar(
-                            title = appTitle,
-                            openDrawer = {
-                                scope.launch {
-                                    scaffoldState.drawerState.apply {
-                                        if (isClosed) open() else close()
-                                    }
-                                }
-                            },
-                            openFilters = {
-                                isAppBarVisible.value = false
+    Scaffold(scaffoldState = scaffoldState, topBar = {
+        when (currentRoute(navController)) {
+            Screen.Home.route, Screen.Popular.route, Screen.TopRated.route, Screen.Upcoming.route, Screen.NavigationDrawer.route -> {
+                if (isAppBarVisible.value) {
+                    val appTitle: String =
+                        if (currentRoute(navController) == Screen.NavigationDrawer.route) genreName.value
+                        else stringResource(R.string.app_title)
+                    HomeAppBar(title = appTitle, openDrawer = {
+                        scope.launch {
+                            scaffoldState.drawerState.apply {
+                                if (isClosed) open() else close()
                             }
-                        )
-                    } else {
-                        SearchBar(isAppBarVisible, mainViewModel)
-                    }
-                }
-                else -> {
-                    AppBarWithArrow(navigationTitle(navController)) {
-                        navController.popBackStack()
-                    }
+                        }
+                    }, openFilters = {
+                        isAppBarVisible.value = false
+                    })
+                } else {
+                    SearchBar(isAppBarVisible, mainViewModel)
                 }
             }
-        },
-        drawerContent = {
-            // Drawer content
-            if (genres is DataState.Success<Genres>) {
-                DrawerUI(navController, genres.data.genres) {
-                    genreName.value = it
-                    scope.launch {
-                        scaffoldState.drawerState.close()
-                    }
-                }
-            }
-        },
-        floatingActionButton = {
-            when (currentRoute(navController)) {
-                NavigationScreen.HOME, NavigationScreen.POPULAR, NavigationScreen.TOP_RATED, NavigationScreen.UP_COMING -> {
-                    FloatingActionButton(
-                        onClick = {
-                            isAppBarVisible.value = false
-                        },
-                        backgroundColor = floatingActionBackground
-                    ) {
-                        Icon(Icons.Filled.Search, "", tint = Color.White)
-                    }
-                }
-            }
-        },
-        bottomBar = {
-            when (currentRoute(navController)) {
-                NavigationScreen.HOME, NavigationScreen.POPULAR, NavigationScreen.TOP_RATED, NavigationScreen.UP_COMING -> {
-                    BottomNavigationUI(navController)
-                }
-            }
-        },
-        snackbarHost = {
-            if (isConnected.not()) {
-                Snackbar(
-                    action = {
-                    },
-                    modifier = Modifier
-                        .padding(8.dp)
-                ) {
-                    Text(text = stringResource(R.string.there_is_no_internet))
+            else -> {
+                AppBarWithArrow(navigationTitle(navController)) {
+                    navController.popBackStack()
                 }
             }
         }
-    ) {
+    }, drawerContent = {
+        // Drawer content
+        if (genres is DataState.Success<Genres>) {
+            DrawerUI(navController, genres.data.genres) {
+                genreName.value = it
+                scope.launch {
+                    scaffoldState.drawerState.close()
+                }
+            }
+        }
+    }, floatingActionButton = {
+        when (currentRoute(navController)) {
+            Screen.Home.route, Screen.Popular.route, Screen.TopRated.route, Screen.Upcoming.route -> {
+                FloatingActionButton(
+                    onClick = {
+                        isAppBarVisible.value = false
+                    }, backgroundColor = FloatingActionBackground
+                ) {
+                    Icon(Icons.Filled.Search, "", tint = Color.White)
+                }
+            }
+        }
+    }, bottomBar = {
+        when (currentRoute(navController)) {
+            Screen.Home.route, Screen.Popular.route, Screen.TopRated.route, Screen.Upcoming.route -> {
+                BottomNavigationUI(navController)
+            }
+        }
+    }, snackbarHost = {
+        if (isConnected.not()) {
+            Snackbar(
+                action = {}, modifier = Modifier.padding(8.dp)
+            ) {
+                Text(text = stringResource(R.string.there_is_no_internet))
+            }
+        }
+    }) {
         Box(
-            modifier = Modifier
-                .fillMaxWidth()
+            modifier = Modifier.fillMaxWidth()
         ) {
             Navigation(navController, Modifier.padding(it))
             Column {
@@ -158,16 +136,16 @@ fun MainScreen() {
 fun BottomNavigationUI(navController: NavController) {
     BottomNavigation {
         val items = listOf(
-            NavigationItem.Home,
-            NavigationItem.Popular,
-            NavigationItem.TopRated,
-            NavigationItem.Upcoming,
+            Screen.HomeNav,
+            Screen.PopularNav,
+            Screen.TopRatedNav,
+            Screen.UpcomingNav,
         )
         items.forEach { item ->
             BottomNavigationItem(
-                label = { Text(text = item.title) },
+                label = { Text(text = stringResource(id =  item.title)) },
                 selected = currentRoute(navController) == item.route,
-                icon = item.icon,
+                icon = item.navIcon,
                 selectedContentColor = Color.White,
                 unselectedContentColor = Color.White.copy(0.4f),
                 onClick = {

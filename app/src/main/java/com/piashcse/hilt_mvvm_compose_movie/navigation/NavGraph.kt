@@ -1,7 +1,6 @@
 package com.piashcse.hilt_mvvm_compose_movie.navigation
 
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -24,62 +23,58 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.upcoming
 
 @Composable
 fun Navigation(
-    navController: NavHostController,
-    modifier: Modifier
+    navController: NavHostController, modifier: Modifier
 ) {
-    NavHost(navController, startDestination = "home", modifier) {
-        composable(NavigationScreen.HOME) {
+    NavHost(navController, startDestination = Screen.Home.route, modifier) {
+        composable(Screen.Home.route) {
             NowPlaying(
                 navController = navController,
             )
         }
-        composable(NavigationScreen.LOGIN) {
+        composable(Screen.Login.route) {
             Login(
                 navController = navController
             )
         }
-        composable(NavigationScreen.POPULAR) {
+        composable(Screen.Popular.route) {
             Popular(
                 navController = navController
             )
         }
-        composable(NavigationScreen.TOP_RATED) {
+        composable(Screen.TopRated.route) {
             TopRated(
                 navController = navController
             )
         }
-        composable(NavigationScreen.UP_COMING) {
+        composable(Screen.Upcoming.route) {
             Upcoming(
                 navController = navController
             )
         }
         composable(
-            NavigationScreen.NAVIGATION_DRAWER_WITH_GENRE_ID,
-            arguments = listOf(navArgument(NavigationScreen.GENRE_ID) {
+            Screen.NavigationDrawer.route.plus(Screen.NavigationDrawer.objectPath),
+            arguments = listOf(navArgument(Screen.NavigationDrawer.objectName) {
                 type = NavType.StringType
             })
         ) { backStack ->
-            val genreId = backStack.arguments?.getString(NavigationScreen.GENRE_ID)
+            val genreId = backStack.arguments?.getString(Screen.NavigationDrawer.objectName)
             genreId?.let {
                 GenreScreen(
-                    navController = navController,
-                    genreId
+                    navController = navController, genreId
                 )
             }
         }
         composable(
-            NavigationScreen.MovieDetail.MOVIE_DETAIL.plus(NavigationScreen.MovieDetail.MOVIE_DETAIL_PATH),
-            arguments = listOf(navArgument(NavigationScreen.MovieDetail.MOVIE_ITEM) {
+            Screen.MovieDetail.route.plus(Screen.MovieDetail.objectPath),
+            arguments = listOf(navArgument(Screen.MovieDetail.objectName) {
                 type = NavType.IntType
             })
         ) {
             label = stringResource(R.string.movie_detail)
-            val movieId =
-                it.arguments?.getInt(NavigationScreen.MovieDetail.MOVIE_ITEM)
+            val movieId = it.arguments?.getInt(Screen.MovieDetail.objectName)
             if (movieId != null) {
                 MovieDetail(
-                    navController = navController,
-                    movieId
+                    navController = navController, movieId
                 )
             }
             /*movieItem?.fromPrettyJson<MovieItem>()
@@ -90,14 +85,13 @@ fun Navigation(
                 }*/
         }
         composable(
-            NavigationScreen.ArtistDetail.ARTIST_DETAIL.plus(NavigationScreen.ArtistDetail.ARTIST_DETAIL_PATH),
-            arguments = listOf(navArgument(NavigationScreen.ArtistDetail.ARTIST_ID) {
+            Screen.ArtistDetail.route.plus(Screen.ArtistDetail.objectPath),
+            arguments = listOf(navArgument(Screen.ArtistDetail.objectName) {
                 type = NavType.IntType
             })
         ) {
             label = stringResource(R.string.artist_detail)
-            val artistId =
-                it.arguments?.getInt(NavigationScreen.ArtistDetail.ARTIST_ID)
+            val artistId = it.arguments?.getInt(Screen.ArtistDetail.objectName)
             if (artistId != null) {
                 ArtistDetail(
                     artistId
@@ -110,9 +104,9 @@ fun Navigation(
 @Composable
 fun navigationTitle(navController: NavController): String {
     return when (currentRoute(navController)) {
-        NavigationScreen.MovieDetail.MOVIE_DETAIL -> stringResource(id = R.string.movie_detail)
-        NavigationScreen.ArtistDetail.ARTIST_DETAIL -> stringResource(id = R.string.artist_detail)
-        NavigationScreen.LOGIN -> stringResource(id = R.string.login)
+        Screen.MovieDetail.route -> stringResource(id = R.string.movie_detail)
+        Screen.ArtistDetail.route -> stringResource(id = R.string.artist_detail)
+        Screen.Login.route -> stringResource(id = R.string.login)
         else -> {
             ""
         }

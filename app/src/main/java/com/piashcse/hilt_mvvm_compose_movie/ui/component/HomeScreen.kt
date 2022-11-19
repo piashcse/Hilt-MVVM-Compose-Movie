@@ -19,10 +19,10 @@ import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
 import coil.compose.rememberImagePainter
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
-import com.piashcse.hilt_mvvm_compose_movie.navigation.NavigationScreen
 import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.defaultBackgroundColor
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius10
 import com.piashcse.hilt_mvvm_compose_movie.utils.items
 import com.piashcse.hilt_mvvm_compose_movie.utils.pagingLoadingState
@@ -30,60 +30,56 @@ import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun HomeScreen(
-    navController: NavController,
-    movies: Flow<PagingData<MovieItem>>
+    navController: NavController, movies: Flow<PagingData<MovieItem>>
 ) {
     val activity = (LocalContext.current as? Activity)
     val progressBar = remember { mutableStateOf(false) }
     val openDialog = remember { mutableStateOf(false) }
     val moviesItems: LazyPagingItems<MovieItem> = movies.collectAsLazyPagingItems()
 
-    BackHandler(enabled = (currentRoute(navController) == NavigationScreen.HOME)) {
+    BackHandler(enabled = (currentRoute(navController) == Screen.Home.route)) {
         // execute your custom logic here
         openDialog.value = true
     }
-    Column(modifier = Modifier.background(defaultBackgroundColor)) {
-        Column(modifier = Modifier.background(defaultBackgroundColor)) {
-            CircularIndeterminateProgressBar(isDisplayed = progressBar.value, 0.4f)
-            LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-                modifier = Modifier.padding(start = 5.dp, top = 5.dp, end = 5.dp),
-                content = {
-                    items(moviesItems) { item ->
-                        item?.let {
-                            MovieItemView(item, navController)
-                        }
+    Column(modifier = Modifier.background(DefaultBackgroundColor)) {
+        CircularIndeterminateProgressBar(isDisplayed = progressBar.value, 0.4f)
+        LazyVerticalGrid(columns = GridCells.Fixed(2),
+            modifier = Modifier.padding(start = 5.dp, top = 5.dp, end = 5.dp),
+            content = {
+                items(moviesItems) { item ->
+                    item?.let {
+                        MovieItemView(item, navController)
                     }
-                })
-
-        }
-        if (openDialog.value) {
-            ExitAlertDialog(navController, {
-                openDialog.value = it
-            }, {
-                activity?.finish()
+                }
             })
-        }
+
+    }
+    if (openDialog.value) {
+        ExitAlertDialog(navController, {
+            openDialog.value = it
+        }, {
+            activity?.finish()
+        })
+
     }
     moviesItems.pagingLoadingState {
         progressBar.value = it
     }
 }
 
+
 @Composable
 fun MovieItemView(item: MovieItem, navController: NavController) {
     Column(modifier = Modifier.padding(5.dp)) {
-        Image(
-            painter = rememberImagePainter(ApiURL.IMAGE_URL.plus(item.posterPath)),
+        Image(painter = rememberImagePainter(ApiURL.IMAGE_URL.plus(item.posterPath)),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .size(250.dp)
                 .cornerRadius10()
                 .clickable {
-                    navController.navigate(NavigationScreen.MovieDetail.MOVIE_DETAIL.plus("/${item.id}"))
-                }
-        )
+                    navController.navigate(Screen.MovieDetail.route.plus("/${item.id}"))
+                })
     }
 }
 

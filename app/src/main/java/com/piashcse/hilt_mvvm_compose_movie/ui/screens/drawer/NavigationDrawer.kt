@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
-import com.piashcse.hilt_mvvm_compose_movie.navigation.NavigationScreen
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
 
 @Composable
@@ -33,7 +33,7 @@ fun DrawerUI(
                 item = item,
                 selected = currentRoute(navController) == "",
                 onItemClick = {
-                    navController.navigate(NavigationScreen.NAVIGATION_DRAWER.plus("/${it.id}")) {
+                    navController.navigate(Screen.NavigationDrawer.route.plus("/${it.id}")) {
                        launchSingleTop = true
                     }
                     // Close drawer

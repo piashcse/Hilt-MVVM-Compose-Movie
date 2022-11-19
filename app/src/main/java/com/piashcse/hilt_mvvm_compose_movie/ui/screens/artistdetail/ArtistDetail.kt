@@ -23,8 +23,8 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminatePr
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.BioGraphyText
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius10
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.defaultBackgroundColor
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.secondaryFontColor
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.utils.genderInString
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.pagingLoadingState
@@ -42,7 +42,7 @@ fun ArtistDetail(personId: Int) {
         modifier = Modifier
             .fillMaxSize()
             .background(
-                defaultBackgroundColor
+                DefaultBackgroundColor
             )
             .padding(start = 8.dp, top = 8.dp, end = 8.dp)
     ) {
@@ -81,7 +81,7 @@ fun ArtistDetail(personId: Int) {
                 Text(
                     modifier = Modifier.padding(bottom = 8.dp),
                     text = stringResource(R.string.biography),
-                    color = secondaryFontColor,
+                    color = SecondaryFontColor,
                     fontSize = 22.sp,
                     fontWeight = FontWeight.Medium
                 )
@@ -102,7 +102,7 @@ fun PersonalInfo(title: String, info: String) {
     Column(modifier = Modifier.padding(start = 10.dp, bottom = 10.dp)) {
         Text(
             text = title,
-            color = secondaryFontColor,
+            color = SecondaryFontColor,
             fontSize = 13.sp,
             fontWeight = FontWeight.SemiBold
         )

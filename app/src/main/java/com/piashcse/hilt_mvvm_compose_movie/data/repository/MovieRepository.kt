@@ -17,18 +17,6 @@ import javax.inject.Inject
 class MovieRepository @Inject constructor(
     private val apiService: ApiService
 ) {
-
-    suspend fun movieList(page: Int): Flow<DataState<BaseModel>> = flow {
-        emit(DataState.Loading)
-        try {
-            val searchResult = apiService.nowPlayingMovieList(page)
-            emit(DataState.Success(searchResult))
-
-        } catch (e: Exception) {
-            emit(DataState.Error(e))
-        }
-    }
-
     suspend fun movieDetail(movieId: Int): Flow<DataState<MovieDetail>> = flow {
         emit(DataState.Loading)
         try {
@@ -67,17 +55,6 @@ class MovieRepository @Inject constructor(
         emit(DataState.Loading)
         try {
             val genreResult = apiService.genreList()
-            emit(DataState.Success(genreResult))
-
-        } catch (e: Exception) {
-            emit(DataState.Error(e))
-        }
-    }
-
-    suspend fun moviesByGenreId(page: Int, genreId: String): Flow<DataState<BaseModel>> = flow {
-        emit(DataState.Loading)
-        try {
-            val genreResult = apiService.moviesByGenre(page, genreId)
             emit(DataState.Success(genreResult))
 
         } catch (e: Exception) {
