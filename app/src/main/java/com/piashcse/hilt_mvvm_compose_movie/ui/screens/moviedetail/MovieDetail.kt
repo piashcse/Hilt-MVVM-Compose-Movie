@@ -20,6 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.rememberAsyncImagePainter
 import coil.compose.rememberImagePainter
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
@@ -63,7 +64,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
             if (it is DataState.Success<MovieDetail>) {
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                     Image(
-                        painter = rememberImagePainter(ApiURL.IMAGE_URL.plus(it.data.poster_path)),
+                        painter = rememberAsyncImagePainter(ApiURL.IMAGE_URL.plus(it.data.poster_path)),
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier
@@ -185,7 +186,7 @@ fun RecommendedMovie(navController: NavController?, recommendedMovie: List<Movie
                     )
                 ) {
                     Image(
-                        painter = rememberImagePainter(ApiURL.IMAGE_URL.plus(item.posterPath)),
+                        painter = rememberAsyncImagePainter(ApiURL.IMAGE_URL.plus(item.posterPath)),
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier
@@ -228,7 +229,7 @@ fun ArtistAndCrew(navController: NavController?, cast: List<Cast>) {
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
                     Image(
-                        painter = rememberImagePainter(ApiURL.IMAGE_URL.plus(item.profilePath)),
+                        painter = rememberAsyncImagePainter(ApiURL.IMAGE_URL.plus(item.profilePath)),
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier

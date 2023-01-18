@@ -15,7 +15,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail
@@ -52,7 +52,7 @@ fun ArtistDetail(personId: Int) {
             if (it is DataState.Success<ArtistDetail>) {
                 Row() {
                     Image(
-                        painter = rememberImagePainter(ApiURL.IMAGE_URL.plus(it.data.profilePath)),
+                        painter = rememberAsyncImagePainter(ApiURL.IMAGE_URL.plus(it.data.profilePath)),
                         contentDescription = null,
                         contentScale = ContentScale.FillBounds,
                         modifier = Modifier

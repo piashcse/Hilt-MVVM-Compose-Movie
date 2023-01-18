@@ -17,7 +17,7 @@ import androidx.navigation.NavController
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
@@ -71,7 +71,7 @@ fun HomeScreen(
 @Composable
 fun MovieItemView(item: MovieItem, navController: NavController) {
     Column(modifier = Modifier.padding(5.dp)) {
-        Image(painter = rememberImagePainter(ApiURL.IMAGE_URL.plus(item.posterPath)),
+        Image(painter = rememberAsyncImagePainter(ApiURL.IMAGE_URL.plus(item.posterPath)),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier

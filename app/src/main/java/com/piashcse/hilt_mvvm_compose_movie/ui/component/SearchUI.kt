@@ -18,7 +18,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import coil.compose.rememberImagePainter
+import coil.compose.rememberAsyncImagePainter
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
@@ -53,7 +53,7 @@ fun SearchUI(navController:NavController, searchData: MutableState<DataState<Bas
                             )
                         }) {
                         Image(
-                            painter = rememberImagePainter(
+                            painter = rememberAsyncImagePainter(
                                 ApiURL.IMAGE_URL.plus(
                                     item.backdropPath
                                 )
