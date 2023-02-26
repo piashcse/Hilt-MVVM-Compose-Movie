@@ -2,13 +2,13 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.component
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
@@ -17,15 +17,18 @@ import androidx.navigation.NavController
 import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import coil.compose.rememberAsyncImagePainter
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius10
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
 import com.piashcse.hilt_mvvm_compose_movie.utils.items
 import com.piashcse.hilt_mvvm_compose_movie.utils.pagingLoadingState
+import com.skydoves.landscapist.ImageOptions
+import com.skydoves.landscapist.animation.circular.CircularRevealPlugin
+import com.skydoves.landscapist.coil.CoilImage
+import com.skydoves.landscapist.components.rememberImageComponent
 import kotlinx.coroutines.flow.Flow
 
 @Composable
@@ -71,15 +74,26 @@ fun HomeScreen(
 @Composable
 fun MovieItemView(item: MovieItem, navController: NavController) {
     Column(modifier = Modifier.padding(5.dp)) {
-        Image(painter = rememberAsyncImagePainter(ApiURL.IMAGE_URL.plus(item.posterPath)),
-            contentDescription = null,
-            contentScale = ContentScale.Crop,
+        CoilImage(
             modifier = Modifier
                 .size(250.dp)
-                .cornerRadius10()
+                .cornerRadius(10)
                 .clickable {
                     navController.navigate(Screen.MovieDetail.route.plus("/${item.id}"))
-                })
+                },
+            imageModel = { ApiURL.IMAGE_URL.plus(item.posterPath) },
+            imageOptions = ImageOptions(
+                contentScale = ContentScale.Crop,
+                alignment = Alignment.Center,
+                contentDescription = "Movie item",
+                colorFilter = null,
+            ),
+            component = rememberImageComponent {
+                +CircularRevealPlugin(
+                    duration = 800
+                )
+            },
+        )
     }
 }
 

@@ -20,8 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.compose.rememberAsyncImagePainter
-import coil.compose.rememberImagePainter
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
@@ -37,6 +35,10 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.*
 import com.piashcse.hilt_mvvm_compose_movie.utils.hourMinutes
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.pagingLoadingState
+import com.skydoves.landscapist.ImageOptions
+import com.skydoves.landscapist.animation.circular.CircularRevealPlugin
+import com.skydoves.landscapist.coil.CoilImage
+import com.skydoves.landscapist.components.rememberImageComponent
 
 @Composable
 fun MovieDetail(navController: NavController, movieId: Int) {
@@ -63,14 +65,22 @@ fun MovieDetail(navController: NavController, movieId: Int) {
         movieDetail.value?.let { it ->
             if (it is DataState.Success<MovieDetail>) {
                 Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                    Image(
-                        painter = rememberAsyncImagePainter(ApiURL.IMAGE_URL.plus(it.data.poster_path)),
-                        contentDescription = null,
-                        contentScale = ContentScale.FillBounds,
+                    CoilImage(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(300.dp)
-                        //.clip(RoundedCornerShape(bottomStart = 20.dp, bottomEnd = 20.dp))
+                            .height(300.dp),
+                        imageModel = {ApiURL.IMAGE_URL.plus(it.data.poster_path)},
+                        imageOptions = ImageOptions(
+                            contentScale = ContentScale.Crop,
+                            alignment = Alignment.Center,
+                            contentDescription = "Movie detail",
+                            colorFilter = null,
+                        ),
+                        component = rememberImageComponent {
+                            +CircularRevealPlugin(
+                                duration = 800
+                            )
+                        },
                     )
                     Column(
                         modifier = Modifier
@@ -179,27 +189,34 @@ fun RecommendedMovie(navController: NavController?, recommendedMovie: List<Movie
             items(recommendedMovie, itemContent = { item ->
                 Column(
                     modifier = Modifier.padding(
-                        start = 0.dp,
-                        end = 8.dp,
-                        top = 5.dp,
-                        bottom = 5.dp
+                        start = 0.dp, end = 8.dp, top = 5.dp, bottom = 5.dp
                     )
                 ) {
-                    Image(
-                        painter = rememberAsyncImagePainter(ApiURL.IMAGE_URL.plus(item.posterPath)),
-                        contentDescription = null,
-                        contentScale = ContentScale.FillBounds,
+                    CoilImage(
                         modifier = Modifier
                             .height(190.dp)
                             .width(140.dp)
-                            .cornerRadius10()
+                            .cornerRadius(10)
                             .clickable {
                                 navController?.navigate(
                                     Screen.MovieDetail.route.plus(
                                         "/${item.id}"
                                     )
                                 )
-                            }
+                            },
+                        imageModel = { ApiURL.IMAGE_URL.plus(item.posterPath) },
+                        imageOptions = ImageOptions(
+                            contentScale = ContentScale.Crop,
+                            alignment = Alignment.Center,
+                            contentDescription = "similar movie",
+                            colorFilter = null,
+                        ),
+                        component = rememberImageComponent {
+                            // shows a shimmering effect when loading an image.
+                            +CircularRevealPlugin(
+                                duration = 800
+                            )
+                        },
                     )
                 }
             })
@@ -220,30 +237,36 @@ fun ArtistAndCrew(navController: NavController?, cast: List<Cast>) {
             items(cast, itemContent = { item ->
                 Column(
                     modifier = Modifier.padding(
-                        start = 0.dp,
-                        end = 10.dp,
-                        top = 5.dp,
-                        bottom = 5.dp
+                        start = 0.dp, end = 10.dp, top = 5.dp, bottom = 5.dp
                     ),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
-                    Image(
-                        painter = rememberAsyncImagePainter(ApiURL.IMAGE_URL.plus(item.profilePath)),
-                        contentDescription = null,
-                        contentScale = ContentScale.FillBounds,
+                    CoilImage(
                         modifier = Modifier
                             .padding(bottom = 5.dp)
                             .height(80.dp)
                             .width(80.dp)
-                            .cornerRadius40()
+                            .cornerRadius(40)
                             .clickable {
                                 navController?.navigate(
                                     Screen.ArtistDetail.route.plus(
                                         "/${item.id}"
                                     )
                                 )
-                            }
+                            },
+                        imageModel = { ApiURL.IMAGE_URL.plus(item.profilePath) },
+                        imageOptions = ImageOptions(
+                            contentScale = ContentScale.Crop,
+                            alignment = Alignment.Center,
+                            contentDescription = "artist and crew",
+                            colorFilter = null,
+                        ),
+                        component = rememberImageComponent {
+                            +CircularRevealPlugin(
+                                duration = 800
+                            )
+                        },
                     )
                     SubtitleSecondary(text = item.name)
                 }

@@ -1,6 +1,5 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.screens.artistdetail
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Text
@@ -8,6 +7,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
@@ -15,19 +15,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.BioGraphyText
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius10
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.*
 import com.piashcse.hilt_mvvm_compose_movie.utils.genderInString
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.pagingLoadingState
+import com.skydoves.landscapist.ImageOptions
+import com.skydoves.landscapist.animation.circular.CircularRevealPlugin
+import com.skydoves.landscapist.coil.CoilImage
+import com.skydoves.landscapist.components.rememberImageComponent
 
 @Composable
 fun ArtistDetail(personId: Int) {
@@ -50,16 +50,25 @@ fun ArtistDetail(personId: Int) {
 
         artistDetail.value.let {
             if (it is DataState.Success<ArtistDetail>) {
-                Row() {
-                    Image(
-                        painter = rememberAsyncImagePainter(ApiURL.IMAGE_URL.plus(it.data.profilePath)),
-                        contentDescription = null,
-                        contentScale = ContentScale.FillBounds,
+                Row {
+                    CoilImage(
                         modifier = Modifier
                             .padding(bottom = 8.dp)
                             .height(250.dp)
                             .width(190.dp)
-                            .cornerRadius10()
+                            .cornerRadius(10),
+                        imageModel = { ApiURL.IMAGE_URL.plus(it.data.profilePath) },
+                        imageOptions = ImageOptions(
+                            contentScale = ContentScale.Crop,
+                            alignment = Alignment.Center,
+                            contentDescription = "artist image",
+                            colorFilter = null,
+                        ),
+                        component = rememberImageComponent {
+                            +CircularRevealPlugin(
+                                duration = 800
+                            )
+                        },
                     )
                     Column {
                         Text(
@@ -71,8 +80,7 @@ fun ArtistDetail(personId: Int) {
                         )
                         PersonalInfo(stringResource(R.string.know_for), it.data.knownForDepartment)
                         PersonalInfo(
-                            stringResource(R.string.gender),
-                            it.data.gender.genderInString()
+                            stringResource(R.string.gender), it.data.gender.genderInString()
                         )
                         PersonalInfo(stringResource(R.string.birth_day), it.data.birthday)
                         PersonalInfo(stringResource(R.string.place_of_birth), it.data.placeOfBirth)
@@ -107,9 +115,7 @@ fun PersonalInfo(title: String, info: String) {
             fontWeight = FontWeight.SemiBold
         )
         Text(
-            text = info,
-            color = FontColor,
-            fontSize = 16.sp
+            text = info, color = FontColor, fontSize = 16.sp
         )
     }
 }

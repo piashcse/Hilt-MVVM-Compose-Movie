@@ -1,6 +1,5 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -10,6 +9,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
@@ -18,14 +18,19 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import coil.compose.rememberAsyncImagePainter
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
+import com.skydoves.landscapist.ImageOptions
+import com.skydoves.landscapist.animation.circular.CircularRevealPlugin
+import com.skydoves.landscapist.coil.CoilImage
+import com.skydoves.landscapist.components.rememberImageComponent
 
 @Composable
 fun SearchUI(navController:NavController, searchData: MutableState<DataState<BaseModel>?>, itemClick:()->Unit) {
@@ -52,18 +57,22 @@ fun SearchUI(navController:NavController, searchData: MutableState<DataState<Bas
                                 )
                             )
                         }) {
-                        Image(
-                            painter = rememberAsyncImagePainter(
-                                ApiURL.IMAGE_URL.plus(
-                                    item.backdropPath
-                                )
-                            ),
-                            contentDescription = null,
-                            contentScale = ContentScale.Crop,
+                        CoilImage(
                             modifier = Modifier
-                                .height(60.dp)
-                                .width(40.dp)
-                            // .clip(RoundedCornerShape(10.dp))
+                                .height(100.dp)
+                                .width(80.dp).cornerRadius(8),
+                            imageModel = {  ApiURL.IMAGE_URL.plus(item.backdropPath) },
+                            imageOptions = ImageOptions(
+                                contentScale = ContentScale.Crop,
+                                alignment = Alignment.Center,
+                                contentDescription = "search item",
+                                colorFilter = null,
+                            ),
+                            component = rememberImageComponent {
+                                +CircularRevealPlugin(
+                                    duration = 800
+                                )
+                            },
                         )
                         Column {
                             Text(
@@ -75,9 +84,15 @@ fun SearchUI(navController:NavController, searchData: MutableState<DataState<Bas
                                 fontWeight = FontWeight.SemiBold
                             )
                             Text(
-                                text = "${stringResource(R.string.rating_search)}${item.voteAverage}",
+                                text = item.title,
+                                color = FontColor,
+                                fontSize = 16.sp,
+                                modifier = Modifier.padding(start = 8.dp)
+                            )
+                            Text(
+                                text = "${stringResource(R.string.rating_search)} ${item.voteAverage}",
                                 color = SecondaryFontColor,
-                                fontSize = 10.sp,
+                                fontSize = 12.sp,
                                 modifier = Modifier.padding(start = 8.dp)
                             )
                         }

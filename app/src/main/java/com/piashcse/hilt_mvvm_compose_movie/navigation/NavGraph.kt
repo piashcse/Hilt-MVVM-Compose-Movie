@@ -13,7 +13,6 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.genre.GenreScreen
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.Login
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.artistdetail.ArtistDetail
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.nowplaying.NowPlaying
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.moviedetail.MovieDetail
@@ -29,11 +28,6 @@ fun Navigation(
         composable(Screen.Home.route) {
             NowPlaying(
                 navController = navController,
-            )
-        }
-        composable(Screen.Login.route) {
-            Login(
-                navController = navController
             )
         }
         composable(Screen.Popular.route) {
