@@ -10,7 +10,6 @@ Movie World app using [The Movie DB](https://www.themoviedb.org) built with Kotl
   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_20220420_022455.png" />
   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_20220420_022546.png" />
   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_20220420_021842.png" />
-  &nbsp; &nbsp; &nbsp;<img width="23%" height="30%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/composemovie.gif" />
 </p>
 
 # Main Features
@@ -27,6 +26,9 @@ Movie World app using [The Movie DB](https://www.themoviedb.org) built with Kotl
   - MVVM Architecture (Composable View - ViewModel - Model)
   - Repository pattern
   - Hilt - dependency injection
+ <p align="center" width="100%">
+   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/composemovie.gif" />
+ </p>
 
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
