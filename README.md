@@ -3,14 +3,14 @@
 [![Build Status](https://travis-ci.org/skydoves/TheMovies2.svg?branch=master)](https://travis-ci.org/piashcse/Hilt-MVVM-Compose-Movie)
 <a href="https://github.com/piashcse"><img alt="License" src="https://img.shields.io/static/v1?label=GitHub&message=piashcse&color=C51162"/></a>
 
-Movie app using [The Movie DB](https://www.themoviedb.org) built with Kotlin MVVM architecture and Compose.<br>
+Movie World app using [The Movie DB](https://www.themoviedb.org) built with Kotlin MVVM architecture and Compose.<br>
 
 
 <p float="left">
   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_20220420_022455.png" />
   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_20220420_022546.png" />
   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_20220420_021842.png" />
-  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/composemovie.gif" />
+  &nbsp; &nbsp; &nbsp;<img width="23%" height="30%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/composemovie.gif" />
 </p>
 
 # Main Features
