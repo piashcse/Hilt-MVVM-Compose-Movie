@@ -2,6 +2,8 @@ package com.piashcse.hilt_mvvm_compose_movie.utils
 
 import okhttp3.ResponseBody
 import org.json.JSONObject
+import kotlin.math.pow
+import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.minutes
 
 fun ResponseBody.jsonData(): JSONObject {
@@ -18,4 +20,9 @@ fun Int.genderInString(): String {
         2 -> "Male"
         else -> ""
     }
+}
+
+fun Double.roundTo(numFractionDigits: Int): Double {
+    val factor = 10.0.pow(numFractionDigits.toDouble())
+    return (this * factor).roundToInt() / factor
 }

@@ -5,10 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -29,12 +26,14 @@ import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Cast
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.ExpandingText
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.SubtitlePrimary
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.SubtitleSecondary
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.*
 import com.piashcse.hilt_mvvm_compose_movie.utils.hourMinutes
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.pagingLoadingState
+import com.piashcse.hilt_mvvm_compose_movie.utils.roundTo
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.animation.circular.CircularRevealPlugin
 import com.skydoves.landscapist.coil.CoilImage
@@ -85,7 +84,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                     Column(
                         modifier = Modifier
                             .fillMaxSize()
-                            .padding(start = 15.dp, end = 15.dp)
+                            .padding(start = 10.dp, end = 10.dp)
                     ) {
                         Text(
                             text = it.data.title,
@@ -112,7 +111,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                             }
                             Column(Modifier.weight(1f)) {
                                 SubtitlePrimary(
-                                    text = it.data.vote_average.toString(),
+                                    text = it.data.vote_average.roundTo(1).toString(),
                                 )
                                 SubtitleSecondary(
                                     text = stringResource(R.string.rating)
@@ -141,12 +140,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                             fontSize = 17.sp,
                             fontWeight = FontWeight.SemiBold
                         )
-                        Text(
-                            text = it.data.overview,
-                            color = SecondaryFontColor,
-                            fontSize = 13.sp,
-                            modifier = Modifier.padding(bottom = 10.dp)
-                        )
+                        ExpandingText(text = it.data.overview)
                         recommendedMovie.value?.let {
                             if (it is DataState.Success<BaseModel>) {
                                 RecommendedMovie(navController, it.data.results)

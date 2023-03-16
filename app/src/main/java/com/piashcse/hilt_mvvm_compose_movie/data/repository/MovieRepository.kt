@@ -84,23 +84,23 @@ class MovieRepository @Inject constructor(
         }
     }
 
-    fun nowPlayingPagingDataSource() = Pager(
-        pagingSourceFactory = { NowPlayingPagingDataSource(apiService) },
+    fun nowPlayingPagingDataSource(genreId: String?) = Pager(
+        pagingSourceFactory = { NowPlayingPagingDataSource(apiService, genreId) },
         config = PagingConfig(pageSize = 1)
     ).flow
 
-    fun popularPagingDataSource() = Pager(
-        pagingSourceFactory = { PopularPagingDataSource(apiService) },
+    fun popularPagingDataSource(genreId: String?) = Pager(
+        pagingSourceFactory = { PopularPagingDataSource(apiService, genreId) },
         config = PagingConfig(pageSize = 1)
     ).flow
 
-    fun topRatedPagingDataSource() = Pager(
-        pagingSourceFactory = { TopRatedPagingDataSource(apiService) },
+    fun topRatedPagingDataSource(genreId: String?) = Pager(
+        pagingSourceFactory = { TopRatedPagingDataSource(apiService, genreId) },
         config = PagingConfig(pageSize = 1)
     ).flow
 
-    fun upcomingPagingDataSource() = Pager(
-        pagingSourceFactory = { UpcomingPagingDataSource(apiService) },
+    fun upcomingPagingDataSource(genreId: String?) = Pager(
+        pagingSourceFactory = { UpcomingPagingDataSource(apiService, genreId) },
         config = PagingConfig(pageSize = 1)
     ).flow
 

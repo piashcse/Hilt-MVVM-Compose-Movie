@@ -27,10 +27,12 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
+import com.piashcse.hilt_mvvm_compose_movie.utils.roundTo
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.animation.circular.CircularRevealPlugin
 import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
+import kotlin.math.roundToInt
 
 @Composable
 fun SearchUI(navController:NavController, searchData: MutableState<DataState<BaseModel>?>, itemClick:()->Unit) {
@@ -38,7 +40,6 @@ fun SearchUI(navController:NavController, searchData: MutableState<DataState<Bas
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(0.dp, 350.dp) // define max height
-            .padding(start = 10.dp, end = 10.dp)
             .clip(RoundedCornerShape(bottomStart = 15.dp, bottomEnd = 15.dp))
             .background(color = DefaultBackgroundColor)
             .padding(top = 8.dp)
@@ -48,7 +49,7 @@ fun SearchUI(navController:NavController, searchData: MutableState<DataState<Bas
             if (it is DataState.Success<BaseModel>) {
                 items(items = it.data.results, itemContent = { item ->
                     Row(modifier = Modifier
-                        .padding(bottom = 8.dp)
+                        .padding(bottom = 8.dp, start = 8.dp , end = 8.dp)
                         .clickable {
                             itemClick.invoke()
                             navController.navigate(
@@ -84,13 +85,13 @@ fun SearchUI(navController:NavController, searchData: MutableState<DataState<Bas
                                 fontWeight = FontWeight.SemiBold
                             )
                             Text(
-                                text = item.title,
+                                text = item.releaseDate,
                                 color = FontColor,
                                 fontSize = 16.sp,
                                 modifier = Modifier.padding(start = 8.dp)
                             )
                             Text(
-                                text = "${stringResource(R.string.rating_search)} ${item.voteAverage}",
+                                text = "${stringResource(R.string.rating_search)} ${item.voteAverage.roundTo(1)}",
                                 color = SecondaryFontColor,
                                 fontSize = 12.sp,
                                 modifier = Modifier.padding(start = 8.dp)

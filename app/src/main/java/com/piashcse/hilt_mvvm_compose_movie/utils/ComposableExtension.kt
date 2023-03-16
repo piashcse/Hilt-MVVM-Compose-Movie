@@ -4,6 +4,7 @@ import androidx.compose.foundation.lazy.grid.LazyGridItemScope
 import androidx.compose.foundation.lazy.grid.LazyGridScope
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
+import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
@@ -55,5 +56,13 @@ fun <T : Any> MutableState<DataState<T>?>.pagingLoadingState(isLoaded: (pagingSt
         else -> {
 
         }
+    }
+}
+
+fun Modifier.conditional(condition : Boolean, modifier : Modifier.() -> Modifier) : Modifier {
+    return if (condition) {
+        then(modifier(Modifier))
+    } else {
+        this
     }
 }

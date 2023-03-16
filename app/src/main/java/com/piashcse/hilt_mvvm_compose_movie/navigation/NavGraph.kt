@@ -12,6 +12,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.piashcse.hilt_mvvm_compose_movie.R
+import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
+import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.genre.GenreScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.artistdetail.ArtistDetail
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.nowplaying.NowPlaying
@@ -19,30 +21,35 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.screens.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.popular.Popular
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.toprated.TopRated
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.upcoming.Upcoming
+import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 
 @Composable
 fun Navigation(
-    navController: NavHostController, modifier: Modifier
+    navController: NavHostController, modifier: Modifier,  genres: ArrayList<Genre>? = null,
 ) {
     NavHost(navController, startDestination = Screen.Home.route, modifier) {
         composable(Screen.Home.route) {
             NowPlaying(
                 navController = navController,
+                genres
             )
         }
         composable(Screen.Popular.route) {
             Popular(
-                navController = navController
+                navController = navController,
+                genres
             )
         }
         composable(Screen.TopRated.route) {
             TopRated(
-                navController = navController
+                navController = navController,
+                genres
             )
         }
         composable(Screen.Upcoming.route) {
             Upcoming(
-                navController = navController
+                navController = navController,
+                genres
             )
         }
         composable(
@@ -71,12 +78,6 @@ fun Navigation(
                     navController = navController, movieId
                 )
             }
-            /*movieItem?.fromPrettyJson<MovieItem>()
-                ?.let { movieObject ->
-                    MovieDetail(
-                        movieObject
-                    )
-                }*/
         }
         composable(
             Screen.ArtistDetail.route.plus(Screen.ArtistDetail.objectPath),
@@ -86,7 +87,7 @@ fun Navigation(
         ) {
             label = stringResource(R.string.artist_detail)
             val artistId = it.arguments?.getInt(Screen.ArtistDetail.objectName)
-            if (artistId != null) {
+            artistId?.let {
                 ArtistDetail(
                     artistId
                 )

@@ -37,7 +37,6 @@ fun ArtistDetail(personId: Int) {
     LaunchedEffect(true) {
         artistDetailViewModel.artistDetail(personId)
     }
-
     Column(
         modifier = Modifier
             .fillMaxSize()

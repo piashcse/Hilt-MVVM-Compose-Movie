@@ -14,6 +14,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
+import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.navigation.*
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.appbar.AppBarWithArrow
@@ -22,6 +23,7 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.component.appbar.SearchBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.appbar.HomeAppBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.drawer.DrawerUI
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FloatingActionBackground
+import com.piashcse.hilt_mvvm_compose_movie.utils.AppConstant
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.ConnectionState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.connectivityState
@@ -38,15 +40,22 @@ fun MainScreen() {
     val isAppBarVisible = remember { mutableStateOf(true) }
     val searchProgressBar = remember { mutableStateOf(false) }
     val genreName = remember { mutableStateOf("") }
-    // genre list for navigation drawer
-    val genres = mainViewModel.genres.value
+    val genreList = remember { mutableStateOf(arrayListOf<Genre>()) }
     // internet connection
     val connection by connectivityState()
     val isConnected = connection === ConnectionState.Available
 
     // genre api call for first time
-    LaunchedEffect(true) {
+    LaunchedEffect(key1 = 0) {
         mainViewModel.genreList()
+    }
+
+    if (mainViewModel.genres.value is DataState.Success<Genres>) {
+        genreList.value =
+            (mainViewModel.genres.value as DataState.Success<Genres>).data.genres as ArrayList
+        // All first value as all
+        if (genreList.value.first().name != AppConstant.DEFAULT_GENRE_ITEM)
+            genreList.value.add(0, Genre(null, AppConstant.DEFAULT_GENRE_ITEM))
     }
 
     Scaffold(scaffoldState = scaffoldState, topBar = {
@@ -77,12 +86,10 @@ fun MainScreen() {
         }
     }, drawerContent = {
         // Drawer content
-        if (genres is DataState.Success<Genres>) {
-            DrawerUI(navController, genres.data.genres) {
-                genreName.value = it
-                scope.launch {
-                    scaffoldState.drawerState.close()
-                }
+        DrawerUI(navController, genreList.value as List<Genre>) {
+            genreName.value = it
+            scope.launch {
+                scaffoldState.drawerState.close()
             }
         }
     }, floatingActionButton = {
@@ -115,7 +122,7 @@ fun MainScreen() {
         Box(
             modifier = Modifier.fillMaxWidth()
         ) {
-            Navigation(navController, Modifier.padding(it))
+            Navigation(navController, Modifier.padding(it), genreList.value)
             Column {
                 CircularIndeterminateProgressBar(isDisplayed = searchProgressBar.value, 0.1f)
                 if (isAppBarVisible.value.not()) {
@@ -143,7 +150,7 @@ fun BottomNavigationUI(navController: NavController) {
         )
         items.forEach { item ->
             BottomNavigationItem(
-                label = { Text(text = stringResource(id =  item.title)) },
+                label = { Text(text = stringResource(id = item.title)) },
                 selected = currentRoute(navController) == item.route,
                 icon = item.navIcon,
                 selectedContentColor = Color.White,

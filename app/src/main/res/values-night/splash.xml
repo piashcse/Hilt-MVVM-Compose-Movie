@@ -2,7 +2,7 @@
 <resources>
     <style name="Theme.splashScreenTheme" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/black</item>
-        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_baseline_architecture_24</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
         <item name="postSplashScreenTheme">@style/Theme.HiltMVVMComposeMovie.NoActionBar</item>
     </style>
 </resources>
