@@ -12,8 +12,8 @@ android {
         applicationId "com.piashcse.hilt_mvvm_compose_movie"
         minSdk 21
         targetSdk 33
-        versionCode 1
-        versionName "1.0"
+        versionCode 20
+        versionName "1.2.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -90,7 +90,7 @@ dependencies {
     implementation "androidx.paging:paging-compose:1.0.0-alpha18"
 
     // coil with animation
-    def landscapist_version = "2.1.7"
+    def landscapist_version = "2.1.8"
     implementation "com.github.skydoves:landscapist-coil:$landscapist_version"
     implementation "com.github.skydoves:landscapist-placeholder:$landscapist_version"
     implementation "com.github.skydoves:landscapist-animation:$landscapist_version"
