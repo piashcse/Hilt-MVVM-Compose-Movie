@@ -1,9 +1,9 @@
 # Movie World  
+![badge-Android](https://img.shields.io/badge/Platform-Android-brightgreen)
 [![API](https://img.shields.io/badge/API-21%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=21)
-[![Build Status](https://travis-ci.org/skydoves/TheMovies2.svg?branch=master)](https://travis-ci.org/piashcse/Hilt-MVVM-Compose-Movie)
 <a href="https://github.com/piashcse"><img alt="License" src="https://img.shields.io/static/v1?label=GitHub&message=piashcse&color=C51162"/></a>
 
-Movie World app using [The Movie DB](https://www.themoviedb.org) built with Kotlin MVVM architecture and Compose.<br>
+Movie World app using [The Movie DB](https://www.themoviedb.org) built with jetpack Compose and MVVM architecture.<br>
 
 
 <p float="left">
@@ -13,14 +13,15 @@ Movie World app using [The Movie DB](https://www.themoviedb.org) built with Kotl
 </p>
 
 # Main Features
-1. Movie list 
-2. Pagination with paging3
-3. Movie detail
-4. Artist info and artist detail
-5. Bottom navigation
-6. Search filter for movie
-7. Genre movie in navigation drawer
-8. Network connection state with SnackBar
+- Movie List 
+- Filter with genre 
+- Pagination with paging3
+- Movie detail
+- Artist info and artist detail
+- Bottom navigation
+- Search filter for movie
+- Genre movie in navigation drawer
+- Network connection state with SnackBar
 
 ## Architecture
   - MVVM Architecture (Composable View - ViewModel - Model)
