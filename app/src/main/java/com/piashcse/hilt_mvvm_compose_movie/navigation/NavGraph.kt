@@ -73,7 +73,7 @@ fun Navigation(
         ) {
             label = stringResource(R.string.movie_detail)
             val movieId = it.arguments?.getInt(Screen.MovieDetail.objectName)
-            if (movieId != null) {
+            movieId?.let {
                 MovieDetail(
                     navController = navController, movieId
                 )

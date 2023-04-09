@@ -84,8 +84,18 @@ fun ArtistDetail(personId: Int) {
                         PersonalInfo(
                             stringResource(R.string.gender), it.data.gender.genderInString()
                         )
-                        PersonalInfo(stringResource(R.string.birth_day), it.data.birthday)
-                        PersonalInfo(stringResource(R.string.place_of_birth), it.data.placeOfBirth)
+                        it.data.birthday?.let { birthday ->
+                            PersonalInfo(
+                                stringResource(R.string.birth_day),
+                                birthday
+                            )
+                        }
+                        it.data.placeOfBirth?.let { birthPlace ->
+                            PersonalInfo(
+                                stringResource(R.string.place_of_birth),
+                                birthPlace
+                            )
+                        }
                     }
                 }
                 Text(
