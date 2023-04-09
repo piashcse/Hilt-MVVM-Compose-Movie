@@ -24,7 +24,7 @@ Movie World app using [The Movie DB](https://www.themoviedb.org) built with jetp
 - Network connection state with SnackBar
 
 ## Architecture
-  - MVVM Architecture (Composable View - ViewModel - Model)
+  - MVVM Architecture (Model - ComposableView - ViewModel)
   - Repository pattern
   - Hilt - dependency injection
  <p align="center" width="100%">
