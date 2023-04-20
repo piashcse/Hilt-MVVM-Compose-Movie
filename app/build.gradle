@@ -28,11 +28,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = 11
+        jvmTarget = 17
     }
     buildFeatures {
         compose true
@@ -89,7 +89,7 @@ dependencies {
     implementation "androidx.paging:paging-compose:1.0.0-alpha18"
 
     // coil with animation
-    def landscapist_version = "2.1.10"
+    def landscapist_version = "2.1.11"
     implementation "com.github.skydoves:landscapist-coil:$landscapist_version"
     implementation "com.github.skydoves:landscapist-placeholder:$landscapist_version"
     implementation "com.github.skydoves:landscapist-animation:$landscapist_version"
