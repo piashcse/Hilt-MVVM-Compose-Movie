@@ -50,21 +50,21 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.core:core-ktx:1.10.1'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.8.0'
-    implementation "androidx.compose.ui:ui:1.4.1"
-    implementation "androidx.compose.material:material:1.4.1"
-    implementation "androidx.compose.material:material-icons-extended:1.4.1"
-    implementation "androidx.compose.ui:ui-tooling-preview:1.4.1"
+    implementation 'com.google.android.material:material:1.9.0'
+    implementation "androidx.compose.ui:ui:1.4.3"
+    implementation "androidx.compose.material:material:1.4.3"
+    implementation "androidx.compose.material:material-icons-extended:1.4.3"
+    implementation "androidx.compose.ui:ui-tooling-preview:1.4.3"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
-    implementation 'androidx.activity:activity-compose:1.7.0'
+    implementation 'androidx.activity:activity-compose:1.7.1'
     implementation 'androidx.navigation:navigation-runtime-ktx:2.5.3'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.4.1"
-    debugImplementation "androidx.compose.ui:ui-tooling:1.4.1"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.4.3"
+    debugImplementation "androidx.compose.ui:ui-tooling:1.4.3"
 
     // compose navigation
     implementation "androidx.navigation:navigation-compose:2.5.3"
@@ -86,17 +86,17 @@ dependencies {
 
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
     // pagination
-    implementation "androidx.paging:paging-compose:1.0.0-alpha18"
+    implementation "androidx.paging:paging-compose:1.0.0-alpha19"
 
     // coil with animation
-    def landscapist_version = "2.1.11"
+    def landscapist_version = "2.1.13"
     implementation "com.github.skydoves:landscapist-coil:$landscapist_version"
     implementation "com.github.skydoves:landscapist-placeholder:$landscapist_version"
     implementation "com.github.skydoves:landscapist-animation:$landscapist_version"
     implementation "com.github.skydoves:landscapist-transformation:$landscapist_version"
 
-    implementation 'com.google.code.gson:gson:2.10'
+    implementation 'com.google.code.gson:gson:2.10.1'
     // splash screen
-    implementation "androidx.core:core-splashscreen:1.0.0"
+    implementation "androidx.core:core-splashscreen:1.0.1"
 
 }
