@@ -30,7 +30,7 @@ Movie World app using [The Movie DB](https://www.themoviedb.org) built with jetp
   - Repository pattern
   - Hilt - dependency injection
  <p align="center" width="100%">
-   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/composemovie.gif" />
+   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/mvvmcomposemovie.gif" />
  </p>
 
 ## Built With 🛠
