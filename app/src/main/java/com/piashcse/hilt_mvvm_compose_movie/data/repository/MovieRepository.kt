@@ -2,10 +2,12 @@ package com.piashcse.hilt_mvvm_compose_movie.data.repository
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
+import androidx.paging.PagingData
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiService
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.*
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
+import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
@@ -16,8 +18,8 @@ import javax.inject.Inject
 
 class MovieRepository @Inject constructor(
     private val apiService: ApiService
-) {
-    suspend fun movieDetail(movieId: Int): Flow<DataState<MovieDetail>> = flow {
+) : MovieRepositoryInterface {
+    override suspend fun movieDetail(movieId: Int): Flow<DataState<MovieDetail>> = flow {
         emit(DataState.Loading)
         try {
             val searchResult = apiService.movieDetail(movieId)
@@ -28,19 +30,20 @@ class MovieRepository @Inject constructor(
         }
     }
 
-    suspend fun recommendedMovie(movieId: Int, page: Int): Flow<DataState<BaseModel>> = flow {
-        emit(DataState.Loading)
-        try {
-            val searchResult = apiService.recommendedMovie(movieId, page)
-            emit(DataState.Success(searchResult))
+    override suspend fun recommendedMovie(movieId: Int, page: Int): Flow<DataState<BaseModel>> =
+        flow {
+            emit(DataState.Loading)
+            try {
+                val searchResult = apiService.recommendedMovie(movieId, page)
+                emit(DataState.Success(searchResult))
 
-        } catch (e: Exception) {
-            emit(DataState.Error(e))
+            } catch (e: Exception) {
+                emit(DataState.Error(e))
+            }
         }
-    }
 
 
-    suspend fun search(searchKey: String): Flow<DataState<BaseModel>> = flow {
+    override suspend fun search(searchKey: String): Flow<DataState<BaseModel>> = flow {
         emit(DataState.Loading)
         try {
             val searchResult = apiService.search(searchKey)
@@ -51,7 +54,7 @@ class MovieRepository @Inject constructor(
         }
     }
 
-    suspend fun genreList(): Flow<DataState<Genres>> = flow {
+    override suspend fun genreList(): Flow<DataState<Genres>> = flow {
         emit(DataState.Loading)
         try {
             val genreResult = apiService.genreList()
@@ -62,7 +65,7 @@ class MovieRepository @Inject constructor(
         }
     }
 
-    suspend fun movieCredit(movieId: Int): Flow<DataState<Artist>> = flow {
+    override suspend fun movieCredit(movieId: Int): Flow<DataState<Artist>> = flow {
         emit(DataState.Loading)
         try {
             val artistResult = apiService.movieCredit(movieId)
@@ -73,7 +76,7 @@ class MovieRepository @Inject constructor(
         }
     }
 
-    suspend fun artistDetail(personId: Int): Flow<DataState<ArtistDetail>> = flow {
+    override suspend fun artistDetail(personId: Int): Flow<DataState<ArtistDetail>> = flow {
         emit(DataState.Loading)
         try {
             val artistDetailResult = apiService.artistDetail(personId)
@@ -84,27 +87,27 @@ class MovieRepository @Inject constructor(
         }
     }
 
-    fun nowPlayingPagingDataSource(genreId: String?) = Pager(
+    override fun nowPlayingPagingDataSource(genreId: String?): Flow<PagingData<MovieItem>> = Pager(
         pagingSourceFactory = { NowPlayingPagingDataSource(apiService, genreId) },
         config = PagingConfig(pageSize = 1)
     ).flow
 
-    fun popularPagingDataSource(genreId: String?) = Pager(
+    override fun popularPagingDataSource(genreId: String?): Flow<PagingData<MovieItem>> = Pager(
         pagingSourceFactory = { PopularPagingDataSource(apiService, genreId) },
         config = PagingConfig(pageSize = 1)
     ).flow
 
-    fun topRatedPagingDataSource(genreId: String?) = Pager(
+    override fun topRatedPagingDataSource(genreId: String?): Flow<PagingData<MovieItem>> = Pager(
         pagingSourceFactory = { TopRatedPagingDataSource(apiService, genreId) },
         config = PagingConfig(pageSize = 1)
     ).flow
 
-    fun upcomingPagingDataSource(genreId: String?) = Pager(
+    override fun upcomingPagingDataSource(genreId: String?): Flow<PagingData<MovieItem>> = Pager(
         pagingSourceFactory = { UpcomingPagingDataSource(apiService, genreId) },
         config = PagingConfig(pageSize = 1)
     ).flow
 
-    fun genrePagingDataSource(genreId: String) = Pager(
+    override fun genrePagingDataSource(genreId: String): Flow<PagingData<MovieItem>> = Pager(
         pagingSourceFactory = { GenrePagingDataSource(apiService, genreId) },
         config = PagingConfig(pageSize = 1)
     ).flow
