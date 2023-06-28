@@ -6,12 +6,12 @@ plugins {
 }
 
 android {
-    compileSdk 33
+    compileSdk 34
 
     defaultConfig {
         applicationId "com.piashcse.hilt_mvvm_compose_movie"
         minSdk 21
-        targetSdk 33
+        targetSdk 34
         versionCode 20
         versionName "1.2.0"
 
@@ -86,7 +86,7 @@ dependencies {
 
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
     // pagination
-    implementation "androidx.paging:paging-compose:3.2.0-beta01"
+    implementation "androidx.paging:paging-compose:3.2.0-rc01"
 
     // coil with animation
     def landscapist_version = "2.2.2"
