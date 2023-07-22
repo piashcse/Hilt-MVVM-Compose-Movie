@@ -73,8 +73,8 @@ dependencies {
     implementation "androidx.multidex:multidex:2.0.1"
 
     // hilt
-    implementation "com.google.dagger:hilt-android:2.43.2"
-    kapt "com.google.dagger:hilt-android-compiler:2.43.2"
+    implementation "com.google.dagger:hilt-android:2.47"
+    kapt "com.google.dagger:hilt-android-compiler:2.47"
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
@@ -89,7 +89,7 @@ dependencies {
     implementation "androidx.paging:paging-compose:3.2.0-rc01"
 
     // coil with animation
-    def landscapist_version = "2.2.2"
+    def landscapist_version = "2.2.3"
     implementation "com.github.skydoves:landscapist-coil:$landscapist_version"
     implementation "com.github.skydoves:landscapist-placeholder:$landscapist_version"
     implementation "com.github.skydoves:landscapist-animation:$landscapist_version"
