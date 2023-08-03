@@ -89,7 +89,7 @@ dependencies {
     implementation "androidx.paging:paging-compose:3.2.0"
 
     // coil with animation
-    def landscapist_version = "2.2.3"
+    def landscapist_version = "2.2.5"
     implementation "com.github.skydoves:landscapist-coil:$landscapist_version"
     implementation "com.github.skydoves:landscapist-placeholder:$landscapist_version"
     implementation "com.github.skydoves:landscapist-animation:$landscapist_version"
