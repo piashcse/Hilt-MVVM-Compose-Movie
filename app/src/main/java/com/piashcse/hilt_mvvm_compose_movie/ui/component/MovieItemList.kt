@@ -13,6 +13,7 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.items
+import androidx.compose.material.Colors
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -41,6 +42,7 @@ import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.animation.circular.CircularRevealPlugin
 import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
+import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 import kotlinx.coroutines.flow.Flow
 
 @Composable
@@ -126,6 +128,10 @@ fun MovieItemView(item: MovieItem, navController: NavController) {
             component = rememberImageComponent {
                 +CircularRevealPlugin(
                     duration = 800
+                )
+                +ShimmerPlugin(
+                    baseColor = SecondaryFontColor,
+                    highlightColor = DefaultBackgroundColor
                 )
             },
         )

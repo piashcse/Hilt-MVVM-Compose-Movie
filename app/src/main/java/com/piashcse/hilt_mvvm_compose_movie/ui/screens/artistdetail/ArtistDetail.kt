@@ -30,6 +30,7 @@ import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.animation.circular.CircularRevealPlugin
 import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
+import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 
 @Composable
 fun ArtistDetail(personId: Int) {
@@ -69,6 +70,10 @@ fun ArtistDetail(personId: Int) {
                         component = rememberImageComponent {
                             +CircularRevealPlugin(
                                 duration = 800
+                            )
+                            +ShimmerPlugin(
+                                baseColor = SecondaryFontColor,
+                                highlightColor = DefaultBackgroundColor
                             )
                         },
                     )
