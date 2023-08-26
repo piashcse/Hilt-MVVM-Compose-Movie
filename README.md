@@ -25,13 +25,21 @@ Movie World app using [The Movie DB](https://www.themoviedb.org) built with jetp
 - Genre movie in navigation drawer
 - Network connection state with SnackBar
 
+ <p align="center" width="100%">
+   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/mvvmcomposemovie.gif" />
+ </p>
+
 ## Architecture
   - MVVM Architecture (Model - ComposableView - ViewModel)
   - Repository pattern
   - Hilt - dependency injection
- <p align="center" width="100%">
-   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/mvvmcomposemovie.gif" />
- </p>
+
+<p align="center">
+  <img width="40%" height="25%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/mvvm.png" />
+</p>
+<p align="center">
+<b>Fig.  MVVM (Model - ComposableView - ViewModel) design pattern.</b>
+</p>
 
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
