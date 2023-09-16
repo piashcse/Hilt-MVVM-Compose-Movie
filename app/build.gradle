@@ -50,31 +50,31 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.10.1'
+    implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
-    implementation "androidx.compose.ui:ui:1.5.0"
-    implementation "androidx.compose.material:material:1.5.0"
-    implementation "androidx.compose.material:material-icons-extended:1.5.0"
-    implementation "androidx.compose.ui:ui-tooling-preview:1.5.0"
-    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.1'
+    implementation "androidx.compose.ui:ui:$compose_version"
+    implementation "androidx.compose.material:material:$compose_version"
+    implementation "androidx.compose.material:material-icons-extended:$compose_version"
+    implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
     implementation 'androidx.activity:activity-compose:1.7.2'
-    implementation 'androidx.navigation:navigation-runtime-ktx:2.7.0'
+    implementation 'androidx.navigation:navigation-runtime-ktx:2.7.2'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:1.5.0"
-    debugImplementation "androidx.compose.ui:ui-tooling:1.5.0"
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-tooling:1.5.1"
 
     // compose navigation
-    implementation "androidx.navigation:navigation-compose:2.7.0"
+    implementation "androidx.navigation:navigation-compose:2.7.2"
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
     // multidex
     implementation "androidx.multidex:multidex:2.0.1"
 
     // hilt
-    implementation "com.google.dagger:hilt-android:2.47"
-    kapt "com.google.dagger:hilt-android-compiler:2.47"
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
 
     // retrofit
     implementation "com.squareup.retrofit2:retrofit:2.9.0"
@@ -86,7 +86,7 @@ dependencies {
 
     implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
     // pagination
-    implementation "androidx.paging:paging-compose:3.2.0"
+    implementation "androidx.paging:paging-compose:3.2.1"
 
     // coil with animation
     def landscapist_version = "2.2.7"
