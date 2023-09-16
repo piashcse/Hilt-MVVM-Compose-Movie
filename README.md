@@ -22,14 +22,14 @@ Movie World app using [The Movie DB](https://www.themoviedb.org) built with jetp
 - Artist info and artist detail
 - Bottom navigation
 - Search filter for movie
-- Genre movie in navigation drawer
+- Genre movie in the navigation drawer
 - Network connection state with SnackBar
 
  <p align="center" width="100%">
    <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/mvvmcomposemovie.gif" />
  </p>
 
-## Architecture
+## Architecture 🏗️
   - MVVM Architecture (Model - ComposableView - ViewModel)
   - Repository pattern
   - Hilt - dependency injection
