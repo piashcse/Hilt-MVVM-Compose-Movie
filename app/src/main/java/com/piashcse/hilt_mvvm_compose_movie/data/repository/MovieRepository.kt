@@ -3,8 +3,12 @@ package com.piashcse.hilt_mvvm_compose_movie.data.repository
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.TopRatedPagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.UpcomingPagingDataSource
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiService
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging.*
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.GenrePagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.NowPlayingPagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.PopularPagingDataSource
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem

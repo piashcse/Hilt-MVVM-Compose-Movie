@@ -1,17 +1,23 @@
-package com.piashcse.hilt_mvvm_compose_movie.data.model
+package com.piashcse.hilt_mvvm_compose_movie.data.datasource.local
 
-
+import androidx.room.Entity
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverter
+import androidx.room.TypeConverters
+import com.google.gson.Gson
 import com.google.gson.annotations.SerializedName
+import com.google.gson.reflect.TypeToken
 
-data class MovieItem(
+@Entity(tableName = "movie")
+data class MovieEntity(
     @SerializedName("id")
-    val id: Int,
+    @PrimaryKey val id: Int,
     @SerializedName("adult")
     val adult: Boolean,
     @SerializedName("backdrop_path")
     val backdropPath: String,
     @SerializedName("genre_ids")
+    @TypeConverters(IntTypeConverter::class)
     val genreIds: List<Int>,
     @SerializedName("original_language")
     val originalLanguage: String,
@@ -34,3 +40,18 @@ data class MovieItem(
     @SerializedName("vote_count")
     val voteCount: Int
 )
+
+class IntTypeConverter {
+    @TypeConverter
+    fun saveIntList(list: List<Int>): String? {
+        return Gson().toJson(list)
+    }
+
+    @TypeConverter
+    fun getIntList(list: String): List<Int> {
+        return Gson().fromJson(
+            list,
+            object : TypeToken<List<Int>>() {}.type
+        )
+    }
+}

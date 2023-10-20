@@ -69,7 +69,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .height(300.dp),
-                        imageModel = {ApiURL.IMAGE_URL.plus(it.data.poster_path)},
+                        imageModel = { ApiURL.IMAGE_URL.plus(it.data.poster_path)},
                         imageOptions = ImageOptions(
                             contentScale = ContentScale.Crop,
                             alignment = Alignment.Center,
