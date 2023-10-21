@@ -1,14 +1,17 @@
 package com.piashcse.hilt_mvvm_compose_movie.data.repository
 
+import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.MovieDatabase
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.TopRatedPagingDataSource
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.UpcomingPagingDataSource
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiService
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.GenrePagingDataSource
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.NowPlayingPagingDataSource
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.paging.PopularPagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remotemediator.NowPlayingRemoteMediator
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
@@ -20,8 +23,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
+const val PAGE_SIZE = 20
 class MovieRepository @Inject constructor(
-    private val apiService: ApiService
+    private val apiService: ApiService,
+    private val movieDatabase: MovieDatabase
 ) : MovieRepositoryInterface {
     override suspend fun movieDetail(movieId: Int): Flow<DataState<MovieDetail>> = flow {
         emit(DataState.Loading)
@@ -115,5 +120,25 @@ class MovieRepository @Inject constructor(
         pagingSourceFactory = { GenrePagingDataSource(apiService, genreId) },
         config = PagingConfig(pageSize = 1)
     ).flow
+
+    @OptIn(ExperimentalPagingApi::class)
+    override fun getPopularMoviesWithCaching(genreId: String?): Flow<PagingData<MovieItem>> =
+        Pager(
+            config = PagingConfig(
+                pageSize = PAGE_SIZE,
+                prefetchDistance = 10,
+                initialLoadSize = PAGE_SIZE, // How many items you want to load initially
+            ),
+            pagingSourceFactory = {
+                // The pagingSourceFactory lambda should always return a brand new PagingSource
+                // when invoked as PagingSource instances are not reusable.
+                movieDatabase.getMovieDao().getMovies()
+            },
+            remoteMediator = NowPlayingRemoteMediator(
+                apiService,
+                movieDatabase,
+                genreId
+            )
+        ).flow
 
 }

@@ -1,14 +1,10 @@
 package com.piashcse.hilt_mvvm_compose_movie.di
 
 import android.content.Context
-import androidx.paging.ExperimentalPagingApi
-import androidx.paging.Pager
-import androidx.paging.PagingConfig
 import androidx.room.Room
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.MovieDatabase
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.MovieEntity
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiService
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remotemediator.NowPlayingMediator
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.dao.MovieDao
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.dao.RemoteKeysDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -25,23 +21,14 @@ object AppModule {
         return Room.databaseBuilder(
             context,
             MovieDatabase::class.java,
-            "beers.db"
+            "movie.db"
         ).build()
     }
-
-    @OptIn(ExperimentalPagingApi::class)
-    @Provides
     @Singleton
-    fun provideBeerPager(movieDb: MovieDatabase, apiService: ApiService): Pager<Int, MovieEntity> {
-        return Pager(
-            config = PagingConfig(pageSize = 1),
-            remoteMediator = NowPlayingMediator(
-                movieDb = movieDb,
-                apiService = apiService
-            ),
-            pagingSourceFactory = {
-                movieDb.getMovieDao().pagingSource()
-            }
-        )
-    }
+    @Provides
+    fun provideMoviesDao(moviesDatabase: MovieDatabase): MovieDao = moviesDatabase.getMovieDao()
+
+    @Singleton
+    @Provides
+    fun provideRemoteKeysDao(moviesDatabase: MovieDatabase): RemoteKeysDao = moviesDatabase.getRemoteKeysDao()
 }

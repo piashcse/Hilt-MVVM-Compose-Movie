@@ -100,8 +100,11 @@ dependencies {
     implementation "androidx.core:core-splashscreen:1.0.1"
 
     // Room
-    implementation "androidx.room:room-ktx:2.5.2"
-    kapt "androidx.room:room-compiler:2.5.2"
-    implementation "androidx.room:room-paging:2.5.2"
+    def room_version = "2.6.0"
+    implementation "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-runtime:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    implementation "androidx.room:room-paging:$room_version"
 
 }
