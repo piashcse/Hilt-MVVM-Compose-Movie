@@ -22,5 +22,5 @@ interface MovieRepositoryInterface {
     fun topRatedPagingDataSource(genreId: String?): Flow<PagingData<MovieItem>>
     fun upcomingPagingDataSource(genreId: String?): Flow<PagingData<MovieItem>>
     fun genrePagingDataSource(genreId: String): Flow<PagingData<MovieItem>>
-    fun getPopularMoviesWithCaching(genreId: String?): Flow<PagingData<MovieItem>>
+    fun getNowPlayingWithCaching(genreId: String?): Flow<PagingData<MovieItem>>
 }

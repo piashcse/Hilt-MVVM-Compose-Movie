@@ -122,7 +122,7 @@ class MovieRepository @Inject constructor(
     ).flow
 
     @OptIn(ExperimentalPagingApi::class)
-    override fun getPopularMoviesWithCaching(genreId: String?): Flow<PagingData<MovieItem>> =
+    override fun getNowPlayingWithCaching(genreId: String?): Flow<PagingData<MovieItem>> =
         Pager(
             config = PagingConfig(
                 pageSize = PAGE_SIZE,

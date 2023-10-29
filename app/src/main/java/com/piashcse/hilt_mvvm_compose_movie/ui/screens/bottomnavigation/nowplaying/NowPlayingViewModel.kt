@@ -25,7 +25,7 @@ class NowPlayingViewModel @Inject constructor( private val repo: MovieRepository
 
     @OptIn(ExperimentalCoroutinesApi::class)
     val nowPlayingMovies = filterData.flatMapLatest {
-        repo.getPopularMoviesWithCaching(it?.genreId)
+        repo.getNowPlayingWithCaching(it?.genreId)
     }.cachedIn(viewModelScope)
 
 }
