@@ -59,7 +59,7 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.6.2'
     implementation 'androidx.activity:activity-compose:1.8.0'
-    implementation 'androidx.navigation:navigation-runtime-ktx:2.7.4'
+    implementation 'androidx.navigation:navigation-runtime-ktx:2.7.5'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
@@ -67,8 +67,8 @@ dependencies {
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
 
     // compose navigation
-    implementation "androidx.navigation:navigation-compose:2.7.4"
-    implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
+    implementation "androidx.navigation:navigation-compose:2.7.5"
+    implementation "androidx.hilt:hilt-navigation-compose:1.1.0"
     // multidex
     implementation "androidx.multidex:multidex:2.0.1"
 
@@ -89,7 +89,7 @@ dependencies {
     implementation "androidx.paging:paging-compose:3.2.1"
 
     // coil with animation
-    def landscapist_version = "2.2.10"
+    def landscapist_version = "2.2.11"
     implementation "com.github.skydoves:landscapist-coil:$landscapist_version"
     implementation "com.github.skydoves:landscapist-placeholder:$landscapist_version"
     implementation "com.github.skydoves:landscapist-animation:$landscapist_version"
