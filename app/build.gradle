@@ -90,10 +90,10 @@ dependencies {
 
     // coil with animation
     def land_scapist_version = "2.2.12"
-    implementation "com.github.skydoves:landscapist-coil:$landscapist_version"
-    implementation "com.github.skydoves:landscapist-placeholder:$landscapist_version"
-    implementation "com.github.skydoves:landscapist-animation:$landscapist_version"
-    implementation "com.github.skydoves:landscapist-transformation:$landscapist_version"
+    implementation "com.github.skydoves:landscapist-coil:$land_scapist_version"
+    implementation "com.github.skydoves:landscapist-placeholder:$land_scapist_version"
+    implementation "com.github.skydoves:landscapist-animation:$land_scapist_version"
+    implementation "com.github.skydoves:landscapist-transformation:$land_scapist_version"
 
     implementation 'com.google.code.gson:gson:2.10.1'
     // splash screen
