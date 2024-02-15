@@ -1,17 +1,21 @@
 package com.piashcse.hilt_mvvm_compose_movie.data.model
 
 
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
-
+@Entity(tableName = "movies")
 data class MovieItem(
+    @PrimaryKey(autoGenerate = false)
+    @SerializedName("id")
+    val id: Int,
     @SerializedName("adult")
     val adult: Boolean,
     @SerializedName("backdrop_path")
     val backdropPath: String,
     @SerializedName("genre_ids")
     val genreIds: List<Int>,
-    @SerializedName("id")
-    val id: Int,
     @SerializedName("original_language")
     val originalLanguage: String,
     @SerializedName("original_title")
@@ -31,5 +35,7 @@ data class MovieItem(
     @SerializedName("vote_average")
     val voteAverage: Double,
     @SerializedName("vote_count")
-    val voteCount: Int
+    val voteCount: Int,
+    @ColumnInfo(name = "page")
+    var page: Int,
 )
