@@ -38,6 +38,7 @@ import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.animation.circular.CircularRevealPlugin
 import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
+import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 
 @Composable
@@ -80,10 +81,10 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                             +CircularRevealPlugin(
                                 duration = 800
                             )
-                            +ShimmerPlugin(
+                            +ShimmerPlugin(shimmer = Shimmer.Flash(
                                 baseColor = SecondaryFontColor,
                                 highlightColor = DefaultBackgroundColor
-                            )
+                            ))
                         },
                     )
                     Column(
@@ -265,10 +266,10 @@ fun ArtistAndCrew(navController: NavController?, cast: List<Cast>) {
                             +CircularRevealPlugin(
                                 duration = 800
                             )
-                            +ShimmerPlugin(
+                            +ShimmerPlugin(shimmer = Shimmer.Flash(
                                 baseColor = SecondaryFontColor,
                                 highlightColor = DefaultBackgroundColor
-                            )
+                            ))
                         },
                     )
                     SubtitleSecondary(text = item.name)

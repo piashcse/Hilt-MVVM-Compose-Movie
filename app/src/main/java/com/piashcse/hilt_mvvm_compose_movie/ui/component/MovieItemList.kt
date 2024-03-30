@@ -42,6 +42,7 @@ import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.animation.circular.CircularRevealPlugin
 import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
+import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 import kotlinx.coroutines.flow.Flow
 
@@ -129,10 +130,10 @@ fun MovieItemView(item: MovieItem, navController: NavController) {
                 +CircularRevealPlugin(
                     duration = 800
                 )
-                +ShimmerPlugin(
+                +ShimmerPlugin(shimmer = Shimmer.Flash(
                     baseColor = SecondaryFontColor,
                     highlightColor = DefaultBackgroundColor
-                )
+                ))
             },
         )
     }
