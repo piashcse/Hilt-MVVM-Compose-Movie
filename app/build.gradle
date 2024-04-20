@@ -50,7 +50,7 @@ android {
 }
 
 dependencies {
-    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.core:core-ktx:1.13.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.11.0'
     implementation "androidx.compose.ui:ui:$compose_version"
@@ -58,7 +58,7 @@ dependencies {
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
-    implementation 'androidx.activity:activity-compose:1.8.2'
+    implementation 'androidx.activity:activity-compose:1.9.0'
     implementation 'androidx.navigation:navigation-runtime-ktx:2.7.7'
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
@@ -89,7 +89,7 @@ dependencies {
     implementation "androidx.paging:paging-compose:3.2.1"
 
     // coil with animation
-    def land_scapist_version = "2.3.2"
+    def land_scapist_version = "2.3.3"
     implementation "com.github.skydoves:landscapist-coil:$land_scapist_version"
     implementation "com.github.skydoves:landscapist-placeholder:$land_scapist_version"
     implementation "com.github.skydoves:landscapist-animation:$land_scapist_version"
