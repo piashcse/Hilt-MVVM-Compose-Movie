@@ -5,7 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Movie
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -54,7 +54,7 @@ fun DrawerItem(item: Genre, selected: Boolean, onItemClick: (Genre) -> Unit) {
             .padding(start = 10.dp)
     ) {
         Icon(
-            Icons.Outlined.Home, "", modifier = Modifier
+            Icons.Outlined.Movie, "", modifier = Modifier
                 .height(24.dp)
                 .width(24.dp)
         )
