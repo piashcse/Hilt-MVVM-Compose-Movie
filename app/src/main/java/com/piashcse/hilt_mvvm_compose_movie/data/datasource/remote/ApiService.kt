@@ -46,7 +46,6 @@ interface ApiService {
     @GET("movie/{movieId}/recommendations")
     suspend fun recommendedMovie(
         @Path("movieId") movieId: Int,
-        @Query("page") one: Int,
         @Query("api_key") api_key: String = ApiURL.API_KEY
     ): BaseModel
 

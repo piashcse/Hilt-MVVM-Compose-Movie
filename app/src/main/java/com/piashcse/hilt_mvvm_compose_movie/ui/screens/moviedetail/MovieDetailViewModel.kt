@@ -5,6 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
+import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.MovieRepository
@@ -16,32 +17,83 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieDetailViewModel @Inject constructor(private val repo: MovieRepository) : ViewModel() {
-    val movieDetail: MutableState<DataState<MovieDetail>?> = mutableStateOf(null)
-    val recommendedMovie: MutableState<DataState<BaseModel>?> = mutableStateOf(null)
-    val artist: MutableState<DataState<Artist>?> = mutableStateOf(null)
+    private val _movieDetail = MutableStateFlow<MovieDetail?>(null)
+    val movieDetail get() = _movieDetail.asStateFlow()
 
-    fun movieDetailApi(movieId: Int) {
+    private val _recommendedMovie = MutableStateFlow<List<MovieItem>>(arrayListOf())
+    val recommendedMovie get() = _recommendedMovie.asStateFlow()
+
+    private val _movieCredit = MutableStateFlow<Artist?>(null)
+    val movieCredit get() = _movieCredit.asStateFlow()
+
+    private val _isLoading = MutableStateFlow<Boolean>(false)
+    val isLoading get() = _isLoading.asStateFlow()
+
+    fun movieDetail(movieId: Int) {
         viewModelScope.launch {
-            repo.movieDetail(movieId).onEach {
-                movieDetail.value = it
-            }.launchIn(viewModelScope)
+            viewModelScope.launch {
+                repo.movieDetail(movieId).onEach {
+                    when (it) {
+                        is DataState.Loading -> {
+                            _isLoading.value = true
+                        }
+
+                        is DataState.Success -> {
+                            _movieDetail.value = it.data
+                            _isLoading.value = false
+                        }
+
+                        is DataState.Error -> {
+                            _isLoading.value = false
+                        }
+                    }
+                }.launchIn(viewModelScope)
+            }
         }
     }
 
-    fun recommendedMovieApi(movieId: Int, page: Int) {
+    fun recommendedMovie(movieId: Int) {
         viewModelScope.launch {
-            repo.recommendedMovie(movieId, page).onEach {
-                recommendedMovie.value = it
-            }.launchIn(viewModelScope)
+            viewModelScope.launch {
+                repo.recommendedMovie(movieId).onEach {
+                    when (it) {
+                        is DataState.Loading -> {
+                            _isLoading.value = true
+                        }
+
+                        is DataState.Success -> {
+                            _recommendedMovie.value = it.data
+                            _isLoading.value = false
+                        }
+
+                        is DataState.Error -> {
+                            _isLoading.value = false
+                        }
+                    }
+                }.launchIn(viewModelScope)
+            }
         }
     }
-
     fun movieCredit(movieId: Int) {
         viewModelScope.launch {
-            repo.movieCredit(movieId).onEach {
-                artist.value = it
-            }.launchIn(viewModelScope)
+            viewModelScope.launch {
+                repo.movieCredit(movieId).onEach {
+                    when (it) {
+                        is DataState.Loading -> {
+                            _isLoading.value = true
+                        }
+
+                        is DataState.Success -> {
+                            _movieCredit.value = it.data
+                            _isLoading.value = false
+                        }
+
+                        is DataState.Error -> {
+                            _isLoading.value = false
+                        }
+                    }
+                }.launchIn(viewModelScope)
+            }
         }
     }
-
 }

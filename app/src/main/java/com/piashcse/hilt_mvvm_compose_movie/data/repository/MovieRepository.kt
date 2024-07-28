@@ -30,12 +30,12 @@ class MovieRepository @Inject constructor(
         }
     }
 
-    override suspend fun recommendedMovie(movieId: Int, page: Int): Flow<DataState<BaseModel>> =
+     override suspend fun recommendedMovie(movieId: Int): Flow<DataState<List<MovieItem>>> =
         flow {
             emit(DataState.Loading)
             try {
-                val searchResult = apiService.recommendedMovie(movieId, page)
-                emit(DataState.Success(searchResult))
+                val searchResult = apiService.recommendedMovie(movieId)
+                emit(DataState.Success(searchResult.results))
 
             } catch (e: Exception) {
                 emit(DataState.Error(e))
