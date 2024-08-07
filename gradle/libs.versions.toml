@@ -1,6 +1,6 @@
 [versions]
 agp = "8.4.2"
-kotlin = "2.0.0"
+kotlin = "2.0.10"
 coreKtx = "1.13.1"
 junit = "4.13.2"
 junitVersion = "1.2.1"
@@ -21,8 +21,8 @@ timber = "5.0.1"
 navigationCompose = "2.7.7"
 hiltNavigationCompose = "1.2.0"
 navigationRuntimeKtx = "2.7.7"
-hiltVersion = "2.51.1"
-kspVersion = "2.0.0-1.0.21"
+hiltVersion = "2.52"
+kspVersion = "2.0.10-1.0.24"
 composeBom = "2024.06.00"
 composeVersin = "1.6.8"
 

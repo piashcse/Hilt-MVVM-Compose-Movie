@@ -12,7 +12,6 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
@@ -24,8 +23,7 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.Blue
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
-@OptIn(ExperimentalMaterial3Api::class, FlowPreview::class)
-@ExperimentalCoroutinesApi
+@OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @Composable
 fun SearchBar(isAppBarVisible:MutableState<Boolean>, viewModel: MainViewModel){
     var text by remember { mutableStateOf("") }
@@ -39,7 +37,7 @@ fun SearchBar(isAppBarVisible:MutableState<Boolean>, viewModel: MainViewModel){
                 .fillMaxWidth()
                 .focusRequester(focusRequester),
             value = text,
-            colors = TextFieldDefaults.textFieldColors(
+            colors = TextFieldDefaults.colors(
                 cursorColor = Color.Black,
                 disabledLabelColor = Blue,
                 focusedIndicatorColor = Color.Transparent,
