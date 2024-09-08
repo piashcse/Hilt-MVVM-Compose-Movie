@@ -4,7 +4,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.bioGrapyText
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.subTitleSecondary
 
 @Composable
 fun BioGraphyText(text:String) {

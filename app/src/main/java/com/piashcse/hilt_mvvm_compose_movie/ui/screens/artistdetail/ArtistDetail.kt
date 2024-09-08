@@ -1,7 +1,12 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.screens.artistdetail
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Text
@@ -21,7 +26,10 @@ import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.BioGraphyText
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.*
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
 import com.piashcse.hilt_mvvm_compose_movie.utils.genderInString
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.animation.circular.CircularRevealPlugin

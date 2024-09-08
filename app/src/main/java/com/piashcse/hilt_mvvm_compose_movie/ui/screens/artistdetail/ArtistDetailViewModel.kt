@@ -1,7 +1,5 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.screens.artistdetail
 
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail

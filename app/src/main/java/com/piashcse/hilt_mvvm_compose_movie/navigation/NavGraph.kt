@@ -12,16 +12,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.navArgument
 import com.piashcse.hilt_mvvm_compose_movie.R
-import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.genre.GenreScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.artistdetail.ArtistDetail
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.nowplaying.NowPlaying
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.popular.Popular
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.toprated.TopRated
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.bottomnavigation.upcoming.Upcoming
-import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.genre.GenreScreen
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.moviedetail.MovieDetail
 
 @Composable
 fun Navigation(
