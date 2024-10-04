@@ -1,5 +1,5 @@
 # Movie World (Jetpack Compose) 
-[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-1.7.2-%230075FF.svg)](https://developer.android.com/jetpack/compose)
+[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-1.7.3-%230075FF.svg)](https://developer.android.com/jetpack/compose)
 ![badge-Android](https://img.shields.io/badge/Platform-Android-brightgreen)
 [![API](https://img.shields.io/badge/API-23%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=23)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.0.20-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
@@ -41,6 +41,19 @@ Movie World app using [The Movie DB](https://www.themoviedb.org) built with jetp
 <p align="center">
 <b>Fig.  MVVM (Model - ComposableView - ViewModel) design pattern.</b>
 </p>
+
+## API Key 🔑
+You will need to provide a developer key to fetch the data from TMDB API.
+* Generate a new key (v3 auth) from [here](https://www.themoviedb.org/settings/api). Copy the key and go back to the project.
+* Add the key to build config in `./app/build.gradle`:
+
+```kotlin
+defaultConfig {
+    ...
+    buildConfigField("API_KEY", TMDB_API_KEY)
+    ...
+}
+```
 
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
