@@ -65,7 +65,7 @@ fun ArtistDetail(personId: Int) {
                         .height(250.dp)
                         .width(190.dp)
                         .cornerRadius(10),
-                    imageModel = { ApiURL.IMAGE_URL.plus(it) },
+                    imageModel = { ApiURL.IMAGE_URL.plus(it.profilePath) },
                     imageOptions = ImageOptions(
                         contentScale = ContentScale.Crop,
                         alignment = Alignment.Center,
