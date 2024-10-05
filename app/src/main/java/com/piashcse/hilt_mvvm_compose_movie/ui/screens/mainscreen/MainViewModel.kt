@@ -4,7 +4,7 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
+import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModelMovie
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.MovieRepository
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
@@ -25,7 +25,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(private val repo: MovieRepository) : ViewModel() {
     val genres: MutableState<DataState<Genres>?> = mutableStateOf(null)
-    val searchData: MutableState<DataState<BaseModel>?> = mutableStateOf(null)
+    val searchData: MutableState<DataState<BaseModelMovie>?> = mutableStateOf(null)
 
     fun genreList() {
         viewModelScope.launch {

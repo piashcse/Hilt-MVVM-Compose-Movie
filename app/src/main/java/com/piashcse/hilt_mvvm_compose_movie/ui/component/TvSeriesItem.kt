@@ -34,11 +34,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
-import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
+import com.piashcse.hilt_mvvm_compose_movie.data.model.TvSeriesItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
@@ -56,12 +54,11 @@ import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
-import kotlinx.coroutines.flow.Flow
 
 @Composable
-fun MovieItemList(
+fun TvSeriesItem(
     navController: NavController,
-    moviesItems: LazyPagingItems<MovieItem>,
+    tvSeries: LazyPagingItems<TvSeriesItem> ,
     genres: ArrayList<Genre>? = null,
     selectedName: Genre?,
     onclick: (genreId: Genre?) -> Unit
@@ -69,7 +66,6 @@ fun MovieItemList(
     val activity = (LocalContext.current as? Activity)
     val progressBar = remember { mutableStateOf(false) }
     val openDialog = remember { mutableStateOf(false) }
-    //val moviesItems: LazyPagingItems<MovieItem> = movies.collectAsLazyPagingItems()
 
     BackHandler(enabled = (currentRoute(navController) == Screen.NowPlaying.route)) {
         openDialog.value = true
@@ -82,7 +78,7 @@ fun MovieItemList(
                     .fillMaxWidth()
             ) {
                 items(genres) { item ->
-                    SelectableGenreChip(
+                    SelectableGenreChipTv(
                         selected = item.name === selectedName?.name,
                         genre = item.name,
                         onclick = {
@@ -100,9 +96,9 @@ fun MovieItemList(
                     padding(top = 8.dp)
                 },
             content = {
-                items(moviesItems) { item ->
+                items(tvSeries) { item ->
                     item?.let {
-                        MovieItemView(item, navController)
+                        MovieItemViewTV(item, navController)
                     }
                 }
             })
@@ -115,21 +111,21 @@ fun MovieItemList(
         })
 
     }
-    moviesItems.pagingLoadingState {
+    tvSeries.pagingLoadingState {
         progressBar.value = it
     }
 }
 
 
 @Composable
-fun MovieItemView(item: MovieItem, navController: NavController) {
+fun MovieItemViewTV(item: TvSeriesItem, navController: NavController) {
     Column(modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 0.dp, bottom = 10.dp)) {
         CoilImage(
             modifier = Modifier
                 .size(250.dp)
                 .cornerRadius(10)
                 .clickable {
-                    navController.navigate(Screen.MovieDetail.route.plus("/${item.id}"))
+                    navController.navigate(Screen.TvSeriesDetail.route.plus("/${item.id}"))
                 },
             imageModel = { ApiURL.IMAGE_URL.plus(item.posterPath) },
             imageOptions = ImageOptions(
@@ -152,7 +148,7 @@ fun MovieItemView(item: MovieItem, navController: NavController) {
 }
 
 @Composable
-fun SelectableGenreChip(
+fun SelectableGenreChipTv(
     selected: Boolean,
     genre: String,
     onclick: () -> Unit

@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
-import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
+import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModelMovie
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
@@ -42,7 +42,7 @@ import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 
 @Composable
-fun SearchUI(navController:NavController, searchData: MutableState<DataState<BaseModel>?>, itemClick:()->Unit) {
+fun SearchUI(navController:NavController, searchData: MutableState<DataState<BaseModelMovie>?>, itemClick:()->Unit) {
     LazyColumn(
         modifier = Modifier.padding(top = 60.dp)
             .fillMaxWidth()
@@ -53,7 +53,7 @@ fun SearchUI(navController:NavController, searchData: MutableState<DataState<Bas
 
     ) {
         searchData.value?.let {
-            if (it is DataState.Success<BaseModel>) {
+            if (it is DataState.Success<BaseModelMovie>) {
                 items(items = it.data.results, itemContent = { item ->
                     Row(modifier = Modifier
                         .padding(bottom = 8.dp, start = 8.dp , end = 8.dp)
