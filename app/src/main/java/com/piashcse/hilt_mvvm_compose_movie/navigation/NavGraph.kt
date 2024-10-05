@@ -13,10 +13,10 @@ import androidx.navigation.navArgument
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.artist_detail.ArtistDetail
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.nowplaying.NowPlaying
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.popular.Popular
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.toprated.TopRated
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.upcoming.Upcoming
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.nowplaying.NowPlayingMovie
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.popular.PopularMovie
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.toprated.TopRatedMovie
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.upcoming.UpcomingMovie
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.genre.GenreScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.movie_detail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.airing_today.AiringTodayTvSeries
@@ -31,25 +31,25 @@ fun Navigation(
 ) {
     NavHost(navController, startDestination = initialScreen(page)) {
         composable(Screen.NowPlaying.route) {
-            NowPlaying(
+            NowPlayingMovie(
                 navController = navController,
                 genres
             )
         }
         composable(Screen.Popular.route) {
-            Popular(
+            PopularMovie(
                 navController = navController,
                 genres
             )
         }
         composable(Screen.TopRated.route) {
-            TopRated(
+            TopRatedMovie(
                 navController = navController,
                 genres
             )
         }
         composable(Screen.Upcoming.route) {
-            Upcoming(
+            UpcomingMovie(
                 navController = navController,
                 genres
             )

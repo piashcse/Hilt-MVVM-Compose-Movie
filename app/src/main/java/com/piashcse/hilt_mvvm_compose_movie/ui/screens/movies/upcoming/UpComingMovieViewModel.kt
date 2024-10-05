@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 @HiltViewModel
-class UpComingViewModel @Inject constructor(val repo: MovieRepository) : ViewModel() {
+class UpComingMovieViewModel @Inject constructor(val repo: MovieRepository) : ViewModel() {
     var selectedGenre: MutableState<Genre> =
         mutableStateOf(Genre(null, AppConstant.DEFAULT_GENRE_ITEM))
     val filterData = MutableStateFlow<GenreId?>(null)

@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.popular
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.toprated
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -9,20 +9,20 @@ import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.MovieItemList
 
 @Composable
-fun Popular(
+fun TopRatedMovie(
     navController: NavController,
     genres: ArrayList<Genre>? = null,
 ) {
-    val popularViewModel = hiltViewModel<PopularViewModel>()
+    val topRatedViewModel = hiltViewModel<TopRatedMovieViewModel>()
     MovieItemList(
         navController = navController,
-        moviesItems = popularViewModel.popularMovies.collectAsLazyPagingItems(),
+        moviesItems = topRatedViewModel.topRatedMovies.collectAsLazyPagingItems(),
         genres = genres,
-        selectedName = popularViewModel.selectedGenre.value
+        selectedName = topRatedViewModel.selectedGenre.value
     ){
-        popularViewModel.filterData.value = GenreId(it?.id.toString())
+        topRatedViewModel.filterData.value =  GenreId(it?.id.toString())
         it?.let {
-            popularViewModel.selectedGenre.value = it
+            topRatedViewModel.selectedGenre.value = it
         }
     }
 }

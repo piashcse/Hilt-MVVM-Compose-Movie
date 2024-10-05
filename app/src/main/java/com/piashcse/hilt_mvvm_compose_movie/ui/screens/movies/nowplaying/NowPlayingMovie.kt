@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.upcoming
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.nowplaying
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -8,22 +8,21 @@ import com.piashcse.hilt_mvvm_compose_movie.data.model.GenreId
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.MovieItemList
 
-
 @Composable
-fun Upcoming(
+fun NowPlayingMovie(
     navController: NavController,
     genres: ArrayList<Genre>? = null,
 ) {
-    val upComingViewModel = hiltViewModel<UpComingViewModel>()
+    val nowPlayViewModel = hiltViewModel<NowPlayingMovieViewModel>()
     MovieItemList(
         navController = navController,
-        moviesItems = upComingViewModel.upcomingMovies.collectAsLazyPagingItems(),
+        moviesItems = nowPlayViewModel.nowPlayingMovies.collectAsLazyPagingItems(),
         genres = genres,
-        selectedName = upComingViewModel.selectedGenre.value
-    ) {
-        upComingViewModel.filterData.value =  GenreId(it?.id.toString())
+        selectedName = nowPlayViewModel.selectedGenre.value
+    ){
+        nowPlayViewModel.filterData.value = GenreId(it?.id.toString())
         it?.let {
-            upComingViewModel.selectedGenre.value = it
+            nowPlayViewModel.selectedGenre.value = it
         }
     }
 }
