@@ -31,69 +31,64 @@ class MovieDetailViewModel @Inject constructor(private val repo: MovieRepository
 
     fun movieDetail(movieId: Int) {
         viewModelScope.launch {
-            viewModelScope.launch {
-                repo.movieDetail(movieId).onEach {
-                    when (it) {
-                        is DataState.Loading -> {
-                            _isLoading.value = true
-                        }
-
-                        is DataState.Success -> {
-                            _movieDetail.value = it.data
-                            _isLoading.value = false
-                        }
-
-                        is DataState.Error -> {
-                            _isLoading.value = false
-                        }
+            repo.movieDetail(movieId).onEach {
+                when (it) {
+                    is DataState.Loading -> {
+                        _isLoading.value = true
                     }
-                }.launchIn(viewModelScope)
-            }
+
+                    is DataState.Success -> {
+                        _movieDetail.value = it.data
+                        _isLoading.value = false
+                    }
+
+                    is DataState.Error -> {
+                        _isLoading.value = false
+                    }
+                }
+            }.launchIn(viewModelScope)
         }
     }
 
     fun recommendedMovie(movieId: Int) {
         viewModelScope.launch {
-            viewModelScope.launch {
-                repo.recommendedMovie(movieId).onEach {
-                    when (it) {
-                        is DataState.Loading -> {
-                            _isLoading.value = true
-                        }
-
-                        is DataState.Success -> {
-                            _recommendedMovie.value = it.data
-                            _isLoading.value = false
-                        }
-
-                        is DataState.Error -> {
-                            _isLoading.value = false
-                        }
+            repo.recommendedMovie(movieId).onEach {
+                when (it) {
+                    is DataState.Loading -> {
+                        _isLoading.value = true
                     }
-                }.launchIn(viewModelScope)
-            }
+
+                    is DataState.Success -> {
+                        _recommendedMovie.value = it.data
+                        _isLoading.value = false
+                    }
+
+                    is DataState.Error -> {
+                        _isLoading.value = false
+                    }
+                }
+            }.launchIn(viewModelScope)
         }
     }
+
     fun movieCredit(movieId: Int) {
         viewModelScope.launch {
-            viewModelScope.launch {
-                repo.movieCredit(movieId).onEach {
-                    when (it) {
-                        is DataState.Loading -> {
-                            _isLoading.value = true
-                        }
-
-                        is DataState.Success -> {
-                            _movieCredit.value = it.data
-                            _isLoading.value = false
-                        }
-
-                        is DataState.Error -> {
-                            _isLoading.value = false
-                        }
+            repo.movieCredit(movieId).onEach {
+                when (it) {
+                    is DataState.Loading -> {
+                        _isLoading.value = true
                     }
-                }.launchIn(viewModelScope)
-            }
+
+                    is DataState.Success -> {
+                        _movieCredit.value = it.data
+                        _isLoading.value = false
+                    }
+
+                    is DataState.Error -> {
+                        _isLoading.value = false
+                    }
+                }
+            }.launchIn(viewModelScope)
         }
     }
 }
