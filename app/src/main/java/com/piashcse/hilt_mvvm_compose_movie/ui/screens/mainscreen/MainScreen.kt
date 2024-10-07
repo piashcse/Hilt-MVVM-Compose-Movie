@@ -1,6 +1,7 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -156,7 +157,7 @@ fun MainScreen() {
             }
         }
     }) {
-        Column(Modifier.padding(it)) {
+        Box(Modifier.padding(it)) {
             TabScreen(
                 navController,
                 pagerState,

@@ -44,7 +44,7 @@ import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 @Composable
 fun SearchUI(navController:NavController, searchData: MutableState<DataState<BaseModelMovie>?>, itemClick:()->Unit) {
     LazyColumn(
-        modifier = Modifier.padding(top = 60.dp)
+        modifier = Modifier.padding(top = 48.dp)
             .fillMaxWidth()
             .heightIn(0.dp, 350.dp) // define max height
             .clip(RoundedCornerShape(bottomStart = 15.dp, bottomEnd = 15.dp))
