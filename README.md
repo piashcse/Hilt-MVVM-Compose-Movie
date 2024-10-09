@@ -50,7 +50,7 @@ You will need to provide a developer key to fetch the data from TMDB API.
 ```kotlin
 defaultConfig {
     ...
-    buildConfigField("API_KEY", TMDB_API_KEY)
+    buildConfigField("String", "API_KEY", '"TMDB_API_KEY"')
     ...
 }
 ```
