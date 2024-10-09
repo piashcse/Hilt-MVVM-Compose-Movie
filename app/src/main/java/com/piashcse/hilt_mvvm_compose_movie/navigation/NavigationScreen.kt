@@ -27,7 +27,6 @@ sealed class Screen(
     val objectName: String = "",
     val objectPath: String = ""
 ) {
-    object Login : Screen("login_screen")
     object NowPlaying : Screen("now_playing_movie")
     object Popular : Screen("popular_movie")
     object TopRated : Screen("top_rated_movie")

@@ -9,7 +9,6 @@ import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging_dataso
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging_datasource.movie.PopularMoviePagingDataSource
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging_datasource.movie.TopRatedMoviePagingDataSource
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging_datasource.movie.UpcomingMoviePagingDataSource
-import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModelMovie
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchBaseModel

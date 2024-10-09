@@ -8,12 +8,9 @@ import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging_dataso
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging_datasource.tv_series.OnTheAirTvSeriesPagingDataSource
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging_datasource.tv_series.PopularTvSeriesPagingDataSource
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging_datasource.tv_series.TopRatedTvSeriesPagingDataSource
-import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModelMovie
-import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModelTvSeries
 import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchBaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.TvSeriesItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
-import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.model.tv_series_detail.TvSeriesDetail
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import kotlinx.coroutines.flow.Flow

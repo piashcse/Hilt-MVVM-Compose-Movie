@@ -34,9 +34,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.paging.PagingData
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.collectAsLazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
@@ -56,7 +54,6 @@ import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
-import kotlinx.coroutines.flow.Flow
 
 @Composable
 fun MovieItemList(

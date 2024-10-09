@@ -198,7 +198,7 @@ fun RecommendedTvSeries(navController: NavController?, recommendedTvSeries: List
                             .cornerRadius(10)
                             .clickable {
                                 navController?.navigate(
-                                    Screen.MovieDetail.route.plus(
+                                    Screen.TvSeriesDetail.route.plus(
                                         "/${item.id}"
                                     )
                                 )

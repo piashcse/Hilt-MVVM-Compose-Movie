@@ -1,14 +1,9 @@
 package com.piashcse.hilt_mvvm_compose_movie.data.repository
 
 import androidx.paging.PagingData
-import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModelMovie
-import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModelTvSeries
-import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchBaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.TvSeriesItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
-import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail
-import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.model.tv_series_detail.TvSeriesDetail
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import kotlinx.coroutines.flow.Flow

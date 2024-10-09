@@ -49,6 +49,7 @@ import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigation
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.navigationTitle
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchUI
@@ -103,8 +104,7 @@ fun MainScreen() {
             ),
             title = {
                 Text(
-                    if (currentRoute(navController) == Screen.NavigationDrawer.route) genreName.value
-                    else stringResource(R.string.app_name),
+                    text = navigationTitle(navController),
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                     color = Color.White
