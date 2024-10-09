@@ -16,14 +16,20 @@ Movie World app using [The Movie DB](https://www.themoviedb.org) built with jetp
 </p>
 
 # Main Features
-- Movie List 
+- Movie
+  - Movie List  
+  - Movie Search
+  - Movie Detail
+  - Recommended Movie
+- TV Series
+  - TV Series List
+  - TV Series Search
+  - TV Series Detail
+  - Recommended TV Series 
 - Filter with genre 
 - Pagination with paging3
-- Movie detail
-- Artist info and artist detail
 - Bottom navigation
 - Search filter for movie
-- Genre movie in the navigation drawer
 - Network connection state with SnackBar
 
  <p align="center" width="100%">
