@@ -32,6 +32,8 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
+import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_MOVIE_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_TV_SERIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.roundTo
 import com.skydoves.landscapist.ImageOptions
@@ -65,13 +67,13 @@ fun SearchUI(
                         .padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
                         .clickable {
                             itemClick.invoke()
-                            if (activeTab == 0){
+                            if (activeTab == ACTIVE_MOVIE_TAB){
                                 navController.navigate(
                                     Screen.MovieDetail.route.plus(
                                         "/${item.id}"
                                     )
                                 )
-                            }else{
+                            }else if (activeTab == ACTIVE_TV_SERIES_TAB){
                                 navController.navigate(
                                     Screen.TvSeriesDetail.route.plus(
                                         "/${item.id}"

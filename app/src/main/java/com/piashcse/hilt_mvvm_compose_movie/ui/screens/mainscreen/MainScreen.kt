@@ -55,6 +55,8 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchUI
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FloatingActionBackground
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
+import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_MOVIE_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_TV_SERIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.AppConstant
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.ConnectionState
@@ -165,14 +167,14 @@ fun MainScreen() {
             )
             CircularIndeterminateProgressBar(isDisplayed = searchProgressBar.value, 0.1f)
             if (isAppBarVisible.value.not()) {
-                if (pagerState.currentPage == 0) {
+                if (pagerState.currentPage == ACTIVE_MOVIE_TAB) {
                     SearchUI(navController, mainViewModel.movieSearchData, pagerState.currentPage) {
                         isAppBarVisible.value = true
                     }
                     mainViewModel.movieSearchData.pagingLoadingState {
                         searchProgressBar.value = it
                     }
-                } else {
+                } else if (pagerState.currentPage == ACTIVE_TV_SERIES_TAB){
                     SearchUI(
                         navController,
                         mainViewModel.tvSeriesSearchData,
