@@ -10,9 +10,9 @@ Movie World app using [The Movie DB](https://www.themoviedb.org) built with jetp
 
 
 <p float="left">
-  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1728491749752.png" />
-  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1728491749751.png" />
-  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1728491749753.png" />
+  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1728491749752.PNG" />
+  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1728491749751.PNG" />
+  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1728491749753.PNG" />
 </p>
 
 # Main Features
