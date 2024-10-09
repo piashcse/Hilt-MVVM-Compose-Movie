@@ -8,6 +8,9 @@ import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging_dataso
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging_datasource.tv_series.OnTheAirTvSeriesPagingDataSource
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging_datasource.tv_series.PopularTvSeriesPagingDataSource
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging_datasource.tv_series.TopRatedTvSeriesPagingDataSource
+import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModelMovie
+import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModelTvSeries
+import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchBaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.TvSeriesItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail
@@ -43,6 +46,17 @@ class TvSeriesRepository @Inject constructor(
             pagingSourceFactory = { TopRatedTvSeriesPagingDataSource(apiService, genreId) },
             config = PagingConfig(pageSize = 20)
         ).flow
+
+    override suspend fun searchTvSeries(searchKey: String): Flow<DataState<SearchBaseModel>>  = flow {
+        emit(DataState.Loading)
+        try {
+            val searchResult = apiService.searchTvSeries(searchKey)
+            emit(DataState.Success(searchResult))
+
+        } catch (e: Exception) {
+            emit(DataState.Error(e))
+        }
+    }
 
     override suspend fun tvSeriesDetail(seriesId: Int): Flow<DataState<TvSeriesDetail>>  = flow {
         emit(DataState.Loading)

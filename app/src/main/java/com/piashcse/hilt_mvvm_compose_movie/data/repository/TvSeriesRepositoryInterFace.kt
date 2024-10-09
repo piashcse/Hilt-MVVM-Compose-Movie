@@ -1,7 +1,10 @@
 package com.piashcse.hilt_mvvm_compose_movie.data.repository
 
 import androidx.paging.PagingData
+import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModelMovie
+import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModelTvSeries
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
+import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchBaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.TvSeriesItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail
@@ -15,6 +18,7 @@ interface TvSeriesRepositoryInterFace {
     fun onTheAirTvSeriesPagingDataSource(genreId: String?): Flow<PagingData<TvSeriesItem>>
     fun popularTvSeriesPagingDataSource(genreId: String?): Flow<PagingData<TvSeriesItem>>
     fun topRatedTvSeriesPagingDataSource(genreId: String?): Flow<PagingData<TvSeriesItem>>
+    suspend fun searchTvSeries(searchKey: String): Flow<DataState<SearchBaseModel>>
     suspend fun tvSeriesDetail(seriesId: Int): Flow<DataState<TvSeriesDetail>>
     suspend fun recommendedTvSeries(seriesId: Int): Flow<DataState<List<TvSeriesItem>>>
     suspend fun artistDetail(personId: Int): Flow<DataState<Artist>>

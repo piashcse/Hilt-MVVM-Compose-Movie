@@ -4,6 +4,7 @@ import com.piashcse.hilt_mvvm_compose_movie.BuildConfig
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModelMovie
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModelTvSeries
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
+import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchBaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
@@ -52,9 +53,9 @@ interface ApiService {
     ): BaseModelMovie
 
     @GET("search/movie?page=1&include_adult=false")
-    suspend fun search(
+    suspend fun searchMovie(
         @Query("query") searchKey: String, @Query("api_key") api_key: String = BuildConfig.API_KEY
-    ): BaseModelMovie
+    ): SearchBaseModel
 
     @GET("genre/movie/list")
     suspend fun genreList(@Query("api_key") api_key: String = BuildConfig.API_KEY): Genres
@@ -118,4 +119,10 @@ interface ApiService {
     suspend fun tvSeriesCredit(
         @Path("seriesId") seriesId: Int, @Query("api_key") api_key: String = BuildConfig.API_KEY
     ): Artist
+
+    @GET("search/tv?page=1&include_adult=false")
+    suspend fun searchTvSeries(
+        @Query("query") searchKey: String,
+        @Query("api_key") api_key: String = BuildConfig.API_KEY
+    ): SearchBaseModel
 }

@@ -12,6 +12,7 @@ import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging_dataso
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModelMovie
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
+import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchBaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
@@ -47,10 +48,10 @@ class MovieRepository @Inject constructor(
         }
 
 
-    override suspend fun search(searchKey: String): Flow<DataState<BaseModelMovie>> = flow {
+    override suspend fun movieSearch(searchKey: String): Flow<DataState<SearchBaseModel>> = flow {
         emit(DataState.Loading)
         try {
-            val searchResult = apiService.search(searchKey)
+            val searchResult = apiService.searchMovie(searchKey)
             emit(DataState.Success(searchResult))
 
         } catch (e: Exception) {

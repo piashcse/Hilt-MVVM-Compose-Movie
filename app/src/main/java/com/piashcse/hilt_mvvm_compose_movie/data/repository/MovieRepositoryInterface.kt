@@ -1,9 +1,9 @@
 package com.piashcse.hilt_mvvm_compose_movie.data.repository
 
 import androidx.paging.PagingData
-import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModelMovie
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
+import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchBaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 interface MovieRepositoryInterface {
     suspend fun movieDetail(movieId: Int): Flow<DataState<MovieDetail>>
     suspend fun recommendedMovie(movieId: Int): Flow<DataState<List<MovieItem>>>
-    suspend fun search(searchKey: String): Flow<DataState<BaseModelMovie>>
+    suspend fun movieSearch(searchKey: String): Flow<DataState<SearchBaseModel>>
     suspend fun genreList(): Flow<DataState<Genres>>
     suspend fun movieCredit(movieId: Int): Flow<DataState<Artist>>
     suspend fun artistDetail(personId: Int): Flow<DataState<ArtistDetail>>

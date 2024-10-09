@@ -95,7 +95,7 @@ fun MainScreen() {
 
     Scaffold(topBar = {
         if (!isAppBarVisible.value) {
-            SearchBar(isAppBarVisible, mainViewModel)
+            SearchBar(isAppBarVisible, mainViewModel, pagerState.currentPage)
         } else CenterAlignedTopAppBar(
             colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -165,12 +165,26 @@ fun MainScreen() {
             )
             CircularIndeterminateProgressBar(isDisplayed = searchProgressBar.value, 0.1f)
             if (isAppBarVisible.value.not()) {
-                SearchUI(navController, mainViewModel.searchData) {
-                    isAppBarVisible.value = true
+                if (pagerState.currentPage == 0) {
+                    SearchUI(navController, mainViewModel.movieSearchData, pagerState.currentPage) {
+                        isAppBarVisible.value = true
+                    }
+                    mainViewModel.movieSearchData.pagingLoadingState {
+                        searchProgressBar.value = it
+                    }
+                } else {
+                    SearchUI(
+                        navController,
+                        mainViewModel.tvSeriesSearchData,
+                        pagerState.currentPage
+                    ) {
+                        isAppBarVisible.value = true
+                    }
+                    mainViewModel.tvSeriesSearchData.pagingLoadingState {
+                        searchProgressBar.value = it
+                    }
                 }
-            }
-            mainViewModel.searchData.pagingLoadingState {
-                searchProgressBar.value = it
+
             }
         }
     }
