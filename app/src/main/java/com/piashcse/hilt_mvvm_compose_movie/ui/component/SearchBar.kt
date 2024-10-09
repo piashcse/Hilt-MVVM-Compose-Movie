@@ -31,7 +31,7 @@ import kotlinx.coroutines.FlowPreview
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @Composable
-fun SearchBar(isAppBarVisible:MutableState<Boolean>, viewModel: MainViewModel){
+fun SearchBar(isAppBarVisible:MutableState<Boolean>, viewModel: MainViewModel, activeTab: Int){
     var text by remember { mutableStateOf("") }
     val focusRequester = FocusRequester()
     BackHandler(isAppBarVisible.value.not()) {
@@ -51,7 +51,11 @@ fun SearchBar(isAppBarVisible:MutableState<Boolean>, viewModel: MainViewModel){
             ),
             onValueChange = {
                 text = it
-                viewModel.searchApi(it)
+                if (activeTab == 0 ){
+                    viewModel.searchMovie(it)
+                }else{
+                    viewModel.searchTvSeries(it)
+                }
             },
             //shape = RoundedCornerShape(8.dp),
             singleLine = true,

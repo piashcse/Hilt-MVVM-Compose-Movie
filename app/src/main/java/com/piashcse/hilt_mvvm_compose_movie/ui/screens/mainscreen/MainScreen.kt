@@ -1,30 +1,32 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
-import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalDrawerSheet
-import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Snackbar
+import androidx.compose.material3.Tab
+import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabRowDefaults
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -39,6 +41,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
@@ -46,12 +49,14 @@ import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigation
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.navigationTitle
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchUI
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.drawer.DrawerUI
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FloatingActionBackground
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
+import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_MOVIE_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_TV_SERIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.AppConstant
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.ConnectionState
@@ -66,156 +71,146 @@ import kotlinx.coroutines.launch
 fun MainScreen() {
     val mainViewModel = hiltViewModel<MainViewModel>()
     val navController = rememberNavController()
-    val scope = rememberCoroutineScope()
     val isAppBarVisible = remember { mutableStateOf(true) }
     val searchProgressBar = remember { mutableStateOf(false) }
     val genreName = remember { mutableStateOf("") }
-    val genreList = remember { mutableStateOf(arrayListOf<Genre>()) }
-    // internet connection
+    var genreList = remember { mutableListOf<Genre>() }
     val connection by connectivityState()
     val isConnected = connection === ConnectionState.Available
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
-    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val pagerState = rememberPagerState {
+        2
+    }
     // genre api call for first time
-    LaunchedEffect(key1 = 0) {
+    LaunchedEffect(Unit) {
         mainViewModel.genreList()
     }
 
     if (mainViewModel.genres.value is DataState.Success<Genres>) {
-        genreList.value =
+        genreList =
             (mainViewModel.genres.value as DataState.Success<Genres>).data.genres as ArrayList
         // All first value as all
-        if (genreList.value.first().name != AppConstant.DEFAULT_GENRE_ITEM) genreList.value.add(
+        if (genreList.first().name != AppConstant.DEFAULT_GENRE_ITEM) genreList.add(
             0,
             Genre(null, AppConstant.DEFAULT_GENRE_ITEM)
         )
     }
-    ModalNavigationDrawer(
-        drawerState = drawerState, drawerContent = {
-            ModalDrawerSheet(
-                modifier = Modifier
-                    .padding(0.dp, 0.dp, 100.dp, 0.dp)
-                    .fillMaxHeight()
-            ) {
-                DrawerUI(navController, genreList.value as List<Genre>) {
-                    genreName.value = it
-                    scope.launch {
-                        drawerState.apply {
-                            if (isClosed) open() else close()
-                        }
-                    }
-                }
-            }
-        }, gesturesEnabled = true
-    ) {
-        Scaffold(topBar = {
-            if (!isAppBarVisible.value) {
-                SearchBar(isAppBarVisible, mainViewModel)
-            } else CenterAlignedTopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.primaryContainer,
-                    titleContentColor = MaterialTheme.colorScheme.primary,
-                ),
-                title = {
-                    Text(
-                        if (currentRoute(navController) == Screen.NavigationDrawer.route) genreName.value
-                        else stringResource(R.string.app_title),
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        color = Color.White
-                    )
-                },
-                navigationIcon = {
-                    when (currentRoute(navController)) {
-                        Screen.Home.route, Screen.Popular.route, Screen.TopRated.route, Screen.Upcoming.route -> {
-                            IconButton(onClick = {
-                                scope.launch {
-                                    drawerState.apply {
-                                        if (isClosed) open() else close()
-                                    }
-                                }
-                            }) {
-                                Icon(
-                                    imageVector = Icons.Filled.Menu,
-                                    contentDescription = "Localized description",
-                                    tint = Color.White
-                                )
-                            }
-                        }
 
-                        else -> {
-                            IconButton(onClick = { navController.popBackStack() }) {
-                                Icon(
-                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = "Localized description",
-                                    tint = Color.White
-                                )
-                            }
+    Scaffold(topBar = {
+        if (!isAppBarVisible.value) {
+            SearchBar(isAppBarVisible, mainViewModel, pagerState.currentPage)
+        } else CenterAlignedTopAppBar(
+            colors = TopAppBarDefaults.topAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                titleContentColor = MaterialTheme.colorScheme.primary,
+            ),
+            title = {
+                Text(
+                    text = navigationTitle(navController),
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
+                    color = Color.White
+                )
+            },
+            navigationIcon = {
+                when (currentRoute(navController)) {
+                    Screen.MovieDetail.route, Screen.ArtistDetail.route, Screen.TvSeriesDetail.route -> {
+                        IconButton(onClick = { navController.popBackStack() }) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = "Localized description",
+                                tint = Color.White
+                            )
                         }
                     }
-                },
-                scrollBehavior = scrollBehavior,
-            )
-        }, floatingActionButton = {
-            when (currentRoute(navController)) {
-                Screen.Home.route, Screen.Popular.route, Screen.TopRated.route, Screen.Upcoming.route -> {
-                    FloatingActionButton(
-                        modifier = Modifier.cornerRadius(30),
-                        containerColor = FloatingActionBackground,
-                        onClick = {
-                            isAppBarVisible.value = false
-                        },
-                    ) {
-                        Icon(Icons.Filled.Search, "", tint = Color.White)
-                    }
                 }
-            }
-        }, bottomBar = {
-            when (currentRoute(navController)) {
-                Screen.Home.route, Screen.Popular.route, Screen.TopRated.route, Screen.Upcoming.route -> {
-                    BottomNavigationUI(navController)
-                }
-            }
-        }, snackbarHost = {
-            if (isConnected.not()) {
-                Snackbar(
-                    action = {}, modifier = Modifier.padding(8.dp)
+            },
+            scrollBehavior = scrollBehavior,
+        )
+    }, floatingActionButton = {
+        when (currentRoute(navController)) {
+            Screen.NowPlaying.route, Screen.Popular.route, Screen.TopRated.route, Screen.Upcoming.route,
+            Screen.AiringTodayTvSeries.route, Screen.OnTheAirTvSeriesNav.route, Screen.PopularTvSeries.route, Screen.TopRatedTvSeries.route -> {
+                FloatingActionButton(
+                    modifier = Modifier.cornerRadius(30),
+                    containerColor = FloatingActionBackground,
+                    onClick = {
+                        isAppBarVisible.value = false
+                    },
                 ) {
-                    Text(text = stringResource(R.string.there_is_no_internet))
+                    Icon(Icons.Filled.Search, "", tint = Color.White)
                 }
             }
-        }) {
-            Box(
-                modifier = Modifier.fillMaxWidth()
+        }
+    }, bottomBar = {
+        when (currentRoute(navController)) {
+            Screen.NowPlaying.route, Screen.Popular.route, Screen.TopRated.route, Screen.Upcoming.route,
+            Screen.AiringTodayTvSeries.route, Screen.OnTheAirTvSeriesNav.route,
+            Screen.PopularTvSeries.route, Screen.TopRatedTvSeries.route -> {
+                BottomNavigationUI(navController, pagerState)
+            }
+        }
+    }, snackbarHost = {
+        if (isConnected.not()) {
+            Snackbar(
+                action = {}, modifier = Modifier.padding(8.dp)
             ) {
-                Navigation(navController, Modifier.padding(it), genreList.value)
-                Column {
-                    CircularIndeterminateProgressBar(isDisplayed = searchProgressBar.value, 0.1f)
-                    if (isAppBarVisible.value.not()) {
-                        SearchUI(navController, mainViewModel.searchData) {
-                            isAppBarVisible.value = true
-                        }
+                Text(text = stringResource(R.string.there_is_no_internet))
+            }
+        }
+    }) {
+        Box(Modifier.padding(it)) {
+            TabScreen(
+                navController,
+                pagerState,
+                genreList as ArrayList<Genre>?
+            )
+            CircularIndeterminateProgressBar(isDisplayed = searchProgressBar.value, 0.1f)
+            if (isAppBarVisible.value.not()) {
+                if (pagerState.currentPage == ACTIVE_MOVIE_TAB) {
+                    SearchUI(navController, mainViewModel.movieSearchData, pagerState.currentPage) {
+                        isAppBarVisible.value = true
+                    }
+                    mainViewModel.movieSearchData.pagingLoadingState {
+                        searchProgressBar.value = it
+                    }
+                } else if (pagerState.currentPage == ACTIVE_TV_SERIES_TAB){
+                    SearchUI(
+                        navController,
+                        mainViewModel.tvSeriesSearchData,
+                        pagerState.currentPage
+                    ) {
+                        isAppBarVisible.value = true
+                    }
+                    mainViewModel.tvSeriesSearchData.pagingLoadingState {
+                        searchProgressBar.value = it
                     }
                 }
-            }
-            mainViewModel.searchData.pagingLoadingState {
-                searchProgressBar.value = it
+
             }
         }
     }
-
 }
 
 
 @Composable
-fun BottomNavigationUI(navController: NavController) {
+fun BottomNavigationUI(navController: NavController, pagerState: PagerState) {
     NavigationBar {
-        val items = listOf(
-            Screen.HomeNav,
-            Screen.PopularNav,
-            Screen.TopRatedNav,
-            Screen.UpcomingNav,
-        )
+        val items = if (pagerState.currentPage == 0) {
+            listOf(
+                Screen.NowPlayingNav,
+                Screen.PopularNav,
+                Screen.TopRatedNav,
+                Screen.UpcomingNav,
+            )
+        } else {
+            listOf(
+                Screen.AiringTodayTvSeriesNav,
+                Screen.OnTheAirTvSeriesNav,
+                Screen.PopularTvSeriesNav,
+                Screen.TopRatedTvSeriesNav,
+            )
+        }
         items.forEachIndexed { index, item ->
             NavigationBarItem(icon = item.navIcon,
                 label = { Text(text = stringResource(id = item.title)) },
@@ -237,6 +232,50 @@ fun BottomNavigationUI(navController: NavController) {
                         restoreState = true
                     }
                 })
+        }
+    }
+}
+
+@Composable
+fun TabScreen(
+    navigator: NavHostController,
+    pagerState: PagerState,
+    genres: ArrayList<Genre>? = null,
+) {
+    val coroutineScope = rememberCoroutineScope()
+    val tabs = listOf(stringResource(R.string.movie), stringResource(R.string.tv_series))
+
+    Column {
+        TabRow(
+            modifier = Modifier.background(Color.White),
+            selectedTabIndex = pagerState.currentPage,
+            indicator = { tabPositions ->
+                TabRowDefaults.PrimaryIndicator(
+                    Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+        ) {
+            tabs.forEachIndexed { index, title ->
+                Tab(
+                    selected = pagerState.currentPage == index,
+                    onClick = {
+                        coroutineScope.launch {
+                            pagerState.animateScrollToPage(index)
+                        }
+                    },
+                    text = {
+                        Text(
+                            title,
+                            color = if (pagerState.currentPage == index) MaterialTheme.colorScheme.primary else Color.Gray
+                        )
+                    })
+            }
+        }
+        HorizontalPager(
+            state = pagerState, modifier = Modifier.fillMaxSize()
+        ) { page ->
+            Navigation(navigator, page, genres)
         }
     }
 }

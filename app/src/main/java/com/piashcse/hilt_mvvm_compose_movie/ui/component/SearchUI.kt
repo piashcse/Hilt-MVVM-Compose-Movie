@@ -26,12 +26,14 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
-import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
+import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchBaseModel
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
+import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_MOVIE_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_TV_SERIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.roundTo
 import com.skydoves.landscapist.ImageOptions
@@ -42,9 +44,15 @@ import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 
 @Composable
-fun SearchUI(navController:NavController, searchData: MutableState<DataState<BaseModel>?>, itemClick:()->Unit) {
+fun SearchUI(
+    navController: NavController,
+    searchData: MutableState<DataState<SearchBaseModel>?>,
+    activeTab: Int,
+    itemClick: () -> Unit
+) {
     LazyColumn(
-        modifier = Modifier.padding(top = 60.dp)
+        modifier = Modifier
+            .padding(top = 48.dp)
             .fillMaxWidth()
             .heightIn(0.dp, 350.dp) // define max height
             .clip(RoundedCornerShape(bottomStart = 15.dp, bottomEnd = 15.dp))
@@ -53,23 +61,32 @@ fun SearchUI(navController:NavController, searchData: MutableState<DataState<Bas
 
     ) {
         searchData.value?.let {
-            if (it is DataState.Success<BaseModel>) {
+            if (it is DataState.Success<SearchBaseModel>) {
                 items(items = it.data.results, itemContent = { item ->
                     Row(modifier = Modifier
-                        .padding(bottom = 8.dp, start = 8.dp , end = 8.dp)
+                        .padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
                         .clickable {
                             itemClick.invoke()
-                            navController.navigate(
-                                Screen.MovieDetail.route.plus(
-                                    "/${item.id}"
+                            if (activeTab == ACTIVE_MOVIE_TAB){
+                                navController.navigate(
+                                    Screen.MovieDetail.route.plus(
+                                        "/${item.id}"
+                                    )
                                 )
-                            )
+                            }else if (activeTab == ACTIVE_TV_SERIES_TAB){
+                                navController.navigate(
+                                    Screen.TvSeriesDetail.route.plus(
+                                        "/${item.id}"
+                                    )
+                                )
+                            }
                         }) {
                         CoilImage(
                             modifier = Modifier
                                 .height(100.dp)
-                                .width(80.dp).cornerRadius(8),
-                            imageModel = {  ApiURL.IMAGE_URL.plus(item.backdropPath) },
+                                .width(80.dp)
+                                .cornerRadius(8),
+                            imageModel = { ApiURL.IMAGE_URL.plus(item.backdropPath) },
                             imageOptions = ImageOptions(
                                 contentScale = ContentScale.Crop,
                                 alignment = Alignment.Center,
@@ -80,15 +97,17 @@ fun SearchUI(navController:NavController, searchData: MutableState<DataState<Bas
                                 +CircularRevealPlugin(
                                     duration = 800
                                 )
-                                +ShimmerPlugin(shimmer = Shimmer.Flash(
-                                    baseColor = SecondaryFontColor,
-                                    highlightColor = DefaultBackgroundColor
-                                ))
+                                +ShimmerPlugin(
+                                    shimmer = Shimmer.Flash(
+                                        baseColor = SecondaryFontColor,
+                                        highlightColor = DefaultBackgroundColor
+                                    )
+                                )
                             },
                         )
                         Column {
                             Text(
-                                text = item.title,
+                                text = item.title ?: "",
                                 modifier = Modifier.padding(
                                     start = 8.dp,
                                     top = 4.dp
@@ -96,13 +115,17 @@ fun SearchUI(navController:NavController, searchData: MutableState<DataState<Bas
                                 fontWeight = FontWeight.SemiBold
                             )
                             Text(
-                                text = item.releaseDate,
+                                text = item.releaseDate ?: "",
                                 color = FontColor,
                                 fontSize = 16.sp,
                                 modifier = Modifier.padding(start = 8.dp)
                             )
                             Text(
-                                text = "${stringResource(R.string.rating_search)} ${item.voteAverage.roundTo(1)}",
+                                text = "${stringResource(R.string.rating_search)} ${
+                                    item.voteAverage?.roundTo(
+                                        1
+                                    )
+                                }",
                                 color = SecondaryFontColor,
                                 fontSize = 12.sp,
                                 modifier = Modifier.padding(start = 8.dp)
