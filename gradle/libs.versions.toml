@@ -22,7 +22,7 @@ navigation-compose = "2.8.2"
 hilt-navigation-compose = "1.2.0"
 navigation-runtime-ktx = "2.8.2"
 hilt = "2.52"
-ksp = "2.0.20-1.0.25"
+ksp = "2.0.21-1.0.25"
 compose-bom = "2024.09.03"
 compose = "1.7.3"
 
