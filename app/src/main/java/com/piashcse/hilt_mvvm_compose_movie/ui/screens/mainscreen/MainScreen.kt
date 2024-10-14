@@ -10,6 +10,7 @@ import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -73,7 +74,6 @@ fun MainScreen() {
     val navController = rememberNavController()
     val isAppBarVisible = remember { mutableStateOf(true) }
     val searchProgressBar = remember { mutableStateOf(false) }
-    val genreName = remember { mutableStateOf("") }
     var genreList = remember { mutableListOf<Genre>() }
     val connection by connectivityState()
     val isConnected = connection === ConnectionState.Available
@@ -126,6 +126,17 @@ fun MainScreen() {
                 }
             },
             scrollBehavior = scrollBehavior,
+            actions = {
+                IconButton(onClick = {
+
+                }) {
+                    Icon(
+                        imageVector = Icons.Filled.Favorite,
+                        contentDescription = "Localized description",
+                        tint = Color.White
+                    )
+                }
+            }
         )
     }, floatingActionButton = {
         when (currentRoute(navController)) {
