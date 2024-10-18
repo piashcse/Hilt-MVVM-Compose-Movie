@@ -1,5 +1,5 @@
 [versions]
-agp = "8.7.0"
+agp = "8.7.1"
 kotlin = "2.0.21"
 core-ktx = "1.13.1"
 junit = "4.13.2"
@@ -8,28 +8,28 @@ espresso-core = "3.6.1"
 splashscreen = "1.0.1"
 constraint-layout-compose = "1.0.1"
 lifecycle-runtime-ktx = "2.8.6"
-activity-compose = "1.9.2"
+activity-compose = "1.9.3"
 material = "1.12.0"
-material-Icons-extended = "1.7.3"
+material-icons-extended = "1.7.4"
 multidex = "2.0.1"
 retrofit = "2.11.0"
 gson = "2.11.0"
 logging-Interceptor = "5.0.0-alpha.2"
 paging-compose = "3.3.2"
-landscapist = "2.4.0"
+landscapist = "2.4.1"
 timber = "5.0.1"
-navigation-compose = "2.8.2"
+navigation-compose = "2.8.3"
 hilt-navigation-compose = "1.2.0"
-navigation-runtime-ktx = "2.8.2"
+navigation-runtime-ktx = "2.8.3"
 hilt = "2.52"
 ksp = "2.0.21-1.0.25"
-compose-bom = "2024.09.03"
-compose = "1.7.3"
+compose-bom = "2024.10.00"
+compose = "1.7.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
-androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "material-Icons-extended" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "material-icons-extended" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-junit" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
