@@ -14,7 +14,7 @@ material-icons-extended = "1.7.4"
 multidex = "2.0.1"
 retrofit = "2.11.0"
 gson = "2.11.0"
-logging-Interceptor = "5.0.0-alpha.2"
+logging-interceptor = "5.0.0-alpha.14"
 paging-compose = "3.3.2"
 landscapist = "2.4.1"
 timber = "5.0.1"
@@ -51,7 +51,7 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging-compose" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "logging-Interceptor" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "logging-interceptor" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 landscapist-coil = { module = "com.github.skydoves:landscapist-coil", version.ref = "landscapist" }
