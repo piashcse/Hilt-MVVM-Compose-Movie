@@ -25,11 +25,10 @@ Movie World app built with JetPack Compose for Android. The app follows the MVVM
   - TV Series List
   - TV Series Search
   - TV Series Detail
-  - Recommended TV Series 
-- Filter with genre 
+  - Recommended TV Series
 - Pagination with paging3
+- Filter with genre 
 - Bottom navigation
-- Search filter for movie
 - Network connection state with SnackBar
 
  <p align="center" width="100%">
