@@ -2,6 +2,7 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.movie_detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.dao.MovieDetailDao
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
@@ -16,7 +17,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieDetailViewModel @Inject constructor(private val repo: MovieRepository) : ViewModel() {
+class MovieDetailViewModel @Inject constructor(private val repo: MovieRepository, private val movieDetailDao: MovieDetailDao) : ViewModel() {
     private val _movieDetail = MutableStateFlow<MovieDetail?>(null)
     val movieDetail get() = _movieDetail.asStateFlow()
 
@@ -89,6 +90,22 @@ class MovieDetailViewModel @Inject constructor(private val repo: MovieRepository
                     }
                 }
             }.launchIn(viewModelScope)
+        }
+    }
+
+    fun insertMovieDetail(movieDetail: MovieDetail) {
+        viewModelScope.launch {
+            movieDetailDao.insert(movieDetail)
+        }
+    }
+
+    suspend fun getMovieDetailById(id: Int): MovieDetail? {
+        return movieDetailDao.getMovieDetailById(id)
+    }
+
+    fun clearAllMovieDetails() {
+        viewModelScope.launch {
+            movieDetailDao.clearAll()
         }
     }
 }

@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -52,6 +53,7 @@ import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
+import kotlinx.coroutines.launch
 
 @Composable
 fun MovieDetail(navController: NavController, movieId: Int) {
@@ -60,6 +62,8 @@ fun MovieDetail(navController: NavController, movieId: Int) {
     val movieDetail by viewModel.movieDetail.collectAsState()
     val recommendMovie by viewModel.recommendedMovie.collectAsState()
     val movieCredit by viewModel.movieCredit.collectAsState()
+    val coroutineScope = rememberCoroutineScope()
+
 
     LaunchedEffect(Unit) {
         viewModel.movieDetail(movieId)
@@ -80,7 +84,10 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                 CoilImage(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(300.dp),
+                        .height(300.dp)
+                        .clickable {
+                            viewModel.insertMovieDetail(it)
+                        },
                     imageModel = { ApiURL.IMAGE_URL.plus(it.poster_path) },
                     imageOptions = ImageOptions(
                         contentScale = ContentScale.Crop,
@@ -116,6 +123,11 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                     )
                     Row(
                         modifier = Modifier
+                            .clickable {
+                                coroutineScope.launch {
+                                    viewModel.getMovieDetailById(it.id)
+                                }
+                            }
                             .fillMaxWidth()
                             .padding(bottom = 10.dp, top = 10.dp)
                     ) {
