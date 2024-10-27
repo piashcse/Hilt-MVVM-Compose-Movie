@@ -13,7 +13,6 @@ import androidx.navigation.navArgument
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.artist_detail.ArtistDetail
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.genre.GenreScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.movie_detail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.nowplaying.NowPlayingMovie
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.popular.PopularMovie
@@ -53,19 +52,6 @@ fun Navigation(
                 navController = navController,
                 genres
             )
-        }
-        composable(
-            Screen.NavigationDrawer.route.plus(Screen.NavigationDrawer.objectPath),
-            arguments = listOf(navArgument(Screen.NavigationDrawer.objectName) {
-                type = NavType.StringType
-            })
-        ) { backStack ->
-            val genreId = backStack.arguments?.getString(Screen.NavigationDrawer.objectName)
-            genreId?.let {
-                GenreScreen(
-                    navController = navController, genreId
-                )
-            }
         }
         composable(
             Screen.MovieDetail.route.plus(Screen.MovieDetail.objectPath),
