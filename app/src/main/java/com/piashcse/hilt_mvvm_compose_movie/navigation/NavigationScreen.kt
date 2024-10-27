@@ -35,8 +35,6 @@ sealed class Screen(
     object OnTheAirTvSeries : Screen("on_the_air_tv_series")
     object PopularTvSeries : Screen("popular_tv_series")
     object TopRatedTvSeries : Screen("top_rated_tv_series")
-    object NavigationDrawer :
-        Screen("navigation_drawer", objectName = "genreId", objectPath = "/{genreId}")
 
     object MovieDetail :
         Screen("movie_detail_screen", objectName = "movieItem", objectPath = "/{movieItem}")
