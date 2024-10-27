@@ -3,6 +3,7 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.movie_detail
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,15 +15,24 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,6 +46,7 @@ import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Cast
+import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.ExpandingText
@@ -53,7 +64,6 @@ import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
-import kotlinx.coroutines.launch
 
 @Composable
 fun MovieDetail(navController: NavController, movieId: Int) {
@@ -62,13 +72,16 @@ fun MovieDetail(navController: NavController, movieId: Int) {
     val movieDetail by viewModel.movieDetail.collectAsState()
     val recommendMovie by viewModel.recommendedMovie.collectAsState()
     val movieCredit by viewModel.movieCredit.collectAsState()
-    val coroutineScope = rememberCoroutineScope()
-
+    var movieDetailFromDb by remember { mutableStateOf<MovieDetail?>(null) }
 
     LaunchedEffect(Unit) {
         viewModel.movieDetail(movieId)
         viewModel.recommendedMovie(movieId)
         viewModel.movieCredit(movieId)
+    }
+
+    LaunchedEffect(movieDetailFromDb) {
+        movieDetailFromDb = viewModel.getMovieDetailById(movieId)
     }
 
     Column(
@@ -81,32 +94,62 @@ fun MovieDetail(navController: NavController, movieId: Int) {
         CircularIndeterminateProgressBar(isDisplayed = isLoading, 0.4f)
         movieDetail?.let { it ->
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                CoilImage(
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
                         .height(300.dp)
-                        .clickable {
-                            viewModel.insertMovieDetail(it)
-                        },
-                    imageModel = { ApiURL.IMAGE_URL.plus(it.poster_path) },
-                    imageOptions = ImageOptions(
-                        contentScale = ContentScale.Crop,
-                        alignment = Alignment.Center,
-                        contentDescription = "Movie detail",
-                        colorFilter = null,
-                    ),
-                    component = rememberImageComponent {
-                        +CircularRevealPlugin(
-                            duration = 800
-                        )
-                        +ShimmerPlugin(
-                            shimmer = Shimmer.Flash(
-                                baseColor = SecondaryFontColor,
-                                highlightColor = DefaultBackgroundColor
+                ) {
+                    CoilImage(
+                        modifier = Modifier
+                            .fillMaxWidth(),
+                        imageModel = { ApiURL.IMAGE_URL.plus(it.poster_path) },
+                        imageOptions = ImageOptions(
+                            contentScale = ContentScale.Crop,
+                            alignment = Alignment.Center,
+                            contentDescription = "Movie detail",
+                            colorFilter = null,
+                        ),
+                        component = rememberImageComponent {
+                            +CircularRevealPlugin(
+                                duration = 800
                             )
+                            +ShimmerPlugin(
+                                shimmer = Shimmer.Flash(
+                                    baseColor = SecondaryFontColor,
+                                    highlightColor = DefaultBackgroundColor
+                                )
+                            )
+                        },
+                    )
+                    IconButton(
+                        onClick = {
+                            movieDetailFromDb?.let {
+                                viewModel.deleteMovieDetailById(it.id)
+                                movieDetailFromDb = null
+                            } ?: run {
+                                viewModel.insertMovieDetail(it)
+                                movieDetailFromDb = it
+                            }
+                        },
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(8.dp)
+                            .clip(CircleShape)
+                            .background(Color.White.copy(alpha = 0.8f))
+                    ) {
+                        movieDetailFromDb?.let { detail ->
+                            Icon(
+                                imageVector = Icons.Filled.Favorite,
+                                contentDescription = "Favorite",
+                                tint = Color.Red
+                            )
+                        } ?: Icon(
+                            imageVector = Icons.Filled.Favorite,
+                            contentDescription = "Favorite",
+                            tint = Color.Gray
                         )
-                    },
-                )
+                    }
+                }
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -123,11 +166,6 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                     )
                     Row(
                         modifier = Modifier
-                            .clickable {
-                                coroutineScope.launch {
-                                    viewModel.getMovieDetailById(it.id)
-                                }
-                            }
                             .fillMaxWidth()
                             .padding(bottom = 10.dp, top = 10.dp)
                     ) {

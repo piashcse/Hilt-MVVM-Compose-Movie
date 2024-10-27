@@ -133,7 +133,7 @@ fun MainScreen() {
                     Icon(
                         imageVector = Icons.Filled.Favorite,
                         contentDescription = "Localized description",
-                        tint = Color.White
+                        tint = Color.Red
                     )
                 }
             }

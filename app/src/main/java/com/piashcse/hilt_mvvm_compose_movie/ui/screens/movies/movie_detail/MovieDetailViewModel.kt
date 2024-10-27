@@ -17,7 +17,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieDetailViewModel @Inject constructor(private val repo: MovieRepository, private val movieDetailDao: MovieDetailDao) : ViewModel() {
+class MovieDetailViewModel @Inject constructor(
+    private val repo: MovieRepository,
+    private val movieDetailDao: MovieDetailDao,
+) : ViewModel() {
     private val _movieDetail = MutableStateFlow<MovieDetail?>(null)
     val movieDetail get() = _movieDetail.asStateFlow()
 
@@ -103,9 +106,9 @@ class MovieDetailViewModel @Inject constructor(private val repo: MovieRepository
         return movieDetailDao.getMovieDetailById(id)
     }
 
-    fun clearAllMovieDetails() {
+    fun deleteMovieDetailById(id: Int) {
         viewModelScope.launch {
-            movieDetailDao.clearAll()
+            movieDetailDao.deleteMovieDetailById(id)
         }
     }
 }
