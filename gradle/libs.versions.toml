@@ -8,29 +8,28 @@ espresso-core = "3.6.1"
 splashscreen = "1.0.1"
 constraint-layout-compose = "1.0.1"
 lifecycle-runtime-ktx = "2.8.6"
-activity-compose = "1.9.2"
+activity-compose = "1.9.3"
 material = "1.12.0"
-material-Icons-extended = "1.7.3"
+material-icons-extended = "1.7.4"
 multidex = "2.0.1"
 retrofit = "2.11.0"
 gson = "2.11.0"
-logging-Interceptor = "5.0.0-alpha.2"
+logging-interceptor = "5.0.0-alpha.14"
 paging-compose = "3.3.2"
-landscapist = "2.4.0"
+landscapist = "2.4.1"
 timber = "5.0.1"
-navigation-compose = "2.8.2"
+navigation-compose = "2.8.3"
 hilt-navigation-compose = "1.2.0"
-navigation-runtime-ktx = "2.8.2"
+navigation-runtime-ktx = "2.8.3"
 hilt = "2.52"
 ksp = "2.0.21-1.0.25"
-compose-bom = "2024.09.03"
-compose = "1.7.3"
-room = "2.6.1"
+compose-bom = "2024.10.00"
+compose = "1.7.4"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
-androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "material-Icons-extended" }
+androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "material-icons-extended" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-junit" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
@@ -52,7 +51,7 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging-compose" }
 material = { module = "com.google.android.material:material", version.ref = "material" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
-logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "logging-Interceptor" }
+logging-interceptor = { module = "com.squareup.okhttp3:logging-interceptor", version.ref = "logging-interceptor" }
 converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "retrofit" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 landscapist-coil = { module = "com.github.skydoves:landscapist-coil", version.ref = "landscapist" }
@@ -61,9 +60,6 @@ landscapist-animation = { module = "com.github.skydoves:landscapist-animation", 
 timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
-room-runtime = { module = "androidx.room:room-runtime", version.ref = "room" }
-room-ktx = { module = "androidx.room:room-ktx", version.ref = "room" }
-room-compiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
@@ -72,4 +68,3 @@ composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "k
 hiltAndroid = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 kotlinAndroidKsp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 kotlinKapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "kotlin" }
-room = { id = "androidx.room", version.ref = "room" }

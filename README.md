@@ -1,5 +1,5 @@
 # Movie World (Jetpack Compose) 
-[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-1.7.3-%230075FF.svg)](https://developer.android.com/jetpack/compose)
+[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-1.7.4-%230075FF.svg)](https://developer.android.com/jetpack/compose)
 ![badge-Android](https://img.shields.io/badge/Platform-Android-brightgreen)
 [![API](https://img.shields.io/badge/API-23%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=23)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.0.21-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
@@ -25,11 +25,10 @@ Movie World app built with JetPack Compose for Android. The app follows the MVVM
   - TV Series List
   - TV Series Search
   - TV Series Detail
-  - Recommended TV Series 
-- Filter with genre 
+  - Recommended TV Series
 - Pagination with paging3
+- Filter with genre 
 - Bottom navigation
-- Search filter for movie
 - Network connection state with SnackBar
 
  <p align="center" width="100%">
