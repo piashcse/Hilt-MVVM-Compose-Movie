@@ -13,6 +13,8 @@ import androidx.navigation.navArgument
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.artist_detail.ArtistDetail
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.favorite.FavoriteMovie
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.favorite.FavoriteTvSeries
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.genre.GenreScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.movie_detail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.nowplaying.NowPlayingMovie
@@ -27,9 +29,9 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.tv_series_detai
 
 @Composable
 fun Navigation(
-    navController: NavHostController, page: Int,  genres: ArrayList<Genre>? = null,
+    navController: NavHostController, genres: ArrayList<Genre>? = null,
 ) {
-    NavHost(navController, startDestination = initialScreen(page)) {
+    NavHost(navController, startDestination =  Screen.NowPlaying.route) {
         composable(Screen.NowPlaying.route) {
             NowPlayingMovie(
                 navController = navController,
@@ -133,14 +135,12 @@ fun Navigation(
                 )
             }
         }
-    }
-}
-
-fun initialScreen(page:Int): String {
-    return if (page == 0) {
-        Screen.NowPlaying.route
-    } else {
-        Screen.AiringTodayTvSeries.route
+        composable(Screen.FavoriteMovie.route) {
+            FavoriteMovie()
+        }
+        composable(Screen.FavoriteTvSeries.route) {
+            FavoriteTvSeries()
+        }
     }
 }
 
