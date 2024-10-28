@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.piashcse.hilt_mvvm_compose_movie.ui.component.MovieItemList
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.MovieItem
 
 @Composable
 fun GenreScreen(
@@ -12,7 +12,7 @@ fun GenreScreen(
     genreId: String
 ) {
     val genreViewModel = hiltViewModel<GenreViewModel>()
-    MovieItemList(
+    MovieItem(
         navController = navController,
         moviesItems = genreViewModel.moviesByGenre(genreId).collectAsLazyPagingItems(),
         null,

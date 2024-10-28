@@ -150,6 +150,8 @@ fun navigationTitle(navController: NavController): String {
         Screen.MovieDetail.route -> stringResource(id = R.string.movie_detail)
         Screen.TvSeriesDetail.route -> stringResource(id = R.string.tv_series_detail)
         Screen.ArtistDetail.route -> stringResource(id = R.string.artist_detail)
+        Screen.FavoriteMovie.route -> stringResource(id = R.string.favorite_movie)
+        Screen.FavoriteTvSeries.route -> stringResource(id = R.string.favorite_tv_series)
         else -> {
             stringResource(R.string.app_name)
         }

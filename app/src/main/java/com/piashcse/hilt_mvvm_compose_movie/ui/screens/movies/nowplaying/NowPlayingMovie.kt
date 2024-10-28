@@ -6,7 +6,7 @@ import androidx.navigation.NavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.data.model.GenreId
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
-import com.piashcse.hilt_mvvm_compose_movie.ui.component.MovieItemList
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.MovieItem
 
 @Composable
 fun NowPlayingMovie(
@@ -14,7 +14,7 @@ fun NowPlayingMovie(
     genres: ArrayList<Genre>? = null,
 ) {
     val nowPlayViewModel = hiltViewModel<NowPlayingMovieViewModel>()
-    MovieItemList(
+    MovieItem(
         navController = navController,
         moviesItems = nowPlayViewModel.nowPlayingMovies.collectAsLazyPagingItems(),
         genres = genres,

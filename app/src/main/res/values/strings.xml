@@ -37,4 +37,6 @@
     <string name="gender">Gender</string>
     <string name="birth_day">Birthday</string>
     <string name="place_of_birth">Place of Birth</string>
+    <string name="favorite_movie">Favorite Movie</string>
+    <string name="favorite_tv_series">Favorite Tv Series</string>
 </resources>

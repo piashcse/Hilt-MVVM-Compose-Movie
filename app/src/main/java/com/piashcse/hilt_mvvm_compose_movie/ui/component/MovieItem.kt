@@ -56,7 +56,7 @@ import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 
 @Composable
-fun MovieItemList(
+fun MovieItem(
     navController: NavController,
     moviesItems: LazyPagingItems<MovieItem>,
     genres: ArrayList<Genre>? = null,
