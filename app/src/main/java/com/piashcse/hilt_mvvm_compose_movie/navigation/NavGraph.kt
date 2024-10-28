@@ -13,19 +13,19 @@ import androidx.navigation.navArgument
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.artist_detail.ArtistDetail
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.favorite.FavoriteMovie
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.favorite.FavoriteTvSeries
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.favorite.movie.FavoriteMovie
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.favorite.tvseries.FavoriteTvSeries
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.genre.GenreScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.movie_detail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.nowplaying.NowPlayingMovie
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.popular.PopularMovie
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.toprated.TopRatedMovie
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.upcoming.UpcomingMovie
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.airing_today.AiringTodayTvSeries
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.on_the_air.OnTheAirTvSeries
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.popular.PopularTvSeries
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.top_rated.TopRatedTvSeries
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.tv_series_detail.TvSeriesDetail
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.airing_today.AiringTodayTvSeries
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.on_the_air.OnTheAirTvSeries
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.popular.PopularTvSeries
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.top_rated.TopRatedTvSeries
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.tv_series_detail.TvSeriesDetail
 
 @Composable
 fun Navigation(

@@ -72,7 +72,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
     val movieDetail by viewModel.movieDetail.collectAsState()
     val recommendMovie by viewModel.recommendedMovie.collectAsState()
     val movieCredit by viewModel.movieCredit.collectAsState()
-    var movieDetailFromDb by remember { mutableStateOf<MovieDetail?>(null) }
+    var movieFromDb by remember { mutableStateOf<MovieDetail?>(null) }
 
     LaunchedEffect(Unit) {
         viewModel.movieDetail(movieId)
@@ -80,8 +80,8 @@ fun MovieDetail(navController: NavController, movieId: Int) {
         viewModel.movieCredit(movieId)
     }
 
-    LaunchedEffect(movieDetailFromDb) {
-        movieDetailFromDb = viewModel.getMovieDetailById(movieId)
+    LaunchedEffect(movieFromDb) {
+        movieFromDb = viewModel.getMovieDetailById(movieId)
     }
 
     Column(
@@ -123,12 +123,12 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                     )
                     IconButton(
                         onClick = {
-                            movieDetailFromDb?.let {
+                            movieFromDb?.let {
                                 viewModel.deleteMovieDetailById(it.id)
-                                movieDetailFromDb = null
+                                movieFromDb = null
                             } ?: run {
                                 viewModel.insertMovieDetail(it)
-                                movieDetailFromDb = it
+                                movieFromDb = it
                             }
                         },
                         modifier = Modifier
@@ -137,7 +137,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                             .clip(CircleShape)
                             .background(Color.White.copy(alpha = 0.8f))
                     ) {
-                        movieDetailFromDb?.let { detail ->
+                        movieFromDb?.let { detail ->
                             Icon(
                                 imageVector = Icons.Filled.Favorite,
                                 contentDescription = "Favorite",

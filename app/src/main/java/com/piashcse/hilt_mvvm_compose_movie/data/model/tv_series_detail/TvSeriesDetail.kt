@@ -1,5 +1,9 @@
 package com.piashcse.hilt_mvvm_compose_movie.data.model.tv_series_detail
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
+
+@Entity(tableName = "tvSeriesDetail")
 data class TvSeriesDetail(
     @SerializedName("adult")
     val adult: Boolean,
@@ -15,6 +19,7 @@ data class TvSeriesDetail(
     val genres: List<Genre>,
     @SerializedName("homepage")
     val homepage: String,
+    @PrimaryKey(autoGenerate = false)
     @SerializedName("id")
     val id: Int,
     @SerializedName("in_production")

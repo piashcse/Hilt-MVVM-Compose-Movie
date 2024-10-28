@@ -1,7 +1,8 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.tv_series_detail
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.tv_series_detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.dao.FavoriteTvSeriesDao
 import com.piashcse.hilt_mvvm_compose_movie.data.model.TvSeriesItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
 import com.piashcse.hilt_mvvm_compose_movie.data.model.tv_series_detail.TvSeriesDetail
@@ -16,11 +17,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TvSeriesDetailViewModel @Inject constructor(private val repo: TvSeriesRepository) : ViewModel() {
+class TvSeriesDetailViewModel @Inject constructor(
+    private val repo: TvSeriesRepository,
+    private val tvSeriesDao: FavoriteTvSeriesDao,
+) : ViewModel() {
     private val _tvSeriesDetail = MutableStateFlow<TvSeriesDetail?>(null)
     val tvSeriesDetail get() = _tvSeriesDetail.asStateFlow()
 
-    private val _recommendedTvSeries= MutableStateFlow<List<TvSeriesItem>>(arrayListOf())
+    private val _recommendedTvSeries = MutableStateFlow<List<TvSeriesItem>>(arrayListOf())
     val recommendedTvSeries get() = _recommendedTvSeries.asStateFlow()
 
     private val _tvSeriesCredit = MutableStateFlow<Artist?>(null)
@@ -89,6 +93,22 @@ class TvSeriesDetailViewModel @Inject constructor(private val repo: TvSeriesRepo
                     }
                 }
             }.launchIn(viewModelScope)
+        }
+    }
+
+    fun insertTvSeriesDetail(movieDetail: TvSeriesDetail) {
+        viewModelScope.launch {
+            tvSeriesDao.insert(movieDetail)
+        }
+    }
+
+    suspend fun getTvSeriesDetailById(id: Int): TvSeriesDetail? {
+        return tvSeriesDao.getTvSeriesDetailById(id)
+    }
+
+    fun deleteTvSeriesById(id: Int) {
+        viewModelScope.launch {
+            tvSeriesDao.deleteTvSeriesById(id)
         }
     }
 }

@@ -56,7 +56,7 @@ import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 
 @Composable
-fun TvSeriesItem(
+fun TvSeriesItems(
     navController: NavController,
     tvSeries: LazyPagingItems<TvSeriesItem> ,
     genres: ArrayList<Genre>? = null,

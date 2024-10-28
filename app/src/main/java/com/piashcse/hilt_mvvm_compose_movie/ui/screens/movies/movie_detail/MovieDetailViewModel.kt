@@ -2,7 +2,7 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.movie_detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.dao.MovieDetailDao
+import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.dao.FavoriteMovieDao
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
@@ -19,7 +19,7 @@ import javax.inject.Inject
 @HiltViewModel
 class MovieDetailViewModel @Inject constructor(
     private val repo: MovieRepository,
-    private val movieDetailDao: MovieDetailDao,
+    private val movieDetailDao: FavoriteMovieDao,
 ) : ViewModel() {
     private val _movieDetail = MutableStateFlow<MovieDetail?>(null)
     val movieDetail get() = _movieDetail.asStateFlow()

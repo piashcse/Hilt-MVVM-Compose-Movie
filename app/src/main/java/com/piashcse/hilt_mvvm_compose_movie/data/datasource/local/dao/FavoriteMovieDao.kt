@@ -7,7 +7,7 @@ import androidx.room.Query
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 
 @Dao
-interface MovieDetailDao {
+interface FavoriteMovieDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(movieDetail: MovieDetail)
 

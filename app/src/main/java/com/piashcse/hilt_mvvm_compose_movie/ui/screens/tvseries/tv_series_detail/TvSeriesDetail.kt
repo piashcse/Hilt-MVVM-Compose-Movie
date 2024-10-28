@@ -1,8 +1,9 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.tv_series_detail
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.tv_series_detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -14,14 +15,24 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -35,6 +46,7 @@ import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.TvSeriesItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Cast
+import com.piashcse.hilt_mvvm_compose_movie.data.model.tv_series_detail.TvSeriesDetail
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.ExpandingText
@@ -59,11 +71,15 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
     val tvSeriesDetail by viewModel.tvSeriesDetail.collectAsState()
     val recommendTvSeries by viewModel.recommendedTvSeries.collectAsState()
     val tvSeriesCredit by viewModel.tvSeriesCredit.collectAsState()
+    var tvSeriesFromDb by remember { mutableStateOf<TvSeriesDetail?>(null) }
 
     LaunchedEffect(Unit) {
         viewModel.tvSeriesDetail(tvSeriesId)
         viewModel.recommendedTvSeries(tvSeriesId)
         viewModel.tvSeriesCredit(tvSeriesId)
+    }
+    LaunchedEffect(tvSeriesFromDb) {
+        tvSeriesFromDb = viewModel.getTvSeriesDetailById(tvSeriesId)
     }
 
     Column(
@@ -76,29 +92,61 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
         CircularIndeterminateProgressBar(isDisplayed = isLoading, 0.4f)
         tvSeriesDetail?.let { it ->
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                CoilImage(
+                Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(300.dp),
-                    imageModel = { ApiURL.IMAGE_URL.plus(it.posterPath) },
-                    imageOptions = ImageOptions(
-                        contentScale = ContentScale.Crop,
-                        alignment = Alignment.Center,
-                        contentDescription = "Movie detail",
-                        colorFilter = null,
-                    ),
-                    component = rememberImageComponent {
-                        +CircularRevealPlugin(
-                            duration = 800
-                        )
-                        +ShimmerPlugin(
-                            shimmer = Shimmer.Flash(
-                                baseColor = SecondaryFontColor,
-                                highlightColor = DefaultBackgroundColor
+                        .height(300.dp)
+                ) {
+                    CoilImage(
+                        modifier = Modifier.fillMaxWidth(),
+                        imageModel = { ApiURL.IMAGE_URL.plus(it.posterPath) },
+                        imageOptions = ImageOptions(
+                            contentScale = ContentScale.Crop,
+                            alignment = Alignment.Center,
+                            contentDescription = "tv series detail",
+                            colorFilter = null,
+                        ),
+                        component = rememberImageComponent {
+                            +CircularRevealPlugin(
+                                duration = 800
                             )
+                            +ShimmerPlugin(
+                                shimmer = Shimmer.Flash(
+                                    baseColor = SecondaryFontColor,
+                                    highlightColor = DefaultBackgroundColor
+                                )
+                            )
+                        },
+                    )
+                    IconButton(
+                        onClick = {
+                            tvSeriesFromDb?.let {
+                                viewModel.deleteTvSeriesById(it.id)
+                                tvSeriesFromDb = null
+                            } ?: run {
+                                viewModel.insertTvSeriesDetail(it)
+                                tvSeriesFromDb = it
+                            }
+                        },
+                        modifier = Modifier
+                            .align(Alignment.BottomEnd)
+                            .padding(8.dp)
+                            .clip(CircleShape)
+                            .background(Color.White.copy(alpha = 0.8f))
+                    ) {
+                        tvSeriesFromDb?.let { detail ->
+                            Icon(
+                                imageVector = Icons.Filled.Favorite,
+                                contentDescription = "Favorite",
+                                tint = Color.Red
+                            )
+                        } ?: Icon(
+                            imageVector = Icons.Filled.Favorite,
+                            contentDescription = "Favorite",
+                            tint = Color.Gray
                         )
-                    },
-                )
+                    }
+                }
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
@@ -172,7 +220,7 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
 @Preview(name = "MovieDetail", showBackground = true)
 @Composable
 fun Preview() {
-   //  TvSeriesDetail(null, MovieItem())
+    //  TvSeriesDetail(null, MovieItem())
 }
 
 @Composable
