@@ -56,7 +56,7 @@ import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 
 @Composable
-fun MovieItem(
+fun MovieItems(
     navController: NavController,
     moviesItems: LazyPagingItems<MovieItem>,
     genres: ArrayList<Genre>? = null,
@@ -66,7 +66,6 @@ fun MovieItem(
     val activity = (LocalContext.current as? Activity)
     val progressBar = remember { mutableStateOf(false) }
     val openDialog = remember { mutableStateOf(false) }
-    //val moviesItems: LazyPagingItems<MovieItem> = movies.collectAsLazyPagingItems()
 
     BackHandler(enabled = (currentRoute(navController) == Screen.NowPlaying.route)) {
         openDialog.value = true

@@ -8,7 +8,6 @@ import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 
 @Dao
 interface MovieDetailDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(movieDetail: MovieDetail)
 

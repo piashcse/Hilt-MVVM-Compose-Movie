@@ -141,6 +141,10 @@ fun MainScreen() {
                 if (!isFavoriteActive.value) navController.navigate(Screen.FavoriteMovie.route)
                 isFavoriteActive.value = true
             }) {
+                if (currentRoute(navController) !== Screen.FavoriteMovie.route && currentRoute(
+                        navController
+                    ) !== Screen.FavoriteTvSeries.route
+                )
                 Icon(
                     imageVector = Icons.Filled.Favorite,
                     contentDescription = "Localized description",

@@ -136,10 +136,10 @@ fun Navigation(
             }
         }
         composable(Screen.FavoriteMovie.route) {
-            FavoriteMovie()
+            FavoriteMovie(navController)
         }
         composable(Screen.FavoriteTvSeries.route) {
-            FavoriteTvSeries()
+            FavoriteTvSeries(navController)
         }
     }
 }
