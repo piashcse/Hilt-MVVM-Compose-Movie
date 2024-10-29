@@ -9,10 +9,12 @@
 Movie World app built with JetPack Compose for Android. The app follows the MVVM architecture to ensure clean, maintainable code and delivers a responsive, modern UI experience, leveraging [The Movie DB API](https://www.themoviedb.org). </br>
 
 
-<p float="left">
+<p align="left">
   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1728491749752.PNG" />
   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1728491749751.PNG" />
   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1728491749753.PNG" />
+  <img width="45%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_1730184576.png" />
+  <img width="45%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_1730184509.png" />
 </p>
 
 # Main Features
@@ -27,6 +29,8 @@ Movie World app built with JetPack Compose for Android. The app follows the MVVM
   - TV Series Detail
   - Recommended TV Series
 - Pagination with paging3
+- Favorite Movie in local db
+- Favorite TV series in local db
 - Filter with genre 
 - Bottom navigation
 - Network connection state with SnackBar
@@ -71,6 +75,7 @@ defaultConfig {
   - [Paging3](https://developer.android.com/topic/libraries/architecture/paging/v3-overview) - The Paging library helps you load and display pages of data from a larger dataset from local storage or over network
 - [Dependency Injection](https://developer.android.com/training/dependency-injection)
   - [Hilt](https://dagger.dev/hilt) - Easier way to incorporate Dagger DI into Android apps.
+- [Room](https://developer.android.com/training/data-storage/room) - The Room database provides an abstraction layer over SQLite to allow fluent database access while harnessing the full power of SQLite
 - [Retrofit](https://square.github.io/retrofit/) - A type-safe HTTP client for Android and Java.
 - [Material Components for Android](https://github.com/material-components/material-components-android) - Modular and customizable Material Design UI components for Android.
 - [Timber](https://github.com/JakeWharton/timber) - A logger with a small, extensible API which provides utility on top of Android's normal Log class.
