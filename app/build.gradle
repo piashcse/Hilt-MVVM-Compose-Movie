@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.hiltAndroid)
     alias(libs.plugins.composeCompiler)
     alias(libs.plugins.kotlinKapt)
+    alias(libs.plugins.room)
 }
 
 android {
@@ -22,6 +23,8 @@ android {
             useSupportLibrary true
         }
     }
+    namespace 'com.piashcse.hilt_mvvm_compose_movie'
+
     flavorDimensions += "version"
     productFlavors {
         development {
@@ -52,7 +55,9 @@ android {
             excludes += '/META-INF/{AL2.0,LGPL2.1}'
         }
     }
-    namespace 'com.piashcse.hilt_mvvm_compose_movie'
+    room {
+        schemaDirectory "$projectDir/schemas"
+    }
 }
 
 dependencies {
@@ -93,4 +98,9 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
     implementation(libs.timber)
+
+    implementation(libs.room.runtime)
+    implementation(libs.room.ktx)
+    ksp(libs.room.compiler)
+    annotationProcessor(libs.room.compiler)
 }

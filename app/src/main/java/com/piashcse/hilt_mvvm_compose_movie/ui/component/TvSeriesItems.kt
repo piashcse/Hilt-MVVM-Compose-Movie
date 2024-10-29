@@ -29,12 +29,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.paging.compose.LazyPagingItems
+import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.TvSeriesItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
@@ -56,18 +58,18 @@ import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 
 @Composable
-fun TvSeriesItem(
+fun TvSeriesItems(
     navController: NavController,
-    tvSeries: LazyPagingItems<TvSeriesItem> ,
+    tvSeries: LazyPagingItems<TvSeriesItem>,
     genres: ArrayList<Genre>? = null,
     selectedName: Genre?,
-    onclick: (genreId: Genre?) -> Unit
+    onclick: (genreId: Genre?) -> Unit,
 ) {
     val activity = (LocalContext.current as? Activity)
     val progressBar = remember { mutableStateOf(false) }
     val openDialog = remember { mutableStateOf(false) }
 
-    BackHandler(enabled = (currentRoute(navController) == Screen.NowPlaying.route)) {
+    BackHandler(enabled = (currentRoute(navController) == Screen.AiringTodayTvSeries.route)) {
         openDialog.value = true
     }
     Column(modifier = Modifier.background(DefaultBackgroundColor)) {
@@ -103,8 +105,8 @@ fun TvSeriesItem(
                 }
             })
     }
-    if (openDialog.value) {
-        ExitAlertDialog(navController, {
+    if ((currentRoute(navController) == Screen.NowPlaying.route || currentRoute(navController) == Screen.AiringTodayTvSeries.route) && openDialog.value) {
+        ExitAlertDialog(title = stringResource(R.string.close_the_app), description =  stringResource(R.string.do_you_want_to_exit_the_app), {
             openDialog.value = it
         }, {
             activity?.finish()
@@ -138,10 +140,12 @@ fun MovieItemViewTV(item: TvSeriesItem, navController: NavController) {
                 +CircularRevealPlugin(
                     duration = 800
                 )
-                +ShimmerPlugin(shimmer = Shimmer.Flash(
-                    baseColor = SecondaryFontColor,
-                    highlightColor = DefaultBackgroundColor
-                ))
+                +ShimmerPlugin(
+                    shimmer = Shimmer.Flash(
+                        baseColor = SecondaryFontColor,
+                        highlightColor = DefaultBackgroundColor
+                    )
+                )
             },
         )
     }
@@ -151,7 +155,7 @@ fun MovieItemViewTV(item: TvSeriesItem, navController: NavController) {
 fun SelectableGenreChipTv(
     selected: Boolean,
     genre: String,
-    onclick: () -> Unit
+    onclick: () -> Unit,
 ) {
 
     val animateChipBackgroundColor by animateColorAsState(

@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.top_rated
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.airing_today
 
 
 import androidx.compose.runtime.MutableState
@@ -17,14 +17,14 @@ import kotlinx.coroutines.flow.flatMapLatest
 import javax.inject.Inject
 
 @HiltViewModel
-class TopRatedTvSeriesViewModel @Inject constructor(val repo: TvSeriesRepository) : ViewModel() {
+class AiringTodayTvSeriesViewModel @Inject constructor(val repo: TvSeriesRepository) : ViewModel() {
     var selectedGenre: MutableState<Genre> =
         mutableStateOf(Genre(null, AppConstant.DEFAULT_GENRE_ITEM))
     val filterData = MutableStateFlow<GenreId?>(null)
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    val topRatedTvSeries = filterData.flatMapLatest {
-        repo.topRatedTvSeriesPagingDataSource(it?.genreId)
+    val airingTodayTvSeries = filterData.flatMapLatest {
+        repo.airingTodayTvSeriesPagingDataSource(it?.genreId)
     }.cachedIn(viewModelScope)
 
 }

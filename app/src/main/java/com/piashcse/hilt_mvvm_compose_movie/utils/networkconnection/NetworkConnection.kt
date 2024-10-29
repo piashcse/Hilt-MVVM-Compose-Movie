@@ -13,7 +13,13 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.callbackFlow
 
 /**
- * Network utility to get current state of internet connection
+ * Extension property to retrieve the current connectivity state as [ConnectionState].
+ *
+ * This property accesses the system's [ConnectivityManager] and checks if the
+ * device has an active internet connection.
+ *
+ * @return [ConnectionState.Available] if there is an active internet connection,
+ * otherwise [ConnectionState.Unavailable].
  */
 val Context.currentConnectivityState: ConnectionState
     get() {
@@ -22,18 +28,36 @@ val Context.currentConnectivityState: ConnectionState
         return getCurrentConnectivityState(connectivityManager)
     }
 
+/**
+ * Utility function to check the current connectivity state of the device.
+ *
+ * This function uses the [ConnectivityManager] to check if the currently active network
+ * has internet capability.
+ *
+ * @param connectivityManager The [ConnectivityManager] instance used to check the network status.
+ * @return [ConnectionState.Available] if there is an active network with internet capability,
+ * otherwise [ConnectionState.Unavailable].
+ */
 private fun getCurrentConnectivityState(
     connectivityManager: ConnectivityManager
 ): ConnectionState {
-    val connected = connectivityManager.allNetworks.any { network ->
-        connectivityManager.getNetworkCapabilities(network)
-            ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
-            ?: false
-    }
+    val network = connectivityManager.activeNetwork
+    val isConnected = network?.let {
+        connectivityManager.getNetworkCapabilities(it)
+            ?.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET) == true
+    } == true
 
-    return if (connected) ConnectionState.Available else ConnectionState.Unavailable
+    return if (isConnected) ConnectionState.Available else ConnectionState.Unavailable
 }
 
+/**
+ * Observes network connectivity changes as a [Flow] of [ConnectionState].
+ *
+ * This function uses a [ConnectivityManager.NetworkCallback] to listen for changes in
+ * network connectivity and emits updates via [callbackFlow].
+ *
+ * @return A [Flow] that emits the current [ConnectionState] whenever connectivity changes.
+ */
 fun Context.observeConnectivityAsFlow() = callbackFlow {
     val connectivityManager = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
 
@@ -49,13 +73,21 @@ fun Context.observeConnectivityAsFlow() = callbackFlow {
     val currentState = getCurrentConnectivityState(connectivityManager)
     trySend(currentState)
 
-    // Remove callback when not used
+    // Remove callback when flow collection stops
     awaitClose {
-        // Remove listeners
         connectivityManager.unregisterNetworkCallback(callback)
     }
 }
 
+/**
+ * Creates a [ConnectivityManager.NetworkCallback] that listens for network availability changes.
+ *
+ * This callback notifies the provided [callback] function of the current [ConnectionState]
+ * whenever the network is available or lost.
+ *
+ * @param callback A function that receives the current [ConnectionState].
+ * @return A [ConnectivityManager.NetworkCallback] instance that can be registered with a [ConnectivityManager].
+ */
 fun networkCallback(callback: (ConnectionState) -> Unit): ConnectivityManager.NetworkCallback {
     return object : ConnectivityManager.NetworkCallback() {
         override fun onAvailable(network: Network) {
@@ -68,30 +100,23 @@ fun networkCallback(callback: (ConnectionState) -> Unit): ConnectivityManager.Ne
     }
 }
 
+/**
+ * A composable function that provides the current network connectivity state as a [State] object.
+ *
+ * This function uses [observeConnectivityAsFlow] to observe changes in connectivity
+ * and updates the returned [State] value with the latest [ConnectionState].
+ *
+ * @return A [State] object that holds the latest [ConnectionState] (either Available or Unavailable).
+ */
 @Composable
 fun connectivityState(): State<ConnectionState> {
     val context = LocalContext.current
 
-    // Creates a State<ConnectionState> with current connectivity state as initial value
+    // Creates a State<ConnectionState> with the current connectivity state as the initial value
     return produceState(initialValue = context.currentConnectivityState) {
-        // In a coroutine, can make suspend calls
+        // Collects connectivity updates in a coroutine and updates the State value
         context.observeConnectivityAsFlow().collect {
             value = it
         }
     }
 }
-
-/*
-@Composable
-fun ConnectivityStatus() {
-    // This will cause re-composition on every network state change
-    val connection by connectivityState()
-
-    val isConnected = connection === ConnectionState.Available
-
-    if (isConnected) {
-        // Show UI when connectivity is available
-    } else {
-        // Show UI for No Internet Connectivity
-    }
-}*/

@@ -37,13 +37,13 @@ sealed class Screen(
     object TopRatedTvSeries : Screen("top_rated_tv_series")
 
     object MovieDetail :
-        Screen("movie_detail_screen", objectName = "movieItem", objectPath = "/{movieItem}")
+        Screen("movie_detail", objectName = "movieItem", objectPath = "/{movieItem}")
 
     object TvSeriesDetail :
-        Screen("tv_series_detail_screen", objectName = "tvSeriesItem", objectPath = "/{tvSeriesItem}")
+        Screen("tv_series_detail", objectName = "tvSeriesItem", objectPath = "/{tvSeriesItem}")
 
     object ArtistDetail :
-        Screen("artist_detail_screen", objectName = "artistId", objectPath = "/{artistId}")
+        Screen("artist_detail", objectName = "artistId", objectPath = "/{artistId}")
 
     // Bottom Navigation
     object NowPlayingNav : Screen("now_playing_movie", title = R.string.now_playing, navIcon = {
@@ -121,4 +121,8 @@ sealed class Screen(
                 .offset(x = 10.dp)
         )
     })
+    object FavoriteMovie :
+        Screen("favorite_movie")
+    object FavoriteTvSeries :
+        Screen("favorite_tv_series")
 }

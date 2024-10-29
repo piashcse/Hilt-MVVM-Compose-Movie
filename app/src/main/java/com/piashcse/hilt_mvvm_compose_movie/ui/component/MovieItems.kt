@@ -29,12 +29,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.paging.compose.LazyPagingItems
+import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
@@ -56,7 +58,7 @@ import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 
 @Composable
-fun MovieItemList(
+fun MovieItems(
     navController: NavController,
     moviesItems: LazyPagingItems<MovieItem>,
     genres: ArrayList<Genre>? = null,
@@ -66,7 +68,6 @@ fun MovieItemList(
     val activity = (LocalContext.current as? Activity)
     val progressBar = remember { mutableStateOf(false) }
     val openDialog = remember { mutableStateOf(false) }
-    //val moviesItems: LazyPagingItems<MovieItem> = movies.collectAsLazyPagingItems()
 
     BackHandler(enabled = (currentRoute(navController) == Screen.NowPlaying.route)) {
         openDialog.value = true
@@ -104,13 +105,12 @@ fun MovieItemList(
                 }
             })
     }
-    if (openDialog.value) {
-        ExitAlertDialog(navController, {
+    if ((currentRoute(navController) == Screen.NowPlaying.route || currentRoute(navController) == Screen.AiringTodayTvSeries.route) && openDialog.value) {
+        ExitAlertDialog(title = stringResource(R.string.close_the_app), description =  stringResource(R.string.do_you_want_to_exit_the_app), {
             openDialog.value = it
         }, {
             activity?.finish()
         })
-
     }
     moviesItems.pagingLoadingState {
         progressBar.value = it
