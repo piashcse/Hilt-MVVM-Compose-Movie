@@ -20,7 +20,7 @@ import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
 @Composable
 fun ExitAlertDialog(navController: NavController, cancel: (isOpen: Boolean) -> Unit,  ok: () -> Unit) {
     val openDialog = remember { mutableStateOf(true) }
-    if (currentRoute(navController = navController) == Screen.NowPlaying.route && openDialog.value) {
+    if ((currentRoute(navController) == Screen.NowPlaying.route || currentRoute(navController) == Screen.AiringTodayTvSeries.route)  && openDialog.value) {
         AlertDialog(
             onDismissRequest = {
             },

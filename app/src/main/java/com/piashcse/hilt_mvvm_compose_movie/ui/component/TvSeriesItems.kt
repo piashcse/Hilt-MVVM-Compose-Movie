@@ -67,7 +67,7 @@ fun TvSeriesItems(
     val progressBar = remember { mutableStateOf(false) }
     val openDialog = remember { mutableStateOf(false) }
 
-    BackHandler(enabled = (currentRoute(navController) == Screen.NowPlaying.route)) {
+    BackHandler(enabled = (currentRoute(navController) == Screen.AiringTodayTvSeries.route)) {
         openDialog.value = true
     }
     Column(modifier = Modifier.background(DefaultBackgroundColor)) {
