@@ -52,7 +52,7 @@ fun SearchUI(
 ) {
     LazyColumn(
         modifier = Modifier
-            .padding(top = 48.dp)
+            .padding(top = 8.dp)
             .fillMaxWidth()
             .heightIn(0.dp, 350.dp) // define max height
             .clip(RoundedCornerShape(bottomStart = 15.dp, bottomEnd = 15.dp))
