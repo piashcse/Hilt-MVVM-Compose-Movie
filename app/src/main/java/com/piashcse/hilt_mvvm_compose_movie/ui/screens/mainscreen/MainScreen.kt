@@ -114,8 +114,9 @@ fun MainScreen() {
         }, navigationIcon = {
             when (currentRoute(navController)) {
                 Screen.MovieDetail.route, Screen.ArtistDetail.route, Screen.TvSeriesDetail.route, Screen.FavoriteMovie.route, Screen.FavoriteTvSeries.route -> {
+                    val activeScreen = currentRoute(navController)
                     IconButton(onClick = {
-                        if (isFavoriteActive.value) {
+                        if (isFavoriteActive.value && activeScreen == Screen.FavoriteMovie.route && activeScreen == Screen.FavoriteTvSeries.route) {
                             val activeMovieTab =
                                 if (pagerState.currentPage == ACTIVE_MOVIE_TAB) Screen.NowPlaying.route else Screen.AiringTodayTvSeries.route
                             navController.navigate(activeMovieTab) {
@@ -144,8 +145,7 @@ fun MainScreen() {
                 if (currentRoute(navController) !== Screen.FavoriteMovie.route && currentRoute(
                         navController
                     ) !== Screen.FavoriteTvSeries.route
-                )
-                Icon(
+                ) Icon(
                     imageVector = Icons.Filled.Favorite,
                     contentDescription = "Localized description",
                     tint = Color.Gray
