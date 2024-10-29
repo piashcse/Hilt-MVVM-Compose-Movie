@@ -16,6 +16,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -76,12 +77,11 @@ fun FavoriteMovieItemView(
     viewModel: FavoriteMovieViewModel,
 ) {
     val openDialog = remember { mutableStateOf(false) }
-    Column(modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 0.dp, bottom = 10.dp)) {
+    Column(modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 0.dp, bottom = 10.dp).cornerRadius(10)) {
         Box {
             CoilImage(
                 modifier = Modifier
                     .height(250.dp)
-                    .cornerRadius(10)
                     .clickable {
                         navController.navigate(Screen.MovieDetail.route.plus("/${item.id}"))
                     },
@@ -117,6 +117,17 @@ fun FavoriteMovieItemView(
                     imageVector = Icons.Default.Delete,
                     contentDescription = "Delete",
                     tint = Color.Gray
+                )
+            }
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomStart)
+                    .background(Color.Gray.copy(alpha = 0.5f))) {
+                Text(
+                    text = item.title,
+                    color = Color.White,
+                    modifier = Modifier.padding(8.dp)
                 )
             }
         }
