@@ -57,19 +57,6 @@ fun Navigation(
             )
         }
         composable(
-            Screen.NavigationDrawer.route.plus(Screen.NavigationDrawer.objectPath),
-            arguments = listOf(navArgument(Screen.NavigationDrawer.objectName) {
-                type = NavType.StringType
-            })
-        ) { backStack ->
-            val genreId = backStack.arguments?.getString(Screen.NavigationDrawer.objectName)
-            genreId?.let {
-                GenreScreen(
-                    navController = navController, genreId
-                )
-            }
-        }
-        composable(
             Screen.MovieDetail.route.plus(Screen.MovieDetail.objectPath),
             arguments = listOf(navArgument(Screen.MovieDetail.objectName) {
                 type = NavType.IntType
