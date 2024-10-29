@@ -116,7 +116,7 @@ fun MainScreen() {
                 Screen.MovieDetail.route, Screen.ArtistDetail.route, Screen.TvSeriesDetail.route, Screen.FavoriteMovie.route, Screen.FavoriteTvSeries.route -> {
                     val activeScreen = currentRoute(navController)
                     IconButton(onClick = {
-                        if (isFavoriteActive.value && activeScreen == Screen.FavoriteMovie.route && activeScreen == Screen.FavoriteTvSeries.route) {
+                        if (isFavoriteActive.value && (activeScreen == Screen.FavoriteMovie.route || activeScreen == Screen.FavoriteTvSeries.route)) {
                             val activeMovieTab =
                                 if (pagerState.currentPage == ACTIVE_MOVIE_TAB) Screen.NowPlaying.route else Screen.AiringTodayTvSeries.route
                             navController.navigate(activeMovieTab) {
@@ -124,10 +124,10 @@ fun MainScreen() {
                                     inclusive = true
                                 }
                             }
+                            isFavoriteActive.value = false
                         } else {
                             navController.popBackStack()
                         }
-                        isFavoriteActive.value = false
                     }) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,

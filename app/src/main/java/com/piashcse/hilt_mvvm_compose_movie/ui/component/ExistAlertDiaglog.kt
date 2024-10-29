@@ -11,30 +11,31 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import com.piashcse.hilt_mvvm_compose_movie.R
-import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
-import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
 
 
 @Composable
-fun ExitAlertDialog(navController: NavController, cancel: (isOpen: Boolean) -> Unit,  ok: () -> Unit) {
+fun ExitAlertDialog(
+    title: String,
+    description: String,
+    cancel: (isOpen: Boolean) -> Unit,
+    ok: () -> Unit,
+) {
     val openDialog = remember { mutableStateOf(true) }
-    if ((currentRoute(navController) == Screen.NowPlaying.route || currentRoute(navController) == Screen.AiringTodayTvSeries.route)  && openDialog.value) {
+    if (openDialog.value) {
         AlertDialog(
             onDismissRequest = {
             },
             // below line is use to display title of our dialog
-            // box and we are setting text color to white.
             title = {
                 Text(
-                    text = stringResource(R.string.close_the_app),
+                    text = title,
                     fontWeight = FontWeight.Bold,
                     fontSize = 18.sp
                 )
             },
             text = {
-                Text(text = stringResource(R.string.do_you_want_to_exit_the_app), fontSize = 16.sp)
+                Text(text = description, fontSize = 16.sp)
             },
             confirmButton = {
                 TextButton(

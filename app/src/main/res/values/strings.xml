@@ -39,4 +39,6 @@
     <string name="place_of_birth">Place of Birth</string>
     <string name="favorite_movie">Favorite Movie</string>
     <string name="favorite_tv_series">Favorite Tv Series</string>
+    <string name="remove_from_favorite">Remove from favorite</string>
+    <string name="do_you_wanna_remove_this_from_favorite">Do you want to remove this item from favorite list?</string>
 </resources>

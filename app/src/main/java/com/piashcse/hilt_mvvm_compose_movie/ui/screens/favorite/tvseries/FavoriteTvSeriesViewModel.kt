@@ -12,14 +12,20 @@ import javax.inject.Inject
 
 @HiltViewModel
 class FavoriteTvSeriesViewModel @Inject constructor(
-    private val movieDetailDao: FavoriteTvSeriesDao,
+    private val tvSeriesDetailDao: FavoriteTvSeriesDao,
 ) : ViewModel() {
     private val _favoriteTvSeries = MutableStateFlow<List<TvSeriesDetail?>>(arrayListOf())
     val favoriteTvSeries get() = _favoriteTvSeries.asStateFlow()
 
-    fun favoriteTvSeriesFromDB(){
-        viewModelScope.launch{
-            _favoriteTvSeries.value = movieDetailDao.getAllTvSeriesDetails()
+    fun favoriteTvSeriesFromDB() {
+        viewModelScope.launch {
+            _favoriteTvSeries.value = tvSeriesDetailDao.getAllTvSeriesDetails()
+        }
+    }
+
+    fun removeTvSeriesFromDB(tvSeries: Int) {
+        viewModelScope.launch {
+            tvSeriesDetailDao.deleteTvSeriesById(tvSeries)
         }
     }
 }

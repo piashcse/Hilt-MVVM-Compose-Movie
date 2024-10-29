@@ -17,9 +17,15 @@ class FavoriteMovieViewModel @Inject constructor(
     private val _favoriteMovies = MutableStateFlow<List<MovieDetail?>>(arrayListOf())
     val favoriteMovies get() = _favoriteMovies.asStateFlow()
 
-    fun favoriteMoviesFromDB(){
-        viewModelScope.launch{
+    fun favoriteMoviesFromDB() {
+        viewModelScope.launch {
             _favoriteMovies.value = movieDetailDao.getAllMovieDetails()
+        }
+    }
+
+    fun removeMovieFromDB(movieId: Int) {
+        viewModelScope.launch {
+            movieDetailDao.deleteMovieDetailById(movieId)
         }
     }
 }
