@@ -17,6 +17,10 @@ Movie World app built with JetPack Compose for Android. The app follows the MVVM
   <img width="45%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_1730184509.png" />
 </p>
 
+<p align="center" width="100%">
+   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/movie_world.gif" />
+ </p>
+
 # Main Features
 - Movie
   - Movie List  
@@ -35,9 +39,6 @@ Movie World app built with JetPack Compose for Android. The app follows the MVVM
 - Bottom navigation
 - Network connection state with SnackBar
 
- <p align="center" width="100%">
-   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/mvvmcomposemovie.gif" />
- </p>
 
 ## Architecture 🏗️
   - MVVM Architecture (Model - ComposableView - ViewModel)
