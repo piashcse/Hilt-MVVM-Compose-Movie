@@ -1,10 +1,9 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    alias(libs.plugins.kotlinAndroidKsp)
-    alias(libs.plugins.hiltAndroid)
-    alias(libs.plugins.composeCompiler)
-    alias(libs.plugins.kotlinKapt)
+    alias(libs.plugins.hilt.android)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.ksp)
     alias(libs.plugins.room)
 }
 
