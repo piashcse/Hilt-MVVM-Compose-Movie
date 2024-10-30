@@ -27,11 +27,13 @@ Movie World app built with JetPack Compose for Android. The app follows the MVVM
   - Movie Search
   - Movie Detail
   - Recommended Movie
+  - Artist detail
 - TV Series
   - TV Series List
   - TV Series Search
   - TV Series Detail
   - Recommended TV Series
+  - Artist detail
 - Pagination with paging3
 - Favorite Movie in local db
 - Favorite TV series in local db
