@@ -18,7 +18,6 @@ fun <T : Any> LazyGridScope.items(
     }
 }
 
-@Composable
 fun <T : Any> LazyPagingItems<T>.pagingLoadingState(
     isLoaded: (pagingState: Boolean) -> Unit,
 ) {
