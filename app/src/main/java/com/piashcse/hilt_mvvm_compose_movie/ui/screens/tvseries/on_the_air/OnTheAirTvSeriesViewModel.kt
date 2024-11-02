@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.cachedIn
 import com.piashcse.hilt_mvvm_compose_movie.data.model.GenreId
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
-import com.piashcse.hilt_mvvm_compose_movie.data.repository.TvSeriesRepository
+import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.tvseries.TvSeriesRepository
 import com.piashcse.hilt_mvvm_compose_movie.utils.AppConstant
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -6,8 +6,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
 import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchBaseModel
-import com.piashcse.hilt_mvvm_compose_movie.data.repository.MovieRepository
-import com.piashcse.hilt_mvvm_compose_movie.data.repository.TvSeriesRepository
+import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.movie.MovieRepository
+import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.tvseries.TvSeriesRepository
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi

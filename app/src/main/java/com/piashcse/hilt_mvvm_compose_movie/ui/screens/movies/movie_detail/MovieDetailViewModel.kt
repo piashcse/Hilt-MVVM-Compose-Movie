@@ -6,7 +6,7 @@ import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.dao.FavoriteMo
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
-import com.piashcse.hilt_mvvm_compose_movie.data.repository.MovieRepository
+import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.movie.MovieRepository
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

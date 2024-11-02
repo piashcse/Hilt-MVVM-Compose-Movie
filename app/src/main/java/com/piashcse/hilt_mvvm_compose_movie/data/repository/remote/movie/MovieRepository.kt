@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.data.repository
+package com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.movie
 
 import androidx.paging.Pager
 import androidx.paging.PagingConfig

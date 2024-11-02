@@ -6,7 +6,7 @@ import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.dao.FavoriteTv
 import com.piashcse.hilt_mvvm_compose_movie.data.model.TvSeriesItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
 import com.piashcse.hilt_mvvm_compose_movie.data.model.tv_series_detail.TvSeriesDetail
-import com.piashcse.hilt_mvvm_compose_movie.data.repository.TvSeriesRepository
+import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.tvseries.TvSeriesRepository
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
