@@ -5,6 +5,8 @@ import androidx.room.Room
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.MovieDatabase
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.dao.FavoriteMovieDao
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.dao.FavoriteTvSeriesDao
+import com.piashcse.hilt_mvvm_compose_movie.data.repository.local.movie.LocalMovieRepository
+import com.piashcse.hilt_mvvm_compose_movie.data.repository.local.tvseries.LocalTvSeriesRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -32,6 +34,16 @@ object DataBaseModule {
 
     @Singleton
     @Provides
+    fun provideLocalMovieRepo(movieDao: FavoriteMovieDao): LocalMovieRepository =
+        LocalMovieRepository(movieDao)
+
+    @Singleton
+    @Provides
     fun provideTvSeriesDao(moviesDatabase: MovieDatabase): FavoriteTvSeriesDao =
         moviesDatabase.getFavoriteTvSeriesDao()
+
+    @Singleton
+    @Provides
+    fun provideLocalTvSeriesRepo(tvSeriesDao: FavoriteTvSeriesDao): LocalTvSeriesRepository =
+        LocalTvSeriesRepository(tvSeriesDao)
 }
