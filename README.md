@@ -9,7 +9,7 @@
 Movie World app built with JetPack Compose for Android. The app follows the MVVM architecture to ensure clean, maintainable code and delivers a responsive, modern UI experience, leveraging [The Movie DB API](https://www.themoviedb.org). </br>
 
 
-<p align="left">
+<p align="center">
   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1730809622225_100.PNG" />
   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1730809667231_100.PNG" />
   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1730809562379_100.PNG" />
