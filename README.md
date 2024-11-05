@@ -10,11 +10,12 @@ Movie World app built with JetPack Compose for Android. The app follows the MVVM
 
 
 <p align="left">
-  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1728491749752.PNG" />
-  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1728491749751.PNG" />
-  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1728491749753.PNG" />
-  <img width="45%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_1730184576.png" />
-  <img width="45%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/Screenshot_1730184509.png" />
+  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1730809622225_100.PNG" />
+  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1730809667231_100.PNG" />
+  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1730809562379_100.PNG" />
+  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1730809653767_100.PNG" />
+  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1730809637511_100.PNG" />
+  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1730809575695_100.PNG" />
 </p>
 
 <p align="center" width="100%">
@@ -27,16 +28,15 @@ Movie World app built with JetPack Compose for Android. The app follows the MVVM
   - Movie Search
   - Movie Detail
   - Recommended Movie
-  - Artist detail
+  - Favorite Movie in room DB
 - TV Series
   - TV Series List
   - TV Series Search
   - TV Series Detail
   - Recommended TV Series
-  - Artist detail
+  - Favorite TV Series in room DB
+- Artist detail
 - Pagination with paging3
-- Favorite Movie in local db
-- Favorite TV series in local db
 - Filter with genre 
 - Bottom navigation
 - Network connection state with SnackBar
@@ -45,10 +45,9 @@ Movie World app built with JetPack Compose for Android. The app follows the MVVM
 ## Architecture 🏗️
   - MVVM Architecture (Model - ComposableView - ViewModel)
   - Repository pattern
-  - Hilt - dependency injection
 
 <p align="center">
-  <img width="40%" height="25%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/mvvm.png" />
+  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/mvvm.png" />
 </p>
 <p align="center">
 <b>Fig.  MVVM (Model - ComposableView - ViewModel) design pattern.</b>
