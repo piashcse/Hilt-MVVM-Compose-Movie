@@ -19,4 +19,4 @@ dependencyResolutionManagement {
     }
 }
 rootProject.name = "Hilt-MVVM-Compose-Movie"
-include ':app'
+include(":app")

@@ -8,54 +8,54 @@ plugins {
 }
 
 android {
-    compileSdk 35
+    compileSdk = 35
 
     defaultConfig {
-        applicationId "com.piashcse.hilt_mvvm_compose_movie"
-        minSdk 23
-        targetSdk 35
-        versionCode 40
-        versionName "2.2.0"
+        applicationId = "com.piashcse.hilt_mvvm_compose_movie"
+        minSdk = 23
+        targetSdk = 35
+        versionCode = 40
+        versionName = "2.2.0"
 
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
-            useSupportLibrary true
+            useSupportLibrary = true
         }
     }
-    namespace 'com.piashcse.hilt_mvvm_compose_movie'
+
+    namespace = "com.piashcse.hilt_mvvm_compose_movie"
 
     flavorDimensions += "version"
     productFlavors {
-        development {
-            dimension "version"
-            buildConfigField("String", "API_KEY", '"59cd6896d8432f9c69aed9b86b9c2931"')
+        create("develop") {
+            dimension = "version"
+            buildConfigField("String", "API_KEY", "\"59cd6896d8432f9c69aed9b86b9c2931\"")
         }
     }
 
     buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        getByName("release") {
+            isMinifyEnabled = false
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
     }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_17
-        targetCompatibility JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
+
     kotlinOptions {
-        jvmTarget = 17
+        jvmTarget = "17"
     }
+
     buildFeatures {
-        compose true
+        compose = true
         buildConfig = true
     }
-    packagingOptions {
-        resources {
-            excludes += '/META-INF/{AL2.0,LGPL2.1}'
-        }
-    }
+
     room {
-        schemaDirectory "$projectDir/schemas"
+        schemaDirectory("$projectDir/schemas")
     }
 }
 
@@ -71,6 +71,8 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
+
+    // Testing dependencies
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -78,26 +80,34 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    // Additional libraries
     implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.paging.compose)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.androidx.multidex)
     implementation(libs.material)
-    // retrofit
+
+    // Networking
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
     implementation(libs.logging.interceptor)
     implementation(libs.gson)
-    // landscapist
+
+    // Image Loading
     implementation(libs.landscapist.coil)
     implementation(libs.landscapist.placeholder)
     implementation(libs.landscapist.animation)
 
+    // Dependency Injection
     implementation(libs.hilt.android)
     implementation(libs.androidx.hilt.navigation.compose)
     ksp(libs.hilt.compiler)
+
+    // Logger
     implementation(libs.timber)
 
+    // Room database
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
