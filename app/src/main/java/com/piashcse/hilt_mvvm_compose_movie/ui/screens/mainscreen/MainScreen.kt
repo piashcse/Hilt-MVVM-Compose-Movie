@@ -149,22 +149,6 @@ fun MainScreen() {
             }
         })
     }, floatingActionButton = {
-        when (currentRoute(navController)) {
-            Screen.NowPlaying.route, Screen.Popular.route, Screen.TopRated.route, Screen.Upcoming.route,
-            Screen.AiringTodayTvSeries.route, Screen.OnTheAirTvSeriesNav.route, Screen.PopularTvSeries.route, Screen.TopRatedTvSeries.route,
-                -> {
-                FloatingActionButton(
-                    modifier = Modifier.cornerRadius(30),
-                    containerColor = FloatingActionBackground,
-                    onClick = {
-                        isAppBarVisible.value = false
-                    },
-                ) {
-                    Icon(Icons.Filled.Search, "", tint = Color.White)
-                }
-            }
-        }
-    }, bottomBar = {
         if (currentRoute(navController) !in listOf(
                 Screen.FavoriteMovie.route,
                 Screen.FavoriteTvSeries.route,
@@ -173,7 +157,25 @@ fun MainScreen() {
                 Screen.ArtistDetail.route
             )
         ) {
-            BottomNavigationUI(navController, pagerState)
+            FloatingActionButton(
+                modifier = Modifier.cornerRadius(30),
+                containerColor = FloatingActionBackground,
+                onClick = {
+                    isAppBarVisible.value = false
+                },
+            ) {
+                Icon(Icons.Filled.Search, "", tint = Color.White)
+            }
+        }
+    }, bottomBar = {
+        when (currentRoute(navController)) {
+            Screen.NowPlaying.route, Screen.Popular.route,
+            Screen.TopRated.route, Screen.Upcoming.route,
+            Screen.AiringTodayTvSeries.route, Screen.OnTheAirTvSeriesNav.route,
+            Screen.PopularTvSeries.route, Screen.TopRatedTvSeries.route,
+                -> {
+                BottomNavigationUI(navController, pagerState)
+            }
         }
     }, snackbarHost = {
         if (isConnected.not()) {
