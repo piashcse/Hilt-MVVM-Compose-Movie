@@ -132,35 +132,45 @@ fun MainScreen() {
                 if (!isFavoriteActive.value) navController.navigate(Screen.FavoriteMovie.route)
                 isFavoriteActive.value = true
             }) {
-                if (currentRoute(navController) !== Screen.FavoriteMovie.route && currentRoute(
-                        navController
-                    ) !== Screen.FavoriteTvSeries.route
-                ) Icon(
-                    imageVector = Icons.Filled.Favorite,
-                    contentDescription = "Localized description",
-                    tint = Color.Gray
-                )
+                if (currentRoute(navController) !in listOf(
+                        Screen.FavoriteMovie.route,
+                        Screen.FavoriteTvSeries.route,
+                        Screen.MovieDetail.route,
+                        Screen.TvSeriesDetail.route,
+                        Screen.ArtistDetail.route
+                    )
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Favorite,
+                        contentDescription = "favorite",
+                        tint = Color.Gray
+                    )
+                }
             }
         })
     }, floatingActionButton = {
-        when (currentRoute(navController)) {
-            Screen.NowPlaying.route, Screen.Popular.route, Screen.TopRated.route, Screen.Upcoming.route,
-            Screen.AiringTodayTvSeries.route, Screen.OnTheAirTvSeriesNav.route, Screen.PopularTvSeries.route, Screen.TopRatedTvSeries.route,
-                -> {
-                FloatingActionButton(
-                    modifier = Modifier.cornerRadius(30),
-                    containerColor = FloatingActionBackground,
-                    onClick = {
-                        isAppBarVisible.value = false
-                    },
-                ) {
-                    Icon(Icons.Filled.Search, "", tint = Color.White)
-                }
+        if (currentRoute(navController) !in listOf(
+                Screen.FavoriteMovie.route,
+                Screen.FavoriteTvSeries.route,
+                Screen.MovieDetail.route,
+                Screen.TvSeriesDetail.route,
+                Screen.ArtistDetail.route
+            )
+        ) {
+            FloatingActionButton(
+                modifier = Modifier.cornerRadius(30),
+                containerColor = FloatingActionBackground,
+                onClick = {
+                    isAppBarVisible.value = false
+                },
+            ) {
+                Icon(Icons.Filled.Search, "", tint = Color.White)
             }
         }
     }, bottomBar = {
         when (currentRoute(navController)) {
-            Screen.NowPlaying.route, Screen.Popular.route, Screen.TopRated.route, Screen.Upcoming.route,
+            Screen.NowPlaying.route, Screen.Popular.route,
+            Screen.TopRated.route, Screen.Upcoming.route,
             Screen.AiringTodayTvSeries.route, Screen.OnTheAirTvSeriesNav.route,
             Screen.PopularTvSeries.route, Screen.TopRatedTvSeries.route,
                 -> {
