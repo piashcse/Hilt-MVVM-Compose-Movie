@@ -42,6 +42,10 @@ jobs:
       - name: Build debug APK
         run: ./gradlew assembleDebug --no-daemon
 
+      # List build directory to debug the APK location
+      - name: List build directory
+        run: ls -R app/build/outputs/
+
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
