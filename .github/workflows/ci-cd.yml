@@ -4,9 +4,11 @@ on:
   push:
     branches:
       - master
+      - main
   pull_request:
     branches:
       - master
+      - main
 
 jobs:
   build:
@@ -45,5 +47,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
-          name: Compose movie apk
+          name: movie-world-apk
           path: app/build/outputs/apk/develop/debug/app-develop-debug.apk # Path to your APK
