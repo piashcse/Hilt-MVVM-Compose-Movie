@@ -42,37 +42,8 @@ jobs:
       - name: Build debug APK
         run: ./gradlew assembleDebug --no-daemon
 
-      # List build directory to debug the APK location
-      - name: List build directory
-        run: ls -R app/build/outputs/
-
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
-          name: debug-apk
+          name: compose-movie.apk
           path: app/build/outputs/apk/debug/app-debug.apk # Path to your APK
-
-  deploy:
-    if: github.ref == 'refs/heads/master' # Run only on the main branch
-    runs-on: ubuntu-latest
-    needs: build
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up JDK
-        uses: actions/setup-java@v2
-        with:
-          distribution: 'zulu'
-          java-version: '17'
-
-      - name: Build release APK
-        run: ./gradlew assembleRelease --no-daemon
-
-      # Upload release APK as an artifact
-      - name: Upload release APK
-        uses: actions/upload-artifact@v3
-        with:
-          name: release-apk
-          path: app/build/outputs/apk/release/app-release.apk # Path to your release APK
