@@ -38,8 +38,18 @@ jobs:
       - name: Run unit tests
         run: ./gradlew test --no-daemon
 
+      # Upload debug APK as an artifact
+      - name: Build debug APK
+        run: ./gradlew assembleDebug --no-daemon
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: debug-apk
+          path: app/build/outputs/apk/debug/app-debug.apk # Path to your APK
+
   deploy:
-    if: github.ref == 'refs/heads/main' # Run only on the main branch
+    if: github.ref == 'refs/heads/master' # Run only on the main branch
     runs-on: ubuntu-latest
     needs: build
 
@@ -54,6 +64,11 @@ jobs:
           java-version: '17'
 
       - name: Build release APK
-        run: ./gradlew assembleDebug --no-daemon
+        run: ./gradlew assembleRelease --no-daemon
 
-
+      # Upload release APK as an artifact
+      - name: Upload release APK
+        uses: actions/upload-artifact@v3
+        with:
+          name: release-apk
+          path: app/build/outputs/apk/release/app-release.apk # Path to your release APK
