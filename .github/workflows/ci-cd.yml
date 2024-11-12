@@ -45,5 +45,5 @@ jobs:
       - name: Upload APK
         uses: actions/upload-artifact@v3
         with:
-          name: compose-movie.apk
-          path: app/build/outputs/apk/debug/app-debug.apk # Path to your APK
+          name: Compose movie apk
+          path: app/build/outputs/apk/develop/debug/app-develop-debug.apk # Path to your APK
