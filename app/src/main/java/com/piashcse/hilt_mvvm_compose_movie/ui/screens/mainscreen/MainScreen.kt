@@ -223,10 +223,17 @@ fun MainView(
     isFavorite: Boolean,
 ) {
     Column {
-        if (!isFavorite) {
-            MovieTvSeriesTabView(navigator, pagerState)
-        } else {
-            FavoriteTabView(navigator)
+        if (currentRoute(navigator) !in listOf(
+                Screen.MovieDetail.route,
+                Screen.TvSeriesDetail.route,
+                Screen.ArtistDetail.route,
+            )
+        ) {
+            if (!isFavorite) {
+                MovieTvSeriesTabView(navigator, pagerState)
+            } else {
+                FavoriteTabView(navigator)
+            }
         }
         HorizontalPager(
             state = pagerState, modifier = Modifier.fillMaxSize()
