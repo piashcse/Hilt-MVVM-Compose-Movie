@@ -19,6 +19,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -74,6 +75,9 @@ fun FavoriteTvSeries(navController: NavController) {
 @Composable
 fun FavoriteTvSeriesItemView(item: TvSeriesDetail, navController: NavController, viewModel: FavoriteTvSeriesViewModel) {
     val openDialog = remember { mutableStateOf(false) }
+    SideEffect {
+        viewModel.favoriteTvSeriesFromDB()
+    }
     Column(modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 0.dp, bottom = 10.dp).cornerRadius(10)) {
         Box {
             CoilImage(
@@ -137,7 +141,6 @@ fun FavoriteTvSeriesItemView(item: TvSeriesDetail, navController: NavController,
                 },
                 {
                     viewModel.removeTvSeriesFromDB(item.id)
-                    viewModel.favoriteTvSeriesFromDB()
                     openDialog.value = false
                 })
         }

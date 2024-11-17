@@ -137,7 +137,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                             .clip(CircleShape)
                             .background(Color.White.copy(alpha = 0.8f))
                     ) {
-                        movieFromDb?.let { detail ->
+                        movieFromDb?.let {
                             Icon(
                                 imageVector = Icons.Filled.Favorite,
                                 contentDescription = "Favorite",
