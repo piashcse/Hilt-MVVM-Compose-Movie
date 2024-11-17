@@ -134,7 +134,7 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
                             .clip(CircleShape)
                             .background(Color.White.copy(alpha = 0.8f))
                     ) {
-                        tvSeriesFromDb?.let { detail ->
+                        tvSeriesFromDb?.let {
                             Icon(
                                 imageVector = Icons.Filled.Favorite,
                                 contentDescription = "Favorite",
