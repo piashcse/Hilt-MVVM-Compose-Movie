@@ -42,9 +42,9 @@ import androidx.compose.ui.graphics.BlurEffect
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -64,7 +64,6 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
-import com.piashcse.hilt_mvvm_compose_movie.utils.hourMinutes
 import com.piashcse.hilt_mvvm_compose_movie.utils.roundTo
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.animation.circular.CircularRevealPlugin
@@ -81,6 +80,10 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
     val recommendTvSeries by viewModel.recommendedTvSeries.collectAsState()
     val tvSeriesCredit by viewModel.tvSeriesCredit.collectAsState()
     var tvSeriesFromDb by remember { mutableStateOf<TvSeriesDetail?>(null) }
+
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+    val calculatedOffset = screenHeight / 5.5f
+
 
     LaunchedEffect(Unit) {
         viewModel.tvSeriesDetail(tvSeriesId)
@@ -137,7 +140,7 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .offset(y = 160.dp)
+                            .offset(y = calculatedOffset)
                             .padding(start = 10.dp)
                     ) {
                         CoilImage(
@@ -244,7 +247,7 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(start = 10.dp, end = 10.dp, top = 110.dp)
+                        .padding(start = 10.dp, end = 10.dp, top = 115.dp)
                 ) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(

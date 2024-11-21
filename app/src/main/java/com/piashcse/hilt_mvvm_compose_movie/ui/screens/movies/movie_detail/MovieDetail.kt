@@ -40,9 +40,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.BlurEffect
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.RenderEffect
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -81,6 +81,9 @@ fun MovieDetail(navController: NavController, movieId: Int) {
     val recommendMovie by viewModel.recommendedMovie.collectAsState()
     val movieCredit by viewModel.movieCredit.collectAsState()
     var movieFromDb by remember { mutableStateOf<MovieDetail?>(null) }
+    val screenHeight = LocalConfiguration.current.screenHeightDp.dp
+    val calculatedOffset = screenHeight / 5.5f
+
 
     LaunchedEffect(Unit) {
         viewModel.movieDetail(movieId)
@@ -138,7 +141,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .offset(y = 160.dp)
+                            .offset(y = calculatedOffset)
                             .padding(start = 10.dp)
                     ) {
                         CoilImage(
@@ -245,7 +248,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(start = 10.dp, end = 10.dp, top = 110.dp)
+                        .padding(start = 10.dp, end = 10.dp, top = 115.dp)
                 ) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(
