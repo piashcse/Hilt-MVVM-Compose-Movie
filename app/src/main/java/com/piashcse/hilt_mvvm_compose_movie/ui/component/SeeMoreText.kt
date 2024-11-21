@@ -27,7 +27,8 @@ import java.util.regex.Pattern
 @Composable
 fun ExpandingText(
     modifier: Modifier = Modifier,
-    text: String
+    text: String,
+    visibleLines: Int = AppConstant.MINIMIZED_MAX_LINES // Accept visibleLines as parameter
 ) {
     var isExpanded by remember { mutableStateOf(false) }
     val textLayoutResultState = remember { mutableStateOf<TextLayoutResult?>(null) }
@@ -67,7 +68,7 @@ fun ExpandingText(
             )
             // attach a string annotation that stores a URL to the text
             val annotation = text.substring(
-                startIndex = matchStart + 7,//omit <a hreh =
+                startIndex = matchStart + 7, //omit <a href=
                 endIndex = text.indexOf(
                     char = '"',
                     startIndex = matchStart + 7,
@@ -97,6 +98,7 @@ fun ExpandingText(
             )
         }
     }
+
     //then we create the Show more/less animation effect
     var textWithMoreLess by remember { mutableStateOf(textWithLinks) }
     LaunchedEffect(textLayoutResult) {
@@ -113,8 +115,8 @@ fun ExpandingText(
                     pop()
                 }
             }
-            !isExpanded && textLayoutResult.hasVisualOverflow -> {//Returns true if either vertical overflow or horizontal overflow happens.
-                val lastCharIndex = textLayoutResult.getLineEnd(AppConstant.MINIMIZED_MAX_LINES - 1)
+            !isExpanded && textLayoutResult.hasVisualOverflow -> {
+                val lastCharIndex = textLayoutResult.getLineEnd(visibleLines - 1) // Use visibleLines
                 val showMoreString = "...See more"
                 val adjustedText = textWithLinks
                     .substring(startIndex = 0, endIndex = lastCharIndex)
@@ -131,8 +133,6 @@ fun ExpandingText(
                 }
 
                 isClickable = true
-                //We basically need to assign this here so that the Text is only clickable if the state is not expanded,
-                // but there is visual overflow. Otherwise, it means that the text given to the composable is not exceeding the max lines.
             }
         }
     }
@@ -166,7 +166,7 @@ fun ExpandingText(
                     }
                 }
             },
-            maxLines = if (isExpanded) Int.MAX_VALUE else AppConstant.MINIMIZED_MAX_LINES,
+            maxLines = if (isExpanded) Int.MAX_VALUE else visibleLines, // Use visibleLines here
             onTextLayout = { textLayoutResultState.value = it },
             modifier = modifier
                 .animateContentSize()
