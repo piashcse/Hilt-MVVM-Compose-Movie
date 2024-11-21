@@ -158,7 +158,9 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                                 .align(Alignment.Bottom),
                         ) {
                             Text(
-                                text = it.title, color = Color.Black, fontSize = 18.sp
+                                text = it.title, color = Color.Black, fontSize = 18.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                maxLines = 1
                             )
                             Spacer(modifier = Modifier.height(8.dp))
                             Row {
