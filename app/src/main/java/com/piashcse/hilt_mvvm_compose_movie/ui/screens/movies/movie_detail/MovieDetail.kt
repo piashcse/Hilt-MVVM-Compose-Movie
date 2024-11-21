@@ -132,7 +132,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                         CoilImage(
                             modifier = Modifier
                                 .size(135.dp, 180.dp) // Poster size (width x height)
-                                .clip(RoundedCornerShape(10.dp)) // Rounded corners
+                                .clip(RoundedCornerShape(10.dp))
                                 .border(
                                     1.dp, Color.White, RoundedCornerShape(10.dp)
                                 ),
@@ -261,12 +261,14 @@ fun Preview() {
 @Composable
 fun RecommendedMovie(navController: NavController?, recommendedMovie: List<MovieItem>) {
     Column(modifier = Modifier.padding(bottom = 10.dp)) {
-        Text(
-            text = stringResource(R.string.similar),
-            color = FontColor,
-            fontSize = 17.sp,
-            fontWeight = FontWeight.SemiBold
-        )
+        if (recommendedMovie.isNotEmpty()) {
+            Text(
+                text = stringResource(R.string.similar),
+                color = FontColor,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
         LazyRow(modifier = Modifier.fillMaxHeight()) {
             items(recommendedMovie, itemContent = { item ->
                 Column(
@@ -309,12 +311,14 @@ fun RecommendedMovie(navController: NavController?, recommendedMovie: List<Movie
 @Composable
 fun ArtistAndCrew(navController: NavController?, cast: List<Cast>) {
     Column(modifier = Modifier.padding(bottom = 10.dp)) {
-        Text(
-            text = stringResource(R.string.cast),
-            color = FontColor,
-            fontSize = 17.sp,
-            fontWeight = FontWeight.SemiBold
-        )
+        if (cast.isNotEmpty()) {
+            Text(
+                text = stringResource(R.string.cast),
+                color = FontColor,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
         LazyRow(modifier = Modifier.fillMaxHeight()) {
             items(cast, itemContent = { item ->
                 Column(
