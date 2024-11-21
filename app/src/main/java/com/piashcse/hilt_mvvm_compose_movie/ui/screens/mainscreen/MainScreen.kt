@@ -57,9 +57,8 @@ import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.ConnectionState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.connectivityState
 import com.piashcse.hilt_mvvm_compose_movie.utils.pagingLoadingState
-import kotlinx.coroutines.ExperimentalCoroutinesApi
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalCoroutinesApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
     val mainViewModel = hiltViewModel<MainViewModel>()
@@ -237,7 +236,7 @@ fun MainView(
         }
         HorizontalPager(
             state = pagerState, modifier = Modifier.fillMaxSize()
-        ) { page ->
+        ) {
             Navigation(navigator, genres)
         }
     }
