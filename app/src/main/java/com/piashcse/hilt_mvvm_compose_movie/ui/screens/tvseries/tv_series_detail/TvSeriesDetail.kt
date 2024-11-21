@@ -294,8 +294,8 @@ fun RecommendedTvSeries(navController: NavController?, recommendedTvSeries: List
                 ) {
                     CoilImage(
                         modifier = Modifier
-                            .height(190.dp)
-                            .width(140.dp)
+                            .height(180.dp)
+                            .width(135.dp)
                             .cornerRadius(10)
                             .clickable {
                                 navController?.navigate(

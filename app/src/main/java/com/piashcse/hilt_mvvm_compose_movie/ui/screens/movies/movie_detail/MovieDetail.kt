@@ -296,7 +296,7 @@ fun RecommendedMovie(navController: NavController?, recommendedMovie: List<Movie
                     CoilImage(
                         modifier = Modifier
                             .height(180.dp)
-                            .width(130.dp)
+                            .width(135.dp)
                             .cornerRadius(10)
                             .clickable {
                                 navController?.navigate(
