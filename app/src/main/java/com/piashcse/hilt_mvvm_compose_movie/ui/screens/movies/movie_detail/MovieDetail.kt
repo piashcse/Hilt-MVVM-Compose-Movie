@@ -38,7 +38,10 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.BlurEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RenderEffect
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -107,7 +110,16 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                     CoilImage(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .aspectRatio(16f / 9f),
+                            .aspectRatio(16f / 9f)
+                            .graphicsLayer {
+                                alpha = 0.9f
+                                scaleX = 1f
+                                scaleY = 1f
+                                translationX = 0f
+                                translationY = 0f
+                                shadowElevation = 10f
+                                renderEffect = BlurEffect(8f, 8f)
+                            },
                         imageModel = { ApiURL.IMAGE_URL_V2.plus(it.backdrop_path) },
                         imageOptions = ImageOptions(
                             contentScale = ContentScale.Crop,
@@ -126,7 +138,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                     Row(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .offset(y = 150.dp)
+                            .offset(y = 160.dp)
                             .padding(start = 10.dp)
                     ) {
                         CoilImage(
@@ -233,7 +245,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(start = 10.dp, end = 10.dp, top = 100.dp)
+                        .padding(start = 10.dp, end = 10.dp, top = 110.dp)
                 ) {
                     Spacer(modifier = Modifier.height(8.dp))
                     Text(

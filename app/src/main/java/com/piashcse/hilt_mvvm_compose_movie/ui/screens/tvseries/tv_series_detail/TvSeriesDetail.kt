@@ -1,21 +1,27 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.tv_series_detail
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
@@ -32,7 +38,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.BlurEffect
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -56,6 +64,7 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
+import com.piashcse.hilt_mvvm_compose_movie.utils.hourMinutes
 import com.piashcse.hilt_mvvm_compose_movie.utils.roundTo
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.animation.circular.CircularRevealPlugin
@@ -95,21 +104,28 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
                 Box(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .height(300.dp)
+                        .aspectRatio(16f / 9f)
                 ) {
                     CoilImage(
-                        modifier = Modifier.fillMaxWidth(),
-                        imageModel = { ApiURL.IMAGE_URL.plus(it.posterPath) },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .aspectRatio(16f / 9f)
+                            .graphicsLayer {
+                                alpha = 0.9f
+                                scaleX = 1f
+                                scaleY = 1f
+                                translationX = 0f
+                                translationY = 0f
+                                shadowElevation = 10f
+                                renderEffect = BlurEffect(8f, 8f)
+                            },
+                        imageModel = { ApiURL.IMAGE_URL_V2.plus(it.backdropPath) },
                         imageOptions = ImageOptions(
                             contentScale = ContentScale.Crop,
-                            alignment = Alignment.Center,
-                            contentDescription = "tv series detail",
-                            colorFilter = null,
+                            contentDescription = "Backdrop Image",
                         ),
                         component = rememberImageComponent {
-                            +CircularRevealPlugin(
-                                duration = 800
-                            )
+                            +CircularRevealPlugin(duration = 800)
                             +ShimmerPlugin(
                                 shimmer = Shimmer.Flash(
                                     baseColor = SecondaryFontColor,
@@ -118,6 +134,84 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
                             )
                         },
                     )
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .offset(y = 160.dp)
+                            .padding(start = 10.dp)
+                    ) {
+                        CoilImage(
+                            modifier = Modifier
+                                .size(135.dp, 180.dp) // Poster size (width x height)
+                                .clip(RoundedCornerShape(10.dp))
+                                .border(
+                                    1.dp, Color.White, RoundedCornerShape(10.dp)
+                                ),
+                            imageModel = { ApiURL.IMAGE_URL.plus(it.posterPath) },
+                            imageOptions = ImageOptions(
+                                contentScale = ContentScale.Crop,
+                                contentDescription = "Poster Image",
+                            ),
+                            component = rememberImageComponent {
+                                +ShimmerPlugin(
+                                    shimmer = Shimmer.Flash(
+                                        baseColor = SecondaryFontColor,
+                                        highlightColor = DefaultBackgroundColor
+                                    )
+                                )
+                            },
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Column(
+                            modifier = Modifier
+                                .padding(bottom = 4.dp)
+                                .fillMaxWidth()
+                                .align(Alignment.Bottom),
+                        ) {
+                            Text(
+                                text = it.name, color = Color.Black, fontSize = 18.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                maxLines = 1
+                            )
+                            Spacer(modifier = Modifier.height(8.dp))
+                            Row {
+                                Column(Modifier.weight(1f)) {
+                                    SubtitlePrimary(
+                                        text = stringResource(R.string.duration)
+                                    )
+                                    SubtitleSecondary(
+                                        text = it.numberOfEpisodes.toString()
+                                    )
+                                }
+                                Column(Modifier.weight(1f)) {
+                                    SubtitlePrimary(
+                                        text = stringResource(R.string.release_date)
+                                    )
+                                    SubtitleSecondary(
+                                        text = it.firstAirDate
+                                    )
+                                }
+                            }
+                            Row(modifier = Modifier.padding(top = 4.dp)) {
+                                Column(Modifier.weight(1f)) {
+                                    SubtitlePrimary(
+                                        text = stringResource(R.string.language)
+                                    )
+                                    SubtitleSecondary(
+                                        text = it.originalLanguage
+                                    )
+                                }
+                                Column(Modifier.weight(1f)) {
+                                    SubtitlePrimary(
+                                        text = stringResource(R.string.rating)
+                                    )
+                                    SubtitleSecondary(
+                                        text = it.voteAverage.roundTo(1).toString()
+                                    )
+                                }
+                            }
+                        }
+                    }
                     IconButton(
                         onClick = {
                             tvSeriesFromDb?.let {
@@ -150,63 +244,17 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
                 Column(
                     modifier = Modifier
                         .fillMaxSize()
-                        .padding(start = 10.dp, end = 10.dp)
+                        .padding(start = 10.dp, end = 10.dp, top = 110.dp)
                 ) {
-                    Text(
-                        text = it.name,
-                        modifier = Modifier.padding(top = 10.dp),
-                        color = FontColor,
-                        fontSize = 30.sp,
-                        fontWeight = FontWeight.W700,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis
-                    )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(bottom = 10.dp, top = 10.dp)
-                    ) {
-
-                        Column(Modifier.weight(1f)) {
-                            SubtitlePrimary(
-                                text = it.originalLanguage,
-                            )
-                            SubtitleSecondary(
-                                text = stringResource(R.string.language)
-                            )
-                        }
-                        Column(Modifier.weight(1f)) {
-                            SubtitlePrimary(
-                                text = it.voteAverage.roundTo(1).toString(),
-                            )
-                            SubtitleSecondary(
-                                text = stringResource(R.string.rating)
-                            )
-                        }
-                        Column(Modifier.weight(1f)) {
-                            SubtitlePrimary(
-                                text = it.numberOfEpisodes.toString()
-                            )
-                            SubtitleSecondary(
-                                text = stringResource(R.string.number_of_episodes)
-                            )
-                        }
-                        Column(Modifier.weight(1f)) {
-                            SubtitlePrimary(
-                                text = it.firstAirDate
-                            )
-                            SubtitleSecondary(
-                                text = stringResource(R.string.release_date)
-                            )
-                        }
-                    }
+                    Spacer(modifier = Modifier.height(8.dp))
                     Text(
                         text = stringResource(R.string.description),
                         color = FontColor,
                         fontSize = 17.sp,
                         fontWeight = FontWeight.SemiBold
                     )
-                    ExpandingText(text = it.overview)
+                    ExpandingText(text = it.overview, visibleLines = 3)
+                    Spacer(modifier = Modifier.height(8.dp))
                     RecommendedTvSeries(navController, recommendTvSeries)
                     tvSeriesCredit?.let {
                         ArtistAndCrew(navController, it.cast)
@@ -226,12 +274,14 @@ fun Preview() {
 @Composable
 fun RecommendedTvSeries(navController: NavController?, recommendedTvSeries: List<TvSeriesItem>) {
     Column(modifier = Modifier.padding(bottom = 10.dp)) {
-        Text(
-            text = stringResource(R.string.similar),
-            color = FontColor,
-            fontSize = 17.sp,
-            fontWeight = FontWeight.SemiBold
-        )
+        if (recommendedTvSeries.isNotEmpty()) {
+            Text(
+                text = stringResource(R.string.similar),
+                color = FontColor,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
         LazyRow(modifier = Modifier.fillMaxHeight()) {
             items(recommendedTvSeries, itemContent = { item ->
                 Column(
@@ -274,12 +324,14 @@ fun RecommendedTvSeries(navController: NavController?, recommendedTvSeries: List
 @Composable
 fun ArtistAndCrew(navController: NavController?, cast: List<Cast>) {
     Column(modifier = Modifier.padding(bottom = 10.dp)) {
-        Text(
-            text = stringResource(R.string.cast),
-            color = FontColor,
-            fontSize = 17.sp,
-            fontWeight = FontWeight.SemiBold
-        )
+        if (cast.isNotEmpty()) {
+            Text(
+                text = stringResource(R.string.cast),
+                color = FontColor,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+        }
         LazyRow(modifier = Modifier.fillMaxHeight()) {
             items(cast, itemContent = { item ->
                 Column(
