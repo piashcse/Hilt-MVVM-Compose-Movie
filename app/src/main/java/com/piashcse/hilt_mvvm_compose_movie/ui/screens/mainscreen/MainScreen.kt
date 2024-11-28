@@ -235,7 +235,7 @@ fun MainView(
             }
         }
         HorizontalPager(
-            state = pagerState, modifier = Modifier.fillMaxSize()
+            state = pagerState, modifier = Modifier.fillMaxSize(), userScrollEnabled = false
         ) {
             Navigation(navigator, genres)
         }
