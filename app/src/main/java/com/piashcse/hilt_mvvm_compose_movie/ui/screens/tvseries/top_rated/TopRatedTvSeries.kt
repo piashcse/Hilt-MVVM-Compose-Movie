@@ -18,7 +18,7 @@ fun TopRatedTvSeries(
         navController = navController,
         tvSeries = topRatedViewViewModel.topRatedTvSeries.collectAsLazyPagingItems(),
         genres = genres,
-        selectedName = topRatedViewViewModel.selectedGenre.value
+        selectedGenre = topRatedViewViewModel.selectedGenre.value
     ){
         topRatedViewViewModel.filterData.value = GenreId(it?.id.toString())
         it?.let {
