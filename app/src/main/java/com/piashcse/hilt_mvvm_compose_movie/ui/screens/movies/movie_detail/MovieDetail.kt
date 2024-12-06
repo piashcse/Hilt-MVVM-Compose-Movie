@@ -172,48 +172,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                                 .fillMaxWidth()
                                 .align(Alignment.Bottom),
                         ) {
-                            Text(
-                                text = it.title, color = Color.Black, fontSize = 18.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                maxLines = 1
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Row {
-                                Column(Modifier.weight(1f)) {
-                                    SubtitlePrimary(
-                                        text = stringResource(R.string.duration)
-                                    )
-                                    SubtitleSecondary(
-                                        text = it.runtime.hourMinutes()
-                                    )
-                                }
-                                Column(Modifier.weight(1f)) {
-                                    SubtitlePrimary(
-                                        text = stringResource(R.string.release_date)
-                                    )
-                                    SubtitleSecondary(
-                                        text = it.release_date
-                                    )
-                                }
-                            }
-                            Row(modifier = Modifier.padding(top = 4.dp)) {
-                                Column(Modifier.weight(1f)) {
-                                    SubtitlePrimary(
-                                        text = stringResource(R.string.language)
-                                    )
-                                    SubtitleSecondary(
-                                        text = it.original_language
-                                    )
-                                }
-                                Column(Modifier.weight(1f)) {
-                                    SubtitlePrimary(
-                                        text = stringResource(R.string.rating)
-                                    )
-                                    SubtitleSecondary(
-                                        text = it.vote_average.roundTo(1).toString()
-                                    )
-                                }
-                            }
+                            MovieInfo(it)
                         }
                     }
                     IconButton(
@@ -251,13 +210,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                         .padding(start = 10.dp, end = 10.dp, top = 115.dp)
                 ) {
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = stringResource(R.string.description),
-                        color = FontColor,
-                        fontSize = 17.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    ExpandingText(text = it.overview, visibleLines = 3)
+                    MovieOverview(it)
                     Spacer(modifier = Modifier.height(8.dp))
                     RecommendedMovie(navController, recommendMovie)
                     movieCredit?.let {
@@ -269,117 +222,168 @@ fun MovieDetail(navController: NavController, movieId: Int) {
     }
 }
 
-@Preview(name = "MovieDetail", showBackground = true)
 @Composable
-fun Preview() {
-    // MovieDetail(null, MovieItem())
+fun MovieInfo(movie: MovieDetail) {
+    Column(
+        modifier = Modifier
+            .padding(bottom = 4.dp)
+            .fillMaxWidth()
+    ) {
+        Text(
+            text = movie.title,
+            color = Color.Black,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.SemiBold,
+            maxLines = 1
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        MovieMetaData(movie)
+    }
 }
 
 @Composable
-fun RecommendedMovie(navController: NavController?, recommendedMovie: List<MovieItem>) {
-    Column(modifier = Modifier.padding(bottom = 10.dp)) {
-        if (recommendedMovie.isNotEmpty()) {
-            Text(
-                text = stringResource(R.string.similar),
-                color = FontColor,
-                fontSize = 17.sp,
-                fontWeight = FontWeight.SemiBold
-            )
+fun MovieMetaData(movie: MovieDetail) {
+    Row {
+        Column(Modifier.weight(1f)) {
+            SubtitlePrimary(text = stringResource(R.string.duration))
+            SubtitleSecondary(text = movie.runtime.hourMinutes())
         }
-        LazyRow(modifier = Modifier.fillMaxHeight()) {
-            items(recommendedMovie, itemContent = { item ->
-                Column(
-                    modifier = Modifier.padding(
-                        start = 0.dp, end = 8.dp, top = 5.dp, bottom = 5.dp
-                    )
-                ) {
-                    CoilImage(
-                        modifier = Modifier
-                            .height(180.dp)
-                            .width(135.dp)
-                            .cornerRadius(10)
-                            .clickable {
-                                navController?.navigate(
-                                    Screen.MovieDetail.route.plus(
-                                        "/${item.id}"
-                                    )
-                                )
-                            },
-                        imageModel = { ApiURL.IMAGE_URL.plus(item.posterPath) },
-                        imageOptions = ImageOptions(
-                            contentScale = ContentScale.Crop,
-                            alignment = Alignment.Center,
-                            contentDescription = "similar movie",
-                            colorFilter = null,
-                        ),
-                        component = rememberImageComponent {
-                            // shows a shimmering effect when loading an image.
-                            +CircularRevealPlugin(
-                                duration = 800
-                            )
-                        },
-                    )
-                }
-            })
+        Column(Modifier.weight(1f)) {
+            SubtitlePrimary(text = stringResource(R.string.release_date))
+            SubtitleSecondary(text = movie.release_date)
+        }
+    }
+    Row(modifier = Modifier.padding(top = 4.dp)) {
+        Column(Modifier.weight(1f)) {
+            SubtitlePrimary(text = stringResource(R.string.language))
+            SubtitleSecondary(text = movie.original_language)
+        }
+        Column(Modifier.weight(1f)) {
+            SubtitlePrimary(text = stringResource(R.string.rating))
+            SubtitleSecondary(text = movie.vote_average.roundTo(1).toString())
         }
     }
 }
 
 @Composable
-fun ArtistAndCrew(navController: NavController?, cast: List<Cast>) {
-    Column(modifier = Modifier.padding(bottom = 10.dp)) {
-        if (cast.isNotEmpty()) {
+fun MovieOverview(movie: MovieDetail) {
+    Column {
+        Spacer(modifier = Modifier.height(8.dp))
+        Text(
+            text = stringResource(R.string.description),
+            color = FontColor,
+            fontSize = 17.sp,
+            fontWeight = FontWeight.SemiBold
+        )
+        ExpandingText(text = movie.overview, visibleLines = 3)
+    }
+}
+
+
+@Preview(name = "MovieDetail", showBackground = true)
+@Composable
+fun Preview() {
+    // Mock MovieItem for preview purposes
+    val movieItem = MovieItem(
+        adult = false,
+        backdropPath = "/path/to/backdrop.jpg",
+        genreIds = listOf(1, 2, 3),
+        id = 123,
+        originalLanguage = "en",
+        originalTitle = "Mock Movie",
+        overview = "This is a mock movie overview.",
+        popularity = 8.5,
+        posterPath = "/path/to/poster.jpg",
+        releaseDate = "2024-12-01",
+        title = "Mock Movie Title",
+        video = false,
+        voteAverage = 7.8,
+        voteCount = 1500
+    )
+}
+
+@Composable
+fun RecommendedMovie(navController: NavController?, recommendedMovie: List<MovieItem>) {
+    if (recommendedMovie.isNotEmpty()) {
+        Column {
             Text(
+                modifier = Modifier.padding(start = 5.dp),
+                text = stringResource(R.string.similar),
+                color = FontColor,
+                fontSize = 17.sp,
+                fontWeight = FontWeight.SemiBold
+            )
+            LazyRow(modifier = Modifier.fillMaxHeight()) {
+                items(recommendedMovie) { item ->
+                    RecommendedMovieItem(item, navController)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun RecommendedMovieItem(item: MovieItem, navController: NavController?) {
+    Column(modifier = Modifier.padding(5.dp)) {
+        CoilImage(
+            modifier = Modifier
+                .height(180.dp)
+                .width(135.dp)
+                .cornerRadius(10)
+                .clickable {
+                    navController?.navigate(Screen.MovieDetail.route.plus("/${item.id}"))
+                },
+            imageModel = { ApiURL.IMAGE_URL.plus(item.posterPath) },
+            imageOptions = ImageOptions(contentScale = ContentScale.Crop),
+            component = rememberImageComponent {
+                +CircularRevealPlugin(duration = 800)
+            }
+        )
+    }
+}
+
+@Composable
+fun ArtistAndCrew(navController: NavController?, cast: List<Cast>) {
+    if (cast.isNotEmpty()) {
+        Column {
+            Text(
+                modifier = Modifier.padding(start = 5.dp),
                 text = stringResource(R.string.cast),
                 color = FontColor,
                 fontSize = 17.sp,
                 fontWeight = FontWeight.SemiBold
             )
-        }
-        LazyRow(modifier = Modifier.fillMaxHeight()) {
-            items(cast, itemContent = { item ->
-                Column(
-                    modifier = Modifier.padding(
-                        start = 0.dp, end = 10.dp, top = 5.dp, bottom = 5.dp
-                    ),
-                    verticalArrangement = Arrangement.Center,
-                    horizontalAlignment = Alignment.CenterHorizontally
-                ) {
-                    CoilImage(
-                        modifier = Modifier
-                            .padding(bottom = 5.dp)
-                            .height(80.dp)
-                            .width(80.dp)
-                            .cornerRadius(40)
-                            .clickable {
-                                navController?.navigate(
-                                    Screen.ArtistDetail.route.plus(
-                                        "/${item.id}"
-                                    )
-                                )
-                            },
-                        imageModel = { ApiURL.IMAGE_URL.plus(item.profilePath) },
-                        imageOptions = ImageOptions(
-                            contentScale = ContentScale.Crop,
-                            alignment = Alignment.Center,
-                            contentDescription = "artist and crew",
-                            colorFilter = null,
-                        ),
-                        component = rememberImageComponent {
-                            +CircularRevealPlugin(
-                                duration = 800
-                            )
-                            +ShimmerPlugin(
-                                shimmer = Shimmer.Flash(
-                                    baseColor = SecondaryFontColor,
-                                    highlightColor = DefaultBackgroundColor
-                                )
-                            )
-                        },
-                    )
-                    SubtitleSecondary(text = item.name)
+            LazyRow(modifier = Modifier.fillMaxHeight()) {
+                items(cast) { item ->
+                    ArtistAndCrewItem(item, navController)
                 }
-            })
+            }
         }
+    }
+}
+
+@Composable
+fun ArtistAndCrewItem(item: Cast, navController: NavController?) {
+    Column(
+        modifier = Modifier.padding(5.dp),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        CoilImage(
+            modifier = Modifier
+                .padding(bottom = 5.dp)
+                .height(80.dp)
+                .width(80.dp)
+                .cornerRadius(40)
+                .clickable {
+                    navController?.navigate(Screen.ArtistDetail.route.plus("/${item.id}"))
+                },
+            imageModel = { ApiURL.IMAGE_URL.plus(item.profilePath) },
+            imageOptions = ImageOptions(contentScale = ContentScale.Crop),
+            component = rememberImageComponent {
+                +CircularRevealPlugin(duration = 800)
+            }
+        )
+        SubtitleSecondary(text = item.name)
     }
 }

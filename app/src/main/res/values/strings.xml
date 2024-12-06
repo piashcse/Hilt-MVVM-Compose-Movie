@@ -41,4 +41,5 @@
     <string name="favorite_tv_series">Favorite Tv Series</string>
     <string name="remove_from_favorite">Remove from favorite</string>
     <string name="do_you_wanna_remove_this_from_favorite">Do you want to remove this item from favorite list?</string>
+    <string name="biography_not_available">Biography is not available</string>
 </resources>

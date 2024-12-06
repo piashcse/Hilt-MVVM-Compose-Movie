@@ -18,7 +18,7 @@ fun AiringTodayTvSeries(
         navController = navController,
         tvSeries = airingTodayViewModel.airingTodayTvSeries.collectAsLazyPagingItems(),
         genres = genres,
-        selectedName = airingTodayViewModel.selectedGenre.value
+        selectedGenre = airingTodayViewModel.selectedGenre.value
     ){
         airingTodayViewModel.filterData.value = GenreId(it?.id.toString())
         it?.let {
