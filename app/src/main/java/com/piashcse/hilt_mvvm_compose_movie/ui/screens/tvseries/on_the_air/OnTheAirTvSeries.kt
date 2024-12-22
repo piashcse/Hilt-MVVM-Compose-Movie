@@ -18,7 +18,7 @@ fun OnTheAirTvSeries(
         navController = navController,
         tvSeries = onTheAirViewViewModel.onTheAirTvSeries.collectAsLazyPagingItems(),
         genres = genres,
-        selectedName = onTheAirViewViewModel.selectedGenre.value
+        selectedGenre = onTheAirViewViewModel.selectedGenre.value
     ){
         onTheAirViewViewModel.filterData.value = GenreId(it?.id.toString())
         it?.let {
