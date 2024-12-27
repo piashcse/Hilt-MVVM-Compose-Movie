@@ -6,7 +6,7 @@ import androidx.navigation.NavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.data.model.GenreId
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
-import com.piashcse.hilt_mvvm_compose_movie.ui.component.TvSeriesItems
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.TvSeries
 
 @Composable
 fun AiringTodayTvSeries(
@@ -14,7 +14,7 @@ fun AiringTodayTvSeries(
     genres: ArrayList<Genre>? = null,
 ) {
     val airingTodayViewModel = hiltViewModel<AiringTodayTvSeriesViewModel>()
-    TvSeriesItems (
+    TvSeries (
         navController = navController,
         tvSeries = airingTodayViewModel.airingTodayTvSeries.collectAsLazyPagingItems(),
         genres = genres,

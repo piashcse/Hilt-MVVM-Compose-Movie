@@ -18,8 +18,8 @@ import com.piashcse.hilt_mvvm_compose_movie.R
 fun ExitAlertDialog(
     title: String,
     description: String,
-    cancel: (isOpen: Boolean) -> Unit,
-    ok: () -> Unit,
+    onConfirm: () -> Unit,
+    onDismiss: (isOpen: Boolean) -> Unit,
 ) {
     val openDialog = remember { mutableStateOf(true) }
     if (openDialog.value) {
@@ -41,7 +41,7 @@ fun ExitAlertDialog(
                 TextButton(
                     onClick = {
                         openDialog.value = false
-                        ok()
+                        onConfirm()
                     }) {
                     Text(
                         stringResource(R.string.yes),
@@ -54,7 +54,7 @@ fun ExitAlertDialog(
                 TextButton(
                     onClick = {
                         openDialog.value = false
-                        cancel(false)
+                        onDismiss(false)
                     }) {
                     Text(
                         stringResource(R.string.no),
