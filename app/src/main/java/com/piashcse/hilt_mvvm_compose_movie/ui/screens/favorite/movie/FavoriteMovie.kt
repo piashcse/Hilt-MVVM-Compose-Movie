@@ -89,7 +89,7 @@ fun FavoriteMovieItemView(
                     .clickable {
                         navController.navigate(Screen.MovieDetail.route.plus("/${item.id}"))
                     },
-                imageModel = { ApiURL.IMAGE_URL.plus(item.backdrop_path) },
+                imageModel = { ApiURL.IMAGE_URL.plus(item.backdropPath) },
                 imageOptions = ImageOptions(
                     contentScale = ContentScale.Crop,
                     alignment = Alignment.Center,

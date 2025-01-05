@@ -123,7 +123,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                                 shadowElevation = 10f
                                 renderEffect = BlurEffect(8f, 8f)
                             },
-                        imageModel = { ApiURL.IMAGE_URL_V2.plus(it.backdrop_path) },
+                        imageModel = { ApiURL.IMAGE_URL_V2.plus(it.backdropPath) },
                         imageOptions = ImageOptions(
                             contentScale = ContentScale.Crop,
                             contentDescription = "Backdrop Image",
@@ -151,7 +151,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                                 .border(
                                     1.dp, Color.White, RoundedCornerShape(10.dp)
                                 ),
-                            imageModel = { ApiURL.IMAGE_URL.plus(it.poster_path) },
+                            imageModel = { ApiURL.IMAGE_URL.plus(it.posterPath) },
                             imageOptions = ImageOptions(
                                 contentScale = ContentScale.Crop,
                                 contentDescription = "Poster Image",
@@ -192,7 +192,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                                         text = stringResource(R.string.release_date)
                                     )
                                     SubtitleSecondary(
-                                        text = it.release_date
+                                        text = it.releaseDate
                                     )
                                 }
                             }
@@ -202,7 +202,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                                         text = stringResource(R.string.language)
                                     )
                                     SubtitleSecondary(
-                                        text = it.original_language
+                                        text = it.originalLanguage
                                     )
                                 }
                                 Column(Modifier.weight(1f)) {
@@ -210,7 +210,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                                         text = stringResource(R.string.rating)
                                     )
                                     SubtitleSecondary(
-                                        text = it.vote_average.roundTo(1).toString()
+                                        text = it.voteAverage.roundTo(1).toString()
                                     )
                                 }
                             }
