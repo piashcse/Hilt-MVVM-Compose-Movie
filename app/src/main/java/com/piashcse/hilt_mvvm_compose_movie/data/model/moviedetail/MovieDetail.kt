@@ -9,7 +9,7 @@ data class MovieDetail(
     @SerializedName("adult")
     val adult: Boolean,
     @SerializedName("backdrop_path")
-    val backdrop_path: String,
+    val backdropPath: String,
     @SerializedName("budget")
     val budget: Int,
     @SerializedName("genres")
@@ -20,19 +20,19 @@ data class MovieDetail(
     @SerializedName("id")
     val id: Int,
     @SerializedName("imdb_id")
-    val imdb_id: String,
+    val imdbId: String,
     @SerializedName("original_language")
-    val original_language: String,
+    val originalLanguage: String,
     @SerializedName("original_title")
-    val original_title: String,
+    val originalTitle: String,
     @SerializedName("overview")
     val overview: String,
     @SerializedName("popularity")
     val popularity: Double,
     @SerializedName("poster_path")
-    val poster_path: String,
+    val posterPath: String,
     @SerializedName("release_date")
-    val release_date: String,
+    val releaseDate: String,
     @SerializedName("revenue")
     val revenue: Int,
     @SerializedName("runtime")
@@ -46,7 +46,7 @@ data class MovieDetail(
     @SerializedName("video")
     val video: Boolean,
     @SerializedName("vote_average")
-    val vote_average: Double,
+    val voteAverage: Double,
     @SerializedName("vote_count")
-    val vote_count: Int,
+    val voteCount: Int,
 )
