@@ -92,7 +92,7 @@ fun DisplayMovies(
                     navController = navController,
                     itemIdExtractor = { it.id.toString() },
                     itemImageUrlExtractor = { it.posterPath },
-                    itemDetailRoute = Screen.TvSeriesDetail.route
+                    itemDetailRoute = Screen.MovieDetail.route
                 )
             }
         }
