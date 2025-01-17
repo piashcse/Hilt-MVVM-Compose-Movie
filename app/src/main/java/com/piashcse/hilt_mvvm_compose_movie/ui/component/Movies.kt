@@ -1,7 +1,9 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.component
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -35,7 +37,7 @@ fun Movies(
     selectedName: Genre?,
     onClickGenre: (Genre?) -> Unit,
 ) {
-    val activity = LocalContext.current as? Activity
+    val activity = LocalActivity.current
     val progressBar = remember { mutableStateOf(false) }
     val openDialog = remember { mutableStateOf(false) }
 
