@@ -9,38 +9,47 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 @HiltViewModel
-class ArtistDetailViewModel @Inject constructor(private val repo: MovieRepository) : ViewModel() {
-    private val _artistDetail = MutableStateFlow<ArtistDetail?>(null)
-    val artistDetail: StateFlow<ArtistDetail?> get ()= _artistDetail.asStateFlow()
+class ArtistDetailViewModel @Inject constructor(
+    private val repo: MovieRepository
+) : ViewModel() {
 
-    private val _isLoading = MutableStateFlow<Boolean>(false)
-    val isLoading get() = _isLoading.asStateFlow()
+    private val _uiState = MutableStateFlow(ArtistDetailUiState())
+    val uiState: StateFlow<ArtistDetailUiState> get() = _uiState.asStateFlow()
 
-
-    fun artistDetail(personId: Int) {
+    fun fetchArtistDetails(personId: Int) {
         viewModelScope.launch {
-            repo.artistDetail(personId).onEach {
-                when (it) {
-                    is DataState.Loading -> {
-                        _isLoading.value = true
-                    }
+            launch { updateArtistDetail(personId) }
+        }
+    }
 
-                    is DataState.Success -> {
-                        _artistDetail.value = it.data
-                        _isLoading.value = false
-                    }
+    private suspend fun updateArtistDetail(personId: Int) {
+        repo.artistDetail(personId).collect { result ->
+            handleStateUpdate(result) { state, data -> state.copy(artistDetail = data) }
+        }
+    }
 
-                    is DataState.Error -> {
-                        _isLoading.value = false
-                    }
-                }
-            }.launchIn(viewModelScope)
+    private fun <T> handleStateUpdate(
+        result: DataState<T>,
+        stateUpdater: (ArtistDetailUiState, T?) -> ArtistDetailUiState
+    ) {
+        _uiState.update { currentState ->
+            when (result) {
+                is DataState.Loading -> currentState.copy(isLoading = true)
+                is DataState.Success -> stateUpdater(
+                    currentState,
+                    result.data
+                ).copy(isLoading = false)
+                is DataState.Error -> currentState.copy(isLoading = false) // Optionally log error details
+            }
         }
     }
 }
+
+data class ArtistDetailUiState(
+    val artistDetail: ArtistDetail? = null,
+    val isLoading: Boolean = false
+)

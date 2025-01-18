@@ -10,105 +10,95 @@ import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.movie.MovieRe
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.launchIn
-import kotlinx.coroutines.flow.onEach
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 @HiltViewModel
 class MovieDetailViewModel @Inject constructor(
     private val repo: MovieRepository,
     private val movieDetailDao: FavoriteMovieDao,
 ) : ViewModel() {
-    private val _movieDetail = MutableStateFlow<MovieDetail?>(null)
-    val movieDetail get() = _movieDetail.asStateFlow()
 
-    private val _recommendedMovie = MutableStateFlow<List<MovieItem>>(arrayListOf())
-    val recommendedMovie get() = _recommendedMovie.asStateFlow()
+    private val _uiState = MutableStateFlow(MovieDetailUiState())
+    val uiState: StateFlow<MovieDetailUiState> get() = _uiState.asStateFlow()
 
-    private val _movieCredit = MutableStateFlow<Artist?>(null)
-    val movieCredit get() = _movieCredit.asStateFlow()
-
-    private val _isLoading = MutableStateFlow<Boolean>(false)
-    val isLoading get() = _isLoading.asStateFlow()
-
-    fun movieDetail(movieId: Int) {
+    fun fetchMovieDetails(movieId: Int) {
         viewModelScope.launch {
-            repo.movieDetail(movieId).onEach {
-                when (it) {
-                    is DataState.Loading -> {
-                        _isLoading.value = true
-                    }
-
-                    is DataState.Success -> {
-                        _movieDetail.value = it.data
-                        _isLoading.value = false
-                    }
-
-                    is DataState.Error -> {
-                        _isLoading.value = false
-                    }
-                }
-            }.launchIn(viewModelScope)
+            launch { updateMovieDetail(movieId) }
+            launch { updateRecommendedMovies(movieId) }
+            launch { updateMovieCredit(movieId) }
         }
     }
 
-    fun recommendedMovie(movieId: Int) {
-        viewModelScope.launch {
-            repo.recommendedMovie(movieId).onEach {
-                when (it) {
-                    is DataState.Loading -> {
-                        _isLoading.value = true
-                    }
-
-                    is DataState.Success -> {
-                        _recommendedMovie.value = it.data
-                        _isLoading.value = false
-                    }
-
-                    is DataState.Error -> {
-                        _isLoading.value = false
-                    }
-                }
-            }.launchIn(viewModelScope)
+    private suspend fun updateMovieDetail(movieId: Int) {
+        repo.movieDetail(movieId).collect { result ->
+            handleStateUpdate(result) { state, data -> state.copy(movieDetail = data) }
         }
     }
 
-    fun movieCredit(movieId: Int) {
-        viewModelScope.launch {
-            repo.movieCredit(movieId).onEach {
-                when (it) {
-                    is DataState.Loading -> {
-                        _isLoading.value = true
-                    }
-
-                    is DataState.Success -> {
-                        _movieCredit.value = it.data
-                        _isLoading.value = false
-                    }
-
-                    is DataState.Error -> {
-                        _isLoading.value = false
-                    }
-                }
-            }.launchIn(viewModelScope)
+    private suspend fun updateRecommendedMovies(movieId: Int) {
+        repo.recommendedMovie(movieId).collect { result ->
+            handleStateUpdate(result) { state, data ->
+                state.copy(
+                    recommendedMovies = data ?: emptyList()
+                )
+            }
         }
     }
 
-    fun insertMovieDetail(movieDetail: MovieDetail) {
-        viewModelScope.launch {
-            movieDetailDao.insert(movieDetail)
+    private suspend fun updateMovieCredit(movieId: Int) {
+        repo.movieCredit(movieId).collect { result ->
+            handleStateUpdate(result) { state, data -> state.copy(movieCredit = data) }
         }
     }
 
-    suspend fun getMovieDetailById(id: Int): MovieDetail? {
-        return movieDetailDao.getMovieDetailById(id)
+    private fun <T> handleStateUpdate(
+        result: DataState<T>,
+        stateUpdater: (MovieDetailUiState, T?) -> MovieDetailUiState,
+    ) {
+        _uiState.update { currentState ->
+            when (result) {
+                is DataState.Loading -> currentState.copy(isLoading = true)
+                is DataState.Success -> stateUpdater(
+                    currentState,
+                    result.data
+                ).copy(isLoading = false)
+
+                is DataState.Error -> currentState.copy(isLoading = false) // Optionally log error details
+            }
+        }
     }
 
-    fun deleteMovieDetailById(id: Int) {
+    fun toggleFavorite(movieDetail: MovieDetail) {
         viewModelScope.launch {
-            movieDetailDao.deleteMovieDetailById(id)
+            val existing = movieDetailDao.getMovieDetailById(movieDetail.id)
+            if (existing != null) {
+                movieDetailDao.deleteMovieDetailById(movieDetail.id)
+            } else {
+                movieDetailDao.insert(movieDetail)
+            }
+            observeFavoriteStatus(movieDetail.id)
+        }
+    }
+
+    fun observeFavoriteStatus(movieId: Int) {
+        viewModelScope.launch {
+            val isFavorite = movieDetailDao.getMovieDetailById(movieId) != null
+            _uiState.update { currentState ->
+                currentState.copy(isFavorite = isFavorite)
+            }
         }
     }
 }
+
+data class MovieDetailUiState(
+    val movieDetail: MovieDetail? = null,
+    val recommendedMovies: List<MovieItem> = emptyList(),
+    val movieCredit: Artist? = null,
+    val isLoading: Boolean = false,
+    val isFavorite: Boolean = false,
+)

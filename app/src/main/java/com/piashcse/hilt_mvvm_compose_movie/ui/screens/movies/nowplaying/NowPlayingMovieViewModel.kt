@@ -27,5 +27,4 @@ class NowPlayingMovieViewModel @Inject constructor(val repo: MovieRepository) : 
     val nowPlayingMovies = filterData.flatMapLatest {
         repo.nowPlayingMoviePagingDataSource(it?.genreId)
     }.cachedIn(viewModelScope)
-
 }

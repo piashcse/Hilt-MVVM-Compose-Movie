@@ -32,9 +32,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -76,25 +73,38 @@ import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 @Composable
 fun MovieDetail(navController: NavController, movieId: Int) {
     val viewModel = hiltViewModel<MovieDetailViewModel>()
-    val isLoading by viewModel.isLoading.collectAsState()
-    val movieDetail by viewModel.movieDetail.collectAsState()
-    val recommendMovie by viewModel.recommendedMovie.collectAsState()
-    val movieCredit by viewModel.movieCredit.collectAsState()
-    var movieFromDb by remember { mutableStateOf<MovieDetail?>(null) }
+    val uiState by viewModel.uiState.collectAsState()
+
+
+    LaunchedEffect(movieId) {
+        viewModel.fetchMovieDetails(movieId)
+        viewModel.observeFavoriteStatus(movieId)
+    }
+
+    MovieDetailContent(
+        uiState = uiState,
+        onFavoriteClick = { movie -> viewModel.toggleFavorite(movie) },
+        onRecommendedMovieClick = { id -> navController.navigate(Screen.MovieDetail.route + "/$id") },
+        onCastClick = { id ->
+            navController.navigate(
+                Screen.ArtistDetail.route.plus(
+                    "/${id}"
+                )
+            )
+        },
+    )
+}
+
+@Composable
+fun MovieDetailContent(
+    uiState: MovieDetailUiState,
+    onFavoriteClick: (MovieDetail) -> Unit,
+    onRecommendedMovieClick: (Int) -> Unit,
+    onCastClick: (Int) -> Unit,
+) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val calculatedOffset = screenHeight / 5.5f
-
-
-    LaunchedEffect(Unit) {
-        viewModel.movieDetail(movieId)
-        viewModel.recommendedMovie(movieId)
-        viewModel.movieCredit(movieId)
-    }
-
-    LaunchedEffect(movieFromDb) {
-        movieFromDb = viewModel.getMovieDetailById(movieId)
-    }
-
+    val movie = uiState.movieDetail
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -102,8 +112,8 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                 DefaultBackgroundColor
             )
     ) {
-        CircularIndeterminateProgressBar(isDisplayed = isLoading, 0.4f)
-        movieDetail?.let { it ->
+        CircularIndeterminateProgressBar(isDisplayed = uiState.isLoading, 0.4f)
+        movie?.let { it ->
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                 Box(
                     modifier = Modifier
@@ -126,7 +136,6 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                         imageModel = { ApiURL.IMAGE_URL_V2.plus(it.backdropPath) },
                         imageOptions = ImageOptions(
                             contentScale = ContentScale.Crop,
-                            contentDescription = "Backdrop Image",
                         ),
                         component = rememberImageComponent {
                             +CircularRevealPlugin(duration = 800)
@@ -154,7 +163,6 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                             imageModel = { ApiURL.IMAGE_URL.plus(it.posterPath) },
                             imageOptions = ImageOptions(
                                 contentScale = ContentScale.Crop,
-                                contentDescription = "Poster Image",
                             ),
                             component = rememberImageComponent {
                                 +ShimmerPlugin(
@@ -173,7 +181,9 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                                 .align(Alignment.Bottom),
                         ) {
                             Text(
-                                text = it.title, color = Color.Black, fontSize = 18.sp,
+                                text = it.title,
+                                color = Color.Black,
+                                fontSize = 18.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 maxLines = 1
                             )
@@ -218,13 +228,7 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                     }
                     IconButton(
                         onClick = {
-                            movieFromDb?.let {
-                                viewModel.deleteMovieDetailById(it.id)
-                                movieFromDb = null
-                            } ?: run {
-                                viewModel.insertMovieDetail(it)
-                                movieFromDb = it
-                            }
+                            onFavoriteClick(movie)
                         },
                         modifier = Modifier
                             .align(Alignment.BottomEnd)
@@ -232,17 +236,19 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                             .clip(CircleShape)
                             .background(Color.White.copy(alpha = 0.8f))
                     ) {
-                        movieFromDb?.let {
+                        if (uiState.isFavorite) {
                             Icon(
                                 imageVector = Icons.Filled.Favorite,
                                 contentDescription = "Favorite",
                                 tint = Color.Red
                             )
-                        } ?: Icon(
-                            imageVector = Icons.Filled.Favorite,
-                            contentDescription = "Favorite",
-                            tint = Color.Gray
-                        )
+                        } else {
+                            Icon(
+                                imageVector = Icons.Filled.Favorite,
+                                contentDescription = "Favorite",
+                                tint = Color.Gray
+                            )
+                        }
                     }
                 }
                 Column(
@@ -259,9 +265,9 @@ fun MovieDetail(navController: NavController, movieId: Int) {
                     )
                     ExpandingText(text = it.overview, visibleLines = 3)
                     Spacer(modifier = Modifier.height(8.dp))
-                    RecommendedMovie(navController, recommendMovie)
-                    movieCredit?.let {
-                        ArtistAndCrew(navController, it.cast)
+                    RecommendedMovie(uiState.recommendedMovies, onRecommendedMovieClick)
+                    uiState.movieCredit?.let {
+                        ArtistAndCrew(it.cast, onCastClick)
                     }
                 }
             }
@@ -276,7 +282,7 @@ fun Preview() {
 }
 
 @Composable
-fun RecommendedMovie(navController: NavController?, recommendedMovie: List<MovieItem>) {
+fun RecommendedMovie(recommendedMovie: List<MovieItem>, onRecommendedMovieClick: (Int) -> Unit) {
     Column(modifier = Modifier.padding(bottom = 10.dp)) {
         if (recommendedMovie.isNotEmpty()) {
             Text(
@@ -299,21 +305,14 @@ fun RecommendedMovie(navController: NavController?, recommendedMovie: List<Movie
                             .width(135.dp)
                             .cornerRadius(10)
                             .clickable {
-                                navController?.navigate(
-                                    Screen.MovieDetail.route.plus(
-                                        "/${item.id}"
-                                    )
-                                )
+                                onRecommendedMovieClick(item.id)
                             },
                         imageModel = { ApiURL.IMAGE_URL.plus(item.posterPath) },
                         imageOptions = ImageOptions(
                             contentScale = ContentScale.Crop,
                             alignment = Alignment.Center,
-                            contentDescription = "similar movie",
-                            colorFilter = null,
                         ),
                         component = rememberImageComponent {
-                            // shows a shimmering effect when loading an image.
                             +CircularRevealPlugin(
                                 duration = 800
                             )
@@ -326,7 +325,7 @@ fun RecommendedMovie(navController: NavController?, recommendedMovie: List<Movie
 }
 
 @Composable
-fun ArtistAndCrew(navController: NavController?, cast: List<Cast>) {
+fun ArtistAndCrew(cast: List<Cast>, onCastClick: (Int) -> Unit) {
     Column(modifier = Modifier.padding(bottom = 10.dp)) {
         if (cast.isNotEmpty()) {
             Text(
@@ -352,18 +351,12 @@ fun ArtistAndCrew(navController: NavController?, cast: List<Cast>) {
                             .width(80.dp)
                             .cornerRadius(40)
                             .clickable {
-                                navController?.navigate(
-                                    Screen.ArtistDetail.route.plus(
-                                        "/${item.id}"
-                                    )
-                                )
+                                onCastClick(item.id)
                             },
                         imageModel = { ApiURL.IMAGE_URL.plus(item.profilePath) },
                         imageOptions = ImageOptions(
                             contentScale = ContentScale.Crop,
-                            alignment = Alignment.Center,
-                            contentDescription = "artist and crew",
-                            colorFilter = null,
+                            alignment = Alignment.Center
                         ),
                         component = rememberImageComponent {
                             +CircularRevealPlugin(
@@ -383,3 +376,4 @@ fun ArtistAndCrew(navController: NavController?, cast: List<Cast>) {
         }
     }
 }
+
