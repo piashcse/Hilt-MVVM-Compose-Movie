@@ -12,7 +12,7 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.component.Movies
 @Composable
 fun UpcomingMovie(
     navController: NavController,
-    genres: ArrayList<Genre>? = null,
+    genres: List<Genre>? = null,
 ) {
     val upComingViewModel = hiltViewModel<UpComingMovieViewModel>()
     Movies(
