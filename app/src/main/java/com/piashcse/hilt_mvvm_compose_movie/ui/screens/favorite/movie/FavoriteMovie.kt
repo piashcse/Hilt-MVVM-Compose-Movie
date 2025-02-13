@@ -139,11 +139,11 @@ fun FavoriteMovieItemView(
             ExitAlertDialog(
                 title = stringResource(R.string.remove_from_favorite),
                 description = stringResource(R.string.do_you_wanna_remove_this_from_favorite),
-                {
+                onConfirm = {
+                    viewModel.removeMovieFromDB(item.id)
                     openDialog.value = false
                 },
-                {
-                    viewModel.removeMovieFromDB(item.id)
+                onDismiss = {
                     openDialog.value = false
                 })
         }

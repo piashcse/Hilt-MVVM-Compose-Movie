@@ -28,7 +28,7 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.tv_series_detail
 
 @Composable
 fun Navigation(
-    navController: NavHostController, genres: ArrayList<Genre>? = null,
+    navController: NavHostController, genres: List<Genre>? = null,
 ) {
     NavHost(navController, startDestination =  Screen.NowPlaying.route) {
         composable(Screen.NowPlaying.route) {

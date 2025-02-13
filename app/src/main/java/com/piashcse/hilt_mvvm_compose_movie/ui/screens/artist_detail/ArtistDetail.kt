@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
+import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.BioGraphyText
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
@@ -41,22 +42,28 @@ import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 @Composable
 fun ArtistDetail(personId: Int) {
     val viewModel = hiltViewModel<ArtistDetailViewModel>()
-    val artistDetail by viewModel.artistDetail.collectAsState()
-    val isLoading by viewModel.isLoading.collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(Unit) {
-        viewModel.artistDetail(personId)
+        viewModel.fetchArtistDetails(personId)
     }
+    ArtistDetailUi(uiState.artistDetail, uiState.isLoading)
+}
+
+@Composable
+fun ArtistDetailUi(artistDetail: ArtistDetail?, isLoading: Boolean) {
     Column(
         modifier = Modifier
             .fillMaxSize()
             .verticalScroll(rememberScrollState())
-            .background(
-                DefaultBackgroundColor
-            )
+            .background(DefaultBackgroundColor)
             .padding(start = 8.dp, top = 8.dp, end = 8.dp)
     ) {
-        CircularIndeterminateProgressBar(isDisplayed = isLoading, 0.4f)
+        // Show loading indicator if isLoading is true
+        if (isLoading) {
+            CircularIndeterminateProgressBar(isDisplayed = true, 0.4f)
+        }
+
         artistDetail?.let {
             Row {
                 CoilImage(
@@ -70,19 +77,16 @@ fun ArtistDetail(personId: Int) {
                         contentScale = ContentScale.Crop,
                         alignment = Alignment.Center,
                         contentDescription = "artist image",
-                        colorFilter = null,
                     ),
                     component = rememberImageComponent {
-                        +CircularRevealPlugin(
-                            duration = 800
-                        )
+                        +CircularRevealPlugin(duration = 800)
                         +ShimmerPlugin(
                             shimmer = Shimmer.Flash(
                                 baseColor = SecondaryFontColor,
                                 highlightColor = DefaultBackgroundColor
                             )
                         )
-                    },
+                    }
                 )
                 Column {
                     Text(

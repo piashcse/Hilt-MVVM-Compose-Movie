@@ -10,7 +10,7 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.component.TvSeries
 @Composable
 fun OnTheAirTvSeries(
     navController: NavController,
-    genres: ArrayList<Genre>? = null,
+    genres: List<Genre>? = null,
 ) {
     val onTheAirViewViewModel = hiltViewModel<OnTheAirTvSeriesViewModel>()
     TvSeries (

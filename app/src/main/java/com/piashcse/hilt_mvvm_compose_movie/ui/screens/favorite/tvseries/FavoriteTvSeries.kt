@@ -73,12 +73,20 @@ fun FavoriteTvSeries(navController: NavController) {
 }
 
 @Composable
-fun FavoriteTvSeriesItemView(item: TvSeriesDetail, navController: NavController, viewModel: FavoriteTvSeriesViewModel) {
+fun FavoriteTvSeriesItemView(
+    item: TvSeriesDetail,
+    navController: NavController,
+    viewModel: FavoriteTvSeriesViewModel,
+) {
     val openDialog = remember { mutableStateOf(false) }
     SideEffect {
         viewModel.favoriteTvSeriesFromDB()
     }
-    Column(modifier = Modifier.padding(start = 5.dp, end = 5.dp, top = 0.dp, bottom = 10.dp).cornerRadius(10)) {
+    Column(
+        modifier = Modifier
+            .padding(start = 5.dp, end = 5.dp, top = 0.dp, bottom = 10.dp)
+            .cornerRadius(10)
+    ) {
         Box {
             CoilImage(
                 modifier = Modifier
@@ -124,7 +132,8 @@ fun FavoriteTvSeriesItemView(item: TvSeriesDetail, navController: NavController,
                 Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomStart)
-                    .background(Color.Gray.copy(alpha = 0.5f))) {
+                    .background(Color.Gray.copy(alpha = 0.5f))
+            ) {
                 Text(
                     text = item.name,
                     color = Color.White,
@@ -136,11 +145,11 @@ fun FavoriteTvSeriesItemView(item: TvSeriesDetail, navController: NavController,
             ExitAlertDialog(
                 title = stringResource(R.string.remove_from_favorite),
                 description = stringResource(R.string.do_you_wanna_remove_this_from_favorite),
-                {
+                onConfirm = {
+                    viewModel.removeTvSeriesFromDB(item.id)
                     openDialog.value = false
                 },
-                {
-                    viewModel.removeTvSeriesFromDB(item.id)
+                onDismiss = {
                     openDialog.value = false
                 })
         }

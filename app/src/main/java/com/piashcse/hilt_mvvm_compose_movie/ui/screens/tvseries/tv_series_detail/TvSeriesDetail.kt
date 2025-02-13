@@ -32,9 +32,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -75,25 +72,38 @@ import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 @Composable
 fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
     val viewModel = hiltViewModel<TvSeriesDetailViewModel>()
-    val isLoading by viewModel.isLoading.collectAsState()
-    val tvSeriesDetail by viewModel.tvSeriesDetail.collectAsState()
-    val recommendTvSeries by viewModel.recommendedTvSeries.collectAsState()
-    val tvSeriesCredit by viewModel.tvSeriesCredit.collectAsState()
-    var tvSeriesFromDb by remember { mutableStateOf<TvSeriesDetail?>(null) }
+    val uiState by viewModel.uiState.collectAsState()
 
+
+    LaunchedEffect(tvSeriesId) {
+        viewModel.fetchTvSeriesDetails(tvSeriesId)
+        viewModel.observeFavoriteStatus(tvSeriesId)
+    }
+
+    TvSeriesDetailContent(
+        uiState = uiState,
+        onFavoriteClick = { tvSeries -> viewModel.toggleFavorite(tvSeries) },
+        onRecommendedTvSeriesClick = { id -> navController.navigate(Screen.TvSeriesDetail.route + "/$id") },
+        onCastClick = { id ->
+            navController.navigate(
+                Screen.ArtistDetail.route.plus(
+                    "/${id}"
+                )
+            )
+        },
+    )
+}
+
+@Composable
+fun TvSeriesDetailContent(
+    uiState: TvSeriesDetailUiState,
+    onFavoriteClick: (TvSeriesDetail) -> Unit,
+    onRecommendedTvSeriesClick: (Int) -> Unit,
+    onCastClick: (Int) -> Unit,
+) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val calculatedOffset = screenHeight / 5.5f
-
-
-    LaunchedEffect(Unit) {
-        viewModel.tvSeriesDetail(tvSeriesId)
-        viewModel.recommendedTvSeries(tvSeriesId)
-        viewModel.tvSeriesCredit(tvSeriesId)
-    }
-    LaunchedEffect(tvSeriesFromDb) {
-        tvSeriesFromDb = viewModel.getTvSeriesDetailById(tvSeriesId)
-    }
-
+    val tvSeries = uiState.tvSeriesDetail
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -101,8 +111,8 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
                 DefaultBackgroundColor
             )
     ) {
-        CircularIndeterminateProgressBar(isDisplayed = isLoading, 0.4f)
-        tvSeriesDetail?.let { it ->
+        CircularIndeterminateProgressBar(isDisplayed = uiState.isLoading, 0.4f)
+        tvSeries?.let { it ->
             Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
                 Box(
                     modifier = Modifier
@@ -172,7 +182,9 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
                                 .align(Alignment.Bottom),
                         ) {
                             Text(
-                                text = it.name, color = Color.Black, fontSize = 18.sp,
+                                text = it.name,
+                                color = Color.Black,
+                                fontSize = 18.sp,
                                 fontWeight = FontWeight.SemiBold,
                                 maxLines = 1
                             )
@@ -217,13 +229,7 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
                     }
                     IconButton(
                         onClick = {
-                            tvSeriesFromDb?.let {
-                                viewModel.deleteTvSeriesById(it.id)
-                                tvSeriesFromDb = null
-                            } ?: run {
-                                viewModel.insertTvSeriesDetail(it)
-                                tvSeriesFromDb = it
-                            }
+                            onFavoriteClick(tvSeries)
                         },
                         modifier = Modifier
                             .align(Alignment.BottomEnd)
@@ -231,17 +237,19 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
                             .clip(CircleShape)
                             .background(Color.White.copy(alpha = 0.8f))
                     ) {
-                        tvSeriesFromDb?.let {
+                        if (uiState.isFavorite) {
                             Icon(
                                 imageVector = Icons.Filled.Favorite,
                                 contentDescription = "Favorite",
                                 tint = Color.Red
                             )
-                        } ?: Icon(
-                            imageVector = Icons.Filled.Favorite,
-                            contentDescription = "Favorite",
-                            tint = Color.Gray
-                        )
+                        } else {
+                            Icon(
+                                imageVector = Icons.Filled.Favorite,
+                                contentDescription = "Favorite",
+                                tint = Color.Gray
+                            )
+                        }
                     }
                 }
                 Column(
@@ -258,9 +266,9 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
                     )
                     ExpandingText(text = it.overview, visibleLines = 3)
                     Spacer(modifier = Modifier.height(8.dp))
-                    RecommendedTvSeries(navController, recommendTvSeries)
-                    tvSeriesCredit?.let {
-                        ArtistAndCrew(navController, it.cast)
+                    RecommendedTvSeries(uiState.recommendedTvSeries, onRecommendedTvSeriesClick)
+                    uiState.tvSeriesCredit?.let {
+                        ArtistAndCrew(it.cast, onCastClick)
                     }
                 }
             }
@@ -268,14 +276,17 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
     }
 }
 
-@Preview(name = "MovieDetail", showBackground = true)
+@Preview(name = "tvSeriesDetail", showBackground = true)
 @Composable
 fun Preview() {
-    //  TvSeriesDetail(null, MovieItem())
+    // MovieDetail(null, MovieItem())
 }
 
 @Composable
-fun RecommendedTvSeries(navController: NavController?, recommendedTvSeries: List<TvSeriesItem>) {
+fun RecommendedTvSeries(
+    recommendedTvSeries: List<TvSeriesItem>,
+    onRecommendedTvSeriesClick: (Int) -> Unit,
+) {
     Column(modifier = Modifier.padding(bottom = 10.dp)) {
         if (recommendedTvSeries.isNotEmpty()) {
             Text(
@@ -298,21 +309,14 @@ fun RecommendedTvSeries(navController: NavController?, recommendedTvSeries: List
                             .width(135.dp)
                             .cornerRadius(10)
                             .clickable {
-                                navController?.navigate(
-                                    Screen.TvSeriesDetail.route.plus(
-                                        "/${item.id}"
-                                    )
-                                )
+                                onRecommendedTvSeriesClick(item.id)
                             },
                         imageModel = { ApiURL.IMAGE_URL.plus(item.posterPath) },
                         imageOptions = ImageOptions(
                             contentScale = ContentScale.Crop,
                             alignment = Alignment.Center,
-                            contentDescription = "similar movie",
-                            colorFilter = null,
                         ),
                         component = rememberImageComponent {
-                            // shows a shimmering effect when loading an image.
                             +CircularRevealPlugin(
                                 duration = 800
                             )
@@ -325,7 +329,7 @@ fun RecommendedTvSeries(navController: NavController?, recommendedTvSeries: List
 }
 
 @Composable
-fun ArtistAndCrew(navController: NavController?, cast: List<Cast>) {
+fun ArtistAndCrew(cast: List<Cast>, onCastClick: (Int) -> Unit) {
     Column(modifier = Modifier.padding(bottom = 10.dp)) {
         if (cast.isNotEmpty()) {
             Text(
@@ -351,18 +355,11 @@ fun ArtistAndCrew(navController: NavController?, cast: List<Cast>) {
                             .width(80.dp)
                             .cornerRadius(40)
                             .clickable {
-                                navController?.navigate(
-                                    Screen.ArtistDetail.route.plus(
-                                        "/${item.id}"
-                                    )
-                                )
+                                onCastClick(item.id)
                             },
                         imageModel = { ApiURL.IMAGE_URL.plus(item.profilePath) },
                         imageOptions = ImageOptions(
-                            contentScale = ContentScale.Crop,
-                            alignment = Alignment.Center,
-                            contentDescription = "artist and crew",
-                            colorFilter = null,
+                            contentScale = ContentScale.Crop, alignment = Alignment.Center
                         ),
                         component = rememberImageComponent {
                             +CircularRevealPlugin(
@@ -382,3 +379,4 @@ fun ArtistAndCrew(navController: NavController?, cast: List<Cast>) {
         }
     }
 }
+

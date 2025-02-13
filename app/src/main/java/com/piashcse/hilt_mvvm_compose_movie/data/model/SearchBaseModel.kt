@@ -22,8 +22,12 @@ data class SearchItem(
     val posterPath: String?,
     @SerializedName("title")
     val title: String?,
+    @SerializedName("name")
+    val name: String?,
     @SerializedName("vote_average")
     val voteAverage: Double?,
     @SerializedName("release_date")
     val releaseDate: String?,
+    @SerializedName("first_air_date")
+    val firstAirDate: String?,
 )

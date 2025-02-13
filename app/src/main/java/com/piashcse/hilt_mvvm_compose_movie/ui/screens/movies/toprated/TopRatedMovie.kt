@@ -11,7 +11,7 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.component.Movies
 @Composable
 fun TopRatedMovie(
     navController: NavController,
-    genres: ArrayList<Genre>? = null,
+    genres: List<Genre>? = null,
 ) {
     val topRatedViewModel = hiltViewModel<TopRatedMovieViewModel>()
     Movies(

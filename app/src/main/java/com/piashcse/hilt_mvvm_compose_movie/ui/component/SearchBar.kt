@@ -52,7 +52,7 @@ fun SearchBar(isAppBarVisible:MutableState<Boolean>, viewModel: MainViewModel, a
             onValueChange = {
                 text = it
                 if (activeTab == 0 ){
-                    viewModel.searchMovie(it)
+                    viewModel.searchMovies(it)
                 }else{
                     viewModel.searchTvSeries(it)
                 }

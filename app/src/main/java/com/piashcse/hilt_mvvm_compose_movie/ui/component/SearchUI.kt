@@ -14,7 +14,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -26,7 +25,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
-import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchBaseModel
+import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchItem
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
@@ -34,7 +33,6 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
 import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_MOVIE_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_TV_SERIES_TAB
-import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import com.piashcse.hilt_mvvm_compose_movie.utils.roundTo
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.animation.circular.CircularRevealPlugin
@@ -46,9 +44,9 @@ import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 @Composable
 fun SearchUI(
     navController: NavController,
-    searchData: MutableState<DataState<SearchBaseModel>?>,
+    searchData: List<SearchItem>,
     activeTab: Int,
-    itemClick: () -> Unit
+    itemClick: () -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
@@ -60,80 +58,75 @@ fun SearchUI(
             .padding(top = 8.dp)
 
     ) {
-        searchData.value?.let {
-            if (it is DataState.Success<SearchBaseModel>) {
-                items(items = it.data.results, itemContent = { item ->
-                    Row(modifier = Modifier
-                        .padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
-                        .clickable {
-                            itemClick.invoke()
-                            if (activeTab == ACTIVE_MOVIE_TAB){
-                                navController.navigate(
-                                    Screen.MovieDetail.route.plus(
-                                        "/${item.id}"
-                                    )
-                                )
-                            }else if (activeTab == ACTIVE_TV_SERIES_TAB){
-                                navController.navigate(
-                                    Screen.TvSeriesDetail.route.plus(
-                                        "/${item.id}"
-                                    )
-                                )
-                            }
-                        }) {
-                        CoilImage(
-                            modifier = Modifier
-                                .height(100.dp)
-                                .width(80.dp)
-                                .cornerRadius(8),
-                            imageModel = { ApiURL.IMAGE_URL.plus(item.backdropPath) },
-                            imageOptions = ImageOptions(
-                                contentScale = ContentScale.Crop,
-                                alignment = Alignment.Center,
-                                contentDescription = "search item",
-                                colorFilter = null,
-                            ),
-                            component = rememberImageComponent {
-                                +CircularRevealPlugin(
-                                    duration = 800
-                                )
-                                +ShimmerPlugin(
-                                    shimmer = Shimmer.Flash(
-                                        baseColor = SecondaryFontColor,
-                                        highlightColor = DefaultBackgroundColor
-                                    )
-                                )
-                            },
+        items(items = searchData, itemContent = { item ->
+            Row(modifier = Modifier
+                .padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
+                .clickable {
+                    itemClick.invoke()
+                    if (activeTab == ACTIVE_MOVIE_TAB) {
+                        navController.navigate(
+                            Screen.MovieDetail.route.plus(
+                                "/${item.id}"
+                            )
                         )
-                        Column {
-                            Text(
-                                text = item.title ?: "",
-                                modifier = Modifier.padding(
-                                    start = 8.dp,
-                                    top = 4.dp
-                                ),
-                                fontWeight = FontWeight.SemiBold
+                    } else if (activeTab == ACTIVE_TV_SERIES_TAB) {
+                        navController.navigate(
+                            Screen.TvSeriesDetail.route.plus(
+                                "/${item.id}"
                             )
-                            Text(
-                                text = item.releaseDate ?: "",
-                                color = FontColor,
-                                fontSize = 16.sp,
-                                modifier = Modifier.padding(start = 8.dp)
-                            )
-                            Text(
-                                text = "${stringResource(R.string.rating_search)} ${
-                                    item.voteAverage?.roundTo(
-                                        1
-                                    )
-                                }",
-                                color = SecondaryFontColor,
-                                fontSize = 12.sp,
-                                modifier = Modifier.padding(start = 8.dp)
-                            )
-                        }
+                        )
                     }
-                })
+                }) {
+                CoilImage(
+                    modifier = Modifier
+                        .height(100.dp)
+                        .width(80.dp)
+                        .cornerRadius(8),
+                    imageModel = { ApiURL.IMAGE_URL.plus(item.backdropPath) },
+                    imageOptions = ImageOptions(
+                        contentScale = ContentScale.Crop,
+                        alignment = Alignment.Center,
+                        contentDescription = "search item",
+                        colorFilter = null,
+                    ),
+                    component = rememberImageComponent {
+                        +CircularRevealPlugin(
+                            duration = 800
+                        )
+                        +ShimmerPlugin(
+                            shimmer = Shimmer.Flash(
+                                baseColor = SecondaryFontColor,
+                                highlightColor = DefaultBackgroundColor
+                            )
+                        )
+                    },
+                )
+                Column {
+                    val title = if (activeTab == ACTIVE_MOVIE_TAB) item.title else item.name
+                    val release = if (activeTab == ACTIVE_MOVIE_TAB) item.releaseDate else item.firstAirDate
+                    Text(
+                        text = title ?: "", modifier = Modifier.padding(
+                            start = 8.dp, top = 4.dp
+                        ), fontWeight = FontWeight.SemiBold
+                    )
+                    Text(
+                        text = release ?: "",
+                        color = FontColor,
+                        fontSize = 16.sp,
+                        modifier = Modifier.padding(start = 8.dp)
+                    )
+                    Text(
+                        text = "${stringResource(R.string.rating_search)} ${
+                            item.voteAverage?.roundTo(
+                                1
+                            )
+                        }",
+                        color = SecondaryFontColor,
+                        fontSize = 12.sp,
+                        modifier = Modifier.padding(start = 8.dp)
+                    )
+                }
             }
-        }
+        })
     }
 }
