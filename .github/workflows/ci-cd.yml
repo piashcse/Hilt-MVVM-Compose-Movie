@@ -45,7 +45,7 @@ jobs:
         run: ./gradlew assembleDebug --no-daemon
 
       - name: Upload APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: movie-world-apk
           path: app/build/outputs/apk/develop/debug/app-develop-debug.apk # Path to your APK
