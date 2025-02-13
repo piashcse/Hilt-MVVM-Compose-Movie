@@ -47,7 +47,7 @@ Movie World app built with Jetpack Compose, Hilt, Coroutines, Flow, Room and Vie
   - Repository pattern
 
 <p align="center">
-  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/mvvm.png" />
+  <img width="80%" height="70%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/mvvm.png" />
 </p>
 <p align="center">
 <b>Fig.  MVVM (Model - ComposableView - ViewModel) design pattern.</b>
