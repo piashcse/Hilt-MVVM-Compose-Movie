@@ -1,5 +1,5 @@
 # Movie World (Jetpack Compose) 
-[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-1.7.6-%230075FF.svg)](https://developer.android.com/jetpack/compose)
+[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-1.7.7-%230075FF.svg)](https://developer.android.com/jetpack/compose)
 ![badge-Android](https://img.shields.io/badge/Platform-Android-brightgreen)
 [![API](https://img.shields.io/badge/API-23%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=23)
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.1.0-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
@@ -47,7 +47,7 @@ Movie World app built with Jetpack Compose, Hilt, Coroutines, Flow, Room and Vie
   - Repository pattern
 
 <p align="center">
-  <img width="80%" height="70%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/mvvm.png" />
+  <img width="72%" height="722%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/mvvm.png" />
 </p>
 <p align="center">
 <b>Fig.  MVVM (Model - ComposableView - ViewModel) design pattern.</b>
