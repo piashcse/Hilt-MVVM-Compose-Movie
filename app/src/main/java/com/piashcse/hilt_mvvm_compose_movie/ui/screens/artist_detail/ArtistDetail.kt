@@ -78,12 +78,11 @@ fun ArtistDetailUi(
 
         artistDetail?.let {
             Row {
-                CoilImage(
-                    modifier = Modifier
-                        .padding(bottom = 8.dp)
-                        .height(250.dp)
-                        .width(190.dp)
-                        .cornerRadius(10),
+                CoilImage(modifier = Modifier
+                    .padding(bottom = 8.dp)
+                    .height(250.dp)
+                    .width(190.dp)
+                    .cornerRadius(10),
                     imageModel = { ApiURL.IMAGE_URL.plus(it.profilePath) },
                     imageOptions = ImageOptions(
                         contentScale = ContentScale.Crop,
@@ -98,8 +97,7 @@ fun ArtistDetailUi(
                                 highlightColor = DefaultBackgroundColor
                             )
                         )
-                    }
-                )
+                    })
                 Column {
                     Text(
                         modifier = Modifier.padding(start = 8.dp),
@@ -114,14 +112,12 @@ fun ArtistDetailUi(
                     )
                     it.birthday?.let { birthday ->
                         PersonalInfo(
-                            stringResource(R.string.birth_day),
-                            birthday
+                            stringResource(R.string.birth_day), birthday
                         )
                     }
                     it.placeOfBirth?.let { birthPlace ->
                         PersonalInfo(
-                            stringResource(R.string.place_of_birth),
-                            birthPlace
+                            stringResource(R.string.place_of_birth), birthPlace
                         )
                     }
                 }
@@ -134,13 +130,16 @@ fun ArtistDetailUi(
                 fontWeight = FontWeight.Medium
             )
             ExpandingText(
-                text = it.biography,
-                visibleLines = 15
+                text = it.biography, visibleLines = 15
             )
         }
         artistMovies?.let {
-            ArtistMovies(it) { id ->
-                navController.navigate(Screen.MovieDetail.route + "/$id")
+            ArtistMovies(it) { item ->
+                if (item.mediaType == "movie") {
+                    navController.navigate(Screen.MovieDetail.route + "/${item.id}")
+                } else {
+                    navController.navigate(Screen.TvSeriesDetail.route + "/${item.id}")
+                }
             }
         }
     }
@@ -162,7 +161,7 @@ fun PersonalInfo(title: String, info: String) {
 }
 
 @Composable
-fun ArtistMovies(artistMovies: List<ArtistMovie>, onMovieClick: (Int) -> Unit) {
+fun ArtistMovies(artistMovies: List<ArtistMovie>, onMovieClick: (ArtistMovie) -> Unit) {
     Column(modifier = Modifier.padding(bottom = 10.dp, top = 8.dp)) {
         if (artistMovies.isNotEmpty()) {
             Text(
@@ -185,7 +184,7 @@ fun ArtistMovies(artistMovies: List<ArtistMovie>, onMovieClick: (Int) -> Unit) {
                             .width(135.dp)
                             .cornerRadius(10)
                             .clickable {
-                                onMovieClick(item.id)
+                                onMovieClick(item)
                             },
                         imageModel = { ApiURL.IMAGE_URL.plus(item.posterPath) },
                         imageOptions = ImageOptions(

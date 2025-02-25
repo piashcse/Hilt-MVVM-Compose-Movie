@@ -73,7 +73,7 @@ interface ApiService {
         @Path("personId") personId: Int
     ): ArtistDetail
 
-    @GET("person/{personId}/movie_credits")
+    @GET("person/{personId}/combined_credits")
     suspend fun artistAllMovies(
         @Path("personId") movieId: Int
     ): ArtistMovies
