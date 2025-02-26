@@ -27,26 +27,26 @@ sealed class Screen(
     val objectName: String = "",
     val objectPath: String = ""
 ) {
-    object NowPlaying : Screen("now_playing_movie")
-    object Popular : Screen("popular_movie")
-    object TopRated : Screen("top_rated_movie")
-    object Upcoming : Screen("upcoming_movie")
-    object AiringTodayTvSeries : Screen("airing_today_tv_series")
-    object OnTheAirTvSeries : Screen("on_the_air_tv_series")
-    object PopularTvSeries : Screen("popular_tv_series")
-    object TopRatedTvSeries : Screen("top_rated_tv_series")
+    data object NowPlaying : Screen("now_playing_movie")
+    data object Popular : Screen("popular_movie")
+    data object TopRated : Screen("top_rated_movie")
+    data object Upcoming : Screen("upcoming_movie")
+    data object AiringTodayTvSeries : Screen("airing_today_tv_series")
+    data object OnTheAirTvSeries : Screen("on_the_air_tv_series")
+    data object PopularTvSeries : Screen("popular_tv_series")
+    data object TopRatedTvSeries : Screen("top_rated_tv_series")
 
-    object MovieDetail :
+    data object MovieDetail :
         Screen("movie_detail", objectName = "movieItem", objectPath = "/{movieItem}")
 
-    object TvSeriesDetail :
+    data object TvSeriesDetail :
         Screen("tv_series_detail", objectName = "tvSeriesItem", objectPath = "/{tvSeriesItem}")
 
-    object ArtistDetail :
+    data object ArtistDetail :
         Screen("artist_detail", objectName = "artistId", objectPath = "/{artistId}")
 
     // Bottom Navigation
-    object NowPlayingNav : Screen("now_playing_movie", title = R.string.now_playing, navIcon = {
+    data object NowPlayingNav : Screen("now_playing_movie", title = R.string.now_playing, navIcon = {
         Icon(
             Icons.Filled.Home,
             contentDescription = "search",
@@ -56,7 +56,7 @@ sealed class Screen(
         )
     })
 
-    object PopularNav : Screen("popular_movie", title = R.string.popular, navIcon = {
+    data object PopularNav : Screen("popular_movie", title = R.string.popular, navIcon = {
         Icon(
             Icons.Filled.Timeline,
             contentDescription = "search",
@@ -66,7 +66,7 @@ sealed class Screen(
         )
     })
 
-    object TopRatedNav : Screen("top_rated_movie", title = R.string.top_rated, navIcon = {
+    data object TopRatedNav : Screen("top_rated_movie", title = R.string.top_rated, navIcon = {
         Icon(
             Icons.Filled.Star,
             contentDescription = "search",
@@ -76,7 +76,7 @@ sealed class Screen(
         )
     })
 
-    object UpcomingNav : Screen("upcoming_movie", title = R.string.up_coming, navIcon = {
+    data object UpcomingNav : Screen("upcoming_movie", title = R.string.up_coming, navIcon = {
         Icon(
             Icons.Filled.KeyboardArrowDown,
             contentDescription = "search",
@@ -85,7 +85,7 @@ sealed class Screen(
                 .offset(x = 10.dp)
         )
     })
-    object AiringTodayTvSeriesNav : Screen("airing_today_tv_series", title = R.string.airing_today, navIcon = {
+    data object AiringTodayTvSeriesNav : Screen("airing_today_tv_series", title = R.string.airing_today, navIcon = {
         Icon(
             Icons.Filled.LiveTv,
             contentDescription = "Home",
@@ -94,7 +94,7 @@ sealed class Screen(
                 .offset(x = 10.dp)
         )
     })
-    object OnTheAirTvSeriesNav : Screen("on_the_air_tv_series", title = R.string.on_the_air, navIcon = {
+    data object OnTheAirTvSeriesNav : Screen("on_the_air_tv_series", title = R.string.on_the_air, navIcon = {
         Icon(
             Icons.Filled.Timeline,
             contentDescription = "Timeline",
@@ -103,7 +103,7 @@ sealed class Screen(
                 .offset(x = 10.dp)
         )
     })
-    object PopularTvSeriesNav : Screen("popular_tv_series", title = R.string.popular, navIcon = {
+    data object PopularTvSeriesNav : Screen("popular_tv_series", title = R.string.popular, navIcon = {
         Icon(
             Icons.Filled.Favorite,
             contentDescription = "Star",
@@ -112,7 +112,7 @@ sealed class Screen(
                 .offset(x = 10.dp)
         )
     })
-    object TopRatedTvSeriesNav : Screen("top_rated_tv_series", title = R.string.top_rated, navIcon = {
+    data object TopRatedTvSeriesNav : Screen("top_rated_tv_series", title = R.string.top_rated, navIcon = {
         Icon(
             Icons.Filled.Star,
             contentDescription = "KeyboardArrowDown",
@@ -121,8 +121,8 @@ sealed class Screen(
                 .offset(x = 10.dp)
         )
     })
-    object FavoriteMovie :
+    data object FavoriteMovie :
         Screen("favorite_movie")
-    object FavoriteTvSeries :
+    data object FavoriteTvSeries :
         Screen("favorite_tv_series")
 }

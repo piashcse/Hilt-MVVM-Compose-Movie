@@ -30,7 +30,7 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.tv_series_detail
 fun Navigation(
     navController: NavHostController, genres: List<Genre>? = null,
 ) {
-    NavHost(navController, startDestination =  Screen.NowPlaying.route) {
+    NavHost(navController, startDestination = Screen.NowPlaying.route) {
         composable(Screen.NowPlaying.route) {
             NowPlayingMovie(
                 navController = navController,
@@ -79,6 +79,7 @@ fun Navigation(
             val artistId = it.arguments?.getInt(Screen.ArtistDetail.objectName)
             artistId?.let {
                 ArtistDetail(
+                    navController = navController,
                     artistId
                 )
             }
