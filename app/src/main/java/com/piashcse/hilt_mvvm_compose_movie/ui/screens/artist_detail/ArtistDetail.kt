@@ -162,7 +162,7 @@ fun PersonalInfo(title: String, info: String) {
 
 @Composable
 fun ArtistMovies(artistMovies: List<ArtistMovie>, onMovieClick: (ArtistMovie) -> Unit) {
-    Column(modifier = Modifier.padding(bottom = 10.dp, top = 8.dp)) {
+    Column(modifier = Modifier.padding(bottom = 10.dp, top = 10.dp)) {
         if (artistMovies.isNotEmpty()) {
             Text(
                 text = stringResource(R.string.artist_movies),
