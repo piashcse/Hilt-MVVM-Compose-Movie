@@ -2,7 +2,8 @@
     <string name="app_name">Movie World</string>
     <string name="title">Title</string>
     <string name="movie">Movie</string>
-    <string name="tv_series">Tv Series</string>
+    <string name="tv_series">TV Series</string>
+    <string name="celebrities">Celebrities</string>
     <string name="now_playing">NowPlaying</string>
     <string name="popular">Popular</string>
     <string name="top_rated">Top rated</string>

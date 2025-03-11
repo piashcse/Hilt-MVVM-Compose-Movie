@@ -22,18 +22,19 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
+import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_CELEBRITIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_MOVIE_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_TV_SERIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.singleTopNavigator
 import kotlinx.coroutines.launch
 
 @Composable
-fun MovieTvSeriesTabView(
+fun TabView(
     navigator: NavHostController,
     pagerState: PagerState,
 ) {
     val coroutineScope = rememberCoroutineScope()
-    val tabs = listOf(stringResource(R.string.movie), stringResource(R.string.tv_series))
+    val tabs = listOf(stringResource(R.string.movie), stringResource(R.string.tv_series), stringResource(R.string.celebrities))
     TabRow(modifier = Modifier.background(Color.White),
         selectedTabIndex = pagerState.currentPage,
         indicator = { tabPositions ->
@@ -49,6 +50,9 @@ fun MovieTvSeriesTabView(
 
                 } else if (index == ACTIVE_TV_SERIES_TAB) {
                     navigator.singleTopNavigator(Screen.AiringTodayTvSeries.route)
+                }
+                else if (index ==  ACTIVE_CELEBRITIES_TAB) {
+                    navigator.singleTopNavigator(Screen.PopularCelebrities.route)
                 }
                 coroutineScope.launch {
                     pagerState.animateScrollToPage(index)

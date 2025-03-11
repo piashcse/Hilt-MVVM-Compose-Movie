@@ -35,6 +35,8 @@ sealed class Screen(
     data object OnTheAirTvSeries : Screen("on_the_air_tv_series")
     data object PopularTvSeries : Screen("popular_tv_series")
     data object TopRatedTvSeries : Screen("top_rated_tv_series")
+    data object PopularCelebrities : Screen("popular_celebrities")
+    data object TrendingCelebrities : Screen("trending_celebrities")
 
     data object MovieDetail :
         Screen("movie_detail", objectName = "movieItem", objectPath = "/{movieItem}")
@@ -115,6 +117,24 @@ sealed class Screen(
     data object TopRatedTvSeriesNav : Screen("top_rated_tv_series", title = R.string.top_rated, navIcon = {
         Icon(
             Icons.Filled.Star,
+            contentDescription = "KeyboardArrowDown",
+            modifier = Modifier
+                .padding(end = 16.dp)
+                .offset(x = 10.dp)
+        )
+    })
+    data object PopularCelebritiesNav : Screen("popular_celebrities", title = R.string.popular, navIcon = {
+        Icon(
+            Icons.Filled.Favorite,
+            contentDescription = "KeyboardArrowDown",
+            modifier = Modifier
+                .padding(end = 16.dp)
+                .offset(x = 10.dp)
+        )
+    })
+    data object TrendingCelebritiesNav : Screen("trending_celebrities", title = R.string.popular, navIcon = {
+        Icon(
+            Icons.Filled.Timeline,
             contentDescription = "KeyboardArrowDown",
             modifier = Modifier
                 .padding(end = 16.dp)
