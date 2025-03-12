@@ -132,7 +132,7 @@ sealed class Screen(
                 .offset(x = 10.dp)
         )
     })
-    data object TrendingCelebritiesNav : Screen("trending_celebrities", title = R.string.popular, navIcon = {
+    data object TrendingCelebritiesNav : Screen("trending_celebrities", title = R.string.trending, navIcon = {
         Icon(
             Icons.Filled.Timeline,
             contentDescription = "KeyboardArrowDown",
