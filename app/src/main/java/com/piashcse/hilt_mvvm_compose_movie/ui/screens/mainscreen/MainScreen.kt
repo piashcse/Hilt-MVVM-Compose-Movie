@@ -47,7 +47,7 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchUI
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.botton_navigation.BottomNavigationUI
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.tav_view.FavoriteTabView
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.tav_view.MovieTvSeriesTabView
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.tav_view.TabView
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FloatingActionBackground
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
 import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_MOVIE_TAB
@@ -65,7 +65,7 @@ fun MainScreen() {
     val isConnected = connection === ConnectionState.Available
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val isFavoriteActive = remember { mutableStateOf(false) }
-    val pagerState = rememberPagerState { 2 }
+    val pagerState = rememberPagerState { 3 }
 
     // Observe the UI state from the ViewModel
     val uiState by mainViewModel.uiState.collectAsState()
@@ -160,6 +160,7 @@ fun MainScreen() {
                     Screen.TopRated.route, Screen.Upcoming.route,
                     Screen.AiringTodayTvSeries.route, Screen.OnTheAirTvSeriesNav.route,
                     Screen.PopularTvSeries.route, Screen.TopRatedTvSeries.route,
+                    Screen.PopularCelebrities.route, Screen.TrendingCelebrities.route,
                 )
             ) {
                 BottomNavigationUI(navController, pagerState)
@@ -218,7 +219,7 @@ fun MainView(
             )
         ) {
             if (!isFavorite) {
-                MovieTvSeriesTabView(navController, pagerState)
+                TabView(navController, pagerState)
             } else {
                 FavoriteTabView(navController)
             }

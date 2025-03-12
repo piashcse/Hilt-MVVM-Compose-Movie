@@ -1,13 +1,15 @@
 package com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote
 
 import com.piashcse.hilt_mvvm_compose_movie.BuildConfig
-import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModelMovie
-import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModelTvSeries
+import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
+import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchBaseModel
+import com.piashcse.hilt_mvvm_compose_movie.data.model.TvSeriesItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistMovies
+import com.piashcse.hilt_mvvm_compose_movie.data.model.celebrities.Celebrity
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.model.tv_series_detail.TvSeriesDetail
 import retrofit2.http.GET
@@ -19,25 +21,25 @@ interface ApiService {
     suspend fun nowPlayingMovies(
         @Query("page") page: Int,
         @Query("with_genres") genreId: String?
-    ): BaseModelMovie
+    ): BaseModel<MovieItem>
 
     @GET("movie/popular")
     suspend fun popularMovies(
         @Query("page") page: Int,
         @Query("with_genres") genreId: String?
-    ): BaseModelMovie
+    ): BaseModel<MovieItem>
 
     @GET("movie/top_rated")
     suspend fun topRatedMovies(
         @Query("page") page: Int,
         @Query("with_genres") genreId: String?
-    ): BaseModelMovie
+    ): BaseModel<MovieItem>
 
     @GET("movie/upcoming")
     suspend fun upcomingMovies(
         @Query("page") page: Int,
         @Query("with_genres") genreId: String?
-    ): BaseModelMovie
+    ): BaseModel<MovieItem>
 
     @GET("movie/{movieId}")
     suspend fun movieDetail(
@@ -47,7 +49,7 @@ interface ApiService {
     @GET("movie/{movieId}/recommendations")
     suspend fun recommendedMovie(
         @Path("movieId") movieId: Int
-    ): BaseModelMovie
+    ): BaseModel<MovieItem>
 
     @GET("search/movie?page=1&include_adult=false")
     suspend fun searchMovie(
@@ -61,7 +63,7 @@ interface ApiService {
     suspend fun moviesByGenre(
         @Query("page") page: Int,
         @Query("with_genres") genreId: String,
-    ): BaseModelMovie
+    ): BaseModel<MovieItem>
 
     @GET("movie/{movieId}/credits")
     suspend fun movieCredit(
@@ -82,25 +84,25 @@ interface ApiService {
     suspend fun airingTodayTvSeries(
         @Query("page") page: Int,
         @Query("with_genres") genreId: String?
-    ): BaseModelTvSeries
+    ): BaseModel<TvSeriesItem>
 
     @GET("tv/on_the_air")
     suspend fun onTheAirTvSeries(
         @Query("page") page: Int,
         @Query("with_genres") genreId: String?
-    ): BaseModelTvSeries
+    ): BaseModel<TvSeriesItem>
 
     @GET("tv/popular")
     suspend fun popularTvSeries(
         @Query("page") page: Int,
         @Query("with_genres") genreId: String?
-    ): BaseModelTvSeries
+    ): BaseModel<TvSeriesItem>
 
     @GET("tv/top_rated")
     suspend fun topRatedTvSeries(
         @Query("page") page: Int,
         @Query("with_genres") genreId: String?
-    ): BaseModelTvSeries
+    ): BaseModel<TvSeriesItem>
 
     @GET("tv/{seriesId}")
     suspend fun tvSeriesDetail(
@@ -110,7 +112,7 @@ interface ApiService {
     @GET("tv/{seriesId}/recommendations")
     suspend fun recommendedTvSeries(
         @Path("seriesId") seriesId: Int
-    ): BaseModelTvSeries
+    ): BaseModel<TvSeriesItem>
 
     @GET("tv/{seriesId}/credits")
     suspend fun tvSeriesCredit(
@@ -121,4 +123,14 @@ interface ApiService {
     suspend fun searchTvSeries(
         @Query("query") searchKey: String
     ): SearchBaseModel
+
+    @GET("person/popular")
+    suspend fun popularCelebrities(
+        @Query("page") page: Int,
+    ): BaseModel<Celebrity>
+
+    @GET("trending/person/week")
+    suspend fun trendingCelebrities(
+        @Query("page") page: Int,
+    ): BaseModel<Celebrity>
 }

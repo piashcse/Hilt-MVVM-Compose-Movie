@@ -13,6 +13,8 @@ import androidx.navigation.navArgument
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.artist_detail.ArtistDetail
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.celebrities.popular.PopularCelebrities
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.celebrities.trending.TrendingCelebrities
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.favorite.movie.FavoriteMovie
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.favorite.tvseries.FavoriteTvSeries
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.movie_detail.MovieDetail
@@ -127,6 +129,12 @@ fun Navigation(
         }
         composable(Screen.FavoriteTvSeries.route) {
             FavoriteTvSeries(navController)
+        }
+        composable(Screen.PopularCelebrities.route) {
+            PopularCelebrities(navController)
+        }
+        composable(Screen.TrendingCelebritiesNav.route) {
+            TrendingCelebrities(navController)
         }
     }
 }
