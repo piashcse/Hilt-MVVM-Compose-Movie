@@ -11,10 +11,10 @@ Movie World app built with Jetpack Compose, Hilt, Coroutines, Flow, Room and Vie
 
 <p align="center">
   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1730809622225_100.PNG" />
-  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1730809667231_100.PNG" />
+ <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1730809653767_100.PNG" />
   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1732207539374_100.PNG" />
-  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1730809653767_100.PNG" />
   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1730809637511_100.PNG" />
+  <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1741789387634_100.PNG" />
   <img width="30%" height="50%" src="https://github.com/piashcse/Hilt-MVVM-Compose-Movie/blob/master/screenshots/1732207549776_100.PNG" />
 </p>
 
@@ -35,9 +35,12 @@ Movie World app built with Jetpack Compose, Hilt, Coroutines, Flow, Room and Vie
   - TV Series Detail
   - Recommended TV Series
   - Favorite TV Series in room DB
+- Celebrities
+  - Popular Celebrities
+  - Trending Celebrities
 - Artist detail
-- Pagination with paging3
 - Filter with genre 
+- Pagination with paging3
 - Bottom navigation
 - Network connection state with SnackBar
 
