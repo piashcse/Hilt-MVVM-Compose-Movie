@@ -1,7 +1,5 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.component
 
-import androidx.activity.compose.BackHandler
-import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -20,7 +18,6 @@ import androidx.paging.compose.LazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
-import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.utils.conditional
 import com.piashcse.hilt_mvvm_compose_movie.utils.items
@@ -31,27 +28,15 @@ fun Movies(
     navController: NavController,
     moviesItems: LazyPagingItems<MovieItem>,
     genres: List<Genre>? = null,
-    selectedName: Genre?,
+    selectedGenre: Genre?,
     onClickGenre: (Genre?) -> Unit,
 ) {
-    val activity = LocalActivity.current
     val progressBar = remember { mutableStateOf(false) }
-    val openDialog = remember { mutableStateOf(false) }
-
-    BackHandler(enabled = currentRoute(navController) == Screen.NowPlaying.route) {
-        openDialog.value = true
-    }
-
     Column(modifier = Modifier.background(DefaultBackgroundColor)) {
-        genres?.let { DisplayGenres(it, selectedName, onClickGenre) }
+        genres?.let { DisplayGenres(it, selectedGenre, onClickGenre) }
         CircularIndeterminateProgressBar(isDisplayed = progressBar.value, 0.4f)
         DisplayMovies(moviesItems, navController, genres)
-
-        if (openDialog.value) {
-            ShowExitDialog(activity, openDialog)
-        }
     }
-
     moviesItems.pagingLoadingState { progressBar.value = it }
 }
 
@@ -67,7 +52,8 @@ fun DisplayGenres(
             .fillMaxWidth()
     ) {
         items(genres) { item ->
-            SelectableGenreChip(selected = item.name == selectedName?.name,
+            SelectableGenreChip(
+                selected = item.name == selectedName?.name,
                 genre = item.name,
                 onclick = { onClick(item) })
         }
@@ -80,7 +66,8 @@ fun DisplayMovies(
     navController: NavController,
     genres: List<Genre>?,
 ) {
-    LazyVerticalGrid(columns = GridCells.Fixed(2),
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2),
         modifier = Modifier
             .padding(horizontal = 5.dp)
             .conditional(genres == null) { padding(top = 8.dp) }) {

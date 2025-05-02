@@ -18,7 +18,7 @@ fun NowPlayingMovie(
         navController = navController,
         moviesItems = nowPlayViewModel.nowPlayingMovies.collectAsLazyPagingItems(),
         genres = genres,
-        selectedName = nowPlayViewModel.selectedGenre.value
+        selectedGenre = nowPlayViewModel.selectedGenre.value
     ){
         nowPlayViewModel.filterData.value = GenreId(it?.id.toString())
         it?.let {

@@ -1,5 +1,7 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen
 
+import androidx.activity.compose.BackHandler
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -45,6 +47,7 @@ import com.piashcse.hilt_mvvm_compose_movie.navigation.navigationTitle
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchUI
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.ShowExitDialog
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.botton_navigation.BottomNavigationUI
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.tav_view.FavoriteTabView
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.tav_view.TabView
@@ -78,7 +81,8 @@ fun MainScreen() {
         topBar = {
             if (!isAppBarVisible.value) {
                 SearchBar(isAppBarVisible, mainViewModel, pagerState.currentPage)
-            } else CenterAlignedTopAppBar(colors = TopAppBarDefaults.topAppBarColors(
+            } else CenterAlignedTopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
                 containerColor = MaterialTheme.colorScheme.primaryContainer,
                 titleContentColor = MaterialTheme.colorScheme.primary,
             ), title = {
@@ -183,9 +187,7 @@ fun MainScreen() {
                 genres = uiState.genres?.genres,
                 isFavorite = isFavoriteActive.value
             )
-
             CircularIndeterminateProgressBar(isDisplayed = uiState.isLoading, 0.1f)
-
             if (!isAppBarVisible.value) {
                 when (pagerState.currentPage) {
                     ACTIVE_MOVIE_TAB -> {
@@ -193,6 +195,7 @@ fun MainScreen() {
                             navController, uiState.movieSearchResults, pagerState.currentPage
                         ) { isAppBarVisible.value = true }
                     }
+
                     ACTIVE_TV_SERIES_TAB -> {
                         SearchUI(
                             navController, uiState.tvSeriesSearchResults, pagerState.currentPage
@@ -211,6 +214,13 @@ fun MainView(
     genres: List<Genre>?,
     isFavorite: Boolean,
 ) {
+    val activity = LocalActivity.current
+    val openDialog = remember { mutableStateOf(false) }
+    // Handling back press for dialog
+    BackHandler(enabled = (currentRoute(navController) == Screen.NowPlaying.route|| currentRoute(navController) == Screen.AiringTodayTvSeries.route || currentRoute(navController) == Screen.PopularCelebrities.route)) {
+        openDialog.value = true
+    }
+
     Column {
         if (currentRoute(navController) !in listOf(
                 Screen.MovieDetail.route,
@@ -228,6 +238,10 @@ fun MainView(
             state = pagerState, modifier = Modifier.fillMaxSize(), userScrollEnabled = false
         ) {
             Navigation(navController, genres)
+        }
+        // Show exit dialog if back button is pressed
+        if (openDialog.value) {
+            ShowExitDialog(activity, openDialog)
         }
     }
 }

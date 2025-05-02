@@ -1,7 +1,5 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.component
 
-import androidx.activity.compose.BackHandler
-import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
@@ -17,7 +15,6 @@ import androidx.paging.compose.LazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.data.model.TvSeriesItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
-import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.utils.conditional
 import com.piashcse.hilt_mvvm_compose_movie.utils.items
@@ -31,29 +28,15 @@ fun TvSeries(
     selectedName: Genre?,
     onclick: (Genre?) -> Unit,
 ) {
-    val activity = LocalActivity.current
     val progressBar = remember { mutableStateOf(false) }
-    val openDialog = remember { mutableStateOf(false) }
-
-    // Handling back press for dialog
-    BackHandler(enabled = currentRoute(navController) == Screen.AiringTodayTvSeries.route) {
-        openDialog.value = true
-    }
 
     Column(modifier = Modifier.background(DefaultBackgroundColor)) {
         // Display genres if provided
         genres?.let { DisplayGenres(it, selectedName, onclick) }
-
         // Show loading indicator if progressBar is true
         CircularIndeterminateProgressBar(isDisplayed = progressBar.value, 0.4f)
-
         // Display TV series items using LazyVerticalGrid
         DisplayTvSeries(tvSeries, navController, genres)
-
-        // Show exit dialog if back button is pressed
-        if (openDialog.value) {
-            ShowExitDialog(activity, openDialog)
-        }
     }
 
     // Handle loading state for paging

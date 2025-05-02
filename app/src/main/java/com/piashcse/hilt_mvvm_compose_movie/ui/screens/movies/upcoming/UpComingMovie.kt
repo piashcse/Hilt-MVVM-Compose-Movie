@@ -19,7 +19,7 @@ fun UpcomingMovie(
         navController = navController,
         moviesItems = upComingViewModel.upcomingMovies.collectAsLazyPagingItems(),
         genres = genres,
-        selectedName = upComingViewModel.selectedGenre.value
+        selectedGenre = upComingViewModel.selectedGenre.value
     ) {
         upComingViewModel.filterData.value =  GenreId(it?.id.toString())
         it?.let {
