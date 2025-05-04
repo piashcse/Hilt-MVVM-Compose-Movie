@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.data.model.GenreId
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.Movies
 
 @Composable
@@ -13,16 +14,18 @@ fun NowPlayingMovie(
     navController: NavController,
     genres: List<Genre>? = null,
 ) {
-    val nowPlayViewModel = hiltViewModel<NowPlayingMovieViewModel>()
+    val viewViewModel = hiltViewModel<NowPlayingMovieViewModel>()
     Movies(
-        navController = navController,
-        moviesItems = nowPlayViewModel.nowPlayingMovies.collectAsLazyPagingItems(),
+        moviesItems = viewViewModel.nowPlayingMovies.collectAsLazyPagingItems(),
         genres = genres,
-        selectedGenre = nowPlayViewModel.selectedGenre.value
-    ){
-        nowPlayViewModel.filterData.value = GenreId(it?.id.toString())
-        it?.let {
-            nowPlayViewModel.selectedGenre.value = it
-        }
-    }
+        selectedGenre = viewViewModel.selectedGenre.value,
+        onclickGenre = {
+            viewViewModel.filterData.value = GenreId(it?.id.toString())
+            it?.let {
+                viewViewModel.selectedGenre.value = it
+            }
+        },
+        onclick = {
+            navController.navigate(Screen.MovieDetail.route.plus("/${it.id}"))
+        })
 }

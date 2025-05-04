@@ -6,6 +6,7 @@ import androidx.navigation.NavController
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.data.model.GenreId
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.TvSeries
 
 @Composable
@@ -13,16 +14,18 @@ fun AiringTodayTvSeries(
     navController: NavController,
     genres: List<Genre>? = null,
 ) {
-    val airingTodayViewModel = hiltViewModel<AiringTodayTvSeriesViewModel>()
-    TvSeries (
-        navController = navController,
-        tvSeries = airingTodayViewModel.airingTodayTvSeries.collectAsLazyPagingItems(),
+    val viewViewModel = hiltViewModel<AiringTodayTvSeriesViewModel>()
+    TvSeries(
+        tvSeries = viewViewModel.airingTodayTvSeries.collectAsLazyPagingItems(),
         genres = genres,
-        selectedName = airingTodayViewModel.selectedGenre.value
-    ){
-        airingTodayViewModel.filterData.value = GenreId(it?.id.toString())
-        it?.let {
-            airingTodayViewModel.selectedGenre.value = it
-        }
-    }
+        selectedName = viewViewModel.selectedGenre.value,
+        onclickGenre = {
+            viewViewModel.filterData.value = GenreId(it?.id.toString())
+            it?.let {
+                viewViewModel.selectedGenre.value = it
+            }
+        },
+        onclick = {
+            navController.navigate(Screen.TvSeriesDetail.route.plus("/${it.id}"))
+        })
 }
