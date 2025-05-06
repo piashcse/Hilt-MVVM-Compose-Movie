@@ -65,13 +65,27 @@ fun MainScreen() {
     val navController = rememberNavController()
     val isAppBarVisible = remember { mutableStateOf(true) }
     val connection by connectivityState()
-    val isConnected = connection === ConnectionState.Available
+    val isConnected = connection == ConnectionState.Available
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val isFavoriteActive = remember { mutableStateOf(false) }
     val pagerState = rememberPagerState { 3 }
 
-    // Observe the UI state from the ViewModel
     val uiState by mainViewModel.uiState.collectAsState()
+    val currentRoute = currentRoute(navController)
+
+    val hideTopBarRoutes = listOf(
+        Screen.MovieDetail.route, Screen.ArtistDetail.route,
+        Screen.TvSeriesDetail.route, Screen.FavoriteMovie.route, Screen.FavoriteTvSeries.route
+    )
+
+    val bottomNavRoutes = listOf(
+        Screen.NowPlaying.route, Screen.Popular.route, Screen.TopRated.route, Screen.Upcoming.route,
+        Screen.AiringTodayTvSeries.route, Screen.OnTheAirTvSeriesNav.route,
+        Screen.PopularTvSeries.route, Screen.TopRatedTvSeries.route,
+        Screen.PopularCelebrities.route, Screen.TrendingCelebrities.route,
+    )
+
+    val showTopAppBarActions = currentRoute !in hideTopBarRoutes
 
     LaunchedEffect(Unit) {
         mainViewModel.loadGenres()
@@ -81,101 +95,87 @@ fun MainScreen() {
         topBar = {
             if (!isAppBarVisible.value) {
                 SearchBar(isAppBarVisible, mainViewModel, pagerState.currentPage)
-            } else CenterAlignedTopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer,
-                titleContentColor = MaterialTheme.colorScheme.primary,
-            ), title = {
-                Text(
-                    text = navigationTitle(navController),
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                    color = Color.White
-                )
-            }, navigationIcon = {
-                when (currentRoute(navController)) {
-                    Screen.MovieDetail.route, Screen.ArtistDetail.route, Screen.TvSeriesDetail.route, Screen.FavoriteMovie.route, Screen.FavoriteTvSeries.route -> {
-                        val activeScreen = currentRoute(navController)
-                        IconButton(onClick = {
-                            if (isFavoriteActive.value && (activeScreen == Screen.FavoriteMovie.route || activeScreen == Screen.FavoriteTvSeries.route)) {
-                                val activeMovieTab =
-                                    if (pagerState.currentPage == ACTIVE_MOVIE_TAB) Screen.NowPlaying.route else Screen.AiringTodayTvSeries.route
-                                navController.navigate(activeMovieTab) {
-                                    popUpTo(navController.graph.startDestinationId) {
-                                        inclusive = true
+            } else {
+                CenterAlignedTopAppBar(
+                    colors = TopAppBarDefaults.topAppBarColors(
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        titleContentColor = MaterialTheme.colorScheme.primary,
+                    ),
+                    title = {
+                        Text(
+                            text = navigationTitle(navController),
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            color = Color.White
+                        )
+                    },
+                    navigationIcon = {
+                        if (currentRoute in hideTopBarRoutes) {
+                            IconButton(onClick = {
+                                if (isFavoriteActive.value && currentRoute in listOf(
+                                        Screen.FavoriteMovie.route, Screen.FavoriteTvSeries.route
+                                    )
+                                ) {
+                                    val targetRoute =
+                                        if (pagerState.currentPage == ACTIVE_MOVIE_TAB)
+                                            Screen.NowPlaying.route else Screen.AiringTodayTvSeries.route
+
+                                    navController.navigate(targetRoute) {
+                                        popUpTo(navController.graph.startDestinationId) {
+                                            inclusive = true
+                                        }
                                     }
+                                    isFavoriteActive.value = false
+                                } else {
+                                    navController.popBackStack()
                                 }
-                                isFavoriteActive.value = false
-                            } else {
-                                navController.popBackStack()
+                            }) {
+                                Icon(
+                                    Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = null,
+                                    tint = Color.White
+                                )
                             }
-                        }) {
-                            Icon(
-                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                contentDescription = "back arrow",
-                                tint = Color.White
-                            )
                         }
-                    }
-                }
-            }, scrollBehavior = scrollBehavior, actions = {
-                IconButton(onClick = {
-                    if (!isFavoriteActive.value) navController.navigate(Screen.FavoriteMovie.route)
-                    isFavoriteActive.value = true
-                }) {
-                    if (currentRoute(navController) !in listOf(
-                            Screen.FavoriteMovie.route,
-                            Screen.FavoriteTvSeries.route,
-                            Screen.MovieDetail.route,
-                            Screen.TvSeriesDetail.route,
-                            Screen.ArtistDetail.route
-                        )
-                    ) {
-                        Icon(
-                            imageVector = Icons.Filled.Favorite,
-                            contentDescription = "favorite",
-                            tint = Color.Gray
-                        )
-                    }
-                }
-            })
+                    },
+                    actions = {
+                        if (showTopAppBarActions) {
+                            IconButton(onClick = {
+                                if (!isFavoriteActive.value) navController.navigate(Screen.FavoriteMovie.route)
+                                isFavoriteActive.value = true
+                            }) {
+                                Icon(
+                                    Icons.Filled.Favorite,
+                                    contentDescription = null,
+                                    tint = Color.Gray
+                                )
+                            }
+                        }
+                    },
+                    scrollBehavior = scrollBehavior
+                )
+            }
         },
         floatingActionButton = {
-            if (currentRoute(navController) !in listOf(
-                    Screen.FavoriteMovie.route,
-                    Screen.FavoriteTvSeries.route,
-                    Screen.MovieDetail.route,
-                    Screen.TvSeriesDetail.route,
-                    Screen.ArtistDetail.route
-                )
-            ) {
+            if (showTopAppBarActions) {
                 FloatingActionButton(
                     modifier = Modifier.cornerRadius(30),
                     containerColor = FloatingActionBackground,
                     onClick = { isAppBarVisible.value = false },
                 ) {
-                    Icon(Icons.Filled.Search, "", tint = Color.White)
+                    Icon(Icons.Filled.Search, contentDescription = null, tint = Color.White)
                 }
             }
         },
         bottomBar = {
-            if (currentRoute(navController) in listOf(
-                    Screen.NowPlaying.route, Screen.Popular.route,
-                    Screen.TopRated.route, Screen.Upcoming.route,
-                    Screen.AiringTodayTvSeries.route, Screen.OnTheAirTvSeriesNav.route,
-                    Screen.PopularTvSeries.route, Screen.TopRatedTvSeries.route,
-                    Screen.PopularCelebrities.route, Screen.TrendingCelebrities.route,
-                )
-            ) {
+            if (currentRoute in bottomNavRoutes) {
                 BottomNavigationUI(navController, pagerState)
             }
         },
         snackbarHost = {
             if (!isConnected) {
-                Snackbar(
-                    action = {}, modifier = Modifier.padding(8.dp)
-                ) {
-                    Text(text = stringResource(R.string.there_is_no_internet))
+                Snackbar(modifier = Modifier.padding(8.dp)) {
+                    Text(stringResource(R.string.there_is_no_internet))
                 }
             }
         }
@@ -188,18 +188,17 @@ fun MainScreen() {
                 isFavorite = isFavoriteActive.value
             )
             CircularIndeterminateProgressBar(isDisplayed = uiState.isLoading, 0.1f)
-            if (!isAppBarVisible.value) {
-                when (pagerState.currentPage) {
-                    ACTIVE_MOVIE_TAB -> {
-                        SearchUI(
-                            navController, uiState.movieSearchResults, pagerState.currentPage
-                        ) { isAppBarVisible.value = true }
-                    }
 
-                    ACTIVE_TV_SERIES_TAB -> {
-                        SearchUI(
-                            navController, uiState.tvSeriesSearchResults, pagerState.currentPage
-                        ) { isAppBarVisible.value = true }
+            if (!isAppBarVisible.value) {
+                val results = when (pagerState.currentPage) {
+                    ACTIVE_MOVIE_TAB -> uiState.movieSearchResults
+                    ACTIVE_TV_SERIES_TAB -> uiState.tvSeriesSearchResults
+                    else -> null
+                }
+
+                results?.let {
+                    SearchUI(navController, it, pagerState.currentPage) {
+                        isAppBarVisible.value = true
                     }
                 }
             }
@@ -216,30 +215,38 @@ fun MainView(
 ) {
     val activity = LocalActivity.current
     val openDialog = remember { mutableStateOf(false) }
-    // Handling back press for dialog
-    BackHandler(enabled = (currentRoute(navController) == Screen.NowPlaying.route|| currentRoute(navController) == Screen.AiringTodayTvSeries.route || currentRoute(navController) == Screen.PopularCelebrities.route)) {
+    val currentRoute = currentRoute(navController)
+
+    val showTabs = currentRoute !in listOf(
+        Screen.MovieDetail.route,
+        Screen.TvSeriesDetail.route,
+        Screen.ArtistDetail.route
+    )
+
+    val backDialogRoutes = listOf(
+        Screen.NowPlaying.route,
+        Screen.AiringTodayTvSeries.route,
+        Screen.PopularCelebrities.route
+    )
+
+    BackHandler(enabled = currentRoute in backDialogRoutes) {
         openDialog.value = true
     }
 
     Column {
-        if (currentRoute(navController) !in listOf(
-                Screen.MovieDetail.route,
-                Screen.TvSeriesDetail.route,
-                Screen.ArtistDetail.route
-            )
-        ) {
-            if (!isFavorite) {
-                TabView(navController, pagerState)
-            } else {
-                FavoriteTabView(navController)
-            }
+        if (showTabs) {
+            if (isFavorite) FavoriteTabView(navController)
+            else TabView(navController, pagerState)
         }
+
         HorizontalPager(
-            state = pagerState, modifier = Modifier.fillMaxSize(), userScrollEnabled = false
+            state = pagerState,
+            modifier = Modifier.fillMaxSize(),
+            userScrollEnabled = false
         ) {
             Navigation(navController, genres)
         }
-        // Show exit dialog if back button is pressed
+
         if (openDialog.value) {
             ShowExitDialog(activity, openDialog)
         }

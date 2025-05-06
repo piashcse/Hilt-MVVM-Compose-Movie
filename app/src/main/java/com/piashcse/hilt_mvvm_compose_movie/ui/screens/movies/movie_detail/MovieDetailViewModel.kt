@@ -3,10 +3,9 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.movie_detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.dao.FavoriteMovieDao
-import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
-import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.movie.MovieRepository
+import com.piashcse.hilt_mvvm_compose_movie.ui.state.MovieDetailUiState
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -62,13 +61,14 @@ class MovieDetailViewModel @Inject constructor(
     ) {
         _uiState.update { currentState ->
             when (result) {
-                is DataState.Loading -> currentState.copy(isLoading = true)
-                is DataState.Success -> stateUpdater(
-                    currentState,
-                    result.data
-                ).copy(isLoading = false)
+                is DataState.Loading -> currentState.copy(isLoading = true, errorMessage = null)
+                is DataState.Success -> stateUpdater(currentState, result.data)
+                    .copy(isLoading = false, errorMessage = null)
 
-                is DataState.Error -> currentState.copy(isLoading = false) // Optionally log error details
+                is DataState.Error -> currentState.copy(
+                    isLoading = false,
+                    errorMessage = result.exception.message ?: "Unknown error"
+                )
             }
         }
     }
@@ -94,11 +94,3 @@ class MovieDetailViewModel @Inject constructor(
         }
     }
 }
-
-data class MovieDetailUiState(
-    val movieDetail: MovieDetail? = null,
-    val recommendedMovies: List<MovieItem> = emptyList(),
-    val movieCredit: Artist? = null,
-    val isLoading: Boolean = false,
-    val isFavorite: Boolean = false,
-)
