@@ -2,6 +2,7 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.component
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -23,7 +24,9 @@ fun Movies(
     onclickGenre: (Genre?) -> Unit,
     onclick: (MovieItem) -> Unit,
 ) {
-    Column(modifier = Modifier.background(DefaultBackgroundColor)) {
+    Column(modifier = Modifier
+        .fillMaxHeight()
+        .background(DefaultBackgroundColor)) {
         genres?.let { DisplayGenres(it, selectedGenre, onclickGenre) }
         DisplayMovies(moviesItems, genres, onclick)
     }

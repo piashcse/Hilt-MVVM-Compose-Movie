@@ -29,11 +29,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
-import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistMovie
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
-import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.ExpandingText
+import com.piashcse.hilt_mvvm_compose_movie.ui.state.ArtistDetailUiState
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
@@ -45,6 +44,7 @@ import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
+import component.base.BaseColumn
 
 @Composable
 fun ArtistDetail(navController: NavController, personId: Int) {
@@ -54,91 +54,87 @@ fun ArtistDetail(navController: NavController, personId: Int) {
     LaunchedEffect(Unit) {
         viewModel.fetchArtistDetails(personId)
     }
-    ArtistDetailUi(uiState.artistDetail, uiState.isLoading, uiState.artistMovies, navController)
+    ArtistDetailUi(uiState, navController)
 }
 
 @Composable
 fun ArtistDetailUi(
-    artistDetail: ArtistDetail?,
-    isLoading: Boolean,
-    artistMovies: List<ArtistMovie>?,
+    artistUiState: ArtistDetailUiState,
     navController: NavController,
 ) {
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .verticalScroll(rememberScrollState())
-            .background(DefaultBackgroundColor)
-            .padding(start = 8.dp, top = 8.dp, end = 8.dp)
-    ) {
-        // Show loading indicator if isLoading is true
-        if (isLoading) {
-            CircularIndeterminateProgressBar(isDisplayed = true, 0.4f)
-        }
-
-        artistDetail?.let {
-            Row {
-                CoilImage(modifier = Modifier
-                    .padding(bottom = 8.dp)
-                    .height(250.dp)
-                    .width(190.dp)
-                    .cornerRadius(10),
-                    imageModel = { ApiURL.IMAGE_URL.plus(it.profilePath) },
-                    imageOptions = ImageOptions(
-                        contentScale = ContentScale.Crop,
-                        alignment = Alignment.Center,
-                        contentDescription = "artist image",
-                    ),
-                    component = rememberImageComponent {
-                        +CircularRevealPlugin(duration = 800)
-                        +ShimmerPlugin(
-                            shimmer = Shimmer.Flash(
-                                baseColor = SecondaryFontColor,
-                                highlightColor = DefaultBackgroundColor
+    BaseColumn(loading = artistUiState.isLoading, errorMessage = artistUiState.errorMessage) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .verticalScroll(rememberScrollState())
+                .background(DefaultBackgroundColor)
+                .padding(start = 8.dp, top = 8.dp, end = 8.dp)
+        ) {
+            artistUiState.artistDetail?.let {
+                Row {
+                    CoilImage(
+                        modifier = Modifier
+                            .padding(bottom = 8.dp)
+                            .height(250.dp)
+                            .width(190.dp)
+                            .cornerRadius(10),
+                        imageModel = { ApiURL.IMAGE_URL.plus(it.profilePath) },
+                        imageOptions = ImageOptions(
+                            contentScale = ContentScale.Crop,
+                            alignment = Alignment.Center,
+                            contentDescription = "artist image",
+                        ),
+                        component = rememberImageComponent {
+                            +CircularRevealPlugin(duration = 800)
+                            +ShimmerPlugin(
+                                shimmer = Shimmer.Flash(
+                                    baseColor = SecondaryFontColor,
+                                    highlightColor = DefaultBackgroundColor
+                                )
                             )
+                        })
+                    Column {
+                        Text(
+                            modifier = Modifier.padding(start = 8.dp),
+                            text = it.name,
+                            color = FontColor,
+                            fontSize = 26.sp,
+                            fontWeight = FontWeight.Medium
                         )
-                    })
-                Column {
-                    Text(
-                        modifier = Modifier.padding(start = 8.dp),
-                        text = it.name,
-                        color = FontColor,
-                        fontSize = 26.sp,
-                        fontWeight = FontWeight.Medium
-                    )
-                    PersonalInfo(stringResource(R.string.know_for), it.knownForDepartment)
-                    PersonalInfo(
-                        stringResource(R.string.gender), it.gender.genderInString()
-                    )
-                    it.birthday?.let { birthday ->
+                        PersonalInfo(stringResource(R.string.know_for), it.knownForDepartment)
                         PersonalInfo(
-                            stringResource(R.string.birth_day), birthday
+                            stringResource(R.string.gender), it.gender.genderInString()
                         )
-                    }
-                    it.placeOfBirth?.let { birthPlace ->
-                        PersonalInfo(
-                            stringResource(R.string.place_of_birth), birthPlace
-                        )
+                        it.birthday?.let { birthday ->
+                            PersonalInfo(
+                                stringResource(R.string.birth_day), birthday
+                            )
+                        }
+                        it.placeOfBirth?.let { birthPlace ->
+                            PersonalInfo(
+                                stringResource(R.string.place_of_birth), birthPlace
+                            )
+                        }
                     }
                 }
+                Text(
+                    modifier = Modifier.padding(bottom = 8.dp),
+                    text = stringResource(R.string.biography),
+                    color = SecondaryFontColor,
+                    fontSize = 22.sp,
+                    fontWeight = FontWeight.Medium
+                )
+                ExpandingText(
+                    text = it.biography, visibleLines = 15
+                )
             }
-            Text(
-                modifier = Modifier.padding(bottom = 8.dp),
-                text = stringResource(R.string.biography),
-                color = SecondaryFontColor,
-                fontSize = 22.sp,
-                fontWeight = FontWeight.Medium
-            )
-            ExpandingText(
-                text = it.biography, visibleLines = 15
-            )
-        }
-        artistMovies?.let {
-            ArtistMovies(it) { item ->
-                if (item.mediaType == "movie") {
-                    navController.navigate(Screen.MovieDetail.route + "/${item.id}")
-                } else {
-                    navController.navigate(Screen.TvSeriesDetail.route + "/${item.id}")
+            artistUiState.artistMovies?.let {
+                ArtistMovies(it) { item ->
+                    if (item.mediaType == "movie") {
+                        navController.navigate(Screen.MovieDetail.route + "/${item.id}")
+                    } else {
+                        navController.navigate(Screen.TvSeriesDetail.route + "/${item.id}")
+                    }
                 }
             }
         }

@@ -1,13 +1,16 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.top_rated
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.paging.compose.collectAsLazyPagingItems
-import com.piashcse.hilt_mvvm_compose_movie.data.model.GenreId
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.TvSeries
+import component.base.BaseColumn
 
 @Composable
 fun TopRatedTvSeries(
@@ -15,17 +18,25 @@ fun TopRatedTvSeries(
     genres: List<Genre>? = null,
 ) {
     val viewModel = hiltViewModel<TopRatedTvSeriesViewModel>()
-    TvSeries(
-        tvSeries = viewModel.topRatedTvSeries.collectAsLazyPagingItems(),
-        genres = genres,
-        selectedName = viewModel.selectedGenre.value,
-        onclickGenre = {
-            viewModel.filterData.value = GenreId(it?.id.toString())
-            it?.let {
-                viewModel.selectedGenre.value = it
+    val tvSeriesItems = viewModel.topRatedTvSeries.collectAsLazyPagingItems()
+    val uiState by viewModel.uiState.collectAsState()
+
+    LaunchedEffect(tvSeriesItems.loadState) {
+        viewModel.updateLoadState(tvSeriesItems.loadState)
+    }
+
+    BaseColumn(
+        loading = uiState.isLoading,
+        errorMessage = uiState.errorMessage
+    ) {
+        TvSeries(
+            tvSeries = tvSeriesItems,
+            genres = genres,
+            selectedName = viewModel.selectedGenre.value,
+            onclickGenre = viewModel::onGenreSelected,
+            onclick = {
+                navController.navigate(Screen.TvSeriesDetail.route.plus("/${it.id}"))
             }
-        },
-        onclick = {
-            navController.navigate(Screen.TvSeriesDetail.route.plus("/${it.id}"))
-        })
+        )
+    }
 }

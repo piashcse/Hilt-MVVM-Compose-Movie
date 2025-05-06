@@ -2,9 +2,8 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.artist_detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail
-import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistMovie
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.artist.ArtistRepository
+import com.piashcse.hilt_mvvm_compose_movie.ui.state.ArtistDetailUiState
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -47,19 +46,16 @@ class ArtistDetailViewModel @Inject constructor(
     ) {
         _uiState.update { currentState ->
             when (result) {
-                is DataState.Loading -> currentState.copy(isLoading = true)
+                is DataState.Loading -> currentState.copy(isLoading = true, errorMessage = null)
                 is DataState.Success -> stateUpdater(
                     currentState, result.data
-                ).copy(isLoading = false)
+                ).copy(isLoading = false, errorMessage = null)
 
-                is DataState.Error -> currentState.copy(isLoading = false) // Optionally log error details
+                is DataState.Error -> currentState.copy(
+                    isLoading = false,
+                    errorMessage = result.exception.message ?: "Unknown error"
+                )
             }
         }
     }
 }
-
-data class ArtistDetailUiState(
-    val artistDetail: ArtistDetail? = null,
-    val artistMovies: List<ArtistMovie>? = null,
-    val isLoading: Boolean = false,
-)

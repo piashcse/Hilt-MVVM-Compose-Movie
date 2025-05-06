@@ -1,5 +1,6 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.tv_series_detail
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -53,10 +54,10 @@ import com.piashcse.hilt_mvvm_compose_movie.data.model.TvSeriesItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Cast
 import com.piashcse.hilt_mvvm_compose_movie.data.model.tv_series_detail.TvSeriesDetail
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
-import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.ExpandingText
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.SubtitlePrimary
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.SubtitleSecondary
+import com.piashcse.hilt_mvvm_compose_movie.ui.state.TvSeriesDetailUiState
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
@@ -68,6 +69,7 @@ import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
+import component.base.BaseColumn
 
 @Composable
 fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
@@ -94,6 +96,7 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
     )
 }
 
+@SuppressLint("ConfigurationScreenWidthHeight")
 @Composable
 fun TvSeriesDetailContent(
     uiState: TvSeriesDetailUiState,
@@ -103,69 +106,41 @@ fun TvSeriesDetailContent(
 ) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val calculatedOffset = screenHeight / 5.5f
-    val tvSeries = uiState.tvSeriesDetail
-    Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(
-                DefaultBackgroundColor
-            )
-    ) {
-        CircularIndeterminateProgressBar(isDisplayed = uiState.isLoading, 0.4f)
-        tvSeries?.let { it ->
-            Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
-                Box(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .aspectRatio(16f / 9f)
-                ) {
-                    CoilImage(
+    BaseColumn(loading = uiState.isLoading, errorMessage = uiState.errorMessage) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    DefaultBackgroundColor
+                )
+        ) {
+            uiState.tvSeriesDetail?.let { it ->
+                Column(modifier = Modifier.verticalScroll(rememberScrollState())) {
+                    Box(
                         modifier = Modifier
                             .fillMaxWidth()
                             .aspectRatio(16f / 9f)
-                            .graphicsLayer {
-                                alpha = 0.9f
-                                scaleX = 1f
-                                scaleY = 1f
-                                translationX = 0f
-                                translationY = 0f
-                                shadowElevation = 10f
-                                renderEffect = BlurEffect(8f, 8f)
-                            },
-                        imageModel = { ApiURL.IMAGE_URL_V2.plus(it.backdropPath) },
-                        imageOptions = ImageOptions(
-                            contentScale = ContentScale.Crop,
-                            contentDescription = "Backdrop Image",
-                        ),
-                        component = rememberImageComponent {
-                            +CircularRevealPlugin(duration = 800)
-                            +ShimmerPlugin(
-                                shimmer = Shimmer.Flash(
-                                    baseColor = SecondaryFontColor,
-                                    highlightColor = DefaultBackgroundColor
-                                )
-                            )
-                        },
-                    )
-                    Row(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .offset(y = calculatedOffset)
-                            .padding(start = 10.dp)
                     ) {
                         CoilImage(
                             modifier = Modifier
-                                .size(135.dp, 180.dp) // Poster size (width x height)
-                                .clip(RoundedCornerShape(10.dp))
-                                .border(
-                                    1.dp, Color.White, RoundedCornerShape(10.dp)
-                                ),
-                            imageModel = { ApiURL.IMAGE_URL.plus(it.posterPath) },
+                                .fillMaxWidth()
+                                .aspectRatio(16f / 9f)
+                                .graphicsLayer {
+                                    alpha = 0.9f
+                                    scaleX = 1f
+                                    scaleY = 1f
+                                    translationX = 0f
+                                    translationY = 0f
+                                    shadowElevation = 10f
+                                    renderEffect = BlurEffect(8f, 8f)
+                                },
+                            imageModel = { ApiURL.IMAGE_URL_V2.plus(it.backdropPath) },
                             imageOptions = ImageOptions(
                                 contentScale = ContentScale.Crop,
-                                contentDescription = "Poster Image",
+                                contentDescription = "Backdrop Image",
                             ),
                             component = rememberImageComponent {
+                                +CircularRevealPlugin(duration = 800)
                                 +ShimmerPlugin(
                                     shimmer = Shimmer.Flash(
                                         baseColor = SecondaryFontColor,
@@ -174,101 +149,129 @@ fun TvSeriesDetailContent(
                                 )
                             },
                         )
-                        Spacer(modifier = Modifier.width(8.dp))
-                        Column(
+                        Row(
                             modifier = Modifier
-                                .padding(bottom = 4.dp)
                                 .fillMaxWidth()
-                                .align(Alignment.Bottom),
+                                .offset(y = calculatedOffset)
+                                .padding(start = 10.dp)
                         ) {
-                            Text(
-                                text = it.name,
-                                color = Color.Black,
-                                fontSize = 18.sp,
-                                fontWeight = FontWeight.SemiBold,
-                                maxLines = 1
+                            CoilImage(
+                                modifier = Modifier
+                                    .size(135.dp, 180.dp) // Poster size (width x height)
+                                    .clip(RoundedCornerShape(10.dp))
+                                    .border(
+                                        1.dp, Color.White, RoundedCornerShape(10.dp)
+                                    ),
+                                imageModel = { ApiURL.IMAGE_URL.plus(it.posterPath) },
+                                imageOptions = ImageOptions(
+                                    contentScale = ContentScale.Crop,
+                                    contentDescription = "Poster Image",
+                                ),
+                                component = rememberImageComponent {
+                                    +ShimmerPlugin(
+                                        shimmer = Shimmer.Flash(
+                                            baseColor = SecondaryFontColor,
+                                            highlightColor = DefaultBackgroundColor
+                                        )
+                                    )
+                                },
                             )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Row {
-                                Column(Modifier.weight(1f)) {
-                                    SubtitlePrimary(
-                                        text = stringResource(R.string.duration)
-                                    )
-                                    SubtitleSecondary(
-                                        text = it.numberOfEpisodes.toString()
-                                    )
+                            Spacer(modifier = Modifier.width(8.dp))
+                            Column(
+                                modifier = Modifier
+                                    .padding(bottom = 4.dp)
+                                    .fillMaxWidth()
+                                    .align(Alignment.Bottom),
+                            ) {
+                                Text(
+                                    text = it.name,
+                                    color = Color.Black,
+                                    fontSize = 18.sp,
+                                    fontWeight = FontWeight.SemiBold,
+                                    maxLines = 1
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Row {
+                                    Column(Modifier.weight(1f)) {
+                                        SubtitlePrimary(
+                                            text = stringResource(R.string.duration)
+                                        )
+                                        SubtitleSecondary(
+                                            text = it.numberOfEpisodes.toString()
+                                        )
+                                    }
+                                    Column(Modifier.weight(1f)) {
+                                        SubtitlePrimary(
+                                            text = stringResource(R.string.release_date)
+                                        )
+                                        SubtitleSecondary(
+                                            text = it.firstAirDate
+                                        )
+                                    }
                                 }
-                                Column(Modifier.weight(1f)) {
-                                    SubtitlePrimary(
-                                        text = stringResource(R.string.release_date)
-                                    )
-                                    SubtitleSecondary(
-                                        text = it.firstAirDate
-                                    )
-                                }
-                            }
-                            Row(modifier = Modifier.padding(top = 4.dp)) {
-                                Column(Modifier.weight(1f)) {
-                                    SubtitlePrimary(
-                                        text = stringResource(R.string.language)
-                                    )
-                                    SubtitleSecondary(
-                                        text = it.originalLanguage
-                                    )
-                                }
-                                Column(Modifier.weight(1f)) {
-                                    SubtitlePrimary(
-                                        text = stringResource(R.string.rating)
-                                    )
-                                    SubtitleSecondary(
-                                        text = it.voteAverage.roundTo(1).toString()
-                                    )
+                                Row(modifier = Modifier.padding(top = 4.dp)) {
+                                    Column(Modifier.weight(1f)) {
+                                        SubtitlePrimary(
+                                            text = stringResource(R.string.language)
+                                        )
+                                        SubtitleSecondary(
+                                            text = it.originalLanguage
+                                        )
+                                    }
+                                    Column(Modifier.weight(1f)) {
+                                        SubtitlePrimary(
+                                            text = stringResource(R.string.rating)
+                                        )
+                                        SubtitleSecondary(
+                                            text = it.voteAverage.roundTo(1).toString()
+                                        )
+                                    }
                                 }
                             }
                         }
+                        IconButton(
+                            onClick = {
+                                onFavoriteClick(it)
+                            },
+                            modifier = Modifier
+                                .align(Alignment.BottomEnd)
+                                .padding(8.dp)
+                                .clip(CircleShape)
+                                .background(Color.White.copy(alpha = 0.8f))
+                        ) {
+                            if (uiState.isFavorite) {
+                                Icon(
+                                    imageVector = Icons.Filled.Favorite,
+                                    contentDescription = "Favorite",
+                                    tint = Color.Red
+                                )
+                            } else {
+                                Icon(
+                                    imageVector = Icons.Filled.Favorite,
+                                    contentDescription = "Favorite",
+                                    tint = Color.Gray
+                                )
+                            }
+                        }
                     }
-                    IconButton(
-                        onClick = {
-                            onFavoriteClick(tvSeries)
-                        },
+                    Column(
                         modifier = Modifier
-                            .align(Alignment.BottomEnd)
-                            .padding(8.dp)
-                            .clip(CircleShape)
-                            .background(Color.White.copy(alpha = 0.8f))
+                            .fillMaxSize()
+                            .padding(start = 10.dp, end = 10.dp, top = 115.dp)
                     ) {
-                        if (uiState.isFavorite) {
-                            Icon(
-                                imageVector = Icons.Filled.Favorite,
-                                contentDescription = "Favorite",
-                                tint = Color.Red
-                            )
-                        } else {
-                            Icon(
-                                imageVector = Icons.Filled.Favorite,
-                                contentDescription = "Favorite",
-                                tint = Color.Gray
-                            )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        Text(
+                            text = stringResource(R.string.description),
+                            color = FontColor,
+                            fontSize = 17.sp,
+                            fontWeight = FontWeight.SemiBold
+                        )
+                        ExpandingText(text = it.overview, visibleLines = 3)
+                        Spacer(modifier = Modifier.height(8.dp))
+                        RecommendedTvSeries(uiState.recommendedTvSeries, onRecommendedTvSeriesClick)
+                        uiState.tvSeriesCredit?.let {
+                            ArtistAndCrew(it.cast, onCastClick)
                         }
-                    }
-                }
-                Column(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(start = 10.dp, end = 10.dp, top = 115.dp)
-                ) {
-                    Spacer(modifier = Modifier.height(8.dp))
-                    Text(
-                        text = stringResource(R.string.description),
-                        color = FontColor,
-                        fontSize = 17.sp,
-                        fontWeight = FontWeight.SemiBold
-                    )
-                    ExpandingText(text = it.overview, visibleLines = 3)
-                    Spacer(modifier = Modifier.height(8.dp))
-                    RecommendedTvSeries(uiState.recommendedTvSeries, onRecommendedTvSeriesClick)
-                    uiState.tvSeriesCredit?.let {
-                        ArtistAndCrew(it.cast, onCastClick)
                     }
                 }
             }
