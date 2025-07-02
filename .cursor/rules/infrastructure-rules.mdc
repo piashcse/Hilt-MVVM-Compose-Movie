@@ -1,0 +1,87 @@
+---
+description: Rules for infrastructure, DevOps, CI/CD, containerization, and deployment
+globs: Dockerfile,docker-compose.yml,*.yaml,*.yml,*.tf,*.sh
+alwaysApply: false
+---
+
+## Docker & Containerization
+- Sử dụng official base images
+- Minimize image size (multi-stage builds, .dockerignore)
+- Không chạy containers as root
+- Sử dụng proper tagging và versioning
+- Implement health checks
+- Sử dụng environment variables for configuration
+- Tối ưu layer caching
+- Follow security best practices
+
+## CI/CD
+- Automate build và deployment
+- Implement proper testing trong pipeline
+- Include security scanning
+- Sử dụng caching để speed up pipelines
+- Implement proper environment separation
+- Tự động verify deployments
+- Implement proper rollback mechanisms
+- Follow trunk-based development
+
+## Infrastructure as Code
+- Sử dụng version control cho infrastructure code
+- Document infrastructure components
+- Implement modular code
+- Sử dụng variables và templating
+- Implement proper state management
+- Test infrastructure changes
+- Validate changes trước khi apply
+- Implement proper access controls
+
+## Monitoring & Logging
+- Implement comprehensive logging
+- Sử dụng structured logs
+- Collect metrics cho key components
+- Set up alerts for critical issues
+- Implement proper log retention
+- Sử dụng distributed tracing
+- Monitor system và application health
+- Implement proper dashboards
+
+## Security
+- Follow principle of least privilege
+- Secure sensitive data (secrets management)
+- Implement proper network segmentation
+- Regularly update dependencies
+- Scan infrastructure cho vulnerabilities
+- Implement proper authentication và authorization
+- Follow security best practices
+- Conduct security audits
+
+## Reliability & Scalability
+- Implement redundancy cho critical services
+- Design for fault tolerance
+- Implement auto-scaling
+- Test disaster recovery plans
+- Implement proper backup strategies
+- Design for horizontal scaling
+- Implement load balancing
+- Prepare cho high availability
+
+## Networking
+- Implement proper network policies
+- Sử dụng service discovery khi applicable
+- Implement proper DNS management
+- Secure network traffic
+- Optimize network performance
+- Implement proper routing
+- Use VPNs và secure tunnels khi cần thiết
+- Implement proper firewalls
+
+## Cost Optimization
+- Monitor resource usage
+- Implement auto-scaling based on demand
+- Use spot/preemptible instances khi applicable
+- Optimize storage usage
+- Implement proper retention policies
+- Right-size resources
+- Take advantage của reserved instances
+- Regularly review và optimize costs
+
+@file ../README.md 

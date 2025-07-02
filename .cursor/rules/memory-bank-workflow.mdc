@@ -1,0 +1,152 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Quy Trình Memory Bank Cho Conversation
+description: Hệ thống lưu trữ và theo dõi trạng thái công việc trong cùng một cuộc trò chuyện
+globs: "*.*"
+
+## Nguyên Tắc Cơ Bản
+- ***BẮT BUỘC*** tạo file memory bank khi bắt đầu cuộc trò chuyện mới với nhiệm vụ cụ thể
+- ***BẮT BUỘC*** cập nhật tiến độ sau mỗi bước thực hiện trong cuộc trò chuyện
+- ***BẮT BUỘC*** đọc file memory bank trước khi tiếp tục công việc trong cuộc trò chuyện
+- ***BẮT BUỘC*** tích hợp với các quy trình experience-system-workflow hiện tại
+- ***KHUYẾN NGHỊ*** tạo memory bank có cấu trúc rõ ràng, dễ theo dõi
+- ***KHUYẾN NGHỊ*** sử dụng memory bank để tổng hợp kinh nghiệm khi kết thúc workflow
+
+## Cấu Trúc Thư Mục
+```
+memory_bank/
+├── wf_user_management.md       # Workflow quản lý người dùng
+├── wf_payment_integration.md   # Workflow tích hợp thanh toán
+├── wf_bug_fixing_auth_flow.md  # Workflow sửa lỗi luồng xác thực
+└── ...                         # Các workflow khác
+```
+
+## Quy Trình Khởi Tạo Memory Bank
+1. **Khi bắt đầu cuộc trò chuyện mới**:
+   - Đọc file `.project-identity` để hiểu ngữ cảnh dự án
+   - Phân tích yêu cầu từ người dùng
+   - Tạo tên workflow ngắn gọn (dưới 10 từ, dạng snake_case)
+   - Tạo file `memory_bank/wf_{tên_workflow}.md`
+
+2. **Cấu trúc file memory bank**:
+   ```markdown
+   # Memory Bank: {Tên Workflow}
+   
+   ## Nhiệm Vụ Hiện Tại
+   - Task 1 từ yêu cầu người dùng
+   - Task 2 từ yêu cầu người dùng
+   - ...
+   
+   ## Kế Hoạch
+   Tóm tắt kế hoạch và suy nghĩ để giải quyết nhiệm vụ.
+   
+   ## Các Bước Thực Hiện
+   1. Bước 1
+   2. Bước 2
+   3. ...
+   
+   ## Việc Đã Hoàn Thành
+   - [ ] Task 1
+   - [ ] Task 2
+   
+   ## Việc Chưa Hoàn Thành
+   - Task 3
+   - Task 4
+   
+   ## Lưu Ý & Quyết Định
+   - Quyết định 1
+   - Lưu ý 1
+   ```
+
+## Quy Trình Cập Nhật Memory Bank
+1. **Trước mỗi tương tác trong cuộc trò chuyện**:
+   - Đọc file memory bank hiện tại
+   - Hiểu rõ tiến độ và ngữ cảnh hiện tại
+
+2. **Sau mỗi bước hoàn thành**:
+   - Cập nhật phần "Việc Đã Hoàn Thành"
+   - Chuyển task từ "Việc Chưa Hoàn Thành" sang "Việc Đã Hoàn Thành"
+   - Cập nhật tiến độ với chi tiết cụ thể
+
+3. **Khi cần điều chỉnh kế hoạch**:
+   - Cập nhật phần "Kế Hoạch" và "Các Bước Thực Hiện"
+   - Ghi rõ lý do điều chỉnh trong phần "Lưu Ý & Quyết Định"
+
+## Tích Hợp Với Experience System
+- Sử dụng memory bank như nguồn thông tin để tạo file kinh nghiệm mới
+- Sau khi hoàn thành workflow, tổng hợp kinh nghiệm từ memory bank
+- Lưu trữ kinh nghiệm vào thư mục `/experiences/` theo quy trình hiện có
+
+## Quy Trình Kết Thúc Workflow
+1. **Khi hoàn thành tất cả nhiệm vụ**:
+   - Đánh dấu hoàn thành tất cả các task
+   - Tóm tắt công việc đã thực hiện
+   - Rút ra bài học kinh nghiệm
+   - Xác định xem có cần lưu vào hệ thống kinh nghiệm không
+
+2. **Chuyển từ memory bank sang kinh nghiệm**:
+   - Nếu workflow có giá trị kinh nghiệm, tạo file trong `/experiences/`
+   - Sử dụng cấu trúc từ memory bank để điền vào template kinh nghiệm
+
+## Nguyên Tắc Sử Dụng Trong Cuộc Trò Chuyện
+- ***BẮT BUỘC*** đọc memory bank ở mỗi lần tương tác mới
+- ***BẮT BUỘC*** không bỏ qua bất kỳ nội dung nào trong memory bank
+- ***BẮT BUỘC*** cập nhật memory bank sau mỗi bước tiến triển
+- ***BẮT BUỘC*** thông báo cho người dùng khi cần điều chỉnh kế hoạch lớn
+
+## Quản Lý Memory Bank
+- Dọn dẹp các file memory bank cũ sau 30 ngày không sử dụng
+- Đặt tên file rõ ràng để dễ dàng tìm kiếm lại sau này
+- Cân nhắc chuyển memory bank quan trọng vào hệ thống kinh nghiệm để lưu trữ lâu dài
+
+## Thành Lập Ban Đầu
+1. Tạo thư mục `memory_bank/` tại thư mục gốc của dự án
+2. Thêm thư mục này vào file `.gitignore` nếu không muốn theo dõi
+3. Tạo file mẫu cho memory bank để tham khảo
+
+## Tối Ưu Cho AI
+- Giữ file memory bank ngắn gọn, dưới 250 dòng
+- Sử dụng định dạng markdown rõ ràng, có cấu trúc
+- Tránh code block dài, chỉ lưu trữ thông tin thiết yếu
+- Sử dụng các ký hiệu trực quan (emoji, checkbox) để dễ theo dõi tiến độ
+
+## Ví Dụ Memory Bank
+```markdown
+# Memory Bank: user_authentication_implementation
+
+## Nhiệm Vụ Hiện Tại
+- Triển khai hệ thống xác thực người dùng với JWT
+- Tích hợp với frontend React
+- Thêm chức năng quên mật khẩu
+
+## Kế Hoạch
+Sử dụng JWT để xác thực, lưu token trong localStorage ở client. 
+Tạo API endpoint riêng cho đăng nhập, đăng ký và quên mật khẩu.
+
+## Các Bước Thực Hiện
+1. Cài đặt thư viện JWT và bcrypt
+2. Tạo models User
+3. Tạo controller Auth với các route cần thiết
+4. Tạo middleware xác thực
+5. Tạo các endpoint API
+6. Tích hợp với frontend
+7. Thêm chức năng quên mật khẩu
+
+## Việc Đã Hoàn Thành
+- [x] Cài đặt thư viện JWT và bcrypt
+- [x] Tạo models User
+- [x] Tạo controller Auth
+
+## Việc Chưa Hoàn Thành
+- Tạo middleware xác thực
+- Tạo các endpoint API
+- Tích hợp với frontend
+- Thêm chức năng quên mật khẩu
+
+## Lưu Ý & Quyết Định
+- Quyết định sử dụng refresh token để tăng bảo mật
+- Lưu ý: cần validate input kỹ để tránh lỗi bảo mật
+``` 

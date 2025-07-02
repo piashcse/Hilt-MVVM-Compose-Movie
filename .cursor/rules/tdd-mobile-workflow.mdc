@@ -1,0 +1,473 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# TDD Mobile Workflow (Test-Driven Development for Mobile Apps)
+
+## Nguyên Tắc Cơ Bản
+- ***BẮT BUỘC*** viết tests trước khi viết implementation code
+- ***BẮT BUỘC*** follow Red-Green-Refactor cycle nghiêm ngặt
+- ***BẮT BUỘC*** 85% unit test coverage minimum
+- ***BẮT BUỘC*** 70% integration test coverage minimum
+- ***BẮT BUỘC*** 100% critical user flow UI test coverage
+- ***BẮT BUỘC*** AI integration tests với fallback scenarios
+- ***BẮT BUỘC*** phù hợp với android, ios hoặc flutter
+- ***NGHIÊM CẤM*** implementation code trước khi có failing tests
+
+## Mobile TDD Cycle
+
+### 🔴 RED Phase: Write Failing Tests
+```markdown
+Test Writing Order:
+1. **Unit Tests First** (Business Logic)
+   □ View model logic tests
+   □ Use case/interactor tests  
+   □ Repository pattern tests
+   □ Data model validation tests
+   □ Utility function tests
+
+2. **Integration Tests Second** (Data Flow)
+   □ Database operations (Room/Core Data)
+   □ Network layer tests (API calls)
+   □ Cache mechanism tests
+   □ AI service integration tests
+   □ Firebase/Analytics integration tests
+
+3. **UI Tests Third** (User Interactions)
+   □ Critical user flow tests
+   □ Navigation tests
+   □ Input validation tests
+   □ Error state handling tests
+   □ Accessibility tests
+
+4. **AI-Specific Tests Fourth** (Smart Features)
+   □ AI response validation tests
+   □ Fallback mechanism tests
+   □ Caching behavior tests
+   □ Batch processing tests
+   □ Cost optimization tests
+```
+
+### 🟢 GREEN Phase: Minimal Implementation
+```markdown
+Implementation Order:
+1. **Implement Business Logic** (Pass Unit Tests)
+   □ View model implementations
+   □ Use case implementations
+   □ Repository implementations
+   □ Data model implementations
+   □ Utility implementations
+
+2. **Implement Data Layer** (Pass Integration Tests)
+   □ Database entities and DAOs
+   □ Network service implementations
+   □ Cache implementations
+   □ AI service integrations
+   □ Analytics implementations
+
+3. **Implement UI Layer** (Pass UI Tests)
+   □ Compose/SwiftUI view implementations
+   □ Navigation implementations
+   □ Input handling implementations
+   □ Error state implementations
+   □ Accessibility implementations
+
+4. **Implement AI Features** (Pass AI Tests)
+   □ AI service client implementations
+   □ Fallback logic implementations
+   □ Caching implementations
+   □ Batch processing implementations
+   □ Cost tracking implementations
+```
+
+### 🔄 REFACTOR Phase: Optimize & Clean
+```markdown
+Refactoring Priorities:
+1. **Code Quality Improvements**
+   □ Remove code duplication
+   □ Improve code readability
+   □ Optimize performance bottlenecks
+   □ Enhance error handling
+   □ Improve type safety
+
+2. **Test Quality Improvements**
+   □ Improve test coverage gaps
+   □ Optimize test performance
+   □ Reduce test flakiness
+   □ Improve test maintainability
+   □ Add missing edge case tests
+
+3. **Architecture Improvements**
+   □ Improve separation of concerns
+   □ Enhance dependency injection
+   □ Optimize data flow patterns
+   □ Improve error propagation
+   □ Enhance modularity
+```
+
+## Platform-Specific TDD Implementation
+
+### Android TDD Stack:
+```kotlin
+// Testing Dependencies
+dependencies {
+    // Unit Testing
+    testImplementation 'junit:junit:5.9.2'
+    testImplementation 'org.mockito:mockito-core:5.1.1'
+    testImplementation 'io.mockk:mockk:1.13.4'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
+    
+    // Android Testing
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.4.0'
+    
+    // Integration Testing
+    androidTestImplementation 'androidx.room:room-testing:2.5.0'
+    androidTestImplementation 'okhttp3:mockwebserver:4.10.0'
+}
+
+// Test Categories
+@Test // Unit Tests
+@MediumTest // Integration Tests  
+@LargeTest // UI Tests
+@Category(AITests::class) // AI-specific Tests
+```
+
+### iOS TDD Stack:
+```swift
+// Testing Framework
+import XCTest
+import XCUITest
+@testable import YourApp
+
+// Test Categories
+class UnitTests: XCTestCase { } // Business Logic
+class IntegrationTests: XCTestCase { } // Data Integration
+class UITests: XCUITestCase { } // User Interface
+class AITests: XCTestCase { } // AI Integration
+
+// Mocking Framework
+import Cuckoo // For mocking dependencies
+```
+
+## Mobile-Specific Test Patterns
+
+### View Model Testing Pattern:
+```kotlin
+// Android Example
+@Test
+fun `when user submits health data, should update UI state and call AI service`() {
+    // ARRANGE
+    val mockHealthRepository = mockk<HealthRepository>()
+    val mockAIService = mockk<AIService>()
+    val viewModel = HealthViewModel(mockHealthRepository, mockAIService)
+    
+    // ACT
+    viewModel.submitHealthData(testHealthData)
+    
+    // ASSERT
+    verify { mockHealthRepository.saveHealthData(testHealthData) }
+    verify { mockAIService.generateInsights(testHealthData) }
+    assertEquals(LoadingState.Success, viewModel.uiState.value.loadingState)
+}
+```
+
+### Repository Testing Pattern:
+```kotlin
+// Android Example
+@Test
+fun `when fetching cached AI insights, should return local data without API call`() {
+    // ARRANGE
+    val cachedInsights = listOf(testInsight1, testInsight2)
+    coEvery { localDatabase.getInsights() } returns cachedInsights
+    coEvery { remoteAPI.getInsights() } returns emptyList()
+    
+    // ACT
+    val result = repository.getAIInsights(useCache = true)
+    
+    // ASSERT
+    assertEquals(cachedInsights, result)
+    coVerify(exactly = 0) { remoteAPI.getInsights() }
+    coVerify(exactly = 1) { localDatabase.getInsights() }
+}
+```
+
+### UI Testing Pattern:
+```kotlin
+// Android Compose Example
+@Test
+fun `when user taps generate insights button, should show loading state`() {
+    // ARRANGE
+    composeTestRule.setContent {
+        HealthInsightsScreen(
+            uiState = HealthUiState(isLoading = false),
+            onGenerateInsights = { }
+        )
+    }
+    
+    // ACT
+    composeTestRule.onNodeWithText("Generate AI Insights").performClick()
+    
+    // ASSERT
+    composeTestRule.onNodeWithTag("loading_indicator").assertIsDisplayed()
+}
+```
+
+### AI Integration Testing Pattern:
+```kotlin
+// AI Service Testing
+@Test
+fun `when AI service fails, should fallback to cached recommendations`() {
+    // ARRANGE
+    val fallbackRecommendations = listOf("Fallback advice 1", "Fallback advice 2")
+    coEvery { aiService.generateRecommendations(any()) } throws NetworkException()
+    coEvery { cacheRepository.getFallbackRecommendations() } returns fallbackRecommendations
+    
+    // ACT
+    val result = aiRecommendationUseCase.getRecommendations(userProfile)
+    
+    // ASSERT
+    assertEquals(fallbackRecommendations, result)
+    verify { analyticsService.logAIFallback("network_error") }
+}
+```
+
+## Revenue Feature Testing
+
+### Ad Integration Testing:
+```kotlin
+@Test
+fun `when user completes health tracking, should show rewarded ad opportunity`() {
+    // ARRANGE
+    val mockAdManager = mockk<AdManager>()
+    val viewModel = HealthTrackingViewModel(mockAdManager)
+    
+    // ACT
+    viewModel.completeHealthTracking()
+    
+    // ASSERT
+    verify { mockAdManager.showRewardedAdOpportunity("health_tracking_complete") }
+    assertEquals(AdState.Opportunity, viewModel.adState.value)
+}
+```
+
+### IAP Testing:
+```kotlin
+@Test
+fun `when user reaches premium feature limit, should prompt for subscription`() {
+    // ARRANGE
+    val mockBillingService = mockk<BillingService>()
+    val viewModel = PremiumFeatureViewModel(mockBillingService)
+    
+    // ACT
+    viewModel.accessPremiumFeature()
+    
+    // ASSERT
+    verify { mockBillingService.checkSubscriptionStatus() }
+    assertEquals(PremiumState.PromptRequired, viewModel.premiumState.value)
+}
+```
+
+## Regional Strategy Testing
+
+### Firebase Remote Config Testing:
+```kotlin
+@Test
+fun `when user is in Vietnam, should use max revenue ad strategy`() {
+    // ARRANGE
+    val mockRemoteConfig = mockk<FirebaseRemoteConfig>()
+    every { mockRemoteConfig.getString("user_region") } returns "VN"
+    every { mockRemoteConfig.getString("VN_ad_strategy") } returns "max_revenue"
+    
+    // ACT
+    val adStrategy = adStrategyManager.getStrategyForUser()
+    
+    // ASSERT
+    assertEquals(AdStrategy.MaxRevenue, adStrategy)
+}
+```
+
+## Test Data Management
+
+### Test Data Builders:
+```kotlin
+class HealthDataBuilder {
+    private var heartRate: Int = 70
+    private var steps: Int = 10000
+    private var sleepHours: Double = 8.0
+    
+    fun withHeartRate(rate: Int) = apply { heartRate = rate }
+    fun withSteps(stepCount: Int) = apply { steps = stepCount }
+    fun withSleep(hours: Double) = apply { sleepHours = hours }
+    
+    fun build() = HealthData(heartRate, steps, sleepHours)
+}
+
+// Usage
+val testHealthData = HealthDataBuilder()
+    .withHeartRate(80)
+    .withSteps(15000)
+    .build()
+```
+
+### Mock Data Factories:
+```kotlin
+object MockDataFactory {
+    fun createMockAIInsights(count: Int = 5): List<AIInsight> {
+        return (1..count).map { index ->
+            AIInsight(
+                id = "insight_$index",
+                title = "Health Insight $index", 
+                description = "Mock insight description $index",
+                confidence = 0.85 + (index * 0.02),
+                category = InsightCategory.values().random()
+            )
+        }
+    }
+    
+    fun createMockUserProfile(): UserProfile {
+        return UserProfile(
+            age = 30,
+            fitnessLevel = FitnessLevel.INTERMEDIATE,
+            healthGoals = listOf(HealthGoal.WEIGHT_LOSS, HealthGoal.FITNESS)
+        )
+    }
+}
+```
+
+## Test Automation Pipeline
+
+### Continuous Integration Testing:
+```yaml
+# GitHub Actions example
+name: Mobile TDD Pipeline
+on: [push, pull_request]
+
+jobs:
+  android_tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+      - name: Run Unit Tests
+        run: ./gradlew testDebugUnitTest
+      - name: Run Integration Tests
+        run: ./gradlew connectedDebugAndroidTest
+      - name: Generate Test Report
+        run: ./gradlew jacocoTestReport
+      
+  ios_tests:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: '15.0'
+      - name: Run Unit Tests
+        run: xcodebuild test -scheme YourApp -destination 'platform=iOS Simulator,name=iPhone 14'
+      - name: Run UI Tests
+        run: xcodebuild test -scheme YourAppUITests -destination 'platform=iOS Simulator,name=iPhone 14'
+```
+
+## Test Coverage Requirements
+
+### Coverage Thresholds:
+```gradle
+// Android build.gradle
+android {
+    testCoverageEnabled true
+}
+
+jacoco {
+    toolVersion = "0.8.8"
+}
+
+tasks.withType(Test) {
+    jacoco.includeNoLocationClasses = true
+    jacoco.excludes = ['jdk.internal.*']
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled true
+        html.enabled true
+    }
+    
+    afterEvaluate {
+        classDirectories.setFrom(files(classDirectories.files.collect {
+            fileTree(dir: it, exclude: [
+                '**/R.class',
+                '**/R$*.class',
+                '**/BuildConfig.*',
+                '**/Manifest*.*'
+            ])
+        }))
+    }
+}
+
+// Coverage verification
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.85 // 85% unit test coverage
+            }
+        }
+    }
+}
+```
+
+## Quality Gates Integration
+
+### Pre-commit Test Requirements:
+```markdown
+Before allowing commits:
+□ All existing tests must pass
+□ New code must have accompanying tests
+□ Unit test coverage ≥ 85%
+□ Integration test coverage ≥ 70%
+□ Critical UI flows 100% covered
+□ AI integration tests passing
+□ No test flakiness detected
+```
+
+### Pre-release Test Requirements:
+```markdown
+Before releasing to store:
+□ Full test suite passes on multiple devices
+□ Performance benchmarks met
+□ Accessibility tests passing
+□ Revenue integration tests validated
+□ Regional configuration tests verified
+□ Cross-platform parity confirmed
+□ Security tests completed
+```
+
+## Test Maintenance Strategy
+
+### Regular Test Health Checks:
+```markdown
+Weekly:
+□ Review test execution times → optimize slow tests
+□ Check test flakiness → fix unstable tests
+□ Update test data → keep scenarios realistic
+□ Review coverage reports → identify gaps
+
+Monthly:
+□ Refactor outdated test patterns
+□ Update mock data to match production
+□ Review and update test documentation
+□ Optimize CI/CD pipeline performance
+
+Quarterly:
+□ Major test framework updates
+□ Test strategy effectiveness review
+□ Performance benchmark adjustments
+□ Test automation tool evaluation
+```

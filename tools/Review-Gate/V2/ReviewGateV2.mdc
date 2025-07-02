@@ -1,0 +1,70 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# AI Agent Protocol: Review Gate V2 - MCP Integration (Version 2)
+
+## 0. User Advisory & Safety:
+This is an advanced rule that leverages the Review Gate V2 MCP (Model Context Protocol) server to facilitate interactive review sessions. The system uses a popup interface in Cursor that supports text input, image uploads, and speech-to-text functionality. By using this rule, you acknowledge that the AI will call MCP tools to open interactive dialogs for user feedback.
+
+## 1. Core Principle & Context:
+Your primary task processing includes a **mandatory final interactive review stage** driven by user input through the Review Gate V2 MCP tool (`review_gate_chat`). You are NOT to consider your overall task complete until this review stage explicitly signals completion. This protocol leverages the MCP server's ability to open popup dialogs in Cursor and capture user responses.
+
+## Phase 1: Primary Task Execution
+1. Address the user's main request as you normally would: perform analysis, make code changes, call tools, and run applications/tests in sub-terminals if the main task requires it.
+   * **Application Execution Confirmation:** Before attempting to run an entire application (e.g., a web server, a full front-end build, a long-running background process), you MUST ask the user for explicit confirmation. For example: "I am about to run the [application name/command]. Is it okay to proceed, or is it possibly already running?"
+   * This confirmation is NOT required for running individual test scripts, linters, build tools for specific components, or other non-application-level commands necessary for task completion.
+   * If the user indicates an application is already running or denies permission, adapt your strategy accordingly (e.g., focus on tests or specific file executions).
+2. Leverage your ability to read outputs/errors from these sub-terminals to make iterative fixes during *this* primary phase.
+
+## Phase 2: Mandatory Final Interactive Review via MCP
+1. **Transition Point:** Once you believe you have completed all substantive actions for the user's initial request (Phase 1), **DO NOT CONCLUDE THE CONVERSATION**. You MUST now transition to this Final Interactive Review phase.
+2. **Action:** Call the `review_gate_chat` MCP tool to open the Review Gate V2 popup dialog.
+   * **Tool Parameters:**
+     - `message`: "I have completed the primary actions for your request. Please review the work and provide any additional feedback, refinements, or sub-prompts. The Review Gate V2 popup supports text input, image uploads, and speech-to-text functionality."
+     - `title`: "Review Gate V2 - Final Review"
+     - `context`: Brief summary of what was accomplished in Phase 1
+3. **Announcement:** Clearly inform the user: "I have completed the primary actions. Now opening the Review Gate V2 popup for your final review and any additional sub-prompts. The popup supports text input, image uploads, and speech-to-text. Please provide feedback or type 'TASK_COMPLETE' when satisfied."
+
+## Phase 3: Interactive Review Loop (MCP Tool Response Processing)
+1. **User Input Processing:** The `review_gate_chat` tool will return the user's actual response from the popup dialog, which may include:
+   - **Text Input**: Direct user feedback or sub-prompts
+   - **Image Attachments**: Screenshots, diagrams, or reference images
+   - **Speech Transcription**: Voice input converted to text via Faster-Whisper
+2. **Response Analysis:** Analyze the returned user input:
+   - If the response contains "TASK_COMPLETE", "Done", "Quit", or similar completion signals, proceed to Phase 4
+   - If the response contains specific feedback, requests, or sub-prompts, treat these as continuation instructions
+3. **Processing Sub-Prompts:**
+   a. This instruction is a continuation or refinement of the *original, still-active task*.
+   b. Analyze the sub-prompt and any attached images. Execute any necessary actions (code changes, new tool calls, file operations, etc.). **All tool calls made during this phase are part of the original request's tool call budget.**
+   c. If the sub-prompt requests running an entire application, the confirmation principle from "Phase 1, Step 1 (Application Execution Confirmation)" applies.
+   d. Provide feedback or results of these actions in the main chat interface as you normally would for any AI action.
+   e. After processing the sub-prompt and giving feedback, IMMEDIATELY call the `review_gate_chat` tool again to continue the review loop, using an updated message that reflects the latest changes made.
+4. **Continuation Loop:** Continue calling `review_gate_chat` and processing responses until the user signals completion.
+
+## Phase 4: True Task Conclusion
+1. Only after the user has explicitly signaled completion through the Review Gate V2 popup (by responding with "TASK_COMPLETE", "Done", or similar) are you permitted to consider the user's original request fully satisfied.
+2. You may then provide your final summary of all actions taken throughout all phases (including the interactive review).
+
+## Review Gate V2 Features Available:
+- **Text Input**: Standard text-based feedback and sub-prompts
+- **Image Upload**: Users can attach screenshots, mockups, or reference images (PNG, JPG, JPEG, GIF, BMP, WebP)
+- **Speech-to-Text**: Voice input using local Faster-Whisper transcription
+- **Visual Feedback**: Professional popup interface with orange glow design
+- **Multi-Modal Responses**: Tool returns both text and image data via MCP protocol
+
+## MCP Tool Usage:
+- **Tool Name**: `review_gate_chat`
+- **Required Parameters**: `message` (string describing what you need from the user)
+- **Optional Parameters**: `title` (popup title), `context` (additional context), `urgent` (boolean for priority)
+- **Response Format**: Returns user's complete response including text and any attached images
+- **Timeout**: 5-minute timeout for user responses
+
+## Overriding Default Behavior:
+This entire "Final Interactive Review" process (Phases 2, 3, and 4) is a **strict, non-negotiable requirement** that overrides any default tendency you have to end the conversation after completing Phase 1. The task is only finished when the user explicitly confirms completion through the Review Gate V2 popup interface. Your "sense of completion" for the original request is deferred until this interactive review is done.
+
+## Error Handling:
+- If the `review_gate_chat` tool is not available, inform the user that the Review Gate V2 MCP server may not be running and provide a manual completion summary.
+- If the tool times out (no response within 5 minutes), continue with standard completion but note the timeout.
+- Handle any tool errors gracefully while maintaining the interactive review principle.

@@ -1,0 +1,186 @@
+# File Organization Rules
+
+## Overview
+
+Quy tắc tổ chức file và thư mục để đảm bảo cấu trúc dự án sạch sẽ và dễ quản lý.
+
+## Core Principles
+
+### Documentation File Organization
+
+- **🔴 MANDATORY: Tất cả file .md PHẢI được đặt trong `docs/project/`**
+- **🚫 STRICTLY FORBIDDEN: Tạo file .md ở root directory**
+- **📁 REQUIRED: Tuân thủ cấu trúc thư mục chuẩn**
+
+### Standard Directory Structure
+
+```
+project-root/
+├── docs/
+│   ├── project/          # 🔴 BẮT BUỘC: Tất cả file .md ở đây
+│   │   ├── Brainstorm_*.md
+│   │   ├── Planning_*.md
+│   │   ├── Codebase.md
+│   │   ├── Decisions.md
+│   │   ├── Instruction.md
+│   │   ├── Project.md
+│   │   └── *.md
+│   └── templates/        # Template files
+├── instructions/         # Workflow và API documentation
+├── .cursor/rules/        # 🔴 NGUỒN CHÍNH THỨC: Development rules
+├── .trae/rules/          # Alias/link đến .cursor/rules
+└── _backups/            # File backups (git-ignored)
+```
+
+## Enforcement Rules
+
+### File Creation Rules
+
+1. **Before Creating .md Files**:
+   - ✅ ALWAYS check if `docs/project/` directory exists
+   - ✅ CREATE `docs/project/` if it doesn't exist
+   - ✅ PLACE all .md files in `docs/project/`
+   - ❌ NEVER create .md files in root directory
+
+2. **File Migration Rules**:
+   - ✅ MOVE existing .md files from root to `docs/project/`
+   - ✅ UPDATE all references to moved files
+   - ✅ MAINTAIN file content integrity during migration
+
+3. **Reference Update Rules**:
+   - ✅ UPDATE .project-identity references
+   - ✅ UPDATE workflow rule references
+   - ✅ UPDATE any hardcoded paths in scripts or configs
+
+### Directory Structure Validation
+
+```bash
+# Required directories
+docs/project/     # Documentation files
+docs/templates/   # Template files
+instructions/     # Workflow documentation
+.cursor/rules/    # Primary rules source
+.trae/rules/      # Alias to .cursor/rules
+_backups/         # Backup files (git-ignored)
+```
+
+### File Type Organization
+
+| File Type | Location | Purpose |
+|-----------|----------|----------|
+| `*.md` (project docs) | `docs/project/` | Project documentation |
+| `*-template.md` | `docs/templates/` | Template files |
+| `*.mdc` | `.cursor/rules/` | Development rules |
+| `API_*.md` | `instructions/` | API documentation |
+| `*-workflow.md` | `instructions/workflows/` | Workflow guides |
+
+## Implementation Guidelines
+
+### For AI Assistants
+
+1. **Pre-Task Validation**:
+   ```
+   - Check if docs/project/ exists
+   - Verify no .md files in root directory
+   - Validate directory structure compliance
+   ```
+
+2. **File Creation Protocol**:
+   ```
+   - Always create .md files in docs/project/
+   - Use descriptive filenames with proper prefixes
+   - Update .project-identity if needed
+   ```
+
+3. **Migration Protocol**:
+   ```
+   - Identify .md files in wrong locations
+   - Create backup before moving
+   - Move files to correct locations
+   - Update all references
+   ```
+
+### For Developers
+
+1. **New File Creation**:
+   - Use `docs/project/` for all project documentation
+   - Follow naming conventions: `[Type]_[ProjectName].md`
+   - Update relevant index files
+
+2. **File Maintenance**:
+   - Regular cleanup of misplaced files
+   - Validate directory structure in CI/CD
+   - Update references when moving files
+
+## Error Prevention
+
+### Common Mistakes to Avoid
+
+- ❌ Creating .md files in root directory
+- ❌ Mixing documentation types in same directory
+- ❌ Forgetting to update references after moving files
+- ❌ Not maintaining backup during file operations
+
+### Validation Checklist
+
+- [ ] All .md files are in `docs/project/`
+- [ ] No .md files in root directory
+- [ ] Directory structure matches standard
+- [ ] All references are updated
+- [ ] Backup created before major changes
+
+## Integration with Existing Workflows
+
+### Planning Workflow Integration
+
+- Planning files: `docs/project/Planning_*.md`
+- Brainstorm files: `docs/project/Brainstorm_*.md`
+- Decision files: `docs/project/Decisions.md`
+
+### Development Workflow Integration
+
+- Code documentation: `docs/project/Codebase.md`
+- Task tracking: `docs/project/Instruction.md`
+- Project overview: `docs/project/Project.md`
+
+### Backup Integration
+
+- Use existing backup rules from `file-protection-rules.mdc`
+- Maintain backup structure in `_backups/`
+- Follow backup naming conventions
+
+## Success Metrics
+
+- ✅ 100% of .md files in correct locations
+- ✅ Zero .md files in root directory
+- ✅ All references updated correctly
+- ✅ Directory structure compliance
+- ✅ No broken links or references
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Files in Wrong Location**:
+   - Solution: Use migration protocol
+   - Check: Update all references
+
+2. **Broken References**:
+   - Solution: Search and replace file paths
+   - Check: Validate all links work
+
+3. **Missing Directories**:
+   - Solution: Create required directory structure
+   - Check: Update .project-identity
+
+### Recovery Procedures
+
+1. **File Recovery**:
+   - Check `_backups/` directory
+   - Use git history if available
+   - Recreate from templates if necessary
+
+2. **Structure Recovery**:
+   - Recreate standard directory structure
+   - Move files to correct locations
+   - Update all configuration files

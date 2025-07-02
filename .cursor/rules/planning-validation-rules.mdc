@@ -1,0 +1,276 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Planning Validation Rules
+
+## Nguyên Tắc Cơ Bản
+- ***BẮT BUỘC*** kiểm tra sự tồn tại của file brainstorm trước khi planning
+- ***BẮT BUỘC*** validate độ hoàn thiện của brainstorm phases
+- ***BẮT BUỘC*** chỉ cho phép planning khi có đầy đủ documentation
+- ***BẮT BUỘC*** tạo file Planning_[TenDuAn].md dựa trên brainstorm
+- ***NGHIÊM CẤM*** bắt đầu development khi chưa có planning hoàn chỉnh
+
+## File Dependencies Check
+
+### Bắt Buộc Phải Có
+- `Brainstorm_[TenDuAn].md` - Hoàn chỉnh tất cả 3 phases
+- `.project-identity` - Thông tin dự án
+- `instructions/` folder - Cấu trúc tài liệu
+
+### Validation Checklist
+```markdown
+## Pre-Planning Validation ✅/❌
+- [ ] File Brainstorm_[TenDuAn].md exists
+- [ ] Phase 1: Foundation completed ✅
+- [ ] Phase 2: Structure completed ✅  
+- [ ] Phase 3: Advanced Analysis completed ✅
+- [ ] All phases confirmed by user
+- [ ] Problem statement is clear
+- [ ] Target audience identified
+- [ ] Feature priority matrix defined
+- [ ] Technical requirements specified
+- [ ] Competitor analysis completed (min 3 competitors)
+- [ ] Risk assessment completed
+```
+
+## AI Behavior When Planning Requested
+
+### 1. Automatic Validation
+Khi người dùng yêu cầu planning, AI ***BẮT BUỘC*** thực hiện:
+
+```
+1. Check if Brainstorm_[TenDuAn].md exists
+   ❌ → "Chưa có file brainstorm. Cần thực hiện brainstorm trước."
+   
+2. Check Phase 1 completion
+   ❌ → "Phase 1 (Foundation) chưa hoàn thành. Cần hoàn thiện trước."
+   
+3. Check Phase 2 completion  
+   ❌ → "Phase 2 (Structure) chưa hoàn thành. Cần hoàn thiện trước."
+   
+4. Check Phase 3 completion
+   ❌ → "Phase 3 (Advanced Analysis) chưa hoàn thành. Cần hoàn thiện trước."
+   
+5. Check user confirmation
+   ❌ → "Brainstorm chưa được user xác nhận. Cần xác nhận trước."
+   
+✅ All checks passed → Proceed to planning
+```
+
+### 2. Error Messages
+**Khi thiếu file brainstorm:**
+```
+🚫 KHÔNG THỂ BẮT ĐẦU PLANNING
+
+❌ Chưa tìm thấy file Brainstorm_[TenDuAn].md
+❌ Cần thực hiện brainstorm trước khi planning
+
+🔄 Hãy bắt đầu với: "Tôi muốn brainstorm ý tưởng [mô tả ngắn]"
+```
+
+**Khi brainstorm chưa hoàn chỉnh:**
+```
+🚫 BRAINSTORM CHƯA HOÀN THIỆN
+
+Trạng thái hiện tại:
+✅ Phase 1: Foundation - Completed
+❌ Phase 2: Structure - Incomplete  
+❌ Phase 3: Advanced Analysis - Not started
+
+🔄 Cần hoàn thành tất cả phases trước khi planning
+```
+
+## Planning File Structure
+
+### Planning_[TenDuAn].md Template
+```markdown
+# Planning: [Tên Dự Án]
+
+## Reference Documents
+- Brainstorm File: `Brainstorm_[TenDuAn].md`
+- Created: [Date]
+- Based on: Completed brainstorm phases 1-3
+
+## Executive Summary
+### Problem Statement (from Brainstorm)
+[Copy từ brainstorm file]
+
+### Solution Overview
+[High-level solution based on brainstorm]
+
+### Success Metrics
+[Cách đo lường thành công]
+
+## Development Phases
+
+### Phase 1: MVP Development (Cơ bản)
+**Duration:** [Timeline]
+**Goal:** Deliver core functionality for main use cases
+
+#### Features (from Brainstorm Must-Have)
+- [ ] [Feature 1] - [Description] - [Estimate]
+- [ ] [Feature 2] - [Description] - [Estimate]
+
+#### Technical Tasks
+1. **Setup & Architecture**
+   - [ ] Project setup - [Estimate]
+   - [ ] Database schema - [Estimate] 
+   - [ ] Basic authentication - [Estimate]
+
+2. **Core Features**
+   - [ ] [Core feature 1] - [Estimate]
+   - [ ] [Core feature 2] - [Estimate]
+
+3. **Testing & Deployment**
+   - [ ] Unit tests - [Estimate]
+   - [ ] Deployment setup - [Estimate]
+
+#### Deliverables
+- Working MVP with core features
+- Basic documentation
+- Deployment on [platform]
+
+### Phase 2: Enhanced Features (Trung bình)
+**Duration:** [Timeline]
+**Goal:** Add Should-Have features and improve UX
+
+#### Features (from Brainstorm Should-Have)
+- [ ] [Feature 3] - [Description] - [Estimate]
+- [ ] [Feature 4] - [Description] - [Estimate]
+
+#### Technical Improvements
+- [ ] Performance optimization
+- [ ] Enhanced security
+- [ ] Better error handling
+- [ ] Responsive design improvements
+
+### Phase 3: Advanced & Scaling (Nâng cao)
+**Duration:** [Timeline] 
+**Goal:** Scalability, advanced features, and polish
+
+#### Features (from Brainstorm Could-Have)
+- [ ] [Advanced feature 1] - [Estimate]
+- [ ] [Advanced feature 2] - [Estimate]
+
+#### Advanced Technical Tasks
+- [ ] Performance monitoring
+- [ ] Advanced analytics
+- [ ] Third-party integrations
+- [ ] Automated testing pipeline
+
+## Architecture Overview
+### Technology Stack (from Brainstorm)
+- Frontend: [Framework]
+- Backend: [Framework]
+- Database: [Database]
+- Deployment: [Platform]
+
+### System Architecture
+[Diagram hoặc mô tả kiến trúc]
+
+### Data Flow
+[Mô tả luồng dữ liệu chính]
+
+## Risk Management (from Brainstorm)
+### Technical Risks
+1. [Risk 1] - [Likelihood] - [Impact] - [Mitigation]
+2. [Risk 2] - [Likelihood] - [Impact] - [Mitigation]
+
+### Business Risks  
+1. [Risk 1] - [Likelihood] - [Impact] - [Mitigation]
+2. [Risk 2] - [Likelihood] - [Impact] - [Mitigation]
+
+## Resource Requirements
+### Team Structure
+- [Role 1]: [Responsibilities]
+- [Role 2]: [Responsibilities]
+
+### Timeline
+- Phase 1 MVP: [Start date] → [End date]
+- Phase 2 Enhanced: [Start date] → [End date]  
+- Phase 3 Advanced: [Start date] → [End date]
+
+### Budget Estimation
+- Development: [Cost]
+- Infrastructure: [Cost]
+- Third-party services: [Cost]
+
+## Success Criteria
+### Phase 1 (MVP) Success
+- [ ] [Specific measurable goal 1]
+- [ ] [Specific measurable goal 2]
+- [ ] [User adoption target]
+
+### Phase 2 Success
+- [ ] [Enhanced feature adoption]
+- [ ] [Performance improvements]
+- [ ] [User satisfaction metrics]
+
+### Phase 3 Success
+- [ ] [Scalability goals]
+- [ ] [Advanced feature usage]
+- [ ] [Business metrics]
+
+## Next Steps
+1. Review and approve this planning document
+2. Setup development environment
+3. Begin Phase 1 implementation
+4. Regular progress reviews every [timeframe]
+
+## Planning Approval ✅/❌
+- [ ] Planning reviewed by stakeholders
+- [ ] Technical approach approved
+- [ ] Timeline and budget approved
+- [ ] Ready to begin development
+
+## Development Readiness Checklist ✅/❌
+- [ ] Planning document completed and approved
+- [ ] Development environment ready
+- [ ] Team assigned and briefed
+- [ ] First sprint planned
+- [ ] Project management tools setup
+```
+
+## Quality Gates
+
+### Before Starting Phase 1
+- ✅ Planning document 100% complete
+- ✅ Architecture approved
+- ✅ Team ready
+- ✅ Environment setup
+
+### Before Starting Phase 2  
+- ✅ Phase 1 MVP completed and tested
+- ✅ User feedback collected
+- ✅ Performance benchmarks met
+- ✅ Technical debt addressed
+
+### Before Starting Phase 3
+- ✅ Phase 2 features stable
+- ✅ Scalability requirements defined
+- ✅ Advanced architecture planned
+- ✅ Integration strategies confirmed
+
+## AI Development Rules
+
+### When Development is Requested
+AI ***BẮT BUỘC*** kiểm tra:
+1. Planning_[TenDuAn].md exists and is complete
+2. Current phase objectives are clear
+3. Technical specifications are detailed
+4. Acceptance criteria are defined
+
+### Development Process
+1. Reference planning document for requirements
+2. Follow phase-by-phase approach
+3. Complete tasks in specified order
+4. Update progress in planning document
+5. Validate deliverables against success criteria
+
+### Quality Assurance
+- Code must match architectural decisions in planning
+- Features must align with brainstorm requirements  
+- Performance must meet specified benchmarks
+- Testing coverage must meet defined standards

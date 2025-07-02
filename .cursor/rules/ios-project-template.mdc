@@ -1,0 +1,962 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# iOS Project Template
+
+## Project Template Configuration
+
+### Package.swift Setup (Swift Package Manager)
+```swift
+// swift-tools-version: 5.9
+import PackageDescription
+
+let package = Package(
+    name: "YourApp",
+    platforms: [
+        .iOS(.v15)
+    ],
+    products: [
+        .library(
+            name: "YourApp",
+            targets: ["YourApp"]),
+    ],
+    dependencies: [
+        // Dependency Injection - Choose ONE
+        .package(url: "https://github.com/Swinject/Swinject.git", from: "2.8.0"),
+        // OR
+        .package(url: "https://github.com/hmlongco/Factory.git", from: "2.2.0"),
+        
+        // Networking
+        .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.8.0"),
+        
+        // JSON Parsing (if needed beyond Codable)
+        .package(url: "https://github.com/Flight-School/AnyCodable.git", from: "0.6.0"),
+        
+        // Database (if not using Core Data)
+        .package(url: "https://github.com/stephencelis/SQLite.swift.git", from: "0.14.0"),
+        
+        // Image Loading
+        .package(url: "https://github.com/kean/Nuke.git", from: "12.0.0"),
+        
+        // Logging
+        .package(url: "https://github.com/apple/swift-log.git", from: "1.5.0"),
+        
+        // Keychain
+        .package(url: "https://github.com/evgenyneu/keychain-swift.git", from: "20.0.0"),
+        
+        // Lottie (Optional)
+        .package(url: "https://github.com/airbnb/lottie-ios.git", from: "4.3.0"),
+        
+        // Firebase
+        .package(url: "https://github.com/firebase/firebase-ios-sdk.git", from: "10.0.0"),
+    ],
+    targets: [
+        .target(
+            name: "YourApp",
+            dependencies: [
+                "Swinject", // OR "Factory"
+                "Alamofire",
+                "AnyCodable",
+                .product(name: "SQLite", package: "SQLite.swift"),
+                "Nuke",
+                .product(name: "Logging", package: "swift-log"),
+                .product(name: "KeychainSwift", package: "keychain-swift"),
+                .product(name: "Lottie", package: "lottie-ios"),
+                .product(name: "FirebaseAnalytics", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseCrashlytics", package: "firebase-ios-sdk"),
+                .product(name: "FirebasePerformance", package: "firebase-ios-sdk"),
+            ]),
+        .testTarget(
+            name: "YourAppTests",
+            dependencies: ["YourApp"]),
+    ]
+)
+```
+
+### Alternative: Podfile Setup (CocoaPods)
+```ruby
+platform :ios, '15.0'
+use_frameworks!
+
+target 'YourApp' do
+  # Dependency Injection - Choose ONE
+  pod 'Swinject', '~> 2.8'
+  # pod 'Factory', '~> 2.2'
+  
+  # Networking
+  pod 'Alamofire', '~> 5.8'
+  
+  # JSON Parsing
+  pod 'AnyCodable', '~> 0.6'
+  
+  # Database (if not using Core Data)
+  pod 'SQLite.swift', '~> 0.14'
+  
+  # Image Loading
+  pod 'Nuke', '~> 12.0'
+  
+  # Logging
+  pod 'SwiftLog', '~> 1.5'
+  
+  # Keychain
+  pod 'KeychainSwift', '~> 20.0'
+  
+  # Lottie (Optional)
+  pod 'lottie-ios', '~> 4.3'
+  
+  # Firebase
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Crashlytics'
+  pod 'Firebase/Performance'
+  
+  target 'YourAppTests' do
+    inherit! :search_paths
+    # Test specific pods
+  end
+  
+  target 'YourAppUITests' do
+    # UI test specific pods
+  end
+end
+
+post_install do |installer|
+  installer.pods_project.targets.each do |target|
+    target.build_configurations.each do |config|
+      config.build_settings['IPHONEOS_DEPLOYMENT_TARGET'] = '15.0'
+      config.build_settings['ENABLE_BITCODE'] = 'YES'
+    end
+  end
+end
+```
+
+### Build Settings Optimization (Xcode project file)
+```swift
+// Build Settings for Release Configuration
+ENABLE_BITCODE = YES
+SWIFT_COMPILATION_MODE = wholemodule
+SWIFT_OPTIMIZATION_LEVEL = -O
+GCC_OPTIMIZATION_LEVEL = s
+
+// App Thinning & Size Optimization
+ENABLE_ON_DEMAND_RESOURCES = YES
+STRIP_INSTALLED_PRODUCT = YES
+DEPLOYMENT_POSTPROCESSING = YES
+DEAD_CODE_STRIPPING = YES
+
+// Asset Optimization
+COMPRESS_PNG_FILES = YES
+ENABLE_NS_ASSERTIONS = NO
+VALIDATE_PRODUCT = YES
+
+// Swift Compiler Settings (Release only)
+SWIFT_DISABLE_SAFETY_CHECKS = YES
+SWIFT_ENFORCE_EXCLUSIVE_ACCESS = compile-time-only
+
+// Code Signing
+CODE_SIGN_STYLE = Automatic
+DEVELOPMENT_TEAM = YOUR_TEAM_ID
+```
+
+## Project Structure Template
+
+### File Organization
+```
+YourApp/
+├── App/
+│   ├── YourApp.swift           # App entry point
+│   ├── AppDelegate.swift       # App delegate (if needed)
+│   ├── Info.plist             # App configuration
+│   └── GoogleService-Info.plist # Firebase config
+├── Core/
+│   ├── Base/
+│   │   ├── BaseViewModel.swift
+│   │   ├── BaseUseCase.swift
+│   │   └── BaseRepository.swift
+│   ├── DI/
+│   │   ├── DIContainer.swift
+│   │   └── DIModules.swift
+│   ├── Network/
+│   │   ├── NetworkService.swift
+│   │   ├── APIEndpoints.swift
+│   │   ├── NetworkError.swift
+│   │   └── Interceptors/
+│   │       └── LoggingInterceptor.swift
+│   ├── Storage/
+│   │   ├── CoreDataStack.swift
+│   │   ├── KeychainService.swift
+│   │   └── UserDefaultsService.swift
+│   ├── Utils/
+│   │   ├── Logger.swift
+│   │   ├── Constants.swift
+│   │   └── Extensions/
+│   │       ├── View+Extensions.swift
+│   │       ├── String+Extensions.swift
+│   │       └── Date+Extensions.swift
+│   └── Theme/
+│       ├── AppColors.swift
+│       ├── AppFonts.swift
+│       └── AppSpacing.swift
+├── Data/
+│   ├── Models/
+│   │   ├── UserData.swift
+│   │   └── APIResponse.swift
+│   ├── Repositories/
+│   │   └── UserRepositoryImpl.swift
+│   └── DataSources/
+│       ├── Local/
+│       │   └── UserLocalDataSource.swift
+│       └── Remote/
+│           └── UserRemoteDataSource.swift
+├── Domain/
+│   ├── Models/
+│   │   └── User.swift
+│   ├── Repositories/
+│   │   └── UserRepository.swift
+│   └── UseCases/
+│       ├── GetUserUseCase.swift
+│       └── SaveUserUseCase.swift
+├── Presentation/
+│   ├── Components/
+│   │   ├── LoadingView.swift
+│   │   ├── ErrorView.swift
+│   │   └── CustomButton.swift
+│   ├── Navigation/
+│   │   ├── AppCoordinator.swift
+│   │   └── NavigationRouter.swift
+│   └── Screens/
+│       └── UserProfile/
+│           ├── UserProfileView.swift
+│           ├── UserProfileViewModel.swift
+│           └── Components/
+│               └── UserInfoCard.swift
+├── Resources/
+│   ├── Assets.xcassets
+│   ├── Localizable.strings
+│   ├── LaunchScreen.storyboard
+│   └── AppIcon.appiconset
+└── Tests/
+    ├── UnitTests/
+    │   ├── ViewModelTests/
+    │   ├── UseCaseTests/
+    │   └── RepositoryTests/
+    └── UITests/
+        └── UserProfileUITests.swift
+```
+
+## Base Classes Templates
+
+### BaseViewModel.swift
+```swift
+import SwiftUI
+import Combine
+import Logging
+
+@MainActor
+class BaseViewModel: ObservableObject {
+    @Published var isLoading = false
+    @Published var errorMessage: String?
+    @Published var showError = false
+    
+    private var cancellables = Set<AnyCancellable>()
+    private let logger = Logger(label: "BaseViewModel")
+    
+    deinit {
+        cancellables.removeAll()
+    }
+    
+    func handleError(_ error: Error) {
+        isLoading = false
+        errorMessage = error.localizedDescription
+        showError = true
+        logger.error("\(String(describing: type(of: self))): \(error)")
+    }
+    
+    func handleLoading(_ loading: Bool = true) {
+        isLoading = loading
+        if loading {
+            errorMessage = nil
+            showError = false
+        }
+    }
+    
+    func clearError() {
+        errorMessage = nil
+        showError = false
+    }
+}
+```
+
+### BaseUseCase.swift
+```swift
+import Foundation
+import Logging
+
+protocol BaseUseCase {
+    associatedtype Parameters
+    associatedtype ReturnType
+    
+    func execute(parameters: Parameters) async throws -> ReturnType
+}
+
+extension BaseUseCase {
+    private var logger: Logger {
+        Logger(label: String(describing: type(of: self)))
+    }
+    
+    func callAsFunction(parameters: Parameters) async -> Result<ReturnType, Error> {
+        do {
+            let result = try await execute(parameters: parameters)
+            logger.info("UseCase \(String(describing: type(of: self))) succeeded")
+            return .success(result)
+        } catch {
+            logger.error("UseCase \(String(describing: type(of: self))) failed: \(error)")
+            return .failure(error)
+        }
+    }
+}
+
+// For use cases without parameters
+protocol BaseUseCaseNoParams {
+    associatedtype ReturnType
+    
+    func execute() async throws -> ReturnType
+}
+
+extension BaseUseCaseNoParams {
+    private var logger: Logger {
+        Logger(label: String(describing: type(of: self)))
+    }
+    
+    func callAsFunction() async -> Result<ReturnType, Error> {
+        do {
+            let result = try await execute()
+            logger.info("UseCase \(String(describing: type(of: self))) succeeded")
+            return .success(result)
+        } catch {
+            logger.error("UseCase \(String(describing: type(of: self))) failed: \(error)")
+            return .failure(error)
+        }
+    }
+}
+```
+
+### BaseRepository.swift
+```swift
+import Foundation
+import Logging
+
+protocol BaseRepository {
+    func handleNetworkCall<T>(_ call: () async throws -> T) async -> Result<T, Error>
+    func handleDatabaseCall<T>(_ call: () async throws -> T) async -> Result<T, Error>
+}
+
+extension BaseRepository {
+    private var logger: Logger {
+        Logger(label: String(describing: type(of: self)))
+    }
+    
+    func handleNetworkCall<T>(_ call: () async throws -> T) async -> Result<T, Error> {
+        do {
+            let result = try await call()
+            logger.info("Network call succeeded in \(String(describing: type(of: self)))")
+            return .success(result)
+        } catch {
+            logger.error("Network call failed in \(String(describing: type(of: self))): \(error)")
+            return .failure(error)
+        }
+    }
+    
+    func handleDatabaseCall<T>(_ call: () async throws -> T) async -> Result<T, Error> {
+        do {
+            let result = try await call()
+            logger.info("Database call succeeded in \(String(describing: type(of: self)))")
+            return .success(result)
+        } catch {
+            logger.error("Database call failed in \(String(describing: type(of: self))): \(error)")
+            return .failure(error)
+        }
+    }
+}
+```
+
+## Application Setup Template
+
+### YourApp.swift
+```swift
+import SwiftUI
+import Firebase
+import FirebaseCrashlytics
+import FirebasePerformance
+import Logging
+
+@main
+struct YourApp: App {
+    @StateObject private var appCoordinator = AppCoordinator()
+    
+    init() {
+        setupDependencies()
+        setupFirebase()
+        setupLogging()
+    }
+    
+    var body: some Scene {
+        WindowGroup {
+            appCoordinator.start()
+                .onAppear {
+                    Analytics.logEvent("app_opened", parameters: nil)
+                }
+                .environmentObject(appCoordinator)
+        }
+    }
+    
+    private func setupDependencies() {
+        DIContainer.shared.registerDependencies()
+    }
+    
+    private func setupFirebase() {
+        FirebaseApp.configure()
+        
+        #if DEBUG
+        Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(false)
+        Performance.sharedInstance().isDataCollectionEnabled = false
+        #else
+        Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
+        Performance.sharedInstance().isDataCollectionEnabled = true
+        #endif
+        
+        // Set user identifier for crash reporting
+        Crashlytics.crashlytics().setUserID("user_id_here")
+    }
+    
+    private func setupLogging() {
+        #if DEBUG
+        LoggingSystem.bootstrap { label in
+            var handler = StreamLogHandler.standardOutput(label: label)
+            handler.logLevel = .debug
+            return handler
+        }
+        #else
+        LoggingSystem.bootstrap { label in
+            var handler = StreamLogHandler.standardOutput(label: label)
+            handler.logLevel = .warning
+            return handler
+        }
+        #endif
+    }
+}
+```
+
+### DIContainer.swift (Using Swinject)
+```swift
+import Foundation
+import Swinject
+
+class DIContainer {
+    static let shared = DIContainer()
+    private let container = Container()
+    
+    private init() {}
+    
+    func registerDependencies() {
+        registerNetworking()
+        registerDataSources()
+        registerRepositories()
+        registerUseCases()
+        registerViewModels()
+    }
+    
+    // MARK: - Networking
+    private func registerNetworking() {
+        container.register(NetworkService.self) { _ in
+            NetworkService()
+        }.inObjectScope(.container)
+        
+        container.register(APIEndpoints.self) { _ in
+            APIEndpoints()
+        }.inObjectScope(.container)
+    }
+    
+    // MARK: - Data Sources
+    private func registerDataSources() {
+        container.register(UserLocalDataSource.self) { _ in
+            UserLocalDataSource()
+        }.inObjectScope(.container)
+        
+        container.register(UserRemoteDataSource.self) { resolver in
+            UserRemoteDataSource(networkService: resolver.resolve(NetworkService.self)!)
+        }.inObjectScope(.container)
+    }
+    
+    // MARK: - Repositories
+    private func registerRepositories() {
+        container.register(UserRepository.self) { resolver in
+            UserRepositoryImpl(
+                localDataSource: resolver.resolve(UserLocalDataSource.self)!,
+                remoteDataSource: resolver.resolve(UserRemoteDataSource.self)!
+            )
+        }.inObjectScope(.container)
+    }
+    
+    // MARK: - Use Cases
+    private func registerUseCases() {
+        container.register(GetUserUseCase.self) { resolver in
+            GetUserUseCase(repository: resolver.resolve(UserRepository.self)!)
+        }
+        
+        container.register(SaveUserUseCase.self) { resolver in
+            SaveUserUseCase(repository: resolver.resolve(UserRepository.self)!)
+        }
+    }
+    
+    // MARK: - ViewModels
+    private func registerViewModels() {
+        container.register(UserProfileViewModel.self) { resolver in
+            UserProfileViewModel(
+                getUserUseCase: resolver.resolve(GetUserUseCase.self)!,
+                saveUserUseCase: resolver.resolve(SaveUserUseCase.self)!
+            )
+        }
+    }
+    
+    // MARK: - Resolver
+    func resolve<T>(_ type: T.Type) -> T? {
+        return container.resolve(type)
+    }
+}
+```
+
+## Error Handling Template
+
+### AppError.swift
+```swift
+import Foundation
+
+enum AppError: LocalizedError, Equatable {
+    case networkError(NetworkError)
+    case dataError(String)
+    case validationError(String)
+    case cacheError(String)
+    case unknownError
+    
+    var errorDescription: String? {
+        switch self {
+        case .networkError(let networkError):
+            return networkError.errorDescription
+        case .dataError(let message):
+            return "Data Error: \(message)"
+        case .validationError(let message):
+            return "Validation Error: \(message)"
+        case .cacheError(let message):
+            return "Cache Error: \(message)"
+        case .unknownError:
+            return "An unknown error occurred"
+        }
+    }
+    
+    var recoverySuggestion: String? {
+        switch self {
+        case .networkError:
+            return "Please check your internet connection and try again."
+        case .dataError:
+            return "Please try refreshing the data."
+        case .validationError:
+            return "Please check your input and try again."
+        case .cacheError:
+            return "Please clear the app cache and try again."
+        case .unknownError:
+            return "Please restart the app and try again."
+        }
+    }
+}
+
+enum NetworkError: LocalizedError, Equatable {
+    case noInternetConnection
+    case serverError(Int)
+    case timeout
+    case decodingError
+    case invalidURL
+    case unauthorized
+    case forbidden
+    case notFound
+    
+    var errorDescription: String? {
+        switch self {
+        case .noInternetConnection:
+            return "No internet connection"
+        case .serverError(let code):
+            return "Server error (Code: \(code))"
+        case .timeout:
+            return "Request timeout"
+        case .decodingError:
+            return "Data parsing error"
+        case .invalidURL:
+            return "Invalid URL"
+        case .unauthorized:
+            return "Unauthorized access"
+        case .forbidden:
+            return "Access forbidden"
+        case .notFound:
+            return "Resource not found"
+        }
+    }
+}
+```
+
+## Testing Templates
+
+### ViewModelTests.swift
+```swift
+import XCTest
+import Combine
+@testable import YourApp
+
+@MainActor
+final class UserProfileViewModelTests: XCTestCase {
+    var viewModel: UserProfileViewModel!
+    var mockGetUserUseCase: MockGetUserUseCase!
+    var mockSaveUserUseCase: MockSaveUserUseCase!
+    var cancellables: Set<AnyCancellable>!
+    
+    override func setUpWithError() throws {
+        mockGetUserUseCase = MockGetUserUseCase()
+        mockSaveUserUseCase = MockSaveUserUseCase()
+        viewModel = UserProfileViewModel(
+            getUserUseCase: mockGetUserUseCase,
+            saveUserUseCase: mockSaveUserUseCase
+        )
+        cancellables = Set<AnyCancellable>()
+    }
+    
+    override func tearDownWithError() throws {
+        viewModel = nil
+        mockGetUserUseCase = nil
+        mockSaveUserUseCase = nil
+        cancellables = nil
+    }
+    
+    func testLoadUser_Success_UpdatesState() async {
+        // Given
+        let expectedUser = User(id: "1", name: "John Doe", email: "john@example.com")
+        mockGetUserUseCase.mockResult = .success(expectedUser)
+        
+        // When
+        viewModel.loadUser(id: "1")
+        
+        // Wait for async operation
+        try await Task.sleep(nanoseconds: 100_000_000)
+        
+        // Then
+        XCTAssertEqual(viewModel.user, expectedUser)
+        XCTAssertEqual(viewModel.userState, .loaded(expectedUser))
+        XCTAssertFalse(viewModel.isLoading)
+        XCTAssertFalse(viewModel.showError)
+    }
+    
+    func testLoadUser_Failure_ShowsError() async {
+        // Given
+        let expectedError = AppError.networkError(.noInternetConnection)
+        mockGetUserUseCase.mockResult = .failure(expectedError)
+        
+        // When
+        viewModel.loadUser(id: "1")
+        
+        // Wait for async operation
+        try await Task.sleep(nanoseconds: 100_000_000)
+        
+        // Then
+        XCTAssertNil(viewModel.user)
+        XCTAssertEqual(viewModel.userState, .error(expectedError.localizedDescription))
+        XCTAssertFalse(viewModel.isLoading)
+        XCTAssertTrue(viewModel.showError)
+        XCTAssertEqual(viewModel.errorMessage, expectedError.localizedDescription)
+    }
+}
+
+// MARK: - Mock Objects
+class MockGetUserUseCase: BaseUseCase {
+    var mockResult: Result<User, Error> = .failure(AppError.unknownError)
+    
+    func execute(parameters: String) async throws -> User {
+        switch mockResult {
+        case .success(let user):
+            return user
+        case .failure(let error):
+            throw error
+        }
+    }
+}
+
+class MockSaveUserUseCase: BaseUseCase {
+    var mockResult: Result<Void, Error> = .success(())
+    
+    func execute(parameters: User) async throws {
+        switch mockResult {
+        case .success:
+            return
+        case .failure(let error):
+            throw error
+        }
+    }
+}
+```
+
+## CI/CD GitHub Actions Template
+
+### .github/workflows/ios.yml
+```yaml
+name: iOS CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Run Tests
+    runs-on: macos-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Select Xcode
+      run: sudo xcode-select -switch /Applications/Xcode_15.0.app/Contents/Developer
+      
+    - name: Cache CocoaPods
+      uses: actions/cache@v3
+      with:
+        path: Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pods-
+          
+    - name: Install CocoaPods
+      run: |
+        gem install cocoapods
+        pod install --repo-update
+        
+    - name: Run Unit Tests
+      run: |
+        xcodebuild test \
+          -workspace YourApp.xcworkspace \
+          -scheme YourApp \
+          -destination 'platform=iOS Simulator,name=iPhone 15,OS=17.0' \
+          -resultBundlePath TestResults \
+          CODE_SIGNING_REQUIRED=NO
+          
+    - name: Upload test results
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: test-results
+        path: TestResults.xcresult
+        
+  build:
+    name: Build Archive
+    runs-on: macos-latest
+    needs: test
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Select Xcode
+      run: sudo xcode-select -switch /Applications/Xcode_15.0.app/Contents/Developer
+      
+    - name: Cache CocoaPods
+      uses: actions/cache@v3
+      with:
+        path: Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('**/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pods-
+          
+    - name: Install CocoaPods
+      run: |
+        gem install cocoapods
+        pod install --repo-update
+        
+    - name: Build Archive
+      run: |
+        xcodebuild archive \
+          -workspace YourApp.xcworkspace \
+          -scheme YourApp \
+          -configuration Release \
+          -destination 'generic/platform=iOS' \
+          -archivePath YourApp.xcarchive \
+          CODE_SIGNING_REQUIRED=NO
+          
+    - name: Analyze App Size
+      run: |
+        # Extract and analyze the .app bundle size
+        APP_SIZE=$(du -sm YourApp.xcarchive/Products/Applications/YourApp.app | cut -f1)
+        echo "App Size: ${APP_SIZE} MB"
+        
+        # Set size limit (in MB)
+        MAX_SIZE=100
+        
+        if [ $APP_SIZE -gt $MAX_SIZE ]; then
+          echo "Warning: App size (${APP_SIZE} MB) exceeds limit (${MAX_SIZE} MB)"
+          exit 1
+        fi
+```
+
+## Performance Monitoring Setup
+
+### NetworkService.swift với Performance Tracking
+```swift
+import Foundation
+import Alamofire
+import FirebasePerformance
+import Logging
+
+class NetworkService {
+    private let session: Session
+    private let logger = Logger(label: "NetworkService")
+    
+    init() {
+        let configuration = URLSessionConfiguration.default
+        configuration.timeoutIntervalForRequest = 30
+        configuration.timeoutIntervalForResource = 60
+        
+        self.session = Session(configuration: configuration)
+    }
+    
+    func request<T: Codable>(
+        endpoint: APIEndpoint,
+        responseType: T.Type
+    ) async throws -> T {
+        let trace = Performance.startTrace(name: "network_request")
+        trace?.setValue(endpoint.path, forAttribute: "endpoint")
+        trace?.setValue(endpoint.method.rawValue, forAttribute: "method")
+        
+        defer {
+            trace?.stop()
+        }
+        
+        do {
+            let response = try await session.request(
+                endpoint.url,
+                method: HTTPMethod(rawValue: endpoint.method.rawValue) ?? .get,
+                parameters: endpoint.parameters,
+                encoding: endpoint.encoding,
+                headers: endpoint.headers
+            )
+            .validate()
+            .serializingDecodable(T.self)
+            .value
+            
+            trace?.setValue("success", forAttribute: "result")
+            logger.info("Network request succeeded for \(endpoint.path)")
+            
+            return response
+        } catch {
+            trace?.setValue("failure", forAttribute: "result")
+            trace?.setValue(error.localizedDescription, forAttribute: "error")
+            logger.error("Network request failed for \(endpoint.path): \(error)")
+            
+            throw mapError(error)
+        }
+    }
+    
+    private func mapError(_ error: Error) -> AppError {
+        if let afError = error as? AFError {
+            switch afError {
+            case .sessionTaskFailed(let error as URLError):
+                switch error.code {
+                case .notConnectedToInternet, .networkConnectionLost:
+                    return .networkError(.noInternetConnection)
+                case .timedOut:
+                    return .networkError(.timeout)
+                default:
+                    return .networkError(.serverError(error.errorCode))
+                }
+            case .responseValidationFailed(let reason):
+                switch reason {
+                case .unacceptableStatusCode(let code):
+                    return .networkError(.serverError(code))
+                default:
+                    return .networkError(.serverError(0))
+                }
+            default:
+                return .networkError(.serverError(0))
+            }
+        }
+        
+        return .unknownError
+    }
+}
+```
+
+## Automated App Size Monitoring
+
+### size-check.sh Script
+```bash
+#!/bin/bash
+
+# App size checking script
+APP_PATH="$1"
+MAX_SIZE_MB="$2"
+
+if [ -z "$APP_PATH" ] || [ -z "$MAX_SIZE_MB" ]; then
+    echo "Usage: $0 <app_path> <max_size_mb>"
+    exit 1
+fi
+
+if [ ! -d "$APP_PATH" ]; then
+    echo "Error: App path does not exist: $APP_PATH"
+    exit 1
+fi
+
+# Get app size in MB
+APP_SIZE_BYTES=$(du -sb "$APP_PATH" | cut -f1)
+APP_SIZE_MB=$((APP_SIZE_BYTES / 1024 / 1024))
+
+echo "App Size: ${APP_SIZE_MB} MB"
+echo "Max Size: ${MAX_SIZE_MB} MB"
+
+if [ $APP_SIZE_MB -gt $MAX_SIZE_MB ]; then
+    echo "❌ Error: App size (${APP_SIZE_MB} MB) exceeds limit (${MAX_SIZE_MB} MB)"
+    exit 1
+else
+    echo "✅ Success: App size is within limits"
+    exit 0
+fi
+```
+
+## Xcode Build Phase Scripts
+
+### Build Phase: Check App Size
+```bash
+# Add this as a "Run Script" build phase in Xcode
+
+if [ "${CONFIGURATION}" = "Release" ]; then
+    APP_PATH="${BUILT_PRODUCTS_DIR}/${PRODUCT_NAME}.app"
+    MAX_SIZE_MB=100
+    
+    if [ -d "$APP_PATH" ]; then
+        APP_SIZE_BYTES=$(du -sb "$APP_PATH" | cut -f1)
+        APP_SIZE_MB=$((APP_SIZE_BYTES / 1024 / 1024))
+        
+        echo "App Size: ${APP_SIZE_MB} MB"
+        
+        if [ $APP_SIZE_MB -gt $MAX_SIZE_MB ]; then
+            echo "error: App size (${APP_SIZE_MB} MB) exceeds limit (${MAX_SIZE_MB} MB)"
+            exit 1
+        fi
+    fi
+fi
+```
+
+### Build Phase: Swift Lint (Optional)
+```bash
+# Add SwiftLint to maintain code quality
+
+if which swiftlint >/dev/null; then
+    swiftlint
+else
+    echo "warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint"
+fi
+```

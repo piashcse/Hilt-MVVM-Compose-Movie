@@ -1,0 +1,532 @@
+---
+description: Planning Enhancement Module - Tăng cường hệ thống planning với AI suggestions và auto-compliance
+globs: "*.*"
+alwaysApply: true
+---
+
+# Planning Enhancement Module
+
+## Core Integration với Planning System
+
+### Enhanced Planning Enforcement
+```
+Original Flow: User Request → Check Plan Exists → Block if Missing
+Enhanced Flow: User Request → Check Plan Exists → Auto-Generate Plan Draft → Present Suggestions → User Approval → Execute
+```
+
+### Auto-Plan Generation Trigger
+```yaml
+trigger_conditions:
+  - large_feature_request: true
+  - missing_planning_file: true
+  - complex_modification: true
+  - multi_file_changes: true
+  - architectural_changes: true
+
+auto_actions:
+  - generate_plan_draft: true
+  - suggest_related_features: true
+  - estimate_complexity: true
+  - recommend_testing_strategy: true
+  - propose_implementation_phases: true
+```
+
+## Enhanced Planning Workflow
+
+### 1. Request Analysis Phase
+```python
+def analyze_user_request(request, project_context):
+    analysis = {
+        'complexity_level': assess_complexity(request),
+        'scope_size': estimate_scope(request),
+        'feature_type': classify_feature(request),
+        'dependencies': identify_dependencies(request, project_context),
+        'risks': assess_risks(request, project_context),
+        'effort_estimate': estimate_effort(request)
+    }
+    
+    # Determine if planning is required
+    requires_planning = (
+        analysis['complexity_level'] >= 'medium' or
+        analysis['scope_size'] >= 'large' or
+        len(analysis['dependencies']) > 2 or
+        analysis['risks']['level'] >= 'medium'
+    )
+    
+    return analysis, requires_planning
+```
+
+### 2. Auto-Plan Draft Generation
+```python
+def generate_plan_draft(request, analysis, project_context):
+    plan_template = select_plan_template(analysis['feature_type'])
+    
+    # Generate core sections
+    plan_draft = {
+        'project_overview': generate_overview(request, analysis),
+        'problem_statement': extract_problem_statement(request),
+        'proposed_solution': generate_solution_outline(request, analysis),
+        'technical_approach': suggest_technical_approach(request, project_context),
+        'implementation_phases': generate_phases(analysis),
+        'testing_strategy': suggest_testing_approach(analysis),
+        'risk_assessment': analysis['risks'],
+        'success_metrics': suggest_success_metrics(request, analysis),
+        'timeline_estimate': generate_timeline(analysis)
+    }
+    
+    # Enhance với feature suggestions
+    related_features = get_feature_suggestions(request, project_context)
+    plan_draft['suggested_enhancements'] = related_features
+    
+    return plan_draft
+```
+
+### 3. Interactive Plan Refinement
+```python
+def present_plan_for_refinement(plan_draft, suggestions):
+    presentation = {
+        'plan_summary': format_plan_summary(plan_draft),
+        'key_decisions': extract_key_decisions(plan_draft),
+        'suggested_additions': format_suggestions(suggestions),
+        'customization_options': generate_customization_options(plan_draft),
+        'approval_checklist': generate_approval_checklist(plan_draft)
+    }
+    
+    return presentation
+```
+
+## Plan Template System
+
+### Feature Addition Template
+```markdown
+# Planning: {feature_name}
+
+## Project Overview
+- **Feature**: {feature_description}
+- **Type**: {feature_type}
+- **Complexity**: {complexity_level}
+- **Estimated Effort**: {effort_estimate}
+
+## Problem Statement
+{problem_description}
+
+## Proposed Solution
+{solution_overview}
+
+### Core Components
+{core_components_list}
+
+### Technical Approach
+{technical_approach_details}
+
+## Suggested Related Features
+{ai_generated_suggestions}
+
+## Implementation Phases
+
+### Phase 1: Foundation
+{phase_1_details}
+
+### Phase 2: Core Implementation
+{phase_2_details}
+
+### Phase 3: Enhancement
+{phase_3_details}
+
+## Testing Strategy
+{testing_approach}
+
+## Risk Assessment
+{risk_analysis}
+
+## Success Metrics
+{success_criteria}
+
+## Timeline
+{timeline_estimate}
+
+## Dependencies
+{dependency_list}
+
+## Approval Checklist
+- [ ] Technical approach validated
+- [ ] Dependencies identified
+- [ ] Testing strategy defined
+- [ ] Timeline realistic
+- [ ] Risks assessed
+- [ ] Success metrics clear
+```
+
+### Refactoring Template
+```markdown
+# Planning: {refactoring_scope}
+
+## Refactoring Overview
+- **Scope**: {refactoring_scope}
+- **Target**: {target_components}
+- **Reason**: {refactoring_reason}
+- **Impact Level**: {impact_assessment}
+
+## Current State Analysis
+{current_state_description}
+
+## Target State
+{target_state_description}
+
+## Refactoring Strategy
+{refactoring_approach}
+
+## Suggested Improvements
+{ai_suggested_improvements}
+
+## Migration Plan
+
+### Phase 1: Preparation
+{preparation_steps}
+
+### Phase 2: Core Refactoring
+{refactoring_steps}
+
+### Phase 3: Validation
+{validation_steps}
+
+## Backward Compatibility
+{compatibility_strategy}
+
+## Testing Strategy
+{testing_approach}
+
+## Rollback Plan
+{rollback_strategy}
+
+## Success Metrics
+{success_criteria}
+```
+
+### Bug Fix Template
+```markdown
+# Planning: {bug_description}
+
+## Bug Analysis
+- **Severity**: {bug_severity}
+- **Impact**: {bug_impact}
+- **Root Cause**: {root_cause_analysis}
+- **Affected Components**: {affected_components}
+
+## Proposed Fix
+{fix_description}
+
+## Suggested Preventive Measures
+{ai_suggested_preventions}
+
+## Implementation Plan
+{implementation_steps}
+
+## Testing Strategy
+{testing_approach}
+
+## Verification Plan
+{verification_steps}
+
+## Monitoring
+{monitoring_strategy}
+```
+
+## Intelligent Plan Enhancement
+
+### Context-Aware Suggestions
+```python
+def enhance_plan_with_context(plan_draft, project_context):
+    enhancements = []
+    
+    # Analyze project maturity
+    if project_context.maturity == 'early':
+        enhancements.extend(suggest_mvp_considerations(plan_draft))
+    elif project_context.maturity == 'growth':
+        enhancements.extend(suggest_scalability_considerations(plan_draft))
+    
+    # Analyze tech stack
+    tech_suggestions = suggest_tech_stack_optimizations(plan_draft, project_context.tech_stack)
+    enhancements.extend(tech_suggestions)
+    
+    # Analyze team capabilities
+    team_suggestions = suggest_team_considerations(plan_draft, project_context.team_skills)
+    enhancements.extend(team_suggestions)
+    
+    # Analyze business context
+    business_suggestions = suggest_business_considerations(plan_draft, project_context.business_goals)
+    enhancements.extend(business_suggestions)
+    
+    return enhancements
+```
+
+### Risk-Aware Planning
+```python
+def assess_and_mitigate_risks(plan_draft, project_context):
+    risks = []
+    
+    # Technical risks
+    tech_risks = assess_technical_risks(plan_draft, project_context)
+    risks.extend(tech_risks)
+    
+    # Timeline risks
+    timeline_risks = assess_timeline_risks(plan_draft)
+    risks.extend(timeline_risks)
+    
+    # Dependency risks
+    dependency_risks = assess_dependency_risks(plan_draft, project_context)
+    risks.extend(dependency_risks)
+    
+    # Resource risks
+    resource_risks = assess_resource_risks(plan_draft, project_context)
+    risks.extend(resource_risks)
+    
+    # Generate mitigation strategies
+    mitigation_strategies = generate_mitigation_strategies(risks)
+    
+    return risks, mitigation_strategies
+```
+
+### Quality Assurance Integration
+```python
+def suggest_qa_strategy(plan_draft, project_context):
+    qa_strategy = {
+        'testing_levels': determine_testing_levels(plan_draft),
+        'automation_opportunities': identify_automation_opportunities(plan_draft),
+        'performance_considerations': assess_performance_needs(plan_draft),
+        'security_requirements': assess_security_needs(plan_draft),
+        'accessibility_requirements': assess_accessibility_needs(plan_draft),
+        'monitoring_strategy': suggest_monitoring_approach(plan_draft)
+    }
+    
+    return qa_strategy
+```
+
+## Plan Compliance Monitoring
+
+### Real-time Compliance Check
+```python
+def check_plan_compliance(current_action, active_plan):
+    compliance_status = {
+        'is_compliant': True,
+        'deviations': [],
+        'recommendations': []
+    }
+    
+    # Check if action aligns với plan
+    if not action_in_plan(current_action, active_plan):
+        compliance_status['is_compliant'] = False
+        compliance_status['deviations'].append({
+            'type': 'unplanned_action',
+            'action': current_action,
+            'suggestion': 'Update plan to include this action or reconsider approach'
+        })
+    
+    # Check if prerequisites are met
+    missing_prerequisites = check_prerequisites(current_action, active_plan)
+    if missing_prerequisites:
+        compliance_status['is_compliant'] = False
+        compliance_status['deviations'].append({
+            'type': 'missing_prerequisites',
+            'missing': missing_prerequisites,
+            'suggestion': 'Complete prerequisite tasks first'
+        })
+    
+    # Suggest plan updates if needed
+    if not compliance_status['is_compliant']:
+        plan_updates = suggest_plan_updates(current_action, active_plan)
+        compliance_status['recommendations'].extend(plan_updates)
+    
+    return compliance_status
+```
+
+### Plan Progress Tracking
+```python
+def track_plan_progress(active_plan, completed_actions):
+    progress = {
+        'overall_completion': 0,
+        'phase_completion': {},
+        'milestone_status': {},
+        'timeline_adherence': 'on_track',
+        'risk_status': 'low',
+        'next_actions': []
+    }
+    
+    # Calculate completion percentages
+    total_tasks = count_plan_tasks(active_plan)
+    completed_tasks = count_completed_tasks(completed_actions, active_plan)
+    progress['overall_completion'] = (completed_tasks / total_tasks) * 100
+    
+    # Track phase completion
+    for phase in active_plan.phases:
+        phase_progress = calculate_phase_progress(phase, completed_actions)
+        progress['phase_completion'][phase.name] = phase_progress
+    
+    # Check timeline adherence
+    timeline_status = check_timeline_adherence(active_plan, completed_actions)
+    progress['timeline_adherence'] = timeline_status
+    
+    # Assess current risks
+    current_risks = assess_current_risks(active_plan, progress)
+    progress['risk_status'] = current_risks
+    
+    # Suggest next actions
+    next_actions = suggest_next_actions(active_plan, progress)
+    progress['next_actions'] = next_actions
+    
+    return progress
+```
+
+## Integration với Existing Workflows
+
+### Brainstorm Workflow Integration
+```python
+def integrate_with_brainstorm(brainstorm_results, project_context):
+    # Convert brainstorm results to structured plan
+    structured_ideas = structure_brainstorm_ideas(brainstorm_results)
+    
+    # Generate implementation plan
+    implementation_plan = generate_implementation_plan(structured_ideas, project_context)
+    
+    # Add feature suggestions
+    related_features = suggest_related_features(structured_ideas, project_context)
+    implementation_plan['suggested_additions'] = related_features
+    
+    # Create comprehensive plan
+    comprehensive_plan = create_comprehensive_plan(implementation_plan, structured_ideas)
+    
+    return comprehensive_plan
+```
+
+### Context7 Workflow Integration
+```python
+def integrate_with_context7(plan_draft, project_context):
+    # Get best practices cho planned features
+    best_practices = []
+    for feature in plan_draft.features:
+        practices = context7_get_best_practices(feature, project_context.tech_stack)
+        best_practices.extend(practices)
+    
+    # Update plan với best practices
+    enhanced_plan = incorporate_best_practices(plan_draft, best_practices)
+    
+    # Add implementation guides
+    implementation_guides = generate_implementation_guides(enhanced_plan, best_practices)
+    enhanced_plan['implementation_guides'] = implementation_guides
+    
+    return enhanced_plan
+```
+
+## User Interaction Patterns
+
+### Plan Approval Flow
+```
+1. Present Auto-Generated Plan
+   ├── Show plan summary
+   ├── Highlight key decisions
+   ├── Present suggested additions
+   └── Request user feedback
+
+2. Collect User Input
+   ├── Plan modifications
+   ├── Feature selections
+   ├── Priority adjustments
+   └── Timeline preferences
+
+3. Refine Plan
+   ├── Apply user modifications
+   ├── Recalculate estimates
+   ├── Update dependencies
+   └── Validate consistency
+
+4. Final Approval
+   ├── Present refined plan
+   ├── Confirm understanding
+   ├── Get explicit approval
+   └── Save approved plan
+```
+
+### Interactive Plan Modification
+```python
+def handle_plan_modification_request(modification_request, current_plan):
+    # Parse modification request
+    modification_type = classify_modification(modification_request)
+    
+    if modification_type == 'add_feature':
+        updated_plan = add_feature_to_plan(modification_request, current_plan)
+    elif modification_type == 'remove_feature':
+        updated_plan = remove_feature_from_plan(modification_request, current_plan)
+    elif modification_type == 'modify_timeline':
+        updated_plan = modify_plan_timeline(modification_request, current_plan)
+    elif modification_type == 'change_approach':
+        updated_plan = change_technical_approach(modification_request, current_plan)
+    
+    # Validate updated plan
+    validation_result = validate_plan_consistency(updated_plan)
+    
+    if validation_result.is_valid:
+        return updated_plan
+    else:
+        return suggest_plan_fixes(updated_plan, validation_result.issues)
+```
+
+## Performance và Optimization
+
+### Plan Generation Optimization
+```python
+class PlanGenerationOptimizer:
+    def __init__(self):
+        self.template_cache = {}
+        self.suggestion_cache = {}
+        self.analysis_cache = {}
+    
+    def optimize_plan_generation(self, request, project_context):
+        # Use cached analysis if available
+        cache_key = generate_cache_key(request, project_context)
+        
+        if cache_key in self.analysis_cache:
+            analysis = self.analysis_cache[cache_key]
+        else:
+            analysis = analyze_user_request(request, project_context)
+            self.analysis_cache[cache_key] = analysis
+        
+        # Generate plan using optimized templates
+        plan_draft = self.generate_optimized_plan(request, analysis, project_context)
+        
+        return plan_draft
+    
+    def generate_optimized_plan(self, request, analysis, project_context):
+        # Use pre-compiled templates
+        template = self.get_cached_template(analysis['feature_type'])
+        
+        # Generate plan sections in parallel
+        plan_sections = self.generate_sections_parallel(request, analysis, project_context)
+        
+        # Combine sections
+        plan_draft = self.combine_plan_sections(template, plan_sections)
+        
+        return plan_draft
+```
+
+### Memory Management
+```python
+def manage_plan_memory():
+    # Clean old cached plans
+    cleanup_old_plans(max_age_days=30)
+    
+    # Compress inactive plans
+    compress_inactive_plans()
+    
+    # Archive completed plans
+    archive_completed_plans()
+    
+    # Optimize plan storage
+    optimize_plan_storage()
+```
+
+---
+
+**Module Status**: 🚀 Production Ready
+**Integration**: Planning Enforcement, Feature Suggestions, Context7
+**Features**: Auto-plan generation, Real-time compliance, Progress tracking
+**Performance**: Optimized với caching và parallel processing

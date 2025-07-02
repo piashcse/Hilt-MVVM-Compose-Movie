@@ -1,0 +1,173 @@
+---
+description: Quy tắc sử dụng Supabase MCP trong workflow
+globs: *.ts,*.js,*.tsx,*.jsx,*.sql
+alwaysApply: false
+---
+
+## Nguyên Tắc Cơ Bản
+- ***BẮT BUỘC*** cài đặt và sử dụng Supabase MCP trong chế độ nhà phát triển
+- ***BẮT BUỘC*** kiểm tra và cấu hình file `.env` trước khi làm việc với dự án Supabase
+- ***BẮT BUỘC*** sử dụng MCP để kiểm tra mọi thay đổi liên quan đến database
+- ***BẮT BUỘC*** tránh tạo quá nhiều database test không cần thiết
+- ***KHUYẾN NGHỊ*** làm quen với API của MCP trước khi sử dụng
+- ***KHUYẾN NGHỊ*** sử dụng MCP để kiểm tra queries, RLS và functions
+
+## Cài Đặt Supabase MCP
+
+### Cài Đặt MCP Server
+```bash
+# Cài đặt Supabase MCP global
+npm install -g @supabase/mcp-server-postgrest
+```
+
+### Cấu Hình Dự Án
+- Tạo file `.env` chứa các thông tin kết nối Supabase:
+```
+SUPABASE_URL=https://your-project-url.supabase.co
+SUPABASE_ANON_KEY=your-anon-key
+SUPABASE_SERVICE_ROLE_KEY=your-service-role-key
+```
+
+- Nếu sử dụng TypeScript, tạo file `types/supabase.ts` để định nghĩa types:
+```typescript
+export type Json =
+  | string
+  | number
+  | boolean
+  | null
+  | { [key: string]: Json | undefined }
+  | Json[]
+
+// Định nghĩa các types từ database schema
+export interface Database {
+  // các định nghĩa bảng
+}
+```
+
+## Kiểm Tra Cấu Hình .env
+
+- ***BẮT BUỘC*** kiểm tra sự tồn tại của file `.env` trước khi làm việc:
+```bash
+if [ ! -f .env ]; then
+  echo "File .env không tồn tại. Vui lòng tạo file .env với các biến môi trường Supabase."
+  exit 1
+fi
+```
+
+- ***BẮT BUỘC*** kiểm tra các biến môi trường cần thiết:
+```bash
+if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_ANON_KEY" ] || [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+  echo "Thiếu các biến môi trường Supabase trong file .env. Vui lòng cấu hình đầy đủ."
+  exit 1
+fi
+```
+
+## Khởi Động MCP Server
+
+### Khởi Động Server Với Tham Số
+```bash
+mcp-server-postgrest --apiUrl="https://your-project-url.supabase.co/rest/v1" --apiKey="your-anon-key" --schema="public"
+```
+
+### Khởi Động Server Sử Dụng Biến Môi Trường
+Nếu đã có file `.env` với đầy đủ cấu hình, bạn có thể tạo một script khởi động trong `package.json`:
+```json
+"scripts": {
+  "mcp": "mcp-server-postgrest --apiUrl=$SUPABASE_URL/rest/v1 --apiKey=$SUPABASE_ANON_KEY --schema=public"
+}
+```
+
+Sau đó khởi động bằng lệnh:
+```bash
+npm run mcp
+```
+
+## Sử Dụng MCP Trong Quá Trình Phát Triển
+
+### Kiểm Tra Queries
+- ***BẮT BUỘC*** kiểm tra tất cả SQL queries thông qua MCP trước khi triển khai
+- ***BẮT BUỘC*** sử dụng MCP để kiểm tra hiệu năng của queries
+- ***BẮT BUỘC*** tối ưu hóa queries dựa trên feedback từ MCP
+
+### Kiểm Tra Row-Level Security (RLS)
+- ***BẮT BUỘC*** kiểm tra các policies RLS bằng MCP
+- ***BẮT BUỘC*** xác nhận rằng RLS hoạt động chính xác cho từng role
+- ***KHUYẾN NGHỊ*** tạo test cases cho các scenarios phức tạp
+
+### Kiểm Tra Functions
+- ***BẮT BUỘC*** kiểm tra tất cả functions trước khi triển khai
+- ***BẮT BUỘC*** kiểm tra edge cases và xử lý lỗi
+
+## Quy Trình Làm Việc
+
+### Trước Khi Bắt Đầu
+1. Kiểm tra và cấu hình file `.env`
+2. Khởi động MCP server
+3. Xác nhận kết nối đến Supabase project
+
+### Khi Làm Việc Với Database
+1. Soạn thảo SQL hoặc queries trong code
+2. Sử dụng MCP để kiểm tra queries
+3. Tối ưu hóa dựa trên feedback từ MCP
+4. Thực hiện thay đổi trên Supabase chỉ sau khi đã kiểm tra kỹ
+
+### Khi Cần Tạo Bảng Mới
+1. Thiết kế cấu trúc bảng
+2. Kiểm tra thiết kế với MCP
+3. Cập nhật file `db-schema.sql` 
+4. Tạo bảng trên Supabase
+5. Xác nhận bảng hoạt động như mong đợi
+
+## Các Lệnh Hữu Ích
+
+### Kiểm Tra Kết Nối
+```bash
+curl http://localhost:8000/health
+```
+
+### Xem Danh Sách Bảng
+```bash
+curl http://localhost:8000/
+```
+
+### Xem Dữ Liệu Trong Bảng
+```bash
+curl http://localhost:8000/table_name
+```
+
+## Tích Hợp Với Workflow Hiện Có
+
+### Bổ Sung Vào Quy Trình Dự Án Mới
+- Thêm bước cài đặt Supabase MCP vào quy trình setup dự án
+- Thêm kiểm tra cấu hình `.env` vào quy trình kiểm tra ban đầu
+- Đảm bảo MCP được chạy trong suốt quá trình phát triển
+
+### Bổ Sung Vào Quy Trình Nâng Cấp Dự Án
+- Kiểm tra và cập nhật MCP trước khi bắt đầu nâng cấp
+- Sử dụng MCP để kiểm tra tác động của thay đổi đến database
+- Đảm bảo tính tương thích của các thay đổi
+
+## Tips và Best Practices
+
+### Performance
+- Sử dụng MCP để phát hiện các vấn đề về hiệu năng sớm
+- Kiểm tra execution plan của queries
+- Tối ưu hóa index dựa trên phân tích hiệu năng
+
+### Security
+- Luôn kiểm tra RLS thông qua MCP
+- Xác nhận quyền truy cập dữ liệu cho từng role
+- Kiểm tra SQL injection thông qua MCP
+
+### Quy Trình CI/CD
+- Tích hợp kiểm tra MCP vào pipeline CI/CD
+- Tự động hóa kiểm tra schema migrations
+- Tự động hóa kiểm tra RLS
+
+## Tài Liệu Tham Khảo
+- [Supabase MCP GitHub Repository](https://github.com/supabase-community/mcp-supabase/tree/main/packages/mcp-server-postgrest)
+- [Supabase Documentation](https://supabase.com/docs)
+- [PostgREST Documentation](https://postgrest.org/en/stable/)
+
+@file ../.env
+@file ../db-schema.sql 

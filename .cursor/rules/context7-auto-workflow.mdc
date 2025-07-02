@@ -1,0 +1,202 @@
+---
+description: Workflow tự động kiểm tra và cập nhật context dự án sử dụng Context7
+globs: "*.*"
+alwaysApply: true
+---
+
+# Context7 Auto-Check Workflow
+
+## IDE Compatibility Check
+- ***BẮT BUỘC*** chỉ kích hoạt workflow này khi đang sử dụng Trae AI IDE
+- ***BẮT BUỘC*** kiểm tra environment để xác nhận Trae AI context trước khi thực hiện
+- ***NGHIÊM CẤM*** chạy Context7 MCP calls trên các IDE khác (Cursor, VS Code, etc.)
+- ***KHUYẾN NGHỊ*** thông báo user nếu không phải Trae AI environment
+
+## Nguyên Tắc Cơ Bản
+- ***BẮT BUỘC*** tự động kiểm tra context dự án trước khi thực hiện bất kỳ task nào (chỉ trên Trae AI)
+- ***BẮT BUỘC*** sử dụng Context7 MCP để lấy thông tin cập nhật về libraries/frameworks
+- ***BẮT BUỘC*** cập nhật knowledge base khi phát hiện thay đổi trong tech stack
+- ***BẮT BUỘC*** tích hợp vào tất cả workflows hiện có
+- ***KHUYẾN NGHỊ*** cache context information để tránh gọi API quá nhiều
+- ***NGHIÊM CẤM*** bỏ qua bước kiểm tra context khi người dùng không yêu cầu cụ thể
+
+## Quy Trình Tự Động Kiểm tra Context
+
+### 1. Pre-Task Context Check
+```
+TRƯỚC KHI THỰC HIỆN BẤT KỲ TASK NÀO:
+0. Kiểm tra IDE environment - CHỈ tiếp tục nếu đang dùng Trae AI
+1. Đọc .project-identity để xác định tech stack hiện tại
+2. Kiểm tra các dependencies trong package.json/requirements.txt/pubspec.yaml
+3. Tự động resolve library IDs qua Context7 cho các libraries chính (chỉ trên Trae AI)
+4. Cập nhật context nếu có thay đổi version hoặc best practices mới
+5. Lưu context vào memory bank cho session hiện tại
+```
+
+### 2. Trae AI Environment Detection
+```
+Cách kiểm tra Trae AI environment:
+- Kiểm tra có MCP Context7 server available không
+- Verify Trae AI specific environment variables
+- Test Context7 MCP connection trước khi sử dụng
+- Fallback gracefully nếu không phải Trae AI
+```
+
+**Xử lý khi KHÔNG phải Trae AI:**
+- Skip tất cả Context7 MCP calls
+- Sử dụng cached context nếu có
+- Thông báo user về limitation
+- Continue với basic workflow không có Context7 enhancement
+
+### 3. Context Validation Rules (Chỉ trên Trae AI)
+- Kiểm tra compatibility giữa các libraries
+- Xác nhận version constraints và dependencies
+- Phát hiện deprecated patterns hoặc security issues
+- Đề xuất updates nếu có version mới stable
+
+### 4. Auto-Context Libraries List (Chỉ trên Trae AI)
+```
+Các libraries cần tự động kiểm tra context qua Context7 MCP:
+- React/Vue/Angular (frontend frameworks)
+- Node.js/Express/Fastify (backend frameworks) 
+- Flutter/React Native (mobile frameworks)
+- Database libraries (MongoDB, PostgreSQL, etc.)
+- Authentication libraries (Auth0, Firebase Auth, etc.)
+- State management (Redux, Zustand, Riverpod, etc.)
+- Testing frameworks (Jest, Cypress, etc.)
+- Build tools (Webpack, Vite, etc.)
+
+Lưu ý: Trên các IDE khác, sử dụng cached context hoặc basic patterns
+```
+
+### 5. Context Memory Integration
+```
+Tích hợp với memory-bank-workflow:
+- Lưu context check results vào memory_bank/context_session.md
+- Track các thay đổi context trong session (bao gồm IDE environment info)
+- Maintain context history cho debugging
+- Auto-expire cached context sau 24h
+- Đánh dấu context source (Trae AI Context7 vs cached/basic)
+```
+
+## Implementation Workflow
+
+### Phase 1: Context Discovery
+1. **Project Analysis**
+   ```
+   - Scan project files để identify tech stack
+   - Parse package managers files
+   - Detect framework patterns trong code
+   - Identify custom libraries và internal modules
+   ```
+
+2. **Context7 Integration (Chỉ trên Trae AI)**
+   ```
+   - Kiểm tra Trae AI environment trước khi proceed
+   - Resolve library IDs cho detected libraries qua Context7 MCP
+   - Fetch latest documentation và best practices
+   - Cache results trong session memory với IDE source tag
+   - Set up auto-refresh triggers (chỉ khi có Context7 access)
+   - Fallback to cached/basic context nếu không phải Trae AI
+   ```
+
+### Phase 2: Context Validation
+1. **Compatibility Check**
+   ```
+   - Verify version compatibility matrix
+   - Check for known conflicts
+   - Validate dependency tree
+   - Identify potential upgrade paths
+   ```
+
+2. **Best Practices Sync**
+   ```
+   - Compare current patterns với latest docs
+   - Identify deprecated usage
+   - Suggest modern alternatives
+   - Update coding standards
+   ```
+
+### Phase 3: Context Application
+1. **Workflow Enhancement**
+   ```
+   - Apply context-aware suggestions
+   - Use library-specific patterns
+   - Follow framework conventions
+   - Implement security best practices
+   ```
+
+2. **Documentation Update**
+   ```
+   - Update Codebase.md với new context
+   - Refresh API_Docs.md nếu cần
+   - Update instruction files
+   - Log context changes trong Decisions.md
+   ```
+
+## Context Check Triggers
+
+### Automatic Triggers
+- Khi bắt đầu new conversation/session
+- Khi detect thay đổi trong package files
+- Khi user mention new library/framework
+- Khi gặp error liên quan đến outdated patterns
+- Mỗi 4 giờ trong long-running sessions
+
+### Manual Triggers
+- User request context refresh
+- Before major refactoring
+- When adding new dependencies
+- During code review process
+
+## Context Storage Structure
+```
+memory_bank/
+├── context_session.md          # Current session context
+├── context_history/             # Historical context data
+│   ├── 2024-01-15-context.md   # Daily context snapshots
+│   └── ...
+├── library_cache/               # Cached Context7 data
+│   ├── react-18.2.0.md         # Library-specific context
+│   ├── flutter-3.16.0.md
+│   └── ...
+└── context_config.md            # Context check configuration
+```
+
+## Error Handling
+- **IDE Environment Check**: Graceful fallback khi không phải Trae AI
+- **Context7 API**: Graceful fallback khi Context7 MCP không available
+- **Network Issues**: Use cached context khi có network problems
+- **Logging**: Log context check failures và IDE environment info
+- **Workflow Continuity**: Continue workflow với warning nếu context check fails
+- **User Notification**: Thông báo user về limitations khi không dùng Trae AI
+
+## Performance Optimization
+- Batch multiple library lookups
+- Use async context checks
+- Implement smart caching strategy
+- Rate limit Context7 API calls
+- Prioritize critical libraries first
+
+## Integration với Existing Workflows
+```
+Tất cả workflows hiện tại sẽ được enhanced:
+- brainstorm-workflow.mdc → context-aware brainstorming
+- planning-workflow.mdc → context-informed planning
+- mobile-utility-workflow.mdc → mobile-specific context
+- android-workflow.mdc → Android ecosystem context
+- ios-workflow.mdc → iOS ecosystem context
+```
+
+## Success Metrics
+- Reduced context-related errors
+- Faster development với up-to-date patterns
+- Better code quality với current best practices
+- Improved developer experience
+- Fewer deprecated pattern usage
+
+## Maintenance
+- Weekly review của context check effectiveness
+- Monthly update của auto-check library list
+- Quarterly optimization của caching strategy
+- Annual review của workflow integration

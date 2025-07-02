@@ -1,0 +1,5 @@
+mcp>=1.9.2
+Pillow>=10.0.0
+asyncio
+typing-extensions>=4.14.0
+faster-whisper>=1.0.0 

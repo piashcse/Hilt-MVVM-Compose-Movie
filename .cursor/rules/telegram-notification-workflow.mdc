@@ -1,0 +1,242 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Telegram Notification Workflow
+
+## Overview
+This workflow provides automated Telegram notifications for work completion with screenshot capture and detailed reporting bằng tiếng Việt
+
+## Components
+
+### 1. Python Notifier (`scripts/telegram_notifier.py`)
+- **Purpose**: Core notification functionality
+- **Features**:
+  - Screenshot capture (cross-platform)
+  - Formatted work reports
+  - Git integration (branch/commit info)
+  - Error handling and fallbacks
+  - SOCKS5 Proxy Support: Built-in support for SOCKS5 proxy connections
+  - Automatic Fallback: Falls back to direct connection if proxy fails
+
+### 2. Shell Wrapper (`scripts/notify.sh`)
+- **Purpose**: Easy command-line interface
+- **Features**:
+  - Dependency checking
+  - Auto-installation of Python packages
+  - Default parameter handling
+
+## Usage Examples
+
+### Basic Notification
+```bash
+# Simple completion notification
+./scripts/notify.sh "Database Setup"
+
+# With custom status
+./scripts/notify.sh "API Development" "completed"
+
+# With details
+./scripts/notify.sh "Build Process" "completed" "All tests passed successfully"
+
+# Without screenshot
+./scripts/notify.sh "Quick Update" "completed" "Minor bug fix" --no-screenshot
+```
+
+### Python Direct Usage
+```python
+from scripts.telegram_notifier import TelegramNotifier
+
+notifier = TelegramNotifier()
+notifier.notify_work_completion(
+    task_name="Database Migration",
+    status="completed",
+    details="All tables migrated successfully",
+    include_screenshot=True
+)
+```
+
+## Workflow Integration
+
+### 1. Manual Integration
+Add to the end of your scripts:
+```bash
+# At the end of your work script
+./scripts/notify.sh "Task Name" "completed" "Task details"
+```
+
+### 2. Git Hook Integration
+Add to `.git/hooks/post-commit`:
+```bash
+#!/bin/bash
+COMMIT_MSG=$(git log -1 --pretty=%B)
+./scripts/notify.sh "Git Commit" "completed" "$COMMIT_MSG"
+```
+
+### 3. Build Process Integration
+Add to your build scripts:
+```bash
+# Before build
+./scripts/notify.sh "Build Process" "started" "Starting build..."
+
+# After successful build
+if [ $? -eq 0 ]; then
+    ./scripts/notify.sh "Build Process" "completed" "Build successful"
+else
+    ./scripts/notify.sh "Build Process" "failed" "Build failed with errors"
+fi
+```
+
+### 4. Makefile Integration
+```makefile
+.PHONY: notify-start notify-success notify-fail
+
+notify-start:
+	@./scripts/notify.sh "$(TASK)" "started" "$(DETAILS)"
+
+notify-success:
+	@./scripts/notify.sh "$(TASK)" "completed" "$(DETAILS)"
+
+notify-fail:
+	@./scripts/notify.sh "$(TASK)" "failed" "$(DETAILS)"
+
+# Example usage in other targets
+deploy: notify-start
+	# deployment commands here
+	$(MAKE) notify-success TASK="Deployment" DETAILS="Successfully deployed to production"
+```
+
+## Status Types
+
+- **completed** ✅ - Task finished successfully
+- **failed** ❌ - Task encountered errors
+- **in_progress** ⏳ - Task is currently running
+- **started** 🚀 - Task has begun
+
+## Report Format
+
+The notification includes:
+- 🤖 **Status**: Task completion status
+- 📋 **Task**: Task name
+- 🕐 **Time**: Completion timestamp
+- 📁 **Project**: Current project name
+- 🌿 **Branch**: Git branch (if available)
+- 📝 **Commit**: Git commit hash (if available)
+- 📍 **Path**: Project directory path
+- 📝 **Details**: Additional information
+- 📸 **Screenshot**: Current screen capture
+
+## Error Handling
+
+### Screenshot Failures
+- Automatically falls back to text-only notification
+- Includes warning message about screenshot failure
+
+### Network Issues
+- Retries with exponential backoff
+- Logs errors for debugging
+- Graceful degradation
+
+### Missing Dependencies
+- Auto-installs required Python packages (requests, urllib3, PySocks)
+- Provides clear error messages
+- Suggests manual installation steps
+- urllib3 library for SSL warning suppression
+- Optional: PySocks library for enhanced SOCKS5 support
+
+## Security Considerations
+
+### Token Management
+- Bot token is embedded in script (consider environment variables for production)
+- Restrict bot permissions to minimum required
+- Monitor bot usage for unauthorized access
+
+### Screenshot Privacy
+- Screenshots are temporarily stored and automatically deleted
+- Consider sensitive information on screen
+- Use `--no-screenshot` flag for sensitive operations
+
+## Customization
+
+### Custom Message Format
+Modify `generate_work_report()` method in `telegram_notifier.py`:
+```python
+def generate_work_report(self, task_name: str, status: str, details: str = "") -> str:
+    # Custom formatting logic here
+    pass
+```
+
+### Additional Notification Channels
+Extend the `TelegramNotifier` class:
+```python
+class MultiChannelNotifier(TelegramNotifier):
+    def notify_slack(self, message):
+        # Slack integration
+        pass
+    
+    def notify_email(self, message):
+        # Email integration
+        pass
+```
+
+## Troubleshooting
+
+### Common Issues
+
+1. **Screenshot not working**
+   - Check system permissions for screen capture
+   - Install required system tools (screencapture, gnome-screenshot)
+   - Use `--no-screenshot` flag as workaround
+
+2. **Network timeouts**
+   - Check internet connection
+   - Verify Telegram API accessibility
+   - Increase timeout values in script
+
+3. **Permission denied**
+   - Ensure script has execute permissions: `chmod +x scripts/notify.sh`
+   - Check Python script permissions
+
+4. **Missing Python packages**
+   - Install manually: `pip install requests`
+   - Check Python version compatibility
+
+### Debug Mode
+Add debug flag to see detailed logs:
+```bash
+DEBUG=1 ./scripts/notify.sh "Test Task" "completed"
+```
+
+## Best Practices
+
+1. **Use descriptive task names**
+   - Good: "Database Migration - User Table"
+   - Bad: "Task 1"
+
+2. **Include relevant details**
+   - Error messages for failed tasks
+   - Performance metrics for completed tasks
+   - Next steps for in-progress tasks
+
+3. **Choose appropriate status**
+   - Use "started" for long-running tasks
+   - Use "in_progress" for status updates
+   - Use "completed" only when fully done
+
+4. **Consider screenshot content**
+   - Avoid sensitive information
+   - Use `--no-screenshot` for security-sensitive operations
+   - Clean up desktop before important notifications
+
+## Integration with Existing Workflows
+
+This notification system can be integrated with:
+- CI/CD pipelines
+- Development workflows
+- Testing processes
+- Deployment scripts
+- Database operations
+- Code review processes
+
+Simply add the notification call at appropriate points in your existing scripts and workflows.

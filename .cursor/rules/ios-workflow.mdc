@@ -1,0 +1,607 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# iOS Development Workflow
+
+## Quy Trình Blueprint-First
+- ***BẮT BUỘC*** tạo blueprint trước khi viết code cho mỗi tính năng
+- ***BẮT BUỘC*** kiểm tra module registry để tránh trùng lặp
+- ***BẮT BUỘC*** cập nhật module registry sau khi hoàn thành tính năng
+- ***BẮT BUỘC*** tuân thủ cấu trúc Xcode project tiêu chuẩn
+- ***BẮT BUỘC*** sử dụng các base classes và protocols đã có
+- ***NGHIÊM CẤM*** tạo code trùng lặp chức năng đã có
+
+## Luồng Tạo Dự Án iOS Tự Động
+
+### Bước 1: Định Nghĩa Kiến Trúc Cốt Lõi
+- ***BẮT BUỘC*** sử dụng **MVVM + Clean Architecture** với phân tách 3 lớp:
+  * **Presentation Layer**: SwiftUI Views + ViewModels
+  * **Domain Layer**: Use Cases + Models + Repository Protocols
+  * **Data Layer**: Repository Implementations + Data Sources
+- ***BẮT BUỘC*** đảm bảo **Unidirectional Data Flow**: View → ViewModel → UseCase → Repository
+
+#### Tech Stack Chuẩn (Package.swift hoặc Podfile):
+```swift
+// SwiftUI + Combine
+import SwiftUI
+import Combine
+
+// Dependency Injection - Chọn 1 trong 2:
+// Option 1: Swinject (Lightweight, dễ sử dụng)
+.package(url: "https://github.com/Swinject/Swinject.git", from: "2.8.0")
+
+// Option 2: Factory (Modern, type-safe)
+.package(url: "https://github.com/hmlongco/Factory.git", from: "2.2.0")
+
+// Networking
+.package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.8.0")
+
+// JSON Parsing
+// Sử dụng Codable built-in, hoặc thêm:
+.package(url: "https://github.com/Flight-School/AnyCodable.git", from: "0.6.0")
+
+// Core Data / Database
+// Sử dụng Core Data built-in, hoặc:
+.package(url: "https://github.com/stephencelis/SQLite.swift.git", from: "0.14.0")
+
+// Image Loading
+.package(url: "https://github.com/kean/Nuke.git", from: "12.0.0")
+
+// Logging
+.package(url: "https://github.com/apple/swift-log.git", from: "1.5.0")
+
+// Keychain
+.package(url: "https://github.com/evgenyneu/keychain-swift.git", from: "20.0.0")
+
+// Lottie Animations (Optional)
+.package(url: "https://github.com/airbnb/lottie-ios.git", from: "4.3.0")
+```
+
+### Bước 2: Thiết Lập Build Configuration & Tối Ưu
+
+#### Project.pbxproj & Build Settings
+```swift
+// Build Settings for Optimization
+ENABLE_BITCODE = YES
+SWIFT_COMPILATION_MODE = wholemodule
+SWIFT_OPTIMIZATION_LEVEL = -O
+GCC_OPTIMIZATION_LEVEL = s
+
+// App Thinning & Size Optimization
+ENABLE_ON_DEMAND_RESOURCES = YES
+STRIP_INSTALLED_PRODUCT = YES
+DEPLOYMENT_POSTPROCESSING = YES
+
+// Asset Optimization
+COMPRESS_PNG_FILES = YES
+ENABLE_NS_ASSERTIONS = NO // Release only
+
+// Swift Compiler Settings
+SWIFT_DISABLE_SAFETY_CHECKS = YES // Release only
+VALIDATE_PRODUCT = YES
+```
+
+#### Tối Ưu Resource & Asset:
+- ***BẮT BUỘC*** sử dụng **SF Symbols** cho system icons
+- ***BẮT BUỘC*** sử dụng **Asset Catalog** với automatic image scaling
+- ***BẮT BUỘC*** enable **App Thinning** và **On-Demand Resources**
+- ***BẮT BUỘC*** compress images và use **HEIF** format khi có thể
+
+### Bước 3: Quy Tắc Sinh Code Cho AI
+
+#### Base Classes & Protocols:
+```swift
+// MARK: - Base ViewModel
+@MainActor
+class BaseViewModel: ObservableObject {
+    @Published var isLoading = false
+    @Published var errorMessage: String?
+    
+    func handleError(_ error: Error) {
+        isLoading = false
+        errorMessage = error.localizedDescription
+        Logger.shared.error("\(String(describing: type(of: self))): \(error)")
+    }
+    
+    func handleLoading(_ loading: Bool = true) {
+        isLoading = loading
+        if loading {
+            errorMessage = nil
+        }
+    }
+}
+
+// MARK: - Base Use Case
+protocol BaseUseCase {
+    associatedtype Parameters
+    associatedtype ReturnType
+    
+    func execute(parameters: Parameters) async throws -> ReturnType
+}
+
+extension BaseUseCase {
+    func callAsFunction(parameters: Parameters) async -> Result<ReturnType, Error> {
+        do {
+            let result = try await execute(parameters: parameters)
+            return .success(result)
+        } catch {
+            Logger.shared.error("UseCase \(String(describing: type(of: self))) failed: \(error)")
+            return .failure(error)
+        }
+    }
+}
+
+// MARK: - Base Repository
+protocol BaseRepository {
+    func handleNetworkCall<T>(_ call: () async throws -> T) async -> Result<T, Error>
+}
+
+extension BaseRepository {
+    func handleNetworkCall<T>(_ call: () async throws -> T) async -> Result<T, Error> {
+        do {
+            let result = try await call()
+            return .success(result)
+        } catch {
+            Logger.shared.error("Repository call failed: \(error)")
+            return .failure(error)
+        }
+    }
+}
+```
+
+#### Error Handling Pattern:
+```swift
+// MARK: - App Error Types
+enum AppError: LocalizedError {
+    case networkError(String)
+    case dataError(String)
+    case validationError(String)
+    case unknownError
+    
+    var errorDescription: String? {
+        switch self {
+        case .networkError(let message):
+            return "Network Error: \(message)"
+        case .dataError(let message):
+            return "Data Error: \(message)"
+        case .validationError(let message):
+            return "Validation Error: \(message)"
+        case .unknownError:
+            return "An unknown error occurred"
+        }
+    }
+}
+
+// MARK: - Repository Implementation với Error Handling
+class UserRepository: BaseRepository {
+    private let networkService: NetworkService
+    private let localDataSource: UserLocalDataSource
+    
+    init(networkService: NetworkService, localDataSource: UserLocalDataSource) {
+        self.networkService = networkService
+        self.localDataSource = localDataSource
+    }
+    
+    func getUser(id: String) async -> Result<User, Error> {
+        return await handleNetworkCall {
+            do {
+                let user = try await networkService.fetchUser(id: id)
+                try await localDataSource.saveUser(user)
+                return user
+            } catch {
+                // Fallback to local data
+                if let localUser = try await localDataSource.getUser(id: id) {
+                    return localUser
+                }
+                throw error
+            }
+        }
+    }
+}
+```
+
+#### State Management Pattern:
+```swift
+// MARK: - Feature ViewModel
+@MainActor
+class UserProfileViewModel: BaseViewModel {
+    @Published var user: User?
+    @Published var userState: UserState = .loading
+    
+    private let getUserUseCase: GetUserUseCase
+    
+    init(getUserUseCase: GetUserUseCase) {
+        self.getUserUseCase = getUserUseCase
+    }
+    
+    func loadUser(id: String) {
+        Task {
+            handleLoading(true)
+            userState = .loading
+            
+            let result = await getUserUseCase(parameters: id)
+            
+            switch result {
+            case .success(let user):
+                self.user = user
+                self.userState = .loaded(user)
+                handleLoading(false)
+            case .failure(let error):
+                self.userState = .error(error.localizedDescription)
+                handleError(error)
+            }
+        }
+    }
+}
+
+// MARK: - UI State
+enum UserState: Equatable {
+    case loading
+    case loaded(User)
+    case error(String)
+}
+```
+
+### Bước 4: Testing Setup
+
+#### Unit Test Template:
+```swift
+import XCTest
+import Combine
+@testable import YourApp
+
+@MainActor
+final class UserProfileViewModelTests: XCTestCase {
+    var viewModel: UserProfileViewModel!
+    var mockGetUserUseCase: MockGetUserUseCase!
+    var cancellables: Set<AnyCancellable>!
+    
+    override func setUpWithError() throws {
+        mockGetUserUseCase = MockGetUserUseCase()
+        viewModel = UserProfileViewModel(getUserUseCase: mockGetUserUseCase)
+        cancellables = Set<AnyCancellable>()
+    }
+    
+    override func tearDownWithError() throws {
+        viewModel = nil
+        mockGetUserUseCase = nil
+        cancellables = nil
+    }
+    
+    func testLoadUser_Success_UpdatesState() async {
+        // Given
+        let expectedUser = User(id: "1", name: "John Doe")
+        mockGetUserUseCase.mockResult = .success(expectedUser)
+        
+        // When
+        viewModel.loadUser(id: "1")
+        
+        // Wait for async operation
+        try await Task.sleep(nanoseconds: 100_000_000)
+        
+        // Then
+        XCTAssertEqual(viewModel.user, expectedUser)
+        XCTAssertEqual(viewModel.userState, .loaded(expectedUser))
+        XCTAssertFalse(viewModel.isLoading)
+    }
+}
+
+// MARK: - Mock Objects
+class MockGetUserUseCase: BaseUseCase {
+    var mockResult: Result<User, Error> = .failure(AppError.unknownError)
+    
+    func execute(parameters: String) async throws -> User {
+        switch mockResult {
+        case .success(let user):
+            return user
+        case .failure(let error):
+            throw error
+        }
+    }
+}
+```
+
+#### UI Test Template:
+```swift
+import XCTest
+
+final class UserProfileUITests: XCTestCase {
+    var app: XCUIApplication!
+    
+    override func setUpWithError() throws {
+        app = XCUIApplication()
+        app.launchArguments = ["--ui-testing"]
+        app.launch()
+        
+        continueAfterFailure = false
+    }
+    
+    func testUserProfile_DisplaysUserInfo_WhenDataLoaded() throws {
+        // Given
+        let userNameText = app.staticTexts["John Doe"]
+        
+        // When
+        app.buttons["Load User"].tap()
+        
+        // Then
+        let expectation = expectation(for: NSPredicate(format: "exists == true"), 
+                                    evaluatedWith: userNameText, 
+                                    handler: nil)
+        wait(for: [expectation], timeout: 5)
+        
+        XCTAssertTrue(userNameText.exists)
+    }
+}
+```
+
+### Bước 5: Performance Monitoring Setup
+
+#### Firebase/Analytics Integration:
+```swift
+// MARK: - Application Setup
+import Firebase
+import FirebaseCrashlytics
+import FirebasePerformance
+
+@main
+struct YourApp: App {
+    init() {
+        setupFirebase()
+        setupLogging()
+    }
+    
+    var body: some Scene {
+        WindowGroup {
+            ContentView()
+                .onAppear {
+                    Analytics.logEvent("app_opened", parameters: nil)
+                }
+        }
+    }
+    
+    private func setupFirebase() {
+        FirebaseApp.configure()
+        
+        #if DEBUG
+        Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(false)
+        Performance.sharedInstance().isDataCollectionEnabled = false
+        #else
+        Crashlytics.crashlytics().setCrashlyticsCollectionEnabled(true)
+        Performance.sharedInstance().isDataCollectionEnabled = true
+        #endif
+    }
+    
+    private func setupLogging() {
+        Logger.shared.setup()
+    }
+}
+```
+
+#### Performance Traces:
+```swift
+// MARK: - Network Service với Performance Monitoring
+import Alamofire
+import FirebasePerformance
+
+class NetworkService {
+    func fetchUser(id: String) async throws -> User {
+        let trace = Performance.startTrace(name: "fetch_user")
+        trace?.setValue(id, forAttribute: "user_id")
+        
+        defer {
+            trace?.stop()
+        }
+        
+        do {
+            let response = try await AF.request("https://api.example.com/users/\(id)")
+                .validate()
+                .serializingDecodable(User.self)
+                .value
+            
+            trace?.setValue("success", forAttribute: "result")
+            return response
+        } catch {
+            trace?.setValue("failure", forAttribute: "result")
+            trace?.setValue(error.localizedDescription, forAttribute: "error")
+            throw error
+        }
+    }
+}
+```
+
+## Quy Tắc Tối Ưu App Size
+
+### Resource Optimization:
+- ***BẮT BUỘC*** sử dụng **SF Symbols** thay vì custom icons khi có thể
+- ***BẮT BUỘC*** enable **App Thinning** và **Bitcode**
+- ***BẮT BUỘC*** sử dụng **On-Demand Resources** cho large assets
+- ***BẮT BUỘC*** compress images và videos trước khi add vào bundle
+
+### Code Optimization:
+- ***BẮT BUỘC*** enable **Whole Module Optimization** cho release builds
+- ***BẮT BUỘC*** strip debugging symbols trong release
+- ***BẮT BUỘC*** avoid dynamic frameworks khi không cần thiết
+
+### Dependency Management:
+- ***BẮT BUỘC*** regularly audit dependencies và remove unused ones
+- ***KHUYẾN NGHỊ*** prefer lightweight alternatives hoặc built-in frameworks
+- ***KHUYẾN NGHỊ*** sử dụng **static linking** thay vì dynamic khi có thể
+
+## Cấu Trúc Project Chuẩn
+```
+iOS App/
+├── App/                     # App entry point
+│   ├── YourApp.swift        # App entry point
+│   ├── AppDelegate.swift    # App lifecycle (if needed)
+│   └── Info.plist          # App configuration
+├── Core/                    # Core modules
+│   ├── Base/               # Base classes & protocols
+│   │   ├── BaseViewModel.swift
+│   │   ├── BaseUseCase.swift
+│   │   └── BaseRepository.swift
+│   ├── DI/                 # Dependency Injection
+│   │   ├── Container.swift
+│   │   └── DIModules.swift
+│   ├── Network/            # Networking layer
+│   │   ├── NetworkService.swift
+│   │   ├── APIEndpoints.swift
+│   │   └── Interceptors/
+│   ├── Storage/            # Data persistence
+│   │   ├── CoreDataStack.swift
+│   │   ├── KeychainService.swift
+│   │   └── UserDefaults+Extensions.swift
+│   ├── Utils/              # Utilities & Extensions
+│   │   ├── Logger.swift
+│   │   ├── Constants.swift
+│   │   └── Extensions/
+│   └── Theme/              # UI Theme
+│       ├── Colors.swift
+│       ├── Fonts.swift
+│       └── Spacing.swift
+├── Data/                   # Data layer
+│   ├── Models/             # Data models
+│   ├── Repositories/       # Repository implementations
+│   └── DataSources/        # Local & Remote data sources
+│       ├── Local/
+│       └── Remote/
+├── Domain/                 # Domain layer
+│   ├── Models/             # Domain models
+│   ├── Repositories/       # Repository protocols
+│   └── UseCases/          # Business logic use cases
+├── Presentation/           # Presentation layer
+│   ├── Components/         # Reusable UI components
+│   ├── Navigation/         # Navigation logic
+│   └── Screens/           # Feature screens
+│       └── [Feature]/
+│           ├── [Feature]View.swift
+│           ├── [Feature]ViewModel.swift
+│           └── Components/
+└── Resources/              # App resources
+    ├── Assets.xcassets
+    ├── Localizable.strings
+    └── LaunchScreen.storyboard
+```
+
+## Feature Blueprint Template
+```markdown
+# FEATURE BLUEPRINT: [Tên Tính Năng]
+
+## MÔ TẢ
+[Mô tả chi tiết về tính năng]
+
+## DOMAIN LAYER
+- Models:
+  - [Model 1]: [Mô tả, properties]
+  - [Model 2]: [Mô tả, properties]
+- Use Cases:
+  - [UseCase 1]: [Input/Output, business logic]
+  - [UseCase 2]: [Input/Output, business logic]
+
+## DATA LAYER
+- Repository: [Protocol name & Implementation]
+- API Endpoints (nếu có):
+  - [Endpoint 1]: [Method, URL, Codable models]
+- Local Storage (nếu có):
+  - Core Data: [Entity models]
+  - UserDefaults: [Keys và types]
+
+## PRESENTATION LAYER
+- ViewModels:
+  - [ViewModel 1]: [ObservableObject, @Published properties]
+- Views:
+  - SwiftUI: [View 1]: [State management, layout]
+  - UIKit: [ViewController 1]: [Outlets, actions]
+- Coordinators:
+  - [Coordinator 1]: [Navigation flow, dependencies]
+
+## RESOURCES
+- Strings: [Localization keys for Localizable.strings]
+- Colors: [Color assets in Assets.xcassets]
+- Images: [Image assets needed]
+- Fonts: [Custom fonts if required]
+```
+
+## Quy Trình Làm Việc
+
+### Bước 1: Tạo Feature Blueprint
+1. Tạo file blueprint trong thư mục `blueprint/features/`
+2. Đặt tên file: `[feature-name]-blueprint.md`
+3. Sử dụng iOS Feature Blueprint Template
+4. Điền đầy đủ thông tin vào các section
+
+### Bước 2: Tạo Cấu Trúc Project
+1. Tạo group theo feature name trong `Presentation/Features/`
+2. Tạo các sub-groups:
+   - `Features/[Feature]/Views` (SwiftUI Views hoặc ViewControllers)
+   - `Features/[Feature]/ViewModels` 
+   - `Features/[Feature]/Coordinator` (nếu cần)
+   - `Domain/UseCases/[Feature]` (nếu cần use cases riêng)
+   - `Data/Repositories/[Feature]` (nếu cần repository riêng)
+
+### Bước 3: Triển Khai Theo Layer
+1. Triển khai Domain Layer:
+   - Tạo domain models (struct/class)
+   - Tạo repository protocols
+   - Tạo use cases (business logic)
+
+2. Triển khai Data Layer:
+   - Tạo Codable models cho API
+   - Tạo Core Data models (nếu cần)
+   - Tạo data sources (URLSession, Core Data)
+   - Implement repository protocols
+
+3. Triển khai Presentation Layer:
+   - Tạo ViewModels (ObservableObject)
+   - Tạo SwiftUI Views hoặc UIKit ViewControllers
+   - Setup Coordinators cho navigation
+   - Add localization strings
+
+### Bước 4: Cập Nhật Registry
+1. Cập nhật `blueprint/module-registry.md` với các components mới
+2. Cập nhật `blueprint/component-catalog.md` với UI components mới
+
+## Quy Tắc Chống Trùng Lặp Code
+- ***BẮT BUỘC*** trước khi tạo class/struct/protocol/extension mới:
+  1. Tìm kiếm trong project với pattern: `class/struct/protocol/extension [Tên]`
+  2. Kiểm tra module-registry.md
+  3. Kiểm tra component-catalog.md
+  4. Tìm trong `Core/Utils` trước khi tạo utility functions
+  5. Tìm trong `Presentation/Components` trước khi tạo UI components mới
+  6. Ưu tiên mở rộng code hiện có thay vì tạo mới
+
+- ***BẮT BUỘC*** khi gặp logic tương tự ở 2+ nơi:
+  1. Trích xuất vào base classes/protocols
+  2. Tạo extensions cho code dùng chung
+  3. Sử dụng generics để tham số hóa sự khác biệt
+  4. Cập nhật tất cả occurrences để sử dụng code dùng chung
+
+- ***KHUYẾN NGHỊ*** khi thấy code tương tự nhưng khác biệt nhỏ:
+  1. Tìm mẫu chung và sử dụng protocols
+  2. Tạo một version tổng quát với generics
+  3. Tái cấu trúc code hiện tại để dùng version tổng quát
+
+## Danh Sách Kiểm Tra Chất Lượng
+- [ ] MVVM + Clean Architecture được implement đúng
+- [ ] Unidirectional Data Flow được đảm bảo
+- [ ] Whole Module Optimization được enable cho release
+- [ ] SF Symbols được sử dụng cho system icons
+- [ ] App Thinning và Bitcode được enable
+- [ ] Unit tests cover ViewModels và UseCases
+- [ ] UI tests cover critical user flows
+- [ ] Error handling được implement đầy đủ
+- [ ] Performance monitoring được setup
+- [ ] App size được tối ưu (dưới ngưỡng App Store)
+- [ ] Code tuân thủ cấu trúc project định nghĩa
+- [ ] Classes/Structs được đặt đúng group
+- [ ] Không có code trùng lặp chức năng
+- [ ] Sử dụng các base classes/protocols khi thích hợp
+- [ ] UI components được tái sử dụng khi có thể
+- [ ] Blueprint được hoàn thiện trước khi viết code
+- [ ] Module Registry được cập nhật sau khi hoàn thành
+- [ ] Localization strings được thêm vào Localizable.strings
+- [ ] Assets được tổ chức trong Assets.xcassets
+- [ ] Memory management được xử lý đúng (weak references, etc.)
+- [ ] Error handling được implement đầy đủ
+- [ ] Unit tests được viết cho business logic

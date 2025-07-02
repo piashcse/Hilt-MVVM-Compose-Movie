@@ -1,0 +1,84 @@
+---
+description: Rules for terminal commands, shell scripting, and SSH
+globs: *.sh,*.bash,*.zsh
+alwaysApply: false
+---
+## Shell Scripting
+- Bắt đầu scripts với shebang line (#!/bin/bash)
+- Set proper script permissions (chmod +x)
+- Use proper error handling và exit codes
+- Check command success với conditional statements
+- Quote variables để prevent word splitting
+- Use shellcheck để lint scripts
+- Implement proper logging
+- Validate input parameters
+
+## Command Structure
+- Prefer long options cho readability (--verbose vs -v)
+- Include helpful help/usage text
+- Use consistent formatting và spacing
+- Document non-obvious behavior
+- Chain commands thoughtfully
+- Cố định versions khi cần thiết
+- Prefer absolute paths khi sử dụng trong scripts
+- Use functions cho reusable code
+
+## Security
+- Avoid executing user input directly
+- Don't hardcode credentials
+- Use principle of least privilege
+- Securely handle sensitive information
+- Validate environment variables
+- Use secure connections (HTTPS, SSH)
+- Be careful với destructive commands
+- Implement proper access controls
+
+## SSH Best Practices
+- Use key-based authentication
+- Disable password authentication khi có thể
+- Use non-standard ports
+- Limit login attempts
+- Implement timeout settings
+- Use SSH config files cho management
+- Configure proper permissions cho key files
+- Use SSH agent khi appropriate
+
+## File Operations
+- Back up files trước khi modify
+- Use proper permissions
+- Implement error checking
+- Use safe options (-i, --interactive) khi cần thiết
+- Avoid rm -rf khi có thể
+- Use find với caution
+- Validate paths trước khi operations
+- Handle spaces in filenames
+
+## System Administration
+- Document changes
+- Use package managers khi có thể
+- Keep systems up to date
+- Implement proper user và group management
+- Use sudo với specific commands
+- Monitor resource usage
+- Backup important data
+- Manage logs properly
+
+## Automation
+- Prefer idempotent commands
+- Implement proper error recovery
+- Log execution output
+- Use cron jobs với caution
+- Test scripts thoroughly
+- Implement proper timeout handling
+- Use environment variables cho configuration
+- Document automated processes
+
+## Performance
+- Use background processes khi appropriate
+- Optimize resource-intensive commands
+- Use parallel execution khi có thể
+- Limit resource usage khi cần thiết
+- Avoid unnecessary commands
+- Profile scripts để identify bottlenecks
+- Use appropriate redirection (>, >>, |)
+- Clean up temporary files 

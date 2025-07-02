@@ -1,0 +1,208 @@
+---
+description: Hệ thống lưu trữ và áp dụng kinh nghiệm dự án
+globs: experiences/*,*.md,instructions/*
+alwaysApply: false
+---
+
+## Nguyên Tắc Cơ Bản
+- ***BẮT BUỘC*** ghi lại kinh nghiệm sau khi giải quyết thành công hoặc thất bại một vấn đề
+- ***BẮT BUỘC*** tuân thủ cấu trúc thư mục và định dạng file thống nhất
+- ***BẮT BUỘC*** phân loại kinh nghiệm theo categories để dễ tìm kiếm
+- ***BẮT BUỘC*** cập nhật index sau khi thêm kinh nghiệm mới
+- ***BẮT BUỘC*** tích hợp quá trình này vào các workflow hiện có
+- ***KHUYẾN NGHỊ*** tham khảo kinh nghiệm trước khi giải quyết vấn đề tương tự
+- ***KHUYẾN NGHỊ*** review và tinh chỉnh hệ thống kinh nghiệm định kỳ
+- ***NGHIÊM CẤM*** xóa kinh nghiệm đã lưu trữ, chỉ được phép cập nhật hoặc đánh dấu lỗi thời
+
+## Cấu Trúc Thư Mục
+```
+experiences/
+├── frontend/            # Kinh nghiệm về frontend
+│   ├── react/           # React specific
+│   ├── vue/             # Vue specific
+│   └── general/         # General frontend
+├── backend/             # Kinh nghiệm về backend
+│   ├── node/            # Node.js specific
+│   ├── python/          # Python specific
+│   └── databases/       # Database related
+├── mobile/              # Kinh nghiệm mobile development
+├── devops/              # CI/CD, deployment, infrastructure
+├── testing/             # QA, testing strategies
+├── ai/                  # AI-related experiences
+├── common/              # Vấn đề chung (workflow, tools, etc)
+└── index.md             # File index tổng hợp tất cả kinh nghiệm
+```
+
+## Định Dạng File Kinh Nghiệm
+- Sử dụng file markdown theo mẫu dưới đây
+- Tên file theo format: `[ID]-[ngày]-[problem-type]-[short-description].md`
+- Ví dụ: `EXP-001-20240510-react-state-management-bug.md`
+
+```markdown
+# [Tiêu đề vấn đề]
+
+## Metadata
+- **ID**: EXP-XXX
+- **Ngày**: YYYY-MM-DD
+- **Tags**: #tag1, #tag2, #tag3
+- **Độ phức tạp**: Đơn giản/Trung bình/Phức tạp
+- **Thời gian giải quyết**: X giờ/ngày
+- **Status**: Đã giải quyết / Giải pháp tạm thời / Chưa có giải pháp
+
+## Mô tả vấn đề
+Mô tả chi tiết vấn đề gặp phải, bao gồm:
+- Ngữ cảnh
+- Triệu chứng
+- Tác động
+- Các điều kiện xuất hiện
+
+## Các giải pháp đã thử
+### Giải pháp 1
+- Mô tả: [Mô tả giải pháp]
+- Kết quả: [Thành công/Thất bại/Một phần]
+- Phân tích: [Tại sao thành công/thất bại]
+
+### Giải pháp 2
+- Mô tả: [Mô tả giải pháp]
+- Kết quả: [Thành công/Thất bại/Một phần]
+- Phân tích: [Tại sao thành công/thất bại]
+
+## Giải pháp cuối cùng
+Mô tả chi tiết giải pháp cuối cùng, bao gồm:
+- Các bước thực hiện
+- Code snippet chính (nếu có, giữ ngắn gọn)
+- Tài nguyên tham khảo
+
+## Kinh nghiệm rút ra
+- [Kinh nghiệm 1]
+- [Kinh nghiệm 2]
+- [Kinh nghiệm 3]
+
+## Phòng tránh trong tương lai
+- [Đề xuất 1]
+- [Đề xuất 2]
+
+## Tài liệu tham khảo
+- [Link 1]
+- [Link 2]
+```
+
+## Quy Trình Ghi Lại Kinh Nghiệm
+1. **Xác định vấn đề cần lưu trữ**
+   - Vấn đề đã được giải quyết hoặc chưa có giải pháp
+   - Vấn đề đủ phức tạp hoặc có giá trị tham khảo
+   - Ưu tiên vấn đề có khả năng lặp lại cao
+
+2. **Tạo file kinh nghiệm mới**
+   - Chọn thư mục phù hợp trong `/experiences/`
+   - Tạo file với định dạng tên theo quy định
+   - Sử dụng template chuẩn
+
+3. **Điền thông tin chi tiết**
+   - Điền đầy đủ metadata, mô tả vấn đề
+   - Ghi lại tất cả giải pháp đã thử (thành công và thất bại)
+   - Nhấn mạnh giải pháp cuối cùng và lý do hiệu quả
+   - Rút ra bài học kinh nghiệm
+
+4. **Cập nhật index**
+   - Thêm entry mới vào `/experiences/index.md`
+   - Phân loại theo category và tags phù hợp
+
+5. **Review**
+   - Review lại nội dung để đảm bảo đầy đủ và chính xác
+   - Đảm bảo không có thông tin nhạy cảm (credentials, tokens)
+   - Tối ưu nội dung cho việc tìm kiếm
+
+## Index Kinh Nghiệm
+- File `/experiences/index.md` dùng để tổng hợp tất cả kinh nghiệm
+- Cấu trúc theo dạng bảng, bao gồm:
+  * ID
+  * Tiêu đề
+  * Tags
+  * Ngày
+  * Status
+  * Link đến file
+- Phân loại theo categories chính
+
+## Tích hợp với Workflow Hiện Tại
+
+### Tích hợp với Planning Workflow
+- Trong quá trình brainstorm, tham khảo kinh nghiệm tương tự
+- Đánh giá rủi ro dựa trên kinh nghiệm trước đó
+- Thêm bước review kinh nghiệm vào quy trình lập kế hoạch
+
+### Tích hợp với Development Workflow
+- Trước khi bắt đầu phát triển, tìm kiếm kinh nghiệm liên quan
+- Sau khi giải quyết vấn đề phức tạp, dành thời gian ghi lại kinh nghiệm
+- Đưa việc ghi lại kinh nghiệm vào checklist hoàn thành task
+
+### Tích hợp với Review Workflow
+- Trong code review, xác định những vấn đề cần lưu trữ kinh nghiệm
+- Người review có thể yêu cầu ghi lại kinh nghiệm cho các giải pháp đặc biệt
+- Đánh giá chất lượng dựa trên việc áp dụng kinh nghiệm trước đó
+
+### Tích hợp với Deployment Workflow
+- Ghi lại kinh nghiệm về các vấn đề deployment
+- Tạo pre-deployment checklist từ kinh nghiệm trước đó
+- Post-deployment review để ghi lại kinh nghiệm mới
+
+## Quy Trình Tìm Kiếm Kinh Nghiệm
+1. **Xác định vấn đề cần giải quyết**
+   - Mô tả vấn đề một cách chính xác
+   - Xác định các từ khóa liên quan
+
+2. **Tìm kiếm trong index**
+   - Tìm theo category
+   - Tìm theo tags
+   - Tìm theo từ khóa trong tiêu đề
+
+3. **Đánh giá kinh nghiệm phù hợp**
+   - So sánh ngữ cảnh với vấn đề hiện tại
+   - Xem xét tính cập nhật của kinh nghiệm
+   - Đánh giá hiệu quả của giải pháp
+
+4. **Áp dụng và điều chỉnh**
+   - Áp dụng giải pháp từ kinh nghiệm với điều chỉnh phù hợp
+   - Ghi lại kết quả và so sánh với kinh nghiệm gốc
+
+## Quy Trình Review Định Kỳ
+- ***BẮT BUỘC*** review hệ thống kinh nghiệm mỗi 3 tháng
+- ***BẮT BUỘC*** đánh dấu kinh nghiệm lỗi thời và cập nhật nếu cần
+- ***BẮT BUỘC*** đánh giá hiệu quả của việc áp dụng kinh nghiệm
+- ***BẮT BUỘC*** cải thiện cấu trúc và taxonomy nếu cần
+- ***KHUYẾN NGHỊ*** thống kê và phân tích xu hướng vấn đề
+
+## Tích Hợp với AI
+- ***BẮT BUỘC*** tối ưu file kinh nghiệm cho Cursor AI theo quy tắc:
+  * Giữ file dưới 250 dòng
+  * Sử dụng ngôn ngữ rõ ràng, cấu trúc
+  * Tránh code block dài
+- ***KHUYẾN NGHỊ*** sử dụng AI để tìm kiếm và tổng hợp kinh nghiệm
+- ***KHUYẾN NGHỊ*** dùng AI để phân tích xu hướng và đề xuất cải tiến
+
+## Thành Lập Ban Đầu
+- Tạo thư mục `/experiences/` và cấu trúc con
+- Tạo file index.md ban đầu với các category
+- Ghi lại 3-5 kinh nghiệm đã có để làm mẫu
+- Đào tạo team về quy trình ghi lại và tìm kiếm kinh nghiệm
+
+## Đo Lường Hiệu Quả
+- Số lượng kinh nghiệm được ghi lại mỗi tháng
+- Tỷ lệ vấn đề được giải quyết bằng cách tham khảo kinh nghiệm
+- Thời gian trung bình để giải quyết vấn đề đã có kinh nghiệm
+- Phản hồi từ team về tính hữu ích của hệ thống
+
+## Quản Lý Kinh Nghiệm Nhạy Cảm
+- Nếu kinh nghiệm chứa thông tin nhạy cảm, sử dụng thư mục `/experiences/sensitive/`
+- Loại bỏ thông tin nhạy cảm và thay bằng placeholder trong phiên bản public
+- Kiểm soát quyền truy cập cho kinh nghiệm nhạy cảm
+
+## Kết Hợp Với File Protection Rules
+- ***BẮT BUỘC*** tuân theo file-protection-rules.mdc khi làm việc với files kinh nghiệm
+- ***BẮT BUỘC*** backup files kinh nghiệm trước khi chỉnh sửa lớn
+- ***BẮT BUỘC*** không xóa kinh nghiệm, chỉ đánh dấu lỗi thời
+
+## Kết Hợp Với Resource Management
+- Lưu trữ tài nguyên liên quan đến kinh nghiệm trong `/experiences/resources/`
+- Sử dụng cấu trúc thư mục tương tự với file kinh nghiệm
+- Tham chiếu đến tài nguyên trong file kinh nghiệm 

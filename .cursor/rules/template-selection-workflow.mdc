@@ -1,0 +1,302 @@
+---
+description: Quy trình lựa chọn và loại bỏ template sau bước lập kế hoạch
+globs: *.md,instructions/*,docs/*
+alwaysApply: false
+---
+
+# Template Selection Workflow
+
+## Nguyên Tắc Cơ Bản Template Selection
+- ***BẮT BUỘC*** thực hiện template selection ngay sau khi hoàn thành planning
+- ***BẮT BUỘC*** dựa trên kết quả brainstorm và planning để lựa chọn template phù hợp
+- ***BẮT BUỘC*** loại bỏ các template không cần thiết để tránh phức tạp hóa dự án
+- ***BẮT BUỘC*** tạo danh sách template được chọn và lý do lựa chọn
+- ***BẮT BUỘC*** cập nhật workspace configuration với template đã chọn
+- ***KHUYẾN NGHỊ*** ưu tiên template tối giản và có thể mở rộng
+- ***NGHIÊM CẤM*** sử dụng quá nhiều template gây phức tạp không cần thiết
+
+## Quy Trình Template Selection
+
+### Bước 1: Phân Tích Yêu Cầu Từ Planning
+- Đọc kỹ file planning đã hoàn thành
+- Xác định loại dự án (Mobile App, Web App, Desktop, API, etc.)
+- Phân tích độ phức tạp và quy mô dự án
+- Xác định tech stack chính từ planning
+- Liệt kê các tính năng cốt lõi cần template hỗ trợ
+
+### Bước 2: Platform & Tech Stack Selection
+```javascript
+function selectPlatformTemplate(planningData) {
+  const projectType = extractProjectType(planningData);
+  const complexity = assessComplexity(planningData);
+  const features = extractCoreFeatures(planningData);
+  
+  switch(projectType) {
+    case 'android':
+      return selectAndroidTemplates(complexity, features);
+    case 'ios':
+      return selectiOSTemplates(complexity, features);
+    case 'web':
+      return selectWebTemplates(complexity, features);
+    case 'cross-platform':
+      return selectCrossPlatformTemplates(complexity, features);
+    default:
+      return selectMinimalTemplates();
+  }
+}
+```
+
+### Bước 3: Template Categories Assessment
+
+#### Core Development Templates (BẮT BUỘC)
+- **Base Rules**: Luôn bao gồm cho mọi dự án
+- **Development Rules**: Quy tắc phát triển cơ bản
+- **File Protection Rules**: Bảo vệ và backup files
+
+#### Platform-Specific Templates (CONDITIONAL)
+**Android Projects:**
+- `android-workflow.mdc` - Quy trình Android cơ bản
+- `android-project-template.mdc` - Template dự án Android
+- `android-code-deduplication.mdc` - Tránh trùng lặp code
+- `tdd-mobile-workflow.mdc` - TDD cho mobile
+
+**iOS Projects:**
+- `ios-workflow.mdc` - Quy trình iOS
+- `ios-project-template.mdc` - Template dự án iOS
+- `tdd-mobile-workflow.mdc` - TDD cho mobile
+
+**Web Projects:**
+- `frontend-rules.mdc` - Quy tắc frontend
+- `backend-rules-optimized.mdc` - Quy tắc backend (nếu fullstack)
+- `api-integration-rules.mdc` - Tích hợp API
+
+#### Feature-Specific Templates (SELECTIVE)
+**Authentication & Security:**
+- Chỉ bao gồm nếu dự án có yêu cầu authentication
+- Đánh giá mức độ bảo mật cần thiết
+
+**Database & Storage:**
+- `database-management.mdc` - Nếu có database phức tạp
+- `resource-management.mdc` - Quản lý tài nguyên
+
+**Integration & API:**
+- `api-integration-rules.mdc` - Nếu tích hợp API bên thứ 3
+- `supabase-mcp-workflow.mdc` - Nếu sử dụng Supabase
+
+**Specialized Features:**
+- `telegram-notification-workflow.mdc` - Nếu cần notification
+- `weather-basic-workflow.mdc` - Cho weather apps
+- `i18n-rules.mdc` - Nếu cần đa ngôn ngữ
+
+### Bước 4: Template Elimination Process
+
+#### Loại Bỏ Template Không Cần Thiết
+```markdown
+## Template Elimination Checklist
+
+### ❌ Loại Bỏ Nếu:
+- [ ] Template không liên quan đến platform được chọn
+- [ ] Tính năng không có trong planning
+- [ ] Độ phức tạp vượt quá yêu cầu dự án
+- [ ] Template trùng lặp chức năng với template khác
+- [ ] Không có resource để maintain template phức tạp
+
+### ✅ Giữ Lại Nếu:
+- [ ] Template hỗ trợ tính năng cốt lõi
+- [ ] Có thể tái sử dụng cho nhiều phần của dự án
+- [ ] Giúp tăng tốc development significantly
+- [ ] Đảm bảo code quality và best practices
+- [ ] Team có kinh nghiệm với template này
+```
+
+### Bước 5: Template Configuration Matrix
+
+#### Dự Án Android Đơn Giản
+```yaml
+required_templates:
+  - base-rules.mdc
+  - development-rules.mdc
+  - file-protection-rules.mdc
+  - android-workflow.mdc
+  - android-project-template.mdc
+  - tdd-mobile-workflow.mdc
+
+optional_templates:
+  - android-code-deduplication.mdc (nếu team > 2 người)
+  - i18n-rules.mdc (nếu cần đa ngôn ngữ)
+  - api-integration-rules.mdc (nếu có API)
+
+excluded_templates:
+  - ios-workflow.mdc
+  - backend-rules-optimized.mdc
+  - web-specific templates
+  - complex integration templates
+```
+
+#### Dự Án Cross-Platform
+```yaml
+required_templates:
+  - base-rules.mdc
+  - development-rules.mdc
+  - mobile-utility-workflow.mdc
+  - tdd-mobile-workflow.mdc
+  - universal-code-deduplication.mdc
+
+conditional_templates:
+  - android-workflow.mdc (nếu Android-first)
+  - ios-workflow.mdc (nếu iOS-first)
+  - platform-workflow-selector.mdc
+
+excluded_templates:
+  - platform-specific templates (trừ primary platform)
+  - desktop-specific templates
+```
+
+### Bước 6: Template Selection Documentation
+
+#### Tạo File Template_Selection.md
+```markdown
+# Template Selection Report
+
+## Project Information
+- **Project Name**: [Tên dự án]
+- **Platform**: [Android/iOS/Web/Cross-platform]
+- **Complexity Level**: [Simple/Medium/Complex]
+- **Team Size**: [Số người]
+- **Timeline**: [Thời gian dự kiến]
+
+## Selected Templates
+
+### Core Templates (Required)
+1. **base-rules.mdc** - Quy tắc cơ bản
+   - Lý do: Bắt buộc cho mọi dự án
+   - Impact: Foundation rules
+
+2. **development-rules.mdc** - Quy tắc phát triển
+   - Lý do: Đảm bảo code quality
+   - Impact: Development standards
+
+### Platform Templates
+[Liệt kê các template specific cho platform]
+
+### Feature Templates
+[Liệt kê các template cho tính năng cụ thể]
+
+## Excluded Templates
+
+### Không Áp Dụng
+1. **Template Name** - Lý do loại bỏ
+2. **Template Name** - Lý do loại bỏ
+
+### Có Thể Thêm Sau
+1. **Template Name** - Điều kiện để thêm
+2. **Template Name** - Điều kiện để thêm
+
+## Template Integration Plan
+
+### Phase 1: Core Setup
+- Áp dụng core templates
+- Setup project structure
+- Configure basic workflows
+
+### Phase 2: Feature Development
+- Integrate feature-specific templates
+- Setup specialized workflows
+- Configure advanced features
+
+### Phase 3: Optimization
+- Review template effectiveness
+- Add missing templates if needed
+- Remove unused templates
+
+## Validation Checklist
+- [ ] All selected templates are compatible
+- [ ] No conflicting rules between templates
+- [ ] Team familiar with selected templates
+- [ ] Templates support all planned features
+- [ ] Excluded templates documented with reasons
+```
+
+## Integration với Planning Workflow
+
+### Cập Nhật Planning Workflow
+```markdown
+## 4. Template Selection & Configuration (NEW STEP)
+
+### 4.1 Template Analysis
+- Phân tích yêu cầu từ planning document
+- Xác định platform và tech stack
+- Đánh giá độ phức tạp dự án
+
+### 4.2 Template Selection
+- Chọn core templates (bắt buộc)
+- Chọn platform-specific templates
+- Chọn feature-specific templates
+- Loại bỏ templates không cần thiết
+
+### 4.3 Template Documentation
+- Tạo Template_Selection.md
+- Ghi lại lý do lựa chọn/loại bỏ
+- Lập kế hoạch integration
+
+### 4.4 Workspace Configuration
+- Cập nhật .cursor/rules.json
+- Configure workspace settings
+- Setup template-specific tools
+```
+
+## Template Selection Decision Tree
+
+```mermaid
+graph TD
+    A[Planning Completed] --> B[Analyze Project Type]
+    B --> C{Platform?}
+    
+    C -->|Android| D[Android Templates]
+    C -->|iOS| E[iOS Templates]
+    C -->|Web| F[Web Templates]
+    C -->|Cross-Platform| G[Cross-Platform Templates]
+    
+    D --> H[Select Core Android]
+    E --> I[Select Core iOS]
+    F --> J[Select Core Web]
+    G --> K[Select Universal]
+    
+    H --> L[Analyze Features]
+    I --> L
+    J --> L
+    K --> L
+    
+    L --> M{Complex Features?}
+    M -->|Yes| N[Add Feature Templates]
+    M -->|No| O[Minimal Setup]
+    
+    N --> P[Review & Eliminate]
+    O --> P
+    
+    P --> Q[Document Selection]
+    Q --> R[Configure Workspace]
+    R --> S[Ready for Development]
+```
+
+## Best Practices
+
+### Template Selection Guidelines
+1. **Start Minimal**: Bắt đầu với ít template nhất có thể
+2. **Add Incrementally**: Thêm template khi thực sự cần thiết
+3. **Regular Review**: Đánh giá lại template selection định kỳ
+4. **Team Consensus**: Đảm bảo team đồng ý với template được chọn
+5. **Documentation**: Luôn ghi lại lý do lựa chọn
+
+### Common Mistakes to Avoid
+- Chọn quá nhiều template từ đầu
+- Không loại bỏ template không cần thiết
+- Không ghi lại lý do lựa chọn
+- Không review template effectiveness
+- Áp dụng template không phù hợp với team skill
+
+### Template Maintenance
+- Review template usage sau mỗi sprint
+- Update template selection khi requirements thay đổi
+- Remove unused templates để giảm complexity
+- Share template selection experience với team khác

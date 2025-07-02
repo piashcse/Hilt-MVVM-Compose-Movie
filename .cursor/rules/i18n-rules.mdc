@@ -1,0 +1,64 @@
+---
+description: Rules for internationalization and localization in applications
+globs: *.js,*.jsx,*.ts,*.tsx,*.vue,*.json,*.py,*.html
+alwaysApply: false
+---
+
+## Key Principles
+- Tách tất cả strings từ code vào resource files
+- Thiết kế để support nhiều ngôn ngữ từ đầu
+- Sử dụng unique keys cho mỗi string
+- Sử dụng namespaces/scopes để tổ chức translations
+- Support dynamic content với placeholders
+
+## Text Handling
+- Tránh hardcoded strings trong UI
+- Sử dụng interpolation cho dynamic content
+- Handle pluralization đúng cách
+- Support các formats khác nhau (dates, numbers, currencies)
+- Xử lý các gender forms khi cần thiết
+
+## Technical Implementation
+- Sử dụng standard i18n libraries (react-i18n, vue-i18n, i18next)
+- Load translations async để tối ưu performance
+- Implement language detection
+- Support language switching
+- Store language preference
+- Fallback gracefully khi missing translations
+
+## UI Considerations
+- Design flexible layouts để handle text expansion/shrinking
+- Support bidirectional text (RTL languages)
+- Ensure proper text wrapping
+- Handle font variations
+- Test với actual translations
+
+## Locale-Specific Features
+- Format dates theo locale
+- Format numbers và currencies theo locale
+- Handle different sorting orders
+- Support different address formats
+- Consider timezone differences
+
+## Translation Management
+- Maintain organized translation files
+- Document context cho translators
+- Support translation update processes
+- Implement linting cho missing translations
+- Consider translation management systems
+- Mark untranslated strings rõ ràng
+
+## Accessibility
+- Ensure screen readers work với internationalized content
+- Maintain proper semantic structure
+- Consider cultural differences in accessibility needs
+- Test accessibility trong multiple languages
+
+## Testing
+- Test với different languages
+- Verify layout stability với various text lengths
+- Test RTL layout khi applicable
+- Verify all dynamic content properly translated
+- Test performance với large translation files
+
+@file ../README.md 

@@ -1,0 +1,31 @@
+---
+description: Rules for integrating Weather and AI APIs into all compatible applications
+globs: *.js,*.jsx,*.ts,*.tsx,*.vue,*.py,*.swift,*.kt,*.java,*.cs
+alwaysApply: false
+---
+
+## Yêu Cầu Tích Hợp
+- ***BẮT BUỘC*** tích hợp Weather API và AI API vào tất cả ứng dụng web và desktop có thể tích hợp được
+- ***NGOẠI LỆ*** với dự án APK: Chỉ tích hợp Weather API và AI API khi có yêu cầu cụ thể từ người dùng
+- Các ứng dụng web, mobile (không phải APK) và desktop cần đánh giá khả năng tích hợp các API này
+- Ưu tiên việc tích hợp các API này để tăng giá trị sử dụng cho người dùng
+- Đánh giá mức độ phù hợp của tích hợp với từng loại ứng dụng
+- Cân nhắc UX và vị trí hiển thị phù hợp trong ứng dụng
+
+## Quy Tắc Đặc Biệt Cho Dự Án APK
+- KHÔNG tự động tích hợp Weather API và AI API vào dự án APK
+- Chỉ thực hiện tích hợp khi có yêu cầu rõ ràng từ người dùng
+- Trước khi đề xuất tích hợp API, cần xác nhận lại yêu cầu với người dùng
+- Cần đánh giá kỹ các vấn đề về hiệu suất và dung lượng APK khi tích hợp thêm API
+- Việc tích hợp API không được làm tăng đáng kể kích thước APK
+- Đảm bảo các API không can thiệp vào các tính năng cốt lõi của APK
+
+## Quy Trình Tích Hợp
+1. Đánh giá mức độ phù hợp của ứng dụng với các API
+2. Đối với APK: Xác nhận yêu cầu tích hợp từ người dùng trước khi tiến hành
+3. Tạo instruction file cho việc tích hợp API (theo nguyên tắc instruction-first)
+4. Thiết kế UI/UX cho các tính năng tích hợp
+5. Implement các API service/wrapper riêng biệt
+6. Tích hợp UI components vào ứng dụng
+7. Test kỹ lưỡng trên các môi trường khác nhau
+8. Theo dõi feedback người dùng và tinh chỉnh 

@@ -1,0 +1,280 @@
+---
+description: Quy trình phát triển dự án mới từ ý tưởng ban đầu
+globs: *.*
+alwaysApply: false
+---
+# Quy Trình Tạo Dự Án Mới
+
+## Quy Trình Instruction-First Bắt Buộc
+- ***BẮT BUỘC*** setup project trước khi bắt đầu phát triển dự án mới
+- ***BẮT BUỘC*** tạo instruction (file .md) sau khi setup
+- ***BẮT BUỘC*** brainstorm kỹ với người dùng sau khi hoạt động
+- ***BẮT BUỘC*** áp dụng quy trình Design-to-prompt khi có design files trong thư mục design/
+- ***BẮT BUỘC*** đọc và hiểu instruction trước khi bắt đầu code
+- ***BẮT BUỘC*** cập nhật .code-workspace sau khi hoàn thành brainstorming
+- Không bao giờ bắt đầu code khi chưa có instruction đầy đủ
+
+## Quy Trình Appdexer Auto-Setup (MANDATORY FIRST STEP)
+- ***BẮT BUỘC*** kiểm tra file .project-identity được tạo tự động
+- ***BẮT BUỘC*** verify rằng Review Gate MCP đã được cấu hình trong Cursor
+- ***BẮT BUỘC*** test review_gate_chat tool trước khi tiếp tục
+- ***BẮT BUỘC*** thiết lập voice commands cho project type được phát hiện
+- ***BẮT BUỘC*** cấu hình resource management tự động
+
+## Quy Trình Design-to-Prompt (Khi có Design Files)
+- ***BẮT BUỘC*** kiểm tra thư mục design/ để phát hiện các file design (PNG, JPG, PDF, Figma, Sketch)
+- ***BẮT BUỘC*** áp dụng quy trình 2 agents khi phát hiện design files:
+
+### Agent 1 - Phân Tích Design Chi Tiết (với Appdexer)
+- ***BẮT BUỘC*** trích xuất tự động:
+  - **Danh sách tính năng**: Tên và mô tả ngắn gọn từng tính năng
+  - **Phân tích chi tiết từng tính năng**:
+    * Mô tả chức năng và cách thức hoạt động
+    * Các màn hình liên quan
+    * Luồng người dùng (User Flow) 
+    * Logic hoạt động và quy tắc
+    * Dữ liệu sử dụng/cung cấp
+    * Yêu cầu cần thiết (permissions, network, etc.)
+  - **Kết nối tính năng**:
+    * Xác định liên kết giữa các tính năng
+    * Phân tích cách kết hợp các tính năng
+    * Đề xuất kết hợp tiềm năng
+    * Các tính năng phụ cần thiết
+    * Tích hợp API bên thứ 3 (weather, currency, etc.)
+    * Phân tích điểm đau người dùng và đề xuất tính năng hỗ trợ
+    * Tham khảo app cùng loại để bổ sung tính năng
+  - **Tiềm năng AI**: Đề xuất cách ứng dụng AI để cải thiện tính năng
+
+### Agent 2 - Phân Tích Marketing & Monetization (với AI Context)
+  - Sử dụng luồng để phân tích từ góc độ marketing và doanh thu:
+  - Phân tích eCPM theo quốc gia
+  - Đánh giá nhu cầu thực tế thị trường
+  - Tối ưu tính năng cho doanh thu quảng cáo
+  - Cân bằng chi phí vận hành (đặc biệt chi phí AI)
+  - Phân tích thói quen người dùng theo vùng địa lý
+  - Đề xuất gamification để tăng retention
+  - Chiến lược giữ chân người dùng
+
+### Output Design-to-Prompt với Appdexer
+- ***BẮT BUỘC*** tạo file `instructions/Design_Analysis.md` chứa:
+  - Phân tích chi tiết bằng tiếng Việt
+  - Instruction template bằng tiếng Anh trong code block (chỉ chứa chỉ dẫn, không chứa code)
+  - Danh sách features prioritized theo marketing analysis
+  - User flow và interaction details
+  - Technical requirements và constraints
+  - Monetization strategy và user engagement plan
+
+### Nguyên Tắc Thiết Kế Instruction (.md) trong Design-to-Prompt
+- ***BẮT BUỘC*** instruction template chỉ chứa mô tả yêu cầu và hướng dẫn
+- ***NGHIÊM CẤM*** bao gồm code implementation trong instruction
+- ***BẮT BUỘC*** tập trung vào business logic và user requirements
+- ***BẮT BUỘC*** mô tả "what to build" thay vì "how to build"
+- ***BẮT BUỘC*** sử dụng natural language để describe functionality
+
+## Brainstorming với Người Dùng (Powered by Appdexer)
+- ***BẮT BUỘC*** sử dụng review_gate_chat để tương tác với người dùng
+- Đặt câu hỏi để hiểu rõ mục tiêu và tầm nhìn của ý tưởng
+- Chia câu hỏi thành nhiều lần hỏi, không hỏi tất cả trong cùng một lần
+- Hỏi về use cases, user stories và các tình huống sử dụng
+- Xác định đối tượng người dùng và nhu cầu của họ
+- Tìm hiểu ưu tiên và tính năng cốt lõi
+- Khám phá các ràng buộc về kỹ thuật, kinh doanh và người dùng
+- Xác định các yêu cầu chức năng và phi chức năng
+- Tóm tắt hiểu biết sau mỗi vòng hỏi đáp
+- Đề xuất những cách tiếp cận khác nhau để giải quyết vấn đề
+- Kiểm tra xác nhận hiểu biết của bạn với người dùng
+- Sử dụng voice commands khi có thể: "Brainstorm về [topic]"
+
+## Template Selection Integration
+- ***BẮT BUỘC*** thực hiện template selection ngay sau planning phase
+- ***BẮT BUỘC*** áp dụng template-selection-workflow.mdc
+- ***BẮT BUỘC*** tạo Template_Selection.md với rationale cho mỗi template
+- ***BẮT BUỘC*** cấu hình workspace với templates đã chọn
+- ***KHUYẾN NGHỊ*** tham khảo Template-Selection-Guide.md trong docs/templates/
+- ***NGHIÊM CẤM*** bỏ qua bước template selection để "tiết kiệm thời gian"
+
+## Nghiên Cứu Đối Thủ Cạnh Tranh (AI-Powered)
+- ***BẮT BUỘC*** Tìm kiếm và phân tích ít nhất 3 dự án tương tự trên google play
+- ***BẮT BUỘC*** tận dụng AI context analysis để:
+  * Tìm kiếm trên nền tảng tương ứng (Google Play, App Store, Web)
+  * Phân tích điểm mạnh, điểm yếu của từng đối thủ cạnh tranh
+  * Tổng hợp các tính năng phổ biến và độc đáo từ các đối thủ
+  * Đánh giá reviews/feedback của người dùng về các sản phẩm tương tự
+  * Xác định cơ hội để tạo điểm khác biệt và lợi thế cạnh tranh
+- ***BẮT BUỘC*** tổng hợp các insights từ nghiên cứu đối thủ vào quá trình brainstorming
+- ***BẮT BUỘC*** đề xuất các tính năng dựa trên phân tích đối thủ cạnh tranh
+- ***BẮT BUỘC*** cập nhật nghiên cứu định kỳ để theo dõi xu hướng thị trường
+
+## Cấu Hình Workspace (Auto với Appdexer)
+- ***BẮT BUỘC*** Appdexer tự động cập nhật file .code-workspace khi detect project
+- ***BẮT BUỘC*** Appdexer tự động chọn màu sắc workspace và emoji phù hợp
+- ***BẮT BUỘC*** kiểm tra và xác nhận cấu hình workspace được Appdexer tạo
+- Danh sách emoji gợi ý theo loại dự án (Appdexer auto-applies):
+  * 🤖 - AI/ML project
+  * 🌦️ - Weather app
+  * 📱 - Mobile app
+  * 🖥️ - Desktop app
+  * 🌐 - Web app
+  * 🎮 - Game
+  * 📊 - Data analytics
+  * 🔒 - Security app
+  * 📝 - Note taking/Document
+  * 🛒 - E-commerce
+  * 📷 - Photo/Video
+  * 🎵 - Music/Audio
+  * 💬 - Chat/Communication
+  * 🗂️ - File management
+  * 🧠 - Education
+
+## Tạo Instruction với Appdexer Support
+- Tạo file instruction trong thư mục instructions/ hoặc thư mục tương ứng
+- Sử dụng định dạng [TenTinhNang]_Instruction.md
+- Tổng hợp tất cả thông tin từ quá trình brainstorm vào instruction
+- Bao gồm kết quả nghiên cứu đối thủ cạnh tranh trong phần phân tích thị trường
+- Mô tả rõ mục tiêu, yêu cầu, và scope của tính năng
+- Xác định các task cụ thể và đánh dấu trạng thái (✅, ⏳, ❌)
+- Định nghĩa ràng buộc và yêu cầu ngoài biên
+- Xác định tiêu chí hoàn thành cho từng task và toàn bộ tính năng
+- Liên kết đến các tài liệu liên quan khác nếu cần
+
+## Phân Cấp Instruction với Auto-Organization
+- ***BẮT BUỘC*** Appdexer tự động tạo instruction tổng quan (outline) cho toàn bộ dự án trước tiên
+- ***BẮT BUỘC*** Appdexer auto-suggest các instruction chi tiết riêng biệt cho từng module/tính năng
+- Đặt tên instruction chi tiết theo cấu trúc: `[TênDựÁn]_[TênModule]_Instruction.md`
+- Trong instruction tổng quan, liệt kê tất cả các module/tính năng cần phát triển
+- Tạo liên kết từ instruction tổng quan đến các instruction chi tiết
+- Cập nhật instruction tổng quan mỗi khi thêm hoặc thay đổi module/tính năng
+- Đảm bảo mỗi instruction chi tiết tham chiếu ngược lại instruction tổng quan
+- Instruction chi tiết phải đủ chi tiết để có thể triển khai độc lập
+- Cấu trúc thư mục instruction nên phản ánh cấu trúc của dự án
+
+## Instruction Chi Tiết Cho Giao Diện (AI-Enhanced)
+- ***BẮT BUỘC*** sử dụng review_gate_chat để brainstorm lại với người dùng về giao diện họ mong muốn
+- Tạo file instruction riêng cho giao diện với cấu trúc: `[TênDựÁn]_UI_Instruction.md`
+- Thu thập tham khảo hình ảnh, mockups, hoặc wireframes từ người dùng
+- Liệt kê chi tiết các màn hình/components cần được phát triển
+- Mô tả flow chuyển tiếp giữa các màn hình
+- Xác định:
+  * Layout tổng thể (responsive breakpoints nếu cần)
+  * Color scheme và typography
+  * Components chính và cách chúng tương tác
+  * Animations và transitions
+  * States khác nhau của UI (loading, error, empty states)
+  * Responsive behavior (mobile, tablet, desktop)
+- Tạo sitemap hoặc flow diagram cho các ứng dụng phức tạp
+- Sử dụng voice commands để brainstorm về UI: "Phân tích UI design pattern cho [project type]"
+
+## Tạo Instruction Modular (Cấu Trúc Mới với Appdexer)
+- ***BẮT BUỘC*** Appdexer tự động tạo `Instruction.md` làm file outline chính
+- ***BẮT BUỘC*** Appdexer auto-suggest các instruction chi tiết cho từng module riêng biệt
+- ***BẮT BUỘC*** liên kết tất cả instruction modules từ `Instruction.md`
+
+### Cấu Trúc Instruction.md (Outline) - Auto-Generated
+```markdown
+# [Tên Dự Án] - Instruction Outline (Generated by Appdexer)
+
+## 📋 Tổng Quan Dự Án
+- Mục tiêu và tầm nhìn
+- Đối tượng người dùng
+- Scope và limitations
+- Tech stack chính
+
+## 🤖 Appdexer Configuration
+- Project Type: [auto-detected]
+- Voice Commands: Enabled
+- Resource Management: Enabled
+- AI Analysis: Enabled
+
+## 🧩 Modules & Instructions
+- [✅/⏳/❌] [Module Dashboard](mdc:instructions/Dashboard_Instruction.md) - Main Dashboard UI
+- [✅/⏳/❌] [Module Profile](mdc:instructions/Profile_Instruction.md) - User Profile Management
+- [✅/⏳/❌] [Module Settings](mdc:instructions/Settings_Instruction.md) - App Settings & Preferences
+
+## 🎯 Development Roadmap
+1. **Phase 1**: Core Features
+2. **Phase 2**: Advanced Features (Profile, Settings)
+3. **Phase 3**: Integration & Testing
+
+## 📊 Current Status
+- **Completed**: 0/4 modules
+- **In Progress**: 0/4 modules
+- **Not Started**: 4/4 modules
+
+## 🎤 Voice Commands Available
+- "Tạo [component name]"
+- "Thêm tính năng [feature]"
+- "Tìm icon cho [purpose]"
+- "Phân tích design"
+- "Setup routing"
+```
+
+## Workflow Thực Hiện với Appdexer (Updated)
+1. **MANDATORY: Setup Appdexer**
+2. **Test Appdexer** - Verify tất cả tools hoạt động
+3. **Kiểm tra design/** - Tìm file design có sẵn
+4. **Áp dụng Design-to-prompt**
+5. **Brainstorm** - Thu thập thêm thông tin từ người dùng qua review_gate_chat
+6. **Nghiên cứu competitor**
+7. **Tạo Design_Analysis.md** - Nếu có design files
+8. **Tạo Instruction.md** - File outline chính (auto-generated)
+9. **Tạo instruction modules** - Chi tiết cho từng phần
+10. **Auto-update workspace** - Appdexer tự động cấu hình
+11. **Setup database & resources** - Theo cần thiết
+12. **Begin implementation** - Theo thứ tự modules với voice support
+
+## Quy Trình AI Implementation với Appdexer
+- ***BẮT BUỘC*** AI sử dụng review_gate_chat để tương tác với người dùng
+- ***BẮT BUỘC*** AI đọc `Instruction.md` để hiểu tổng quan
+- ***BẮT BUỘC*** AI truy cập instruction module tương ứng với task hiện tại
+- ***BẮT BUỘC*** AI cập nhật trạng thái task khi hoàn thành
+- ***BẮT BUỘC*** AI cập nhật trạng thái module trong `Instruction.md`
+- ***KHUYẾN NGHỊ*** AI sử dụng voice commands khi có thể
+- ***KHUYẾN NGHỊ*** AI kiểm tra dependencies trước khi bắt đầu module mới
+
+## Quy Trình Thực Hiện (Updated với Appdexer)
+1. **MANDATORY: Setup Appdexer**
+2. **Test all Appdexer tools** - verify functionality
+3. **Brainstorm với người dùng** qua review_gate_chat với nhiều vòng hỏi đáp
+4. **Nghiên cứu và phân tích đối thủ cạnh tranh** với AI support
+5. **Phân tích yêu cầu từ user** sử dụng AI context analysis
+6. **Rà soát cấu trúc project** với auto-detection
+7. **Tạo instruction đầy đủ** với AI assistance
+8. **Auto-update .code-workspace** với màu sắc và emoji phù hợp
+9. **Tạo file MockupData.md** nếu dự án sử dụng dữ liệu giả lập
+10. **Tạo file db-schema.sql** nếu dự án sử dụng database
+11. **Xác nhận instruction đã hoàn thiện** qua review_gate_chat
+12. **Tuân thủ các task trong instruction** theo thứ tự với voice support
+13. **Cập nhật trạng thái task** khi hoàn thành
+14. **Kiểm tra tất cả tiêu chí hoàn thành** với AI validation
+15. **Tổng kết khi hoàn thiện tính năng** qua review_gate_chat
+
+## Quản Lý Instruction Files với Appdexer
+- Giữ instruction files trong Git version control
+- Cập nhật instruction khi có thay đổi thông qua Appdexer
+- Đảm bảo mỗi tính năng có ít nhất một instruction file
+- Sử dụng instruction files như documentation cho dự án
+- Tham khảo instruction cũ khi phát triển tính năng mới tương tự
+
+## Quản Lý Resource với Appdexer (Auto)
+- ***BẮT BUỘC*** Appdexer tự động tải các Cursor Rules mới về thư mục .cursor/rules
+- ***BẮT BUỘC*** Appdexer tự động tạo thư mục và cấu trúc phù hợp
+- ***BẮT BUỘC*** sử dụng tìm kiếm và tải về các icon cần thiết có thể tải từ https://www.svgrepo.com/ 
+- ***BẮT BUỘC*** Appdexer tự động cập nhật file `.gitignore` để loại trừ các file tạm
+- ***KHUYẾN NGHỊ*** sử dụng voice commands: "Tìm icon [description] cho [context]"
+
+## Voice-First Development với Appdexer
+- ***BẮT BUỘC*** sử dụng voice commands khi có thể thay vì typing
+- ***BẮT BUỘC*** train custom voice commands cho project-specific tasks
+- ***KHUYẾN NGHỊ*** phát triển theo workflow: Voice → AI Analysis → Code Generation
+- ***KHUYẾN NGHỊ*** sử dụng review_gate_chat để clarify requirements thông qua voice
+
+Ví dụ Voice Commands:
+- "Tạo component header với navigation"
+- "Thêm dark mode support"
+- "Tìm weather icons cho mobile app"
+- "Setup database cho user authentication"
+- "Phân tích design file trong thư mục design"
+
+@file ../Instruction.md
+@file ../Project.md
+@file ../MockupData.md

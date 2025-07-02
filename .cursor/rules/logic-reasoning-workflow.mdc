@@ -1,0 +1,331 @@
+---
+description: Logic Reasoning System - Tự động gợi ý tính năng liên quan và tăng cường planning enforcement
+globs: "*.*"
+alwaysApply: true
+---
+
+# Logic Reasoning System Workflow
+
+## Nguyên Tắc Cơ Bản
+- ***BẮT BUỘC*** phân tích mọi feature request để tìm tính năng liên quan
+- ***BẮT BUỘC*** tạo Planning file trước khi implement bất kỳ tính năng nào
+- ***BẮT BUỘC*** xác nhận với user trước khi bổ sung tính năng vào plan
+- ***BẮT BUỘC*** học từ user decisions để cải thiện suggestions
+- ***KHUYẾN NGHỊ*** sử dụng Context7 để validate technical feasibility
+- ***NGHIÊM CẤM*** implement features mà không có proper planning
+
+## Trigger Conditions
+- User yêu cầu thêm tính năng mới
+- User đề cập đến feature enhancement
+- User bắt đầu dự án mới với specific features
+- User request có từ khóa: "thêm", "tạo", "implement", "build", "develop"
+
+## Logic Reasoning Process
+
+### Phase 1: Feature Analysis
+```
+1. Parse user request để identify main feature
+2. Extract context: project type, existing features, tech stack
+3. Query knowledge base cho related features
+4. Apply project-specific filtering
+5. Generate reasoning cho mỗi suggestion
+```
+
+### Phase 2: Suggestion Generation
+```
+1. Prioritize suggestions based on:
+   - Technical dependencies
+   - Business value
+   - Implementation complexity
+   - User project context
+2. Generate clear reasoning cho mỗi suggestion
+3. Estimate implementation effort
+4. Check compatibility với existing codebase
+```
+
+### Phase 3: User Interaction
+```
+1. Present suggestions với clear reasoning
+2. Allow user to approve/reject/defer each suggestion
+3. Collect user feedback và reasoning
+4. Update planning file với approved features
+5. Track decisions cho future learning
+```
+
+## Feature Relationship Knowledge Base
+
+### Web Application Features
+```
+Authentication:
+- Required: Session Management, Password Hashing
+- Recommended: Password Reset, Email Verification
+- Optional: Two-Factor Auth, Social Login
+- Future: SSO, OAuth Integration
+
+User Management:
+- Required: User Registration, Profile Management
+- Recommended: Role-based Access, User Preferences
+- Optional: User Analytics, Activity Logging
+- Future: Advanced Permissions, User Groups
+
+Data Management:
+- Required: Database Schema, CRUD Operations
+- Recommended: Data Validation, Error Handling
+- Optional: Data Export, Backup System
+- Future: Data Analytics, Real-time Sync
+```
+
+### Mobile Application Features
+```
+Push Notifications:
+- Required: Notification Service, User Permissions
+- Recommended: Notification Settings, Message Queue
+- Optional: Rich Notifications, Scheduling
+- Future: AI-powered Notifications, Analytics
+
+Offline Support:
+- Required: Local Storage, Sync Mechanism
+- Recommended: Conflict Resolution, Cache Management
+- Optional: Background Sync, Data Compression
+- Future: Smart Caching, Predictive Loading
+```
+
+### API Development Features
+```
+REST API:
+- Required: Route Handling, Request Validation
+- Recommended: Authentication, Error Handling
+- Optional: Rate Limiting, API Documentation
+- Future: GraphQL, Real-time APIs
+
+Database Integration:
+- Required: Connection Management, Query Builder
+- Recommended: Migration System, Seed Data
+- Optional: Connection Pooling, Query Optimization
+- Future: Multi-database Support, Sharding
+```
+
+## Suggestion Presentation Template
+
+```markdown
+## 🧠 Logic Reasoning Analysis
+
+Based on your request for "[MAIN_FEATURE]", I've analyzed related features that would enhance your implementation:
+
+### High Priority Suggestions (Strongly Recommended)
+1. **[Feature Name]**
+   - **Why**: [Clear reasoning for why this is important]
+   - **Impact**: [How it affects the main feature]
+   - **Dependencies**: [What it depends on or what depends on it]
+   - **Effort**: [Implementation time estimate]
+   - **Decision**: [ ] Approve [ ] Reject [ ] Defer
+
+### Medium Priority Suggestions (Recommended)
+2. **[Feature Name]**
+   - **Why**: [Reasoning]
+   - **Impact**: [Impact description]
+   - **Dependencies**: [Dependencies]
+   - **Effort**: [Effort estimate]
+   - **Decision**: [ ] Approve [ ] Reject [ ] Defer
+
+### Low Priority Suggestions (Consider for Future)
+3. **[Feature Name]**
+   - **Why**: [Reasoning]
+   - **Impact**: [Impact description]
+   - **Dependencies**: [Dependencies]
+   - **Effort**: [Effort estimate]
+   - **Decision**: [ ] Approve [ ] Reject [ ] Defer
+
+Please review these suggestions and let me know your decisions. I'll update the planning file accordingly.
+```
+
+## Planning Enhancement Rules
+
+### Planning File Requirements
+- ***BẮT BUỘC*** tạo Planning_[ProjectName].md trước khi implement
+- ***BẮT BUỘC*** include logic reasoning analysis trong planning
+- ***BẮT BUỘC*** document user decisions về suggestions
+- ***BẮT BUỘC*** update planning file khi có changes
+
+### Enhanced Planning Template
+```markdown
+# Planning_[ProjectName].md
+
+## Original Request
+[User's original feature request]
+
+## 🧠 Logic Reasoning Analysis
+### AI-Generated Suggestions
+[Detailed suggestions với user decisions]
+
+### Feature Dependency Graph
+[Visual representation of feature relationships]
+
+### Approved Feature Set
+[Final list of features to implement]
+
+## 📋 Implementation Plan
+[Detailed implementation plan với approved features]
+
+## 🎯 Success Criteria
+[How to measure success]
+
+## 🚨 Risk Assessment
+[Potential risks và mitigation strategies]
+```
+
+## Integration với Existing Workflows
+
+### Enhanced Planning Workflow Integration
+```yaml
+integration_points:
+  - trigger: "User requests feature without plan"
+  - action: "Auto-generate plan draft với feature suggestions"
+  - modules: ["planning-enhancement-module", "feature-suggestion-engine"]
+  - output: "Complete planning document với comprehensive feature analysis"
+  
+workflow_enhancement:
+  - planning_enforcement: "Automatically triggered when plan missing"
+  - suggestion_integration: "AI suggestions embedded in plan generation"
+  - user_interaction: "Interactive plan refinement và approval"
+  - compliance_monitoring: "Real-time plan adherence checking"
+```
+
+### Brainstorm Workflow Integration
+```yaml
+integration_points:
+  - trigger: "After brainstorm completion"
+  - action: "Convert brainstorm to structured plan với suggestions"
+  - modules: ["feature-suggestion-engine", "interactive-suggestion-interface"]
+  - output: "Enhanced brainstorm với prioritized implementation plan"
+  
+enhancement_features:
+  - structured_analysis: "Convert free-form ideas to structured features"
+  - relationship_mapping: "Identify connections between brainstormed ideas"
+  - priority_scoring: "AI-driven priority assessment"
+  - implementation_planning: "Automatic phase và timeline generation"
+```
+
+### Context7 Auto-Workflow Integration
+```yaml
+integration_points:
+  - trigger: "During feature analysis và implementation planning"
+  - action: "Query Context7 for best practices và validation"
+  - modules: ["feature-suggestion-engine", "planning-enhancement-module"]
+  - output: "Implementation guidance với industry standards và validation"
+  
+enhanced_capabilities:
+  - best_practice_integration: "Automatic best practice suggestions"
+  - technical_validation: "Feasibility assessment using Context7 data"
+  - implementation_guides: "Step-by-step implementation instructions"
+  - quality_assurance: "Built-in QA recommendations"
+```
+
+### Interactive Suggestion Interface Integration
+```yaml
+integration_points:
+  - trigger: "When presenting suggestions to user"
+  - action: "Provide interactive decision-making interface"
+  - modules: ["interactive-suggestion-interface"]
+  - output: "User decisions captured và integrated into planning"
+  
+interaction_features:
+  - smart_presentation: "Priority-grouped suggestions với clear reasoning"
+  - decision_capture: "Structured user feedback collection"
+  - plan_integration: "Automatic plan updates based on decisions"
+  - learning_system: "Continuous improvement từ user preferences"
+```
+
+## Learning Mechanism
+
+### Decision Tracking
+```
+User Decision Data:
+- Feature requested: [Main feature]
+- Suggestions made: [List of suggestions]
+- User decisions: [Approved/Rejected/Deferred]
+- User reasoning: [Why user made each decision]
+- Project context: [Type, tech stack, etc.]
+- Outcome: [Success/failure of implementation]
+```
+
+### Knowledge Base Updates
+- Track approval/rejection patterns
+- Learn user preferences per project type
+- Improve suggestion accuracy over time
+- Update feature relationship weights
+
+### Continuous Improvement
+- Weekly analysis của suggestion accuracy
+- Monthly knowledge base updates
+- Quarterly algorithm improvements
+- Annual major enhancements
+
+## Error Handling
+
+### Fallback Strategies
+- Nếu knowledge base không có data → use basic patterns
+- Nếu AI analysis fails → provide manual suggestion option
+- Nếu user rejects all suggestions → proceed với original request
+- Nếu planning file creation fails → create minimal planning
+
+### Recovery Procedures
+- Log all errors cho debugging
+- Provide clear error messages to user
+- Offer alternative approaches
+- Maintain workflow continuity
+
+## Performance Optimization
+
+### Caching Strategy
+- Cache frequently used feature relationships
+- Store user preference patterns
+- Cache Context7 query results
+- Optimize knowledge base queries
+
+### Async Processing
+- Run logic reasoning analysis trong background
+- Pre-load common suggestions
+- Batch knowledge base updates
+- Optimize user interaction flow
+
+## Success Metrics
+
+### Quantitative Metrics
+- Planning file creation rate: Target 95%
+- Suggestion approval rate: Target 80%
+- Planning time reduction: Target 30%
+- Feature completeness increase: Target 50%
+
+### Qualitative Metrics
+- User satisfaction với suggestions
+- Planning quality improvements
+- Project success rates
+- Learning accuracy over time
+
+## Implementation Checklist
+
+### Phase 1: Core Logic
+- [ ] Feature relationship analyzer
+- [ ] Basic suggestion engine
+- [ ] Planning enhancement module
+- [ ] User interaction interface
+
+### Phase 2: AI Integration
+- [ ] Context7 integration
+- [ ] Learning mechanism
+- [ ] Performance optimization
+- [ ] Error handling
+
+### Phase 3: Advanced Features
+- [ ] Workflow integration
+- [ ] Analytics và monitoring
+- [ ] Documentation
+- [ ] Testing và validation
+
+---
+
+**Workflow Status**: 🚧 In Development
+**Integration Points**: Brainstorm, Planning, Context7, Experience System
+**Dependencies**: Knowledge Base, Memory Bank, User Interaction
+**Success Criteria**: 95% planning compliance, 80% suggestion accuracy

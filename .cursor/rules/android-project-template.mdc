@@ -1,0 +1,619 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Android Project Template
+
+## Project Template Configuration
+
+### Gradle Files Setup
+
+#### Root build.gradle
+```kotlin
+buildscript {
+    ext {
+        compose_version = '1.5.4'
+        material3_version = '1.1.2'
+        hilt_version = '2.48'
+        koin_version = '3.5.0'
+        coroutines_version = '1.7.3'
+        retrofit_version = '2.9.0'
+        okhttp_version = '4.12.0'
+        serialization_version = '1.6.0'
+        room_version = '2.6.0'
+        coil_version = '2.5.0'
+        timber_version = '5.0.1'
+        dexter_version = '6.2.3'
+        
+        // Testing
+        junit_version = '4.13.2'
+        mockk_version = '1.13.8'
+        truth_version = '1.1.4'
+        compose_test_version = '1.5.4'
+    }
+    
+    dependencies {
+        classpath "com.google.dagger:hilt-android-gradle-plugin:$hilt_version"
+        classpath "org.jetbrains.kotlin:kotlin-serialization:$kotlin_version"
+        classpath 'com.google.gms:google-services:4.4.0'
+        classpath 'com.google.firebase:firebase-crashlytics-gradle:2.9.9'
+        classpath 'com.google.firebase:perf-plugin:1.4.2'
+    }
+}
+```
+
+#### App-level build.gradle
+```kotlin
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+    id 'kotlin-kapt'
+    id 'dagger.hilt.android.plugin' // Hoặc loại bỏ nếu dùng Koin
+    id 'kotlinx-serialization'
+    id 'com.google.gms.google-services'
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.firebase.firebase-perf'
+}
+
+android {
+    compileSdk 34
+    
+    defaultConfig {
+        applicationId "com.yourcompany.yourapp"
+        minSdk 24
+        targetSdk 34
+        versionCode 1
+        versionName "1.0"
+        
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        
+        // ABI Filtering
+        ndk {
+            abiFilters 'armeabi-v7a', 'arm64-v8a'
+        }
+        
+        vectorDrawables {
+            useSupportLibrary true
+        }
+    }
+    
+    buildTypes {
+        debug {
+            applicationIdSuffix ".debug"
+            debuggable true
+            minifyEnabled false
+        }
+        
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            
+            // Signing config here
+        }
+    }
+    
+    // Android App Bundle Configuration
+    bundle {
+        language {
+            enableSplit = true
+        }
+        density {
+            enableSplit = true
+        }
+        abi {
+            enableSplit = true
+        }
+    }
+    
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    
+    kotlinOptions {
+        jvmTarget = '1.8'
+        freeCompilerArgs += [
+            "-opt-in=kotlin.RequiresOptIn",
+            "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+            "-opt-in=androidx.compose.ui.ExperimentalComposeUiApi"
+        ]
+    }
+    
+    buildFeatures {
+        compose true
+        buildConfig true
+    }
+    
+    composeOptions {
+        kotlinCompilerExtensionVersion compose_version
+    }
+    
+    packagingOptions {
+        resources {
+            excludes += '/META-INF/{AL2.0,LGPL2.1}'
+        }
+    }
+    
+    testOptions {
+        unitTests {
+            includeAndroidResources = true
+        }
+    }
+}
+
+dependencies {
+    // Core Android
+    implementation 'androidx.core:core-ktx:1.12.0'
+    implementation 'androidx.lifecycle:lifecycle-runtime-ktx:2.7.0'
+    implementation 'androidx.activity:activity-compose:1.8.1'
+    
+    // Compose BOM
+    implementation platform('androidx.compose:compose-bom:2023.10.01')
+    implementation 'androidx.compose.ui:ui'
+    implementation 'androidx.compose.ui:ui-graphics'
+    implementation 'androidx.compose.ui:ui-tooling-preview'
+    implementation 'androidx.compose.material3:material3'
+    
+    // Navigation
+    implementation 'androidx.navigation:navigation-compose:2.7.5'
+    
+    // ViewModel
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0'
+    
+    // Dependency Injection - Choose ONE
+    // Hilt (recommended for large projects)
+    implementation "com.google.dagger:hilt-android:$hilt_version"
+    kapt "com.google.dagger:hilt-compiler:$hilt_version"
+    implementation 'androidx.hilt:hilt-navigation-compose:1.1.0'
+    
+    // OR Koin (lightweight alternative)
+    // implementation "io.insert-koin:koin-android:$koin_version"
+    // implementation "io.insert-koin:koin-androidx-compose:$koin_version"
+    
+    // Networking
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-kotlinx-serialization:1.0.0"
+    implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp_version"
+    
+    // Serialization
+    implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:$serialization_version"
+    
+    // Async
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+    
+    // Database
+    implementation "androidx.room:room-runtime:$room_version"
+    implementation "androidx.room:room-ktx:$room_version"
+    kapt "androidx.room:room-compiler:$room_version"
+    
+    // Image Loading
+    implementation "io.coil-kt:coil-compose:$coil_version"
+    
+    // Logging
+    implementation "com.jakewharton.timber:timber:$timber_version"
+    
+    // Permissions (Optional)
+    implementation "com.karumi:dexter:$dexter_version"
+    
+    // Firebase
+    implementation platform('com.google.firebase:firebase-bom:32.6.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx'
+    implementation 'com.google.firebase:firebase-perf-ktx'
+    
+    // Testing
+    testImplementation "junit:junit:$junit_version"
+    testImplementation "io.mockk:mockk:$mockk_version"
+    testImplementation "com.google.truth:truth:$truth_version"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutines_version"
+    testImplementation "androidx.arch.core:core-testing:2.2.0"
+    
+    // UI Testing
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation platform('androidx.compose:compose-bom:2023.10.01')
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4'
+    
+    // Debug
+    debugImplementation 'androidx.compose.ui:ui-tooling'
+    debugImplementation 'androidx.compose.ui:ui-test-manifest'
+}
+```
+
+### ProGuard Rules (proguard-rules.pro)
+```proguard
+# Keep data classes for serialization
+-keep @kotlinx.serialization.Serializable class ** {
+    *;
+}
+
+# Keep Retrofit interfaces
+-keep interface ** {
+    @retrofit2.http.* <methods>;
+}
+
+# Keep Room entities
+-keep @androidx.room.Entity class ** {
+    *;
+}
+
+# Keep Firebase
+-keep class com.google.firebase.** { *; }
+
+# Keep Timber
+-keep class timber.log.** { *; }
+
+# Keep Hilt generated classes
+-keep class dagger.hilt.** { *; }
+-keep class javax.inject.** { *; }
+
+# Optimize and obfuscate
+-optimizationpasses 5
+-dontpreverify
+-verbose
+```
+
+## Project Structure Template
+
+### Package Structure
+```
+com.yourcompany.yourapp/
+├── core/
+│   ├── base/
+│   │   ├── BaseViewModel.kt
+│   │   ├── BaseUseCase.kt
+│   │   └── BaseRepository.kt
+│   ├── di/
+│   │   ├── DatabaseModule.kt
+│   │   ├── NetworkModule.kt
+│   │   └── RepositoryModule.kt
+│   ├── network/
+│   │   ├── ApiService.kt
+│   │   ├── NetworkResult.kt
+│   │   └── interceptors/
+│   ├── database/
+│   │   ├── AppDatabase.kt
+│   │   └── dao/
+│   ├── utils/
+│   │   ├── Constants.kt
+│   │   ├── Extensions.kt
+│   │   └── NetworkUtils.kt
+│   └── theme/
+│       ├── Color.kt
+│       ├── Theme.kt
+│       └── Type.kt
+├── data/
+│   ├── model/
+│   ├── repository/
+│   └── datasource/
+│       ├── local/
+│       └── remote/
+├── domain/
+│   ├── model/
+│   ├── repository/
+│   └── usecase/
+└── presentation/
+    ├── components/
+    ├── navigation/
+    └── screens/
+        └── [feature]/
+            ├── FeatureScreen.kt
+            ├── FeatureViewModel.kt
+            └── components/
+```
+
+## Base Classes Templates
+
+### BaseViewModel.kt
+```kotlin
+abstract class BaseViewModel : ViewModel() {
+    protected val _uiState = MutableStateFlow<UiState>(UiState.Loading)
+    val uiState = _uiState.asStateFlow()
+    
+    protected fun handleError(error: Throwable) {
+        Timber.e(error, "Error in ${this::class.simpleName}")
+        _uiState.value = UiState.Error(error.message ?: "Unknown error occurred")
+    }
+    
+    protected fun handleLoading() {
+        _uiState.value = UiState.Loading
+    }
+    
+    protected fun handleSuccess() {
+        _uiState.value = UiState.Success
+    }
+}
+
+sealed class UiState {
+    object Loading : UiState()
+    object Success : UiState()
+    data class Error(val message: String) : UiState()
+}
+```
+
+### BaseUseCase.kt
+```kotlin
+abstract class BaseUseCase<in P, R> {
+    suspend operator fun invoke(parameters: P): Result<R> = runCatching {
+        execute(parameters)
+    }.onFailure { error ->
+        Timber.e(error, "Error in ${this::class.simpleName}")
+    }
+    
+    protected abstract suspend fun execute(parameters: P): R
+}
+
+// For use cases without parameters
+abstract class BaseUseCaseNoParams<R> {
+    suspend operator fun invoke(): Result<R> = runCatching {
+        execute()
+    }.onFailure { error ->
+        Timber.e(error, "Error in ${this::class.simpleName}")
+    }
+    
+    protected abstract suspend fun execute(): R
+}
+```
+
+### BaseRepository.kt
+```kotlin
+abstract class BaseRepository {
+    protected suspend fun <T> safeApiCall(
+        apiCall: suspend () -> T
+    ): Result<T> = runCatching {
+        apiCall()
+    }.onFailure { error ->
+        Timber.e(error, "API call failed in ${this::class.simpleName}")
+    }
+    
+    protected suspend fun <T> safeDatabaseCall(
+        dbCall: suspend () -> T
+    ): Result<T> = runCatching {
+        dbCall()
+    }.onFailure { error ->
+        Timber.e(error, "Database call failed in ${this::class.simpleName}")
+    }
+}
+```
+
+## Application Class Template
+
+### MyApplication.kt
+```kotlin
+@HiltAndroidApp // Loại bỏ nếu dùng Koin
+class MyApplication : Application() {
+    
+    override fun onCreate() {
+        super.onCreate()
+        
+        setupTimber()
+        setupFirebase()
+        // setupKoin() // Nếu dùng Koin
+    }
+    
+    private fun setupTimber() {
+        if (BuildConfig.DEBUG) {
+            Timber.plant(object : Timber.DebugTree() {
+                override fun createStackElementTag(element: StackTraceElement): String {
+                    return "${element.fileName}:${element.lineNumber}#${element.methodName}"
+                }
+            })
+        } else {
+            Timber.plant(ReleaseTree())
+        }
+    }
+    
+    private fun setupFirebase() {
+        FirebaseCrashlytics.getInstance().apply {
+            setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
+            setCustomKey("app_version", BuildConfig.VERSION_NAME)
+        }
+        
+        FirebasePerformance.getInstance().apply {
+            isPerformanceCollectionEnabled = !BuildConfig.DEBUG
+        }
+    }
+    
+    // Koin setup if using Koin instead of Hilt
+    /*
+    private fun setupKoin() {
+        startKoin {
+            androidLogger()
+            androidContext(this@MyApplication)
+            modules(
+                networkModule,
+                databaseModule,
+                repositoryModule,
+                useCaseModule,
+                viewModelModule
+            )
+        }
+    }
+    */
+}
+
+// Custom Timber tree for release builds
+class ReleaseTree : Timber.Tree() {
+    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+        if (priority == Log.ERROR || priority == Log.WARN) {
+            // Log to Crashlytics
+            FirebaseCrashlytics.getInstance().recordException(
+                t ?: Exception(message)
+            )
+        }
+    }
+}
+```
+
+## CI/CD GitHub Actions Template
+
+### .github/workflows/android.yml
+```yaml
+name: Android CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    name: Run Unit Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        
+    - name: Cache Gradle dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+          
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Run unit tests
+      run: ./gradlew testDebugUnitTest
+      
+    - name: Generate test report
+      uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: test-results
+        path: app/build/reports/tests/
+        
+  build:
+    name: Build APK
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Set up JDK 11
+      uses: actions/setup-java@v3
+      with:
+        java-version: '11'
+        distribution: 'temurin'
+        
+    - name: Cache Gradle dependencies
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-
+          
+    - name: Grant execute permission for gradlew
+      run: chmod +x gradlew
+      
+    - name: Build debug APK
+      run: ./gradlew assembleDebug
+      
+    - name: Upload APK
+      uses: actions/upload-artifact@v3
+      with:
+        name: debug-apk
+        path: app/build/outputs/apk/debug/app-debug.apk
+        
+    - name: Analyze APK size
+      run: |
+        APK_SIZE=$(stat -c%s app/build/outputs/apk/debug/app-debug.apk)
+        echo "APK Size: $((APK_SIZE / 1024 / 1024)) MB"
+        if [ $APK_SIZE -gt 52428800 ]; then
+          echo "Warning: APK size exceeds 50MB"
+          exit 1
+        fi
+```
+
+## Performance Monitoring Setup
+
+### NetworkModule.kt với Performance Tracking
+```kotlin
+@Module
+@InstallIn(SingletonComponent::class)
+object NetworkModule {
+    
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(HttpLoggingInterceptor().apply {
+                level = if (BuildConfig.DEBUG) {
+                    HttpLoggingInterceptor.Level.BODY
+                } else {
+                    HttpLoggingInterceptor.Level.NONE
+                }
+            })
+            .addInterceptor(PerformanceInterceptor())
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(30, TimeUnit.SECONDS)
+            .writeTimeout(30, TimeUnit.SECONDS)
+            .build()
+    }
+}
+
+class PerformanceInterceptor : Interceptor {
+    override fun intercept(chain: Interceptor.Chain): Response {
+        val request = chain.request()
+        val trace = FirebasePerformance.getInstance()
+            .newHttpMetric(request.url.toString(), request.method)
+        
+        trace.start()
+        
+        val response = chain.proceed(request)
+        
+        trace.setHttpResponseCode(response.code)
+        trace.setRequestPayloadSize(request.body?.contentLength() ?: 0)
+        trace.setResponseContentType(response.header("Content-Type"))
+        trace.setResponsePayloadSize(response.body?.contentLength() ?: 0)
+        trace.stop()
+        
+        return response
+    }
+}
+```
+
+## Automated APK Size Monitoring
+
+### gradle-apk-size-checker.gradle
+```gradle
+task checkApkSize {
+    doLast {
+        def apkFile = file("$buildDir/outputs/apk/release/app-release.apk")
+        if (apkFile.exists()) {
+            def apkSize = apkFile.length()
+            def apkSizeMB = apkSize / 1024 / 1024
+            
+            println "APK Size: ${apkSizeMB} MB"
+            
+            // Set your size limit here (in MB)
+            def maxSizeMB = 50
+            
+            if (apkSizeMB > maxSizeMB) {
+                throw new GradleException("APK size (${apkSizeMB} MB) exceeds limit (${maxSizeMB} MB)")
+            }
+        }
+    }
+}
+
+// Run size check after assembling release
+assembleRelease.finalizedBy checkApkSize
+```

@@ -1,0 +1,79 @@
+---
+description: Quy tắc đảm bảo không trùng lặp code trong dự án Android
+globs: *.kt,*.java,*.xml
+alwaysApply: false
+---
+# Universal Code Deduplication Rules
+
+## Nguyên tắc cơ bản
+- ***BẮT BUỘC*** kiểm tra blueprint trước khi tạo component mới
+- ***BẮT BUỘC*** rà soát code hiện tại trước khi viết chức năng mới
+- ***BẮT BUỘC*** tuân thủ nguyên tắc DRY (Don't Repeat Yourself)
+- ***BẮT BUỘC*** cập nhật module-registry.md khi tạo module mới
+- ***BẮT BUỘC*** tất cả các utils, helpers phải đặt trong shared/common modules
+- ***BẮT BUỘC*** áp dụng cho mọi ngôn ngữ lập trình và framework
+
+## Quy trình kiểm tra trùng lặp
+1. Khi nhận yêu cầu thêm chức năng mới, đầu tiên tìm kiếm các chức năng tương tự đã tồn tại
+2. Tìm kiếm trong module-registry.md và component-catalog.md
+3. Dùng codebase_search để tìm chức năng tương tự
+4. Nếu có chức năng tương tự, hãy tái sử dụng hoặc mở rộng
+5. Nếu cần tạo mới, đăng ký vào module-registry.md
+
+## Pattern ưu tiên theo ngôn ngữ
+
+### Kotlin/Java (Android):
+1. Extension functions cho các chức năng dùng chung
+2. Base classes cho các thành phần lặp lại
+3. Sử dụng abstraction và dependency injection
+4. Component dùng chung trong package shared
+
+### Swift (iOS):
+1. Extensions cho các chức năng dùng chung
+2. Protocols và base classes cho thành phần lặp lại
+3. Sử dụng protocols và dependency injection
+4. Components dùng chung trong shared modules
+
+### JavaScript/TypeScript:
+1. Utility functions và higher-order functions
+2. Base classes và composition patterns
+3. Modules và dependency injection
+4. Shared components trong common directories
+
+### Python:
+1. Utility functions và decorators
+2. Base classes và mixins
+3. Modules và dependency injection
+4. Shared utilities trong common packages
+
+### Dart (Flutter):
+1. Extension methods và utility functions
+2. Abstract classes và mixins
+3. Provider pattern và dependency injection
+4. Shared widgets trong common modules
+
+## Quy Tắc Xác Định Trùng Lặp (Language-Agnostic)
+- Logic tương tự xuất hiện ở 2+ nơi
+- UI/View elements với style tương tự xuất hiện ở nhiều màn hình
+- Các utility functions tương tự được viết lại ở nhiều nơi
+- Classes/Modules có structure và lifecycle tương tự
+- Configuration và constants giống nhau được define ở nhiều nơi
+- Data transformation logic được lặp lại
+
+## Giải Pháp Chống Trùng Lặp (Universal)
+1. Trích xuất vào base classes/protocols/interfaces
+2. Tạo extension methods/functions dùng chung
+3. Tham số hóa sự khác biệt
+4. Tạo reusable components/modules
+5. Trích xuất vào utility classes/functions
+6. Sử dụng configuration files cho constants
+7. Implement composition over inheritance
+
+## Quy Trình Refactor Khi Phát Hiện Trùng Lặp
+1. Xác định pattern chung
+2. Chọn giải pháp phù hợp (base class, composition, utility, etc.)
+3. Trích xuất code dùng chung
+4. Cập nhật toàn bộ occurrences
+5. Cập nhật registry và catalog
+6. Viết tests cho code chung
+7. Document patterns và usage guidelines 

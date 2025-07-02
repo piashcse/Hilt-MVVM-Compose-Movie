@@ -1,0 +1,265 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Project Identity Template & Guidelines
+
+## Template cho file .project-identity
+
+### Base Template Structure:
+```json
+{
+  "projectName": "[Project Name]",
+  "projectType": "[primary_platform]",
+  "version": "1.0.0",
+  "lastUpdated": "[YYYY-MM-DD]",
+  "
+  "platforms": {
+    "primary": "[android|ios|web|desktop|backend]",
+    "secondary": ["[additional platforms if any]"],
+    "planned": ["[future platform plans]"]
+  },
+  
+  "languages": {
+    "primary": "[Main programming language]",
+    "secondary": ["[Additional languages]"],
+    "config": ["[Configuration languages: JSON, YAML, XML, etc.]"]
+  },
+  
+  "frameworks": {
+    "ui": ["[UI frameworks: Jetpack Compose, SwiftUI, React, etc.]"],
+    "backend": ["[Backend frameworks if applicable]"],
+    "testing": ["[Testing frameworks]"],
+    "build": ["[Build tools: Gradle, Xcode, etc.]"]
+  },
+  
+  "architecture": {
+    "pattern": "[MVVM|MVP|MVC|Clean Architecture|etc.]",
+    "layers": ["[domain, data, presentation, etc.]"],
+    "di": "[Dependency injection framework]"
+  },
+  
+  "keyFeatures": [
+    "[Core feature 1]",
+    "[Core feature 2]",
+    "[Core feature 3]"
+  ],
+  
+  "technologies": {
+    "database": ["[Local: Room, CoreData, etc.]", "[Remote: Firebase, Supabase, etc.]"],
+    "networking": ["[HTTP client libraries]"],
+    "ai": ["[AI services used]"],
+    "analytics": ["[Analytics services]"],
+    "monetization": ["[AdMob, IAP, etc.]"]
+  },
+  
+  "projectIdentifiers": [
+    "[File/folder patterns specific to this project type]"
+  ],
+  
+  "directoryStructure": {
+    "src": "[Main source directory]",
+    "assets": "[Assets directory]",
+    "config": "[Configuration directory]",
+    "docs": "[Documentation directory]",
+    "tests": "[Test directory]"
+  },
+  
+  "uniquePatterns": [
+    "[Unique file patterns that identify this project]",
+    "[Project-specific naming conventions]",
+    "[Special configuration files]"
+  ],
+  
+  "personality": {
+    "communicationStyle": "[Tone: formal|casual|humorous|technical]",
+    "workflowPreference": "[TDD|Agile|Blueprint-first|etc.]",
+    "qualityFocus": "[Performance|Maintainability|User Experience|etc.]"
+  },
+  
+  "rules": {
+    "codeStyle": "[Coding standards reference]",
+    "namingConventions": "[Naming patterns]",
+    "fileOrganization": "[How files should be organized]",
+    "testingRequirements": "[Testing coverage expectations]"
+  },
+  
+  "integrations": {
+    "external": ["[External APIs integrated]"],
+    "internal": ["[Internal service dependencies]"],
+    "thirdParty": ["[Third-party libraries/SDKs]"]
+  },
+  
+  "workflows": {
+    "codeGeneration": {
+      "android": "android-workflow.mdc + android-project-template.mdc",
+      "ios": "ios-workflow.mdc + ios-project-template.mdc", 
+      "web": "frontend-rules.mdc (if web project)",
+      "backend": "backend-rules-optimized.mdc (if backend project)",
+      "universal": "universal-code-deduplication.mdc + planning-workflow.mdc"
+    },
+    "development": "[planning-workflow.mdc for initial brainstorming]",
+    "deployment": "[infrastructure-rules.mdc for CI/CD]",
+    "testing": "[Based on project type + testing framework]"
+  }
+}
+```
+
+## Hướng Dẫn Tạo .project-identity
+
+### Bước 1: Xác Định Project Type
+```bash
+# Android Project Indicators:
+- AndroidManifest.xml
+- build.gradle (app level)
+- res/ directory
+- MainActivity.java/kt
+
+# iOS Project Indicators:
+- *.xcodeproj or *.xcworkspace
+- Info.plist
+- AppDelegate.swift
+- Storyboard files
+
+# Web Project Indicators:
+- package.json (frontend)
+- index.html
+- webpack.config.js
+- React/Vue/Angular specific files
+
+# Backend Project Indicators:
+- package.json (Node.js)
+- requirements.txt (Python)
+- Cargo.toml (Rust)
+- go.mod (Go)
+```
+
+### Bước 2: Phân Tích Cấu Trúc Dự Án
+```bash
+# Identify main directories
+- Check for src/, app/, lib/ patterns
+- Look for configuration directories
+- Identify asset/resource directories
+- Find test directories
+
+# Identify key files
+- Entry point files (main.*, index.*, App.*)
+- Configuration files (config.*, *.json, *.yaml)
+- Build files (Makefile, CMakeLists.txt, etc.)
+```
+
+### Bước 3: Template Cho Từng Platform
+
+#### Android Template:
+```json
+{
+  "projectType": "android",
+  "platforms": {
+    "primary": "android",
+    "secondary": [],
+    "planned": ["ios"]
+  },
+  "languages": {
+    "primary": "Kotlin",
+    "secondary": ["Java"],
+    "config": ["XML", "JSON"]
+  },
+  "frameworks": {
+    "ui": ["Jetpack Compose"],
+    "backend": ["Retrofit", "Room"],
+    "testing": ["JUnit", "Espresso"],
+    "build": ["Gradle"]
+  },
+  "projectIdentifiers": [
+    "AndroidManifest.xml",
+    "build.gradle",
+    "gradle.properties"
+  ],
+  "directoryStructure": {
+    "src": "./app/src/main",
+    "assets": "./app/src/main/assets",
+    "config": "./app/src/main/res",
+    "tests": "./app/src/test"
+  },
+  "uniquePatterns": [
+    "com.*.app",
+    "MainActivity.kt",
+    "R.java"
+  ]
+}
+```
+
+#### iOS Template:
+```json
+{
+  "projectType": "ios",
+  "platforms": {
+    "primary": "ios",
+    "secondary": [],
+    "planned": ["android"]
+  },
+  "languages": {
+    "primary": "Swift",
+    "secondary": ["Objective-C"],
+    "config": ["Plist", "JSON"]
+  },
+  "frameworks": {
+    "ui": ["SwiftUI", "UIKit"],
+    "backend": ["URLSession", "Core Data"],
+    "testing": ["XCTest"],
+    "build": ["Xcode"]
+  },
+  "projectIdentifiers": [
+    "*.xcodeproj",
+    "Info.plist",
+    "Podfile"
+  ],
+  "directoryStructure": {
+    "src": "./Sources",
+    "assets": "./Resources",
+    "config": "./Config",
+    "tests": "./Tests"
+  },
+  "uniquePatterns": [
+    "AppDelegate.swift",
+    "SceneDelegate.swift",
+    "*.storyboard"
+  ]
+}
+```
+
+## AI Guidelines for Project Identity
+
+### Recognition Patterns:
+1. **Primary Detection**: Look for platform-specific files first
+2. **Secondary Validation**: Check directory structure
+3. **Technology Stack**: Identify frameworks and libraries
+4. **Project Scope**: Determine if mobile, web, backend, or multi-platform
+
+### Auto-Generation Process:
+1. Scan project root for identifier files
+2. Analyze package managers (package.json, build.gradle, Podfile, etc.)
+3. Check configuration files for technology stack
+4. Identify architectural patterns from code structure
+5. Generate appropriate template with detected values
+
+### Conflict Resolution:
+- If multiple platforms detected, set primary based on complexity/size
+- If conflicting frameworks found, list all in secondary
+- If unclear project type, prompt for manual specification
+
+### Update Triggers:
+- Major technology stack changes
+- New platform addition
+- Architecture refactoring
+- Feature additions that change project scope
+
+## Quality Checklist for .project-identity
+- [ ] All required fields are filled
+- [ ] Project type matches actual implementation
+- [ ] Unique patterns are truly unique to this project
+- [ ] Directory structure reflects actual layout
+- [ ] Technology stack is complete and accurate
+- [ ] Personality settings match team preferences
+- [ ] Rules section includes project-specific guidelines

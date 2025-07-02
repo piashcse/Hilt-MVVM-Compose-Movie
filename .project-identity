@@ -1,0 +1,166 @@
+{
+  "projectName": "Tên dự án, cần điều chỉnh khi setup project",
+  "projectType": "template|android|ios|flutter|react-native|web|desktop",
+  "projectStage": "setup|brainstorm|development|production",
+  "mainLanguages": [],
+  "mainFrameworks": [],
+  "keyTechnologies": [],
+  "keyFeatures": [],
+  "projectLifecycle": {
+    "stage1_brainstorm": {
+      "description": "Giai đoạn brainstorm và lên ý tưởng",
+      "workflowRules": [
+        ".cursor/rules/brainstorm-workflow.mdc",
+        ".cursor/rules/brainstorm-detailed-workflow.mdc"
+      ],
+      "requiredOutputs": [
+        "Brainstorm_[ProjectName].md",
+        "Updated .project-identity with basic info"
+      ],
+      "nextStage": "stage2_setup"
+    },
+    "stage2_setup": {
+      "description": "Giai đoạn setup dự án và cấu trúc",
+      "workflowRules": [
+        ".cursor/rules/project-creation-workflow.mdc",
+        ".cursor/rules/planning-workflow.mdc"
+      ],
+      "requiredOutputs": [
+        "Project structure created",
+        "Technical stack selected",
+        "Development environment ready"
+      ],
+      "nextStage": "stage3_development"
+    },
+    "stage3_development": {
+      "description": "Giai đoạn phát triển chính",
+      "workflowRules": "Based on projectType",
+      "platformSpecificRules": {
+        "base": [
+          ".cursor/rules/design-to-prompt.mdc"
+        ],
+        "android": [
+          ".cursor/rules/android-workflow.mdc",
+          ".cursor/rules/android-code-deduplication.mdc",
+          ".cursor/rules/tdd-mobile-workflow.mdc"
+        ],
+        "ios": [
+          ".cursor/rules/ios-workflow.mdc",
+          ".cursor/rules/tdd-mobile-workflow.mdc"
+        ],
+        "flutter": [
+          ".cursor/rules/mobile-utility-workflow.mdc",
+          ".cursor/rules/tdd-mobile-workflow.mdc"
+        ],
+        "web": [
+          ".cursor/rules/frontend-rules.mdc",
+          ".cursor/rules/backend-rules-optimized.mdc"
+        ]
+      }
+    }
+  },
+  "coreRules": {
+    "description": [
+      "Load các quy tắc từ .cursor/rules/ dựa trên project type",
+      "Kiểm tra memories có liên quan",
+      "Áp dụng workflow rules phù hợp với stage hiện tại"
+    ],
+    "always_applied": [
+      ".cursor/rules/project-identity-enforcement.mdc",
+      ".cursor/rules/base-rules.mdc",
+      ".cursor/rules/context7-auto-workflow.mdc",
+      ".cursor/rules/development-rules.mdc",
+      ".cursor/rules/markdown-unified-rules.mdc",
+      ".cursor/rules/cursor-optimization-rules.mdc"
+    ],
+    "project_management": [
+      ".cursor/rules/planning-workflow.mdc",
+      ".cursor/rules/project-personality-generator.mdc",
+      ".cursor/rules/resource-management.mdc"
+    ],
+    "quality_assurance": [
+      ".cursor/rules/tdd-guidelines.mdc",
+      ".cursor/rules/review-gate-v2-setup.mdc"
+    ]
+  },
+  "integrations": {
+    "telegram_notifications": {
+      "description": "Gửi thông báo đến Telegram khi hoàn thành công việc",
+      "rule": ".cursor/rules/telegram-notification-workflow.mdc",
+      "scripts": [
+        "./scripts/notify.sh",
+        "./scripts/telegram_notifier.py"
+      ]
+    },
+    "ai_apis": {
+      "rule": ".cursor/rules/api-integration-rules.mdc"
+    },
+    "mcp_tools": {
+      "review_gate": true,
+      "browser_debug": true
+    }
+  },
+  "projectStructure": {
+    "docs/project/": "Project documentation files (.md) - BẮT BUỘC đặt tất cả file .md ở đây",
+    "docs/templates/": "Template files for project setup",
+    "instructions/": "Project workflows and API documentation",
+    "scripts/": "Automation scripts",
+    "assets/": "Static resources",
+    "design/": "Design files for analysis",
+    ".cursor/rules/": "Development rules và workflows",
+    ".trae/rules/": "Trae AI specific rules (alias to .cursor/rules)",
+    "_backups/": "File backups (git-ignored)"
+  },
+  "projectIdentifiers": [
+    ".project-identity",
+    ".project-personality",
+    "Instruction.md",
+    "Brainstorm_*.md"
+  ],
+  "workflowEnforcement": {
+    "mandatoryProjectIdentityCheck": {
+      "description": "BẮT BUỘC kiểm tra .project-identity trước khi bắt đầu bất kỳ nhiệm vụ nào",
+      "triggers": [
+        "Mọi yêu cầu từ người dùng",
+        "Bắt đầu session mới",
+        "Thực hiện bất kỳ công việc nào"
+      ],
+      "checkList": [
+        "Đọc và hiểu projectType, projectStage, mainLanguages, mainFrameworks",
+        "Xác định workflow rules phù hợp với stage hiện tại",
+        "Áp dụng platformSpecificRules nếu có",
+        "Kiểm tra integrations và features được bật",
+        "Tuân thủ coreRules.always_applied"
+      ],
+      "mandatoryActions": [
+        "Load appropriate workflow rules từ .cursor/rules/",
+        "Kiểm tra Context7 memories liên quan đến project",
+        "Áp dụng project-specific constraints và requirements",
+        "Cập nhật projectStage nếu cần thiết"
+      ]
+    },
+    "newProjectDetection": {
+      "triggers": [
+        "Empty project folder",
+        "No Brainstorm_*.md files exist",
+        "User mentions 'ý tưởng mới' or 'dự án mới'"
+      ],
+      "mandatoryFirstStep": "stage1_brainstorm",
+      "blockingMessage": "🚫 DỰ ÁN MỚI PHÁT HIỆN - BẮT BUỘC BRAINSTORM TRƯỚC\n✅ Hãy bắt đầu: 'Tôi muốn brainstorm ý tưởng...'"
+    },
+    "stageProgression": {
+      "cannot_skip_stages": true,
+      "require_completion_confirmation": true,
+      "auto_update_project_stage": true
+    }
+  },
+  "features": {
+    "ai_context_analysis": true,
+    "voice_commands": true,
+    "resource_management": true,
+    "design_analysis": true,
+    "auto_project_detection": true,
+    "mcp_integration": true,
+    "telegram_notifications": true
+  }
+}

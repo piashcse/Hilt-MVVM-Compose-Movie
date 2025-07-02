@@ -1,0 +1,466 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Mobile Utility App Workflow (Android-First, iOS-Compatible)
+
+## Nguyên Tắc Cơ Bản
+- ***BẮT BUỘC*** Android-first development, iOS-compatible architecture
+- ***BẮT BUỘC*** Revenue-optimized design từ giai đoạn planning
+- ***BẮT BUỘC*** TDD approach với comprehensive test coverage
+- ***BẮT BUỘC*** AI integration tự động, không cần user request
+- ***BẮT BUỘC*** Smart API usage với caching và batching
+- ***BẮT BUỘC*** Manual control ad strategies via Firebase Remote Config
+- ***BẮT BUỘC*** Regional ad strategy support
+- ***BẮT BUỘC*** Full automation workflow với minimal user intervention
+
+## App Categories Supported
+- **Health & Fitness Apps:** Heart monitoring, nutrition tracking, fitness planning
+- **Photo Editing Apps:** AI enhancement, filters, batch processing  
+- **Office Utility Apps:** Document tools, productivity helpers, organization
+
+## Strategic Information Gathering (Max 5 Questions)
+
+### Health Apps Questions:
+1. "Primary health goal?" [Weight loss/Fitness/Wellness/Medical tracking]
+2. "Current activity level?" [Beginner/Intermediate/Advanced/Professional]
+3. "Preferred interaction style?" [Daily check-ins/Weekly summaries/On-demand/Automated]
+4. "Most valuable feature for you?" [Tracking/Insights/Recommendations/Community]
+5. "Willing to pay for premium health features?" [Yes, definitely/Maybe/Prefer free with ads]
+
+### Photo Editing Apps Questions:
+1. "Main photo type?" [Portrait/Landscape/Food/Social/Professional]
+2. "Editing experience level?" [Beginner/Hobbyist/Semi-pro/Professional]
+3. "Preferred workflow?" [Quick edits/Detailed editing/Batch processing/Auto-enhance]
+4. "Most important feature?" [Filters/Advanced tools/AI enhancement/Organization]
+5. "Photo editing budget?" [Free only/Small monthly fee/One-time purchases/Professional pricing]
+
+### Office Tools Questions:
+1. "Primary work type?" [Documents/Presentations/Data analysis/Project management]
+2. "Team collaboration needs?" [Solo work/Small team/Large team/Client sharing]
+3. "Work style preference?" [Templates/Custom creation/AI assistance/Manual control]
+4. "Most valuable productivity feature?" [Automation/Organization/Collaboration/Analytics]
+5. "Business tool budget?" [Free tier/Basic paid/Professional/Enterprise]
+
+## AI-Generated Reusable Instructions
+- ***BẮT BUỘC*** sau khi brainstorm, AI tạo các instruction file (.md) có thể tái sử dụng
+- ***BẮT BUỘC*** instruction file phải platform-agnostic (dùng cho cả Android và iOS)
+- ***BẮT BUỘC*** tạo instruction template cho từng app category
+- ***BẮT BUỘC*** lưu trữ instruction trong thư mục `instructions/reusable/`
+
+### Nguyên Tắc Thiết Kế Instruction
+- ***BẮT BUỘC*** instruction chỉ chứa các chỉ dẫn, hướng dẫn và yêu cầu
+- ***NGHIÊM CẤM*** bao gồm code thực tế trong instruction files (.md)
+- ***BẮT BUỘC*** mô tả logic, flow và requirements thay vì implementation
+- ***BẮT BUỘC*** sử dụng pseudocode hoặc flowchart khi cần minh họa logic
+- ***BẮT BUỘC*** tập trung vào "what" và "why" thay vì "how" cụ thể
+- ***BẮT BUỘC*** để AI tự quyết định implementation details dựa trên instruction
+
+### Reusable Instruction Template Structure:
+```markdown
+# [App Category] - [Feature Name] Instruction
+
+## Platform Requirements
+- **Android**: [Specific requirements and constraints]
+- **iOS**: [Specific requirements and constraints]
+- **Shared**: [Common requirements across platforms]
+
+## Feature Overview
+[Platform-agnostic description of what needs to be built]
+
+## Business Logic & Flow
+### Core Requirements
+[Detailed description of business rules and logic flow]
+
+### User Journey & Interactions
+[Step-by-step user experience flow]
+
+### Data Flow & State Management
+[How data should flow through the application]
+
+## Platform-Specific Considerations
+#### Android Guidelines:
+[Architecture patterns, design principles, and platform conventions to follow]
+
+#### iOS Guidelines:
+[Architecture patterns, design principles, and platform conventions to follow]
+
+## Testing Requirements
+[What should be tested and validation criteria]
+
+## Reusable Components
+[List of components that can be shared between projects]
+
+## Performance Considerations
+[Platform-specific optimizations]
+
+## Future Enhancement Opportunities
+[Scalability and improvement suggestions]
+```
+
+### Auto-Generated Instruction Categories:
+1. **Feature Instructions**: Specific functionality implementation
+2. **Architecture Instructions**: Code organization and patterns
+3. **UI/UX Instructions**: Design system and user experience
+4. **Performance Instructions**: Optimization strategies
+5. **Testing Instructions**: Quality assurance approaches
+
+## Mobile-First Architecture
+
+### Android Primary Stack:
+- **Language:** Kotlin + Jetpack Compose
+- **Architecture:** Clean Architecture + MVVM
+- **Dependency Injection:** Hilt
+- **Database:** Room + SQLite
+- **Networking:** Retrofit + OkHttp + Moshi
+- **Image Loading:** Coil
+- **Testing:** JUnit5 + Espresso + Mockk
+- **Analytics:** Firebase Analytics + Crashlytics
+- **Ads:** Google AdMob
+- **Billing:** Google Play Billing Library
+
+### iOS Compatible Stack:
+- **Language:** Swift + SwiftUI
+- **Architecture:** Clean Architecture + MVVM
+- **Database:** Core Data + SQLite
+- **Networking:** URLSession + Combine
+- **Image Loading:** Kingfisher
+- **Testing:** XCTest + XCUITest
+- **Analytics:** Firebase Analytics + Crashlytics
+- **Ads:** Google AdMob iOS SDK
+- **Billing:** StoreKit 2
+
+### Cross-Platform Considerations:
+- **Shared Backend:** Firebase/Supabase
+- **AI APIs:** Same cloud endpoints for both platforms
+- **Design System:** Material Design 3 (Android) + Human Interface (iOS)
+- **Analytics:** Unified Firebase events
+- **Remote Config:** Same Firebase config for ad strategies
+
+## Revenue-Optimized Workflow
+
+### Phase 1: Strategic Foundation (Auto + 5 Questions)
+```markdown
+Auto Tasks:
+□ App category detection → health/photo/office
+□ Strategic 5-question survey → user profiling + revenue preference
+□ User persona generation → AI personalization foundation
+□ Monetization preference detection → ads vs IAP tendency
+□ Regional market analysis → ad strategy per region
+□ Platform priority recommendation → Android-first timeline
+
+Manual Input Required:
+- 5 strategic questions based on app category
+- Target regions confirmation
+- Revenue model preference validation
+```
+
+### Phase 2: Complete App Development (Pre-Revenue Integration)
+```markdown
+Auto Tasks:
+□ Cross-platform UI/UX design → Material Design 3 + iOS adaptations
+□ Complete feature development → 100% functionality both platforms
+□ AI integration → smart features embedded with cloud caching
+□ User journey mapping → complete flow analysis per platform
+□ Performance optimization → Android + iOS specific optimizations
+□ Analytics foundation → unified tracking across platforms
+□ TDD implementation → comprehensive test suites
+
+Platform-Specific Tasks:
+Android Priority:
+□ Kotlin + Compose implementation
+□ Android-specific optimizations
+□ Play Store preparation
+
+iOS Secondary:
+□ Swift + SwiftUI adaptation  
+□ iOS-specific optimizations
+□ App Store preparation
+```
+
+### Phase 3: Smart Revenue Integration (Post-Complete App)
+```markdown
+Auto Tasks:
+□ Firebase Remote Config setup → manual control system
+□ Regional ad strategy configuration → market-specific approaches
+□ Natural breakpoint analysis → AI identifies optimal ad positions
+□ Smart ad placement implementation → contextual positioning
+□ A/B testing framework → continuous optimization
+□ IAP integration → premium features + subscription tiers
+
+Manual Control Features:
+- Firebase dashboard for ad strategy switching
+- Regional configuration management
+- Revenue mode selection per market
+- Real-time strategy adjustments
+```
+
+## Firebase Remote Config Ad Strategies
+
+### Global Strategy Framework:
+```json
+{
+  "default_strategy": "retention_focused",
+  "regional_overrides": {
+    "VN": "max_revenue",
+    "US": "iap_conversion", 
+    "EU": "retention_focused"
+  },
+  "manual_control": true,
+  "strategy_switching": "immediate"
+}
+```
+
+### Strategy 1: Maximum Revenue (Aggressive)
+```json
+{
+  "ad_strategy": "max_revenue",
+  "banner_frequency": "persistent",
+  "interstitial_frequency": "every_3_actions",
+  "rewarded_frequency": "daily_bonus_opportunities",
+  "native_ads": "integrated_in_content",
+  "ad_load_timeout": 5000,
+  "fallback_strategy": "house_ads",
+  "target_regions": ["VN", "IN", "BR"]
+}
+```
+
+### Strategy 2: Retention Focused (Balanced)
+```json
+{
+  "ad_strategy": "retention_optimized", 
+  "banner_frequency": "contextual_only",
+  "interstitial_frequency": "session_end_only",
+  "rewarded_frequency": "user_initiated_only",
+  "native_ads": "minimal_integration",
+  "ad_load_timeout": 3000,
+  "user_experience_priority": true,
+  "target_regions": ["EU", "CA", "AU"]
+}
+```
+
+### Strategy 3: IAP Conversion Focus
+```json
+{
+  "ad_strategy": "iap_conversion",
+  "banner_frequency": "minimal",
+  "interstitial_frequency": "strategic_friction_points",
+  "rewarded_frequency": "premium_feature_preview",
+  "native_ads": "premium_upsell_focused",
+  "iap_prompt_frequency": "smart_timing",
+  "free_trial_strategy": "aggressive",
+  "target_regions": ["US", "JP", "DE"]
+}
+```
+
+## Smart AI Integration (Cloud + Caching)
+
+### Intelligent API Usage Patterns:
+```markdown
+Health Apps:
+□ Batch generate 10 weekly health insights based on user data
+□ Local caching for 7 days → reduce API calls by 85%
+□ Background sync during low usage periods
+□ Smart refresh when user patterns change significantly
+□ Fallback to cached motivational content when offline
+
+Photo Apps:
+□ Batch process 10 photos per API call → enhancement suggestions
+□ Cache filter recommendations for similar photo types
+□ Pre-generate style suggestions for user's common photo categories
+□ Smart background processing during editing sessions
+
+Office Apps:
+□ Generate weekly productivity insights → cache locally
+□ Batch analyze documents for pattern recognition
+□ Pre-generate templates for user's common work types
+□ Smart suggestions based on document content analysis
+```
+
+### Cost Optimization Strategy:
+- **API Budget Tracking:** Monitor cost per user per month
+- **Smart Batching:** 10x efficiency improvement vs individual calls
+- **Intelligent Caching:** 80% reduction in API requests
+- **Usage Prediction:** Pre-generate content for active users
+- **Fallback Content:** Local suggestions when API unavailable
+
+## TDD Implementation Framework
+
+### Test-First Development Process:
+```markdown
+For Each Feature:
+1. 🔴 RED Phase:
+   □ Write failing unit tests → business logic validation
+   □ Write failing integration tests → API/database interactions
+   □ Write failing UI tests → user interaction validation
+   □ Write failing AI tests → model accuracy and fallback scenarios
+
+2. 🟢 GREEN Phase:
+   □ Implement minimal code to pass unit tests
+   □ Implement data layer to pass integration tests
+   □ Implement UI to pass interaction tests
+   □ Implement AI integration to pass accuracy tests
+
+3. 🔄 REFACTOR Phase:
+   □ Optimize code structure and performance
+   □ Improve test coverage and reliability
+   □ Clean up code duplication
+   □ Document implementation decisions
+```
+
+### Platform-Specific Testing:
+```markdown
+Android Testing:
+□ JUnit 5 unit tests → business logic + view models
+□ Espresso UI tests → user interactions + navigation
+□ Room database tests → data persistence validation
+□ Retrofit API tests → network layer validation
+
+iOS Testing:
+□ XCTest unit tests → business logic + view models  
+□ XCUITest UI tests → user interactions + navigation
+□ Core Data tests → data persistence validation
+□ URLSession tests → network layer validation
+
+Cross-Platform Integration Tests:
+□ Firebase integration tests → analytics + remote config
+□ AI API integration tests → response validation + caching
+□ Revenue integration tests → ads + billing functionality
+```
+
+## Quality Assurance Pipeline
+
+### Automated Quality Gates:
+```markdown
+Pre-Commit Checks:
+□ Unit test coverage → minimum 85%
+□ Integration test coverage → minimum 70%
+□ UI test coverage → critical user flows 100%
+□ Code quality analysis → Android Lint + iOS SwiftLint
+□ Performance benchmarks → app startup time + memory usage
+
+Pre-Release Checks:
+□ Cross-platform feature parity validation
+□ Revenue integration testing → ads + billing functionality
+□ AI integration testing → accuracy + performance + fallbacks
+□ Regional configuration testing → ad strategies per market
+□ Analytics validation → event tracking + attribution
+```
+
+### Platform-Specific Optimizations:
+```markdown
+Android Optimizations:
+□ APK/AAB size optimization → ProGuard + R8
+□ Battery usage optimization → background processing limits
+□ Memory optimization → leak detection + garbage collection
+□ Network optimization → request caching + compression
+
+iOS Optimizations:
+□ App size optimization → App Thinning + bitcode
+□ Battery usage optimization → background app refresh limits
+□ Memory optimization → instruments analysis + optimization
+□ Network optimization → URLSession configuration + caching
+```
+
+## Regional Market Strategy
+
+### Supported Regions with Different Strategies:
+```markdown
+High Revenue Markets (Max Revenue Strategy):
+- Vietnam, India, Brazil, Indonesia
+- Higher ad density, aggressive monetization
+- Focus on ad revenue optimization
+
+Premium Markets (IAP Conversion Strategy):
+- United States, Japan, Germany, UK
+- Minimal ads, premium feature focus
+- Subscription and one-time purchase optimization
+
+Balanced Markets (Retention Strategy):
+- European Union, Canada, Australia, South Korea
+- Balanced approach between ads and user experience
+- Focus on long-term user retention
+```
+
+### Manual Control Dashboard Features:
+```markdown
+Firebase Remote Config Dashboard:
+□ Real-time strategy switching per region
+□ A/B testing management → compare strategies
+□ Revenue analytics → performance per strategy per region
+□ User retention tracking → strategy impact analysis
+□ Custom strategy creation → hybrid approaches
+□ Scheduled strategy changes → automatic switching based on time/events
+```
+
+## Success Metrics & KPIs
+
+### Revenue Metrics:
+- **ARPU (Average Revenue Per User)** per region
+- **ARPDAU (Average Revenue Per Daily Active User)**
+- **Ad Revenue vs IAP Revenue** breakdown
+- **LTV (Lifetime Value)** per user segment
+- **Conversion Rate** from free to premium
+
+### Retention Metrics:
+- **Day 1, Day 7, Day 30 Retention** rates
+- **Session Duration** and frequency
+- **Feature Adoption** rates
+- **Churn Rate** per strategy per region
+
+### Technical Metrics:
+- **App Performance** (startup time, responsiveness)
+- **Crash Rate** < 1% across both platforms
+- **API Cost Efficiency** (cost per user per month)
+- **Test Coverage** (unit, integration, UI tests)
+
+## Implementation Timeline
+
+### Phase 1: Foundation (Week 1-2)
+- Strategic information gathering (5 questions)
+- Architecture design (Android + iOS compatible)
+- Project setup and initial structure
+
+### Phase 2: Core Development (Week 3-6)
+- TDD implementation of core features
+- AI integration with smart caching
+- Cross-platform UI/UX development
+
+### Phase 3: Revenue Integration (Week 7-8)
+- Firebase Remote Config setup
+- Ad strategy implementation
+- IAP integration and testing
+
+### Phase 4: Regional Optimization (Week 9-10)
+- Regional strategy configuration
+- A/B testing setup
+- Performance optimization
+
+### Phase 5: Quality Assurance (Week 11-12)
+- Comprehensive testing across platforms
+- Performance optimization
+- Store preparation (Play Store + App Store)
+
+## Maintenance & Updates
+
+### Continuous Optimization:
+```markdown
+Weekly Tasks:
+□ Revenue performance analysis per region
+□ A/B testing results evaluation
+□ User feedback analysis and strategy adjustment
+□ AI API cost monitoring and optimization
+
+Monthly Tasks:
+□ Cross-platform feature parity review
+□ New regional market evaluation
+□ Strategy effectiveness analysis
+□ Technical debt reduction
+
+Quarterly Tasks:
+□ Major feature updates planning
+□ Platform-specific optimization reviews
+□ Revenue model evolution planning
+□ Competitive analysis and strategy adjustment
+```

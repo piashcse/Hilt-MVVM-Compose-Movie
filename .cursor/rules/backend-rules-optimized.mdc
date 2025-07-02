@@ -1,0 +1,111 @@
+---
+description: Optimized backend development rules for Node.js, Python, and other backend frameworks
+globs: *.js,*.ts,*.py,*.go,*.java,*.php,*.rb,*.cs
+alwaysApply: false
+---
+
+## API Design
+- Follow RESTful hoặc GraphQL principles
+- Sử dụng đúng HTTP status codes
+- Implement proper request validation
+- Trả về standard response formats (JSON)
+- Document APIs (OpenAPI/Swagger)
+- Implement versioning
+- Sử dụng proper error handling
+- Implement pagination, filtering, sorting
+
+## Database
+- Optimize schema design và normalization
+- Sử dụng indexes cho fields thường query
+- Implement proper transactions
+- Sử dụng prepared statements/parameterized queries
+- Implement migration strategy
+- Optimize queries và prevent N+1 problems
+- Sử dụng connection pooling
+- Implement caching strategy
+
+## Security
+- Sanitize tất cả user inputs
+- Sử dụng parameterized queries để prevent SQL injection
+- Implement proper authentication (JWT, OAuth)
+- Implement proper authorization (RBAC, ABAC)
+- Follow OWASP security guidelines
+- Sử dụng HTTPS
+- Implement rate limiting
+- Secure storage của credentials và sensitive data
+
+## Performance
+- Implement caching (Redis, Memcached)
+- Optimize database queries
+- Sử dụng async/non-blocking operations
+- Implement connection pooling
+- Tối ưu response size và format
+- Implement proper timeouts
+- Sử dụng streaming cho large data
+- Implement horizontal scaling
+
+## Architecture
+- Sử dụng layered architecture (controller, service, repository)
+- Implement dependency injection
+- Separate business logic từ infrastructure
+- Sử dụng middleware cho cross-cutting concerns
+- Implement proper logging và monitoring
+- Follow SOLID principles
+- Sử dụng design patterns phù hợp
+- Implement error handling strategy
+
+## Testing
+- Write unit tests cho business logic
+- Write integration tests cho API endpoints
+- Implement proper mocking cho external dependencies
+- Test edge cases và error scenarios
+- Implement proper test data setup và teardown
+- Sử dụng CI/CD pipelines
+- Run performance tests cho critical paths
+- Implement smoke tests
+
+## Reliability
+- Implement proper error handling và recovery
+- Sử dụng circuit breakers cho external services
+- Implement retries với exponential backoff
+- Sử dụng message queues cho asynchronous tasks
+- Implement proper logging cho debugging
+- Design cho statelessness
+- Implement health checks
+- Prepare cho disaster recovery
+
+## Scalability
+- Design stateless services
+- Sử dụng message queues (RabbitMQ, Kafka)
+- Implement proper caching strategies
+- Consider microservices cho complex domains
+- Sử dụng load balancing
+- Implement database sharding khi cần
+- Optimize cho horizontal scaling
+- Sử dụng CDN cho static assets
+
+## Weather API Integration
+- ***BẮT BUỘC*** tích hợp Weather API vào tất cả backend services có thể tích hợp được
+- Tạo service wrapper riêng biệt cho Weather API
+- Implement caching cho weather data để giảm số lượng external API calls
+- Xử lý rate limiting và API quotas
+- Provide RESTful endpoints cho weather data
+- Implement geolocation-based weather queries
+- Tối ưu performance của weather data processing
+- Implement error handling và fallback cho Weather API
+- Đảm bảo security cho weather data
+
+## AI API Integration
+- ***BẮT BUỘC*** tích hợp AI API vào tất cả backend services có thể tích hợp được
+- Tạo service wrapper riêng biệt cho AI API
+- Implement caching và optimization cho AI requests
+- Xử lý authentication và security cho AI API
+- Provide RESTful endpoints cho AI functionality
+- Process và transform AI responses trước khi trả về client
+- Implement error handling và fallback cho AI API
+- Implement logging và monitoring cho AI interactions
+- Optimize performance của AI-powered features
+
+@file ../README.md
+@file ../weather-basic.md
+@file ../API_Docs.md 

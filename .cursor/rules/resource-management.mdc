@@ -1,0 +1,51 @@
+---
+description: Quy tắc quản lý tài nguyên trong dự án, bao gồm icons và rules
+globs: *.*
+alwaysApply: false
+---
+
+## Nguyên Tắc Chung
+- ***BẮT BUỘC*** tổ chức tài nguyên theo cấu trúc thư mục rõ ràng
+- ***BẮT BUỘC*** ghi lại nguồn gốc và license của tất cả tài nguyên bên ngoài
+- ***BẮT BUỘC*** cập nhật documentation khi thêm hoặc thay đổi tài nguyên
+- ***BẮT BUỘC*** backup tài nguyên trước khi thực hiện thay đổi lớn
+- ***KHUYẾN NGHỊ*** sử dụng API để tải và quản lý tài nguyên
+- ***KHUYẾN NGHỊ*** tối ưu hoá kích thước tài nguyên trước khi sử dụng
+
+## Quản Lý Icons
+- ***BẮT BUỘC*** sử dụng Icon Library API để tìm kiếm và tải về icons
+- ***BẮT BUỘC*** tổ chức icons theo cấu trúc thư mục phân loại
+- ***BẮT BUỘC*** đặt tên file icon theo format: `[tên-icon]_[kích-thước].[định-dạng]`
+- ***BẮT BUỘC*** cập nhật README.md trong thư mục assets/icons với thông tin mới
+- ***BẮT BUỘC*** backup icons vào thư mục `_backups/icons/` trước khi thay thế
+- ***KHUYẾN NGHỊ*** tối ưu hoá SVG trước khi sử dụng
+
+### Cấu Trúc Thư Mục Icons
+Duy trì cấu trúc thư mục icon theo mẫu:
+```
+assets/icons/
+├── ui/                  # Icon giao diện người dùng (buttons, menu, etc.)
+├── weather/             # Icon thời tiết
+├── social/              # Icon mạng xã hội
+└── misc/                # Icon khác
+```
+
+### Quy Trình Sử Dụng Icon Library API
+1. Xác định nhu cầu icon từ instruction/yêu cầu dự án
+2. Tìm kiếm icon phù hợp qua Icon Library API:
+   ```bash
+   curl -G --data-urlencode "q=your_search_term" https://icon-library.leejungkiin.workers.dev/search
+   ```
+3. Tải icon về thư mục phù hợp trong `assets/icons/`
+4. Ghi lại thông tin về icon trong bảng trong README.md
+5. Sử dụng icon trong code với đường dẫn tương đối
+
+### Các API Endpoint Chính
+- Danh sách bộ icon: `GET /icon-sets`
+- Tìm kiếm icon: `GET /search?q=term`
+- Đề xuất icon theo ngữ cảnh: `GET /suggest?context=description`
+
+***Get all icon sets***
+curl https://icon-library.trungkientn.workers.dev/icon-sets
+***Search for icons***
+curl "https://icon-library.trungkientn.workers.dev/search?q=home&category=ui"

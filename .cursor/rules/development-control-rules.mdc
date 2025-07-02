@@ -1,0 +1,261 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Development Control Rules
+
+## Nguyên Tắc Cơ Bản
+- ***BẮT BUỘC*** kiểm tra Planning_[TenDuAn].md trước khi bắt đầu development
+- ***BẮT BUỘC*** validate planning approval trước khi viết code
+- ***BẮT BUỘC*** tuân thủ architecture được định nghĩa trong planning
+- ***BẮT BUỘC*** follow development phases theo thứ tự (MVP → Enhanced → Advanced)
+- ***NGHIÊM CẤM*** code khi chưa có planning hoàn chỉnh và được approve
+
+## Pre-Development Validation
+
+### Required Files Check
+```bash
+# AI phải kiểm tra các file này tồn tại và hoàn chỉnh:
+1. Brainstorm_[TenDuAn].md ✅
+2. Planning_[TenDuAn].md ✅
+3. .project-identity ✅
+4. Planning approval ✅
+
+# Mobile Utility Apps - Additional Requirements:
+5. TDD test plan completed ✅ (use tdd-mobile-workflow.mdc)
+6. Revenue strategy configured ✅ (use mobile-utility-workflow.mdc)
+7. Regional ad strategy defined ✅
+8. Cross-platform compatibility confirmed ✅
+```
+
+### Planning Completion Check
+AI ***BẮT BUỘC*** verify các sections trong Planning:
+- [ ] Executive Summary completed
+- [ ] Development Phases defined
+- [ ] Architecture Overview specified
+- [ ] Risk Management addressed
+- [ ] Success Criteria defined
+- [ ] Planning Approval ✅ checked
+
+## Error Messages for Invalid Development Requests
+
+### No Planning File
+```
+🚫 KHÔNG THỂ BẮT ĐẦU DEVELOPMENT
+
+❌ Chưa tìm thấy file Planning_[TenDuAn].md
+❌ Development chỉ được thực hiện sau khi có planning hoàn chỉnh
+
+🔄 Quy trình bắt buộc:
+1. Brainstorm ý tưởng → tạo Brainstorm_[TenDuAn].md
+2. Planning chi tiết → tạo Planning_[TenDuAn].md
+3. Approval planning → ✅ Planning Approval
+4. Bắt đầu development
+
+📝 Hiện tại cần: [Bước tiếp theo cần thực hiện]
+```
+
+### Planning Not Approved
+```
+🚫 PLANNING CHƯA ĐƯỢC APPROVE
+
+Trạng thái:
+✅ Brainstorm completed
+✅ Planning document exists
+❌ Planning Approval not checked
+
+🔄 Cần review và approve planning document trước khi development
+```
+
+### Incomplete Planning
+```
+🚫 PLANNING CHƯA HOÀN THIỆN
+
+Missing sections:
+❌ Architecture Overview
+❌ Success Criteria
+✅ Development Phases
+
+🔄 Cần hoàn thiện planning trước khi bắt đầu development
+```
+
+## Development Phase Control
+
+### Phase 1: MVP Development
+**Prerequisites:**
+- Planning approved ✅
+- Development environment ready ✅
+- Phase 1 features clearly defined ✅
+
+**Allowed Activities:**
+- Setup project structure
+- Implement Must-Have features only
+- Basic testing and deployment
+- Create basic documentation
+
+**Prohibited Activities:**
+- Implementing Should-Have or Could-Have features
+- Complex optimizations
+- Advanced integrations
+
+### Phase 2: Enhanced Features
+**Prerequisites:**
+- Phase 1 MVP completed and tested ✅
+- User feedback collected (if applicable) ✅
+- Phase 2 features approved ✅
+
+**Allowed Activities:**
+- Implement Should-Have features
+- Performance optimizations
+- Enhanced security measures
+- Improved UX/UI
+
+### Phase 3: Advanced & Scaling
+**Prerequisites:**
+- Phase 2 completed ✅
+- Scalability requirements confirmed ✅
+- Advanced architecture planned ✅
+
+**Allowed Activities:**
+- Could-Have features
+- Advanced analytics
+- Third-party integrations
+- Comprehensive testing pipeline
+
+## AI Development Workflow
+
+### 1. Pre-Code Validation
+```python
+def validate_development_request():
+    # Check required files
+    if not file_exists("Brainstorm_[TenDuAn].md"):
+        return error_no_brainstorm()
+    
+    if not file_exists("Planning_[TenDuAn].md"):
+        return error_no_planning()
+    
+    # Validate planning completeness
+    planning = read_planning_file()
+    if not planning.is_complete():
+        return error_incomplete_planning()
+    
+    if not planning.is_approved():
+        return error_not_approved()
+    
+    return proceed_to_development()
+```
+
+### 2. Task Execution Control
+```python
+def execute_development_task(task, current_phase):
+    # Validate task belongs to current phase
+    if not task.is_valid_for_phase(current_phase):
+        return error_wrong_phase(task, current_phase)
+    
+    # Check prerequisites
+    if not check_phase_prerequisites(current_phase):
+        return error_prerequisites_not_met()
+    
+    # Execute task
+    return implement_task(task)
+```
+
+### 3. Quality Gates
+Before proceeding to next task:
+- [ ] Current task matches planning specification
+- [ ] Code follows architectural decisions
+- [ ] Tests pass (if applicable)
+- [ ] Documentation updated
+- [ ] Progress tracked in planning file
+
+## Code Generation Rules
+
+### Architecture Compliance
+- All code must follow architecture defined in Planning_[TenDuAn].md
+- Technology stack must match planning decisions
+- Database schema must align with planning
+- API design must follow planning specifications
+
+### Feature Implementation Order
+1. **Setup Phase**: Project structure, dependencies, configuration
+2. **Core Phase**: Must-Have features implementation  
+3. **Testing Phase**: Unit tests, integration tests
+4. **Deployment Phase**: Deploy MVP
+5. **Enhancement Phase**: Should-Have features (Phase 2)
+6. **Advanced Phase**: Could-Have features (Phase 3)
+
+### Quality Standards
+- Code must be production-ready
+- Error handling must be comprehensive
+- Security best practices must be followed
+- Performance benchmarks must be met
+- Documentation must be maintained
+
+## Progress Tracking
+
+### Required Updates
+AI ***BẮT BUỘC*** update progress trong Planning file:
+```markdown
+## Development Progress
+
+### Phase 1: MVP Development ⏳
+- [x] Project setup - Completed 2024-01-15
+- [x] Database schema - Completed 2024-01-16
+- [ ] Authentication system - In Progress
+- [ ] Core feature 1 - Not Started
+- [ ] Core feature 2 - Not Started
+
+### Current Status
+- **Active Phase**: Phase 1 MVP
+- **Current Task**: Authentication system
+- **Next Task**: Core feature 1
+- **Estimated Completion**: 2024-01-20
+```
+
+### Quality Metrics Tracking
+```markdown
+## Quality Metrics
+
+### Code Quality
+- Test Coverage: 85%
+- Code Review: Passed
+- Security Scan: Passed
+- Performance: Meets benchmarks
+
+### Feature Completion
+- Must-Have Features: 60% complete
+- Should-Have Features: 0% complete
+- Could-Have Features: 0% complete
+```
+
+## Error Recovery
+
+### When Development Fails Validation
+1. Stop current development activity
+2. Display appropriate error message
+3. Guide user to correct action
+4. Do not proceed until validation passes
+
+### When Planning Changes During Development
+1. Stop current development
+2. Request planning update and re-approval
+3. Assess impact on existing code
+4. Update development approach accordingly
+
+## Integration with Other Rules
+
+### With Brainstorm Workflow
+- Development can only start after brainstorm completion
+- Must reference brainstorm decisions in code comments
+- Feature implementation must align with brainstorm priorities
+
+### With Planning Workflow  
+- All development must follow planning specifications
+- Changes to planning require approval before continuing
+- Progress must be tracked against planning milestones
+
+### With Quality Rules
+- Code must pass all quality gates defined in planning
+- Testing standards must meet planning requirements
+- Documentation must be maintained according to planning

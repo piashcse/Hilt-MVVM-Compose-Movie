@@ -1,0 +1,121 @@
+---
+description: Rules for optimizing Cursor AI performance in large projects
+globs: *.*
+alwaysApply: true
+---
+
+## Nguyên Tắc Cơ Bản
+- ***BẮT BUỘC*** giữ file source code dưới 250 dòng - tối ưu cho cơ chế indexing của Cursor
+- ***BẮT BUỘC*** sử dụng .cursorignore và .cursorindexignore cho các project lớn
+- Tối ưu context space để tiết kiệm thời gian xử lý và chi phí khi sử dụng LLM
+
+## Kích Thước File
+- Cursor xử lý file theo từng chunk 250 dòng, vì vậy file dưới 250 dòng được indexing tối ưu nhất
+- Phân tách các file lớn thành nhiều file nhỏ theo module, chức năng hoặc lớp
+- Nếu một file cần nhiều hơn 250 dòng, cân nhắc tái cấu trúc hoặc refactoring
+- Đối với file lớn không thể tránh khỏi và không thể chia nhỏ (như XML metadata):
+  - Tạo thành từng phần nhỏ
+  - Sử dụng lệnh để nối chúng (VD: `cat part1.xml part2.xml > final.xml`)
+  - Chỉ giữ file gốc trong quá trình development, còn lại đưa vào .cursorindexignore
+
+## Sử Dụng .cursorignore
+- File `.cursorignore` loại bỏ file khỏi tất cả tính năng AI và indexing
+- Sử dụng cho các file chứa thông tin nhạy cảm (env files, credentials)
+- Đặc biệt hữu ích cho dự án monorepo - ignore các module không đang làm việc
+- Thêm .cursorignore vào .gitignore để tránh xung đột giữa các thành viên
+- Cú pháp giống .gitignore:
+  ```
+  # Ignore environment files
+  .env*
+  
+  # Ignore node_modules
+  node_modules/
+  
+  # Ignore large data files
+  *.csv
+  *.xlsx
+  data/*.json
+  ```
+
+## Sử Dụng .cursorindexignore
+- File `.cursorindexignore` loại bỏ file khỏi indexing nhưng vẫn cho phép AI truy cập khi cần
+- Mặc định nó kế thừa tất cả pattern từ .gitignore
+- Sử dụng khi bạn vẫn muốn AI truy cập các file khi cần, nhưng không đưa vào index mặc định
+- Hữu ích cho các dự án có cả frontend và backend:
+  ```
+  # Ignore backend khi làm việc với frontend
+  backend/
+  # Nhưng vẫn giữ định nghĩa API
+  !backend/src/api/swagger.json
+  ```
+
+## Mẫu .cursorignore Cơ Bản
+```
+# Thông tin nhạy cảm
+.env
+.env.*
+credentials/
+secrets.json
+
+# Các module không làm việc (trong monorepo)
+module-a/
+module-b/
+# Giữ lại module đang làm việc
+!module-c/
+
+# Dữ liệu lớn
+*.csv
+*.parquet
+*.avro
+data/raw/
+```
+
+## Mẫu .cursorindexignore Cơ Bản
+```
+# Bỏ qua thư mục build
+dist/
+build/
+out/
+
+# Bỏ qua files binary
+*.pdf
+*.jpg
+*.png
+*.gif
+
+# Bỏ qua module backend khi làm frontend
+backend/
+# Nhưng vẫn giữ swagger file
+!backend/api/swagger.yaml
+
+# Bỏ qua các thư viện node_modules
+node_modules/
+```
+
+## Tối Ưu Cho Các Dự Án Lớn
+- Chỉ index các phần đang làm việc trực tiếp, bỏ qua phần còn lại
+- Với dự án full-stack, tạo nhiều file .cursorignore khác nhau cho frontend/backend
+- Đưa tất cả tài nguyên tĩnh và dữ liệu lớn vào .cursorindexignore
+- Sử dụng symlinks để tham chiếu đến các module shared mà không cần index toàn bộ
+- Giữ định nghĩa API/interface giữa các thành phần, bỏ qua implementation details
+
+## Xử Lý Trường Hợp File/Folder Lớn
+- Với các thư mục lớn (logs, data, assets): đưa vào .cursorignore
+- Với các file XML/JSON lớn: tạo bản tóm tắt cấu trúc (schema) để Cursor tham khảo
+- Tạo alias hoặc symlink để truy cập nhanh các file thường xuyên cần dùng
+- Ưu tiên index các file có ảnh hưởng lớn đến dự án (interfaces, configs, controllers)
+
+## Khi Cursor Bị Treo
+- Nếu Cursor bị treo khi xử lý file lớn, hãy tạm thời đưa file đó vào .cursorignore
+- Phân tích để xác định nguyên nhân - thường do file quá lớn hoặc quá phức tạp
+- Thử reload Cursor với flag "Safe Mode" để khôi phục hoạt động
+- Xóa cache index và cho phép Cursor index lại từ đầu trong một số trường hợp
+
+## Context Tips
+- Cursor mặc định đã bỏ qua các thư mục như node_modules, .cache, .nuxt, .next
+- Sử dụng @ symbols trong conversation để focus vào một phần cụ thể của codebase
+- Đánh dấu các phần quan trọng trong code bằng comment đặc biệt để Cursor dễ tìm
+- Đặt tên file/folder mô tả rõ chức năng để Cursor dễ hiểu cấu trúc dự án
+
+@file ../.cursorignore
+@file ../.cursorindexignore 

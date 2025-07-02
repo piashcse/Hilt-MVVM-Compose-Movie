@@ -1,0 +1,150 @@
+---
+description: Global rules for all AI interactions in this project
+globs: "*.*"
+alwaysApply: true
+---
+
+- Tham khảo tài liệu dự án (Instruction.md, API_Docs.md, Diagram.md)
+- Cân nhắc các mốc, chi phí, và tính nhất quán của dự án
+- Sử dụng tiếng Việt cho hội thoại với giọng trẻ trung, tinh nghịch, mỗi dự án sẽ có 1 phong cách trò chuyện ngẫu nhiên khác nhau, bạn có thể bổ sung tính cách riêng vào Instruction.md để tính cách theo toàn bộ dự án; code bằng tiếng Anh
+
+## Nguyên Tắc Thiết Kế Instruction
+- ***BẮT BUỘC*** instruction files chỉ chứa chỉ dẫn, hướng dẫn và yêu cầu
+- ***NGHIÊM CẤM*** bao gồm code implementation trong instruction files
+- ***BẮT BUỘC*** mô tả logic, flow và requirements bằng natural language
+- ***BẮT BUỘC*** sử dụng pseudocode hoặc flowchart khi cần minh họa logic
+- ***BẮT BUỘC*** tập trung vào "what to build" và "why" thay vì "how to implement"
+- ***BẮT BUỘC*** để AI tự quyết định implementation details dựa trên instruction
+- Viết code rõ ràng, ngắn gọn, tập trung vào một nhiệm vụ
+- Hỗ trợ đa ngôn ngữ với tiếng Anh làm mặc định
+- Ghi tóm tắt cấu trúc và chức năng trong Codebase.md (không copy code)
+- Dừng ngay sau 3 lần thử sửa lỗi không thành công
+- Phân tích nguyên nhân gốc rễ trước khi sửa lỗi
+- Tạo bản sao đơn giản trước các thay đổi lớn
+- Thực hiện và kiểm tra từng thay đổi một
+- Ghi lại quyết định quan trọng trong Decisions.md
+- Cập nhật trạng thái nhiệm vụ trong Instruction.md
+- Tuân thủ quy ước commit (feat, fix, docs, style, refactor...)
+- Tuân thủ nguyên tắc SOLID và xử lý lỗi đúng cách
+- Giải thích vấn đề một cách đơn giản, đề xuất nhiều giải pháp 
+
+## Quản Lý Dữ Liệu Giả Lập
+- Nếu dự án sử dụng bất kỳ dữ liệu giả lập nào, ***BẮT BUỘC*** tạo file MockupData.md
+- Liệt kê chi tiết và cập nhật thường xuyên tất cả các phần của dự án đang sử dụng dữ liệu giả
+- Phân loại dữ liệu giả lập theo mục đích sử dụng:
+  * Dữ liệu demo cho client/stakeholders
+  * Dữ liệu testing cho quá trình phát triển
+  * Dữ liệu thay thế tạm thời cho API chưa sẵn sàng
+  * Dữ liệu mẫu cho hướng dẫn/documentation
+- Cho mỗi phần dữ liệu giả lập, ghi rõ:
+  * Vị trí chính xác của file/code đang sử dụng dữ liệu giả
+  * Cấu trúc dữ liệu của mockup và cấu trúc dữ liệu thật tương ứng
+  * Phương thức khởi tạo và sử dụng dữ liệu giả
+  * Kế hoạch và timeline để chuyển sang dữ liệu thật
+  * Người chịu trách nhiệm cho việc thay thế dữ liệu giả
+- Tạo phần "Chiến lược chuyển đổi" trong file MockupData.md để mô tả:
+  * Điều kiện để chuyển từ dữ liệu giả sang dữ liệu thật
+  * Kế hoạch backup nếu việc chuyển đổi gặp vấn đề
+  * Cách xử lý dữ liệu trong giai đoạn chuyển tiếp
+- Tạo phần "Dữ liệu giả cho API":
+  * Mô tả chi tiết các API endpoints đang được mock
+  * So sánh cấu trúc request/response của API giả và API thật
+  * Xác định các trường hợp lỗi được mô phỏng trong API giả
+- Cập nhật file MockupData.md mỗi khi:
+  * Thêm dữ liệu giả mới vào dự án
+  * Thay đổi cấu trúc dữ liệu giả hiện có
+  * Chuyển đổi từ dữ liệu giả sang dữ liệu thật
+  * Phát hiện sự không nhất quán giữa dữ liệu giả và thật
+- Thiết lập phần "Tiến độ chuyển đổi" với định dạng:
+  ```
+  ## Tiến độ chuyển đổi
+  - [x] Component A - Hoàn thành chuyển đổi ngày DD/MM/YYYY
+  - [ ] Component B - Dự kiến chuyển đổi ngày DD/MM/YYYY
+  - [ ] Component C - Chờ API xyz hoàn thiện
+  ```
+
+## Project info
+Luôn kiểm tra .project-identity để biết cấu trúc và ngôn ngữ dự án, nếu chưa có file .project-identity hãy tạo và yêu cầu người dùng bổ sung thêm thông tin
+
+## Task Status Legend
+- ✅ Completed
+- ⏳ In Progress
+- ❌ Not Started
+
+## Task List Management
+
+### Nguyên Tắc Tạo Task Lists
+- ***BẮT BUỘC*** tạo task lists trong file markdown ở project root
+- ***BẮT BUỘC*** sử dụng `TASKS.md` hoặc tên mô tả feature cụ thể (VD: `ASSISTANT_CHAT.md`)
+- ***BẮT BUỘC*** bao gồm title rõ ràng và mô tả mục đích của feature
+
+### Cấu Trúc Task List Chuẩn
+```markdown
+# Feature Name Implementation
+
+Mô tả ngắn gọn về feature và mục đích.
+
+## Completed Tasks
+
+- [x] Task 1 đã hoàn thành
+- [x] Task 2 đã hoàn thành
+
+## In Progress Tasks
+
+- [ ] Task 3 đang làm việc
+- [ ] Task 4 sẽ hoàn thành sớm
+
+## Future Tasks
+
+- [ ] Task 5 dự kiến trong tương lai
+- [ ] Task 6 dự kiến trong tương lai
+
+## Implementation Plan
+
+Mô tả chi tiết cách triển khai feature.
+
+### Relevant Files
+
+- path/to/file1.ts - Mô tả mục đích
+- path/to/file2.ts - Mô tả mục đích
+```
+
+### Quy Trình Maintain Task Lists
+- ***BẮT BUỘC*** cập nhật task list sau khi hoàn thành component quan trọng
+- ***BẮT BUỘC*** đánh dấu completed tasks bằng cách đổi `[ ]` thành `[x]`
+- ***BẮT BUỘC*** thêm tasks mới khi phát hiện trong quá trình triển khai
+- ***BẮT BUỘC*** di chuyển tasks giữa các sections phù hợp
+- ***KHUYẾN NGHỊ*** cập nhật section "Relevant Files" với đường dẫn chính xác và mô tả
+
+### Hướng Dẫn Cho AI
+Khi làm việc với task lists, AI phải:
+- Thường xuyên cập nhật file task list sau khi triển khai components quan trọng
+- Đánh dấu [x] cho tasks đã hoàn thành
+- Thêm tasks mới được phát hiện trong quá trình triển khai
+- Maintain section "Relevant Files" với đường dẫn file chính xác và mô tả
+- Document implementation details, đặc biệt cho features phức tạp
+- Kiểm tra task nào cần triển khai tiếp theo trước khi bắt đầu
+- Sau khi triển khai task, cập nhật file để phản ánh tiến độ
+
+### Ví Dụ Cập Nhật Task
+Khi di chuyển task từ "In Progress" sang "Completed":
+
+**Trước:**
+```markdown
+## In Progress Tasks
+- [ ] Implement database schema
+- [ ] Create API endpoints
+
+## Completed Tasks
+- [x] Set up project structure
+```
+
+**Sau:**
+```markdown
+## In Progress Tasks
+- [ ] Create API endpoints
+
+## Completed Tasks
+- [x] Set up project structure
+- [x] Implement database schema
+```

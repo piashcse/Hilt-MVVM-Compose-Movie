@@ -1,0 +1,87 @@
+---
+description: Rules for frontend development with React, Vue, Angular, and other frameworks
+globs: *.js,*.jsx,*.ts,*.tsx,*.vue,*.html,*.css,*.scss,*.sass,*.less
+alwaysApply: false
+---
+
+## UI Component Libraries
+- ***BẮT BUỘC*** sử dụng shadcn/ui cho các dự án React có Tailwind CSS
+- ***NGHIÊM CẤM*** sử dụng Chakra UI
+- Khi migration, áp dụng isolation pattern để tránh conflict
+- Nếu cần component không có trong shadcn/ui, ưu tiên tự custom thay vì import từ Chakra UI
+- Khi cần sử dụng cả hai library (trong trường hợp migration): 
+  * Sử dụng namespace scope để tách biệt
+  * Tạo adapter components để thống nhất API
+  * Phân chia rõ phạm vi sử dụng từng library
+
+## Architecture
+- Sử dụng component-based architecture
+- Tách biệt UI components và business logic
+- Implement proper state management
+- Sử dụng routing cho multi-page applications
+- Áp dụng mô hình dữ liệu phù hợp (Flux, MVC, hoặc tương tự)
+
+## Component Design
+- Ưu tiên functional components với hooks (React)
+- Tạo small, reusable, và focused components
+- Implement proper props validation
+- Sử dụng composition thay vì inheritance
+- Destructure props và state để dễ đọc
+
+## State Management
+- Sử dụng local state cho UI-specific state
+- Áp dụng global state management cho shared state (Redux, Vuex, Context API)
+- Implement caching và memoization
+- Sử dụng immutable state updates
+- Chia state theo domain/feature
+
+## Performance
+- Implement lazy loading và code splitting
+- Sử dụng memoization để tránh re-renders không cần thiết
+- Optimize bundle size
+- Sử dụng virtualization cho long lists
+- Implement proper error boundaries
+
+## Styling
+- Sử dụng CSS-in-JS, CSS Modules, hoặc utility-first CSS (TailwindCSS)
+- Implement responsive design
+- Sử dụng flexbox và grid cho layouts
+- Maintain consistent styling
+- Tách styling logic từ business logic
+
+## Testing
+- Viết unit tests cho components và utility functions
+- Implement integration tests cho interactive components
+- Test accessibility
+- Sử dụng React Testing Library, Jest, hoặc Cypress
+- Focus vào testing behaviors, không phải implementation
+
+## Accessibility
+- Sử dụng semantic HTML
+- Implement keyboard navigation
+- Provide proper ARIA attributes
+- Ensure sufficient color contrast
+- Support screen readers
+
+## Internationalization
+- Sử dụng i18n libraries (react-i18next, vue-i18n)
+- Tách text từ code
+- Support right-to-left languages
+- Format dates, numbers, và currencies theo locale
+- Handle pluralization và gender rules
+
+## Security
+- Prevent XSS attacks
+- Implement proper CSP
+- Sanitize user input
+- Sử dụng HTTPS
+- Secure cookie handling
+
+## API Integration
+- Sử dụng Fetch API hoặc Axios
+- Implement proper error handling
+- Show loading and error states
+- Sử dụng caching và request cancellation
+- Validate API responses
+
+@file ../README.md 

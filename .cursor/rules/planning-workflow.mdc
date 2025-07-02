@@ -1,0 +1,223 @@
+---
+description: Quy trình brainstorm và lên kế hoạch dự án có cấu trúc
+globs: *.md,instructions/*,docs/*
+alwaysApply: false
+---
+## Nguyên Tắc Cơ Bản
+- ***BẮT BUỘC*** kiểm tra file Brainstorm_[TenDuAn].md hoàn chỉnh trước khi lên kế hoạch
+- ***BẮT BUỘC*** chỉ được planning khi brainstorm đã hoàn thành tất cả 3 phases
+- ***BẮT BUỘC*** dựa trên kết quả brainstorm để tạo planning chi tiết
+- ***BẮT BUỘC*** rà soát codebase hiện tại trước khi lên kế hoạch cho tính năng mới
+- ***BẮT BUỘC*** tạo tài liệu kế hoạch chi tiết trước khi bắt đầu code
+- ***BẮT BUỘC*** thực hiện template selection ngay sau khi hoàn thành planning
+- ***BẮT BUỘC*** tạo file Template_Selection.md với templates được chọn và loại bỏ
+- ***BẮT BUỘC*** lên kế hoạch thời gian và đánh giá độ phức tạp cho từng task
+- ***BẮT BUỘC*** xác định rõ đầu ra mong muốn và tiêu chí thành công
+- ***BẮT BUỘC*** tuân thủ quy trình 4 vai trò: Planner > Architect > Builder > Tester
+- ***BẮT BUỘC*** không bỏ qua bước Architect để "code cho nhanh"
+- ***KHUYẾN NGHỊ*** chia nhỏ các task phức tạp thành nhiều task nhỏ hơn
+- ***KHUYẾN NGHỊ*** tìm hiểu các giải pháp tương tự để có cái nhìn tổng quan
+- ***KHUYẾN NGHỊ*** bắt đầu với template tối giản và thêm dần khi cần thiết
+- ***NGHIÊM CẤM*** bắt đầu planning khi chưa có file brainstorm hoàn chỉnh
+- ***NGHIÊM CẤM*** bắt đầu code khi chưa có kế hoạch rõ ràng
+- ***NGHIÊM CẤM*** sử dụng quá nhiều template gây phức tạp không cần thiết
+
+## Quy Trình Brainstorm
+1. **Hiểu Bối Cảnh**
+   - Đặt ít nhất 3 câu hỏi để hiểu rõ bối cảnh và nhu cầu
+   - Tìm hiểu động lực và mục tiêu đằng sau yêu cầu
+   - Xác định vấn đề cốt lõi cần giải quyết
+
+2. **Mở Rộng Tư Duy**
+   - Đề xuất ít nhất 2-3 hướng tiếp cận khác nhau
+   - Brainstorm không giới hạn các ý tưởng và giải pháp
+   - Khám phá các giải pháp sáng tạo và không quy ước
+
+3. **Thu Hẹp & Tập Trung**
+   - Phân tích ưu nhược điểm của từng phương án
+   - Chọn giải pháp phù hợp nhất dựa trên tiêu chí đã xác định
+   - Xác định phạm vi và giới hạn của kế hoạch
+
+## Câu Hỏi Brainstorm Theo Loại Dự Án
+
+### Câu Hỏi Chung
+- "Đâu là mục tiêu chính bạn muốn đạt được?"
+- "Ai là người dùng chính và họ cần giải quyết vấn đề gì?"
+- "Có giới hạn thời gian hoặc tài nguyên nào không?"
+- "Bạn có thể chia sẻ ví dụ về các giải pháp tương tự bạn thích không?"
+- "Có yêu cầu đặc biệt về hiệu suất, bảo mật, hoặc khả năng mở rộng không?"
+
+### Dự Án Frontend
+- "Bạn có wireframe hoặc thiết kế UI cụ thể nào không?"
+- "Ứng dụng cần hỗ trợ những thiết bị và trình duyệt nào?"
+- "Có yêu cầu cụ thể về accessibility không?"
+- "Bạn thích phong cách thiết kế nào? (Material, Fluent, Minimal...)"
+- "Có yêu cầu về thời gian tải trang hoặc kích thước bundle không?"
+
+### Dự Án Backend
+- "Lượng traffic dự kiến là bao nhiêu?"
+- "Có yêu cầu về real-time không?"
+- "Cần những loại API và endpoints nào?"
+- "Cấu trúc database hiện tại như thế nào?"
+- "Có yêu cầu về xác thực và phân quyền không?"
+
+### Dự Án Fullstack
+- "Bạn muốn phân chia trách nhiệm giữa frontend và backend như thế nào?"
+- "Cần lưu trữ và đồng bộ hóa những loại dữ liệu nào?"
+- "Có tính năng nào cần xử lý offline không?"
+- "Cơ chế authentication và authorization dự kiến là gì?"
+- "Có yêu cầu về SEO không?"
+
+## Mẫu Tài Liệu Kế Hoạch
+```markdown
+# Kế Hoạch: [Tên Tính Năng/Dự Án]
+
+## 1. Tổng Quan
+- **Mục Tiêu**: [Mô tả ngắn gọn mục tiêu chính]
+- **Phạm Vi**: [Xác định rõ những gì thuộc và không thuộc phạm vi]
+- **Đầu Ra Mong Muốn**: [Liệt kê các kết quả cụ thể cần đạt được]
+
+## 2. Phân Tích Hiện Trạng
+- **Cấu Trúc Hiện Tại**: [Mô tả cấu trúc code/dự án hiện tại]
+- **Các Thành Phần Liên Quan**: [Liệt kê các module/thành phần liên quan]
+- **Giới Hạn & Ràng Buộc**: [Xác định các giới hạn kỹ thuật hoặc nghiệp vụ]
+
+## 3. Giải Pháp Đề Xuất
+- **Tổng Quan Giải Pháp**: [Mô tả high-level về giải pháp]
+- **Thiết Kế & Kiến Trúc**: [Mô tả cấu trúc và các thành phần chính]
+- **Công Nghệ & Thư Viện**: [Liệt kê công nghệ và thư viện sẽ sử dụng]
+
+## 4. Template Selection & Configuration
+- **Platform Analysis**: [Xác định platform chính và tech stack]
+- **Template Requirements**: [Liệt kê templates cần thiết dựa trên features]
+- **Selected Templates**:
+  - Core Templates: [Danh sách core templates bắt buộc]
+  - Platform Templates: [Templates specific cho platform]
+  - Feature Templates: [Templates cho tính năng cụ thể]
+- **Excluded Templates**: [Templates bị loại bỏ và lý do]
+- **Integration Plan**: [Kế hoạch tích hợp templates vào workspace]
+
+## 5. Kế Hoạch Triển Khai
+- **Các Bước Thực Hiện**:
+  1. [Bước 1] - [Mô tả] - [Ước tính thời gian]
+  2. [Bước 2] - [Mô tả] - [Ước tính thời gian]
+  ...
+
+- **Ưu Tiên & Phụ Thuộc**:
+  - P0: [Task ưu tiên cao nhất]
+  - P1: [Task ưu tiên cao]
+  - P2: [Task ưu tiên trung bình]
+
+## 6. Kiểm Thử & Đánh Giá
+- **Kế Hoạch Kiểm Thử**: [Mô tả cách kiểm thử]
+- **Tiêu Chí Thành Công**: [Xác định rõ khi nào tính năng được coi là hoàn thành]
+- **Rủi Ro & Giảm Thiểu**: [Liệt kê rủi ro tiềm ẩn và cách giảm thiểu]
+
+## 6. Tài Nguyên & Tham Khảo
+- [Liệt kê tài liệu tham khảo và tài nguyên liên quan]
+```
+
+## Quy Trình 4 Vai Trò
+- ***BẮT BUỘC*** tuân thủ quy trình 4 bước khi phát triển bất kỳ tính năng nào
+- ***BẮT BUỘC*** không bỏ qua bước Architect để "code cho nhanh"
+- ***BẮT BUỘC*** lập kế hoạch chi tiết trước khi bắt đầu code
+
+### 1. Planner
+- Sử dụng GPT-4o để viết PRD, vẽ user flows, chọn tech stack
+- Xác định rõ scope và các yêu cầu
+- Tạo file .md với đầy đủ thông tin về feature
+- Tham khảo các kinh nghiệm tương tự trong `/experiences/`
+- Thời gian dành cho planning: 15-20% tổng thời gian dự án
+
+### 2. Architect
+- Phân tách features thành các task nhỏ, manageable
+- Định rõ logic cho từng màn hình và chức năng
+- Xác định data flow và cấu trúc component
+- Mô tả rõ API contract và database schema
+- Thời gian dành cho architecture: 20-25% tổng thời gian
+
+### 3. Builder
+- Cung cấp plan và spec cho AI để generate code
+- Kiểm tra code được tạo và đảm bảo tuân thủ rules
+- Áp dụng các code conventions đã định nghĩa
+- Commit code thường xuyên sau mỗi task nhỏ
+- Thời gian dành cho building: 40-50% tổng thời gian
+
+### 4. Tester
+- Sử dụng AI để check bug và optimize code
+- Viết test cases (unit test và integration test)
+- Đánh giá performance và trải nghiệm người dùng
+- Fix các vấn đề được phát hiện
+- Thời gian dành cho testing: 15-20% tổng thời gian
+
+### Hệ Quả Của Việc Bỏ Qua Quy Trình
+- Khi bỏ qua bước Architect: Code không đồng bộ, UI không match với backend
+- Khi bỏ qua planning: Tính năng không đáp ứng đúng nhu cầu, phải làm lại
+- Khi bỏ qua testing: Sản phẩm không ổn định, xuất hiện bug khi sử dụng
+
+## Rà Soát Codebase
+- ***BẮT BUỘC*** hiểu cấu trúc dự án hiện tại trước khi lên kế hoạch
+- ***BẮT BUỘC*** xác định các module/thành phần sẽ bị ảnh hưởng
+- ***BẮT BUỘC*** đánh giá mức độ tương thích của tính năng mới với codebase
+- ***BẮT BUỘC*** xem xét các patterns và best practices đang được áp dụng
+- ***KHUYẾN NGHỊ*** tạo sơ đồ dependency giữa các thành phần liên quan
+- ***KHUYẾN NGHỊ*** xác định các điểm có thể tái sử dụng và các điểm cần thay đổi
+
+## Đánh Giá Độ Phức Tạp
+- Sử dụng thang độ phức tạp để ước tính effort:
+  * **Đơn Giản** (S): 1-4 giờ làm việc, không có rủi ro cao
+  * **Trung Bình** (M): 4-8 giờ làm việc, có một số thách thức
+  * **Phức Tạp** (L): 8-16 giờ làm việc, có nhiều thách thức
+  * **Rất Phức Tạp** (XL): >16 giờ, cần chia nhỏ thành nhiều task
+
+- Xác định độ phức tạp dựa trên các yếu tố:
+  * Số lượng thành phần bị ảnh hưởng
+  * Mức độ hiểu biết về kỹ thuật và domain
+  * Yêu cầu về hiệu suất và bảo mật
+  * Khả năng mở rộng và duy trì
+
+## Lên Kế Hoạch Thực Hiện
+- ***BẮT BUỘC*** chia nhỏ công việc thành các task cụ thể 
+- ***BẮT BUỘC*** xác định task dependencies (task nào phải hoàn thành trước)
+- ***BẮT BUỘC*** ước tính thời gian cho từng task
+- ***BẮT BUỘC*** xác định các milestone và điểm kiểm tra
+- ***BẮT BUỘC*** lên kế hoạch kiểm thử cho từng thành phần
+- ***KHUYẾN NGHỊ*** nhóm các task theo module hoặc chức năng
+- ***KHUYẾN NGHỊ*** xây dựng roadmap trực quan
+
+## Quản Lý Rủi Ro
+- ***BẮT BUỘC*** xác định các rủi ro tiềm ẩn cho từng phần của kế hoạch
+- ***BẮT BUỘC*** đánh giá tác động và khả năng xảy ra của từng rủi ro
+- ***BẮT BUỘC*** lên kế hoạch dự phòng cho các rủi ro có tác động cao
+- ***BẮT BUỘC*** thiết lập kế hoạch rollback trong trường hợp thất bại
+- ***KHUYẾN NGHỊ*** ưu tiên làm proof-of-concept cho các phần rủi ro cao
+
+## Kết Hợp Với Các Rule Khác
+- ***BẮT BUỘC*** tuân thủ các quy định trong project-upgrade-workflow.mdc khi làm việc với dự án đã tồn tại
+- ***BẮT BUỘC*** tuân thủ project-creation-workflow.mdc khi tạo dự án mới
+- ***BẮT BUỘC*** áp dụng file-protection-rules.mdc trước khi thực hiện thay đổi lớn
+- ***BẮT BUỘC*** sử dụng supabase-mcp-workflow.mdc khi làm việc với Supabase
+- ***BẮT BUỘC*** tuân thủ nguyên tắc tối ưu hóa trong cursor-optimization-rules.mdc
+
+## Đầu Ra Kế Hoạch
+- Tài liệu kế hoạch đầy đủ được lưu trong `instructions/plans/`
+- Cập nhật `Decisions.md` với các quyết định thiết kế quan trọng
+- Cập nhật `Codebase.md` nếu cấu trúc dự án thay đổi đáng kể
+- Roadmap trực quan (nếu cần) trong `instructions/plans/roadmaps/`
+- Checklist các task đã được phân chia trong `instructions/plans/tasks/`
+- Xác nhận người dùng đã đồng ý với kế hoạch trước khi thực hiện
+
+## Vòng Đời Của Kế Hoạch
+1. **Brainstorming**: Thu thập ý tưởng và yêu cầu từ người dùng
+2. **Phân Tích**: Rà soát codebase và đánh giá tính khả thi
+3. **Lập Kế Hoạch**: Tạo tài liệu kế hoạch chi tiết
+4. **Xác Nhận**: Xin phê duyệt từ người dùng
+5. **Triển Khai**: Thực hiện theo kế hoạch
+6. **Đánh Giá**: Kiểm tra tiêu chí thành công
+7. **Điều Chỉnh**: Cập nhật kế hoạch dựa trên phản hồi và kết quả
+
+## Phản Hồi & Cải Tiến
+- Sau khi hoàn thành kế hoạch, thu thập phản hồi từ người dùng
+- Đánh giá hiệu quả của quy trình lập kế hoạch
+- Cập nhật quy trình dựa trên bài học kinh nghiệm
+- Ghi chép các lessons learned trong `Decisions.md`

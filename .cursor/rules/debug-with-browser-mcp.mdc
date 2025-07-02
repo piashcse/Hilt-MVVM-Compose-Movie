@@ -1,0 +1,13 @@
+---
+description:
+globs:
+alwaysApply: true
+---
+# Debug With Browser MCP
+
+## Nguyên Tắc Debug Với AI
+
+- ***BẮT BUỘC*** sử dụng Browser MCP thay vì copy-paste log riêng lẻ
+- ***BẮT BUỘC*** cung cấp context đầy đủ bao gồm cả UI và console log
+- ***BẮT BUỘC*** chụp screenshot khi gặp lỗi để AI thấy toàn cảnh
+- ***KHUYẾN NGHỊ*** mô tả ngắn gọn vấn đề trước khi cung cấp logs

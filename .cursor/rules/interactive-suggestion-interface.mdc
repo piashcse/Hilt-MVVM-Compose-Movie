@@ -1,0 +1,498 @@
+---
+description: Interactive Suggestion Interface - Giao diện tương tác thông minh cho feature suggestions và plan management
+globs: "*.*"
+alwaysApply: true
+---
+
+# Interactive Suggestion Interface
+
+## Core Interface Design
+
+### Suggestion Presentation Framework
+```
+User Request → Feature Analysis → Suggestion Generation → Interactive Presentation → User Decision → Learning Update
+```
+
+### Interface Components
+```yaml
+components:
+  suggestion_presenter:
+    - priority_grouping: true
+    - reasoning_display: true
+    - effort_estimation: true
+    - dependency_visualization: true
+    - interactive_selection: true
+  
+  plan_integration:
+    - auto_plan_update: true
+    - timeline_adjustment: true
+    - dependency_tracking: true
+    - progress_monitoring: true
+  
+  user_feedback:
+    - decision_capture: true
+    - reasoning_collection: true
+    - preference_learning: true
+    - satisfaction_tracking: true
+  
+  learning_system:
+    - pattern_recognition: true
+    - preference_modeling: true
+    - suggestion_optimization: true
+    - continuous_improvement: true
+```
+
+## Suggestion Presentation Patterns
+
+### High Priority Suggestions
+```markdown
+🔥 **ESSENTIAL FEATURES** (Recommended for immediate implementation)
+
+**1. User Authentication System**
+   📊 Priority: 9.2/10 | ⏱️ Effort: 2-3 days | 🔗 Dependencies: Session Management
+   
+   💡 **Why this matters**: Your user registration feature requires secure authentication.
+   Without proper auth, users cannot safely access their accounts or maintain sessions.
+   
+   🎯 **Business Impact**: 
+   - Enables user account security
+   - Required for personalization features
+   - Foundation for user-specific data
+   
+   🛠️ **Technical Benefits**:
+   - Integrates seamlessly với existing user model
+   - Supports future OAuth integration
+   - Enables role-based access control
+   
+   📋 **Implementation Includes**:
+   - [ ] Password hashing và validation
+   - [ ] Session management
+   - [ ] Login/logout endpoints
+   - [ ] Password reset functionality
+   
+   ✅ **Accept** | ⏭️ **Defer** | ❌ **Skip** | 💬 **Discuss**
+```
+
+### Medium Priority Suggestions
+```markdown
+⭐ **VALUABLE ENHANCEMENTS** (Consider for next phase)
+
+**2. Email Verification System**
+   📊 Priority: 7.1/10 | ⏱️ Effort: 1-2 days | 🔗 Dependencies: Email Service
+   
+   💡 **Why consider this**: Enhances user authentication với email verification.
+   Commonly implemented in user registration systems for security và trust.
+   
+   🎯 **Benefits**:
+   - Reduces fake account creation
+   - Improves user trust
+   - Enables password recovery
+   
+   📋 **Implementation Includes**:
+   - [ ] Email template system
+   - [ ] Verification token generation
+   - [ ] Email sending integration
+   - [ ] Verification endpoint
+   
+   ✅ **Accept** | ⏭️ **Defer** | ❌ **Skip** | 💬 **Discuss**
+```
+
+### Future Considerations
+```markdown
+🔮 **FUTURE OPPORTUNITIES** (Worth planning for later)
+
+**3. Two-Factor Authentication**
+   📊 Priority: 5.8/10 | ⏱️ Effort: 3-4 days | 🔗 Dependencies: SMS/TOTP Service
+   
+   💡 **Future value**: Advanced security feature for enterprise users.
+   While not immediately necessary, it's valuable for Q3 2024 when targeting
+   business customers who require enhanced security.
+   
+   📋 **When to implement**: After user base reaches 1000+ active users
+   
+   ✅ **Plan for Later** | ❌ **Not Interested** | 💬 **Discuss**
+```
+
+## Interactive Decision Capture
+
+### Decision Collection Framework
+```python
+class SuggestionDecision:
+    def __init__(self, suggestion_id, user_decision, context):
+        self.suggestion_id = suggestion_id
+        self.user_decision = user_decision  # accept, defer, skip, discuss
+        self.user_reasoning = None
+        self.modification_requests = []
+        self.priority_adjustment = None
+        self.timeline_preference = None
+        self.context = context
+        self.timestamp = datetime.now()
+        self.confidence_level = None  # How confident user is in decision
+
+class DecisionCapture:
+    def capture_decision(self, suggestion, user_input):
+        decision = SuggestionDecision(suggestion.id, user_input.decision, user_input.context)
+        
+        # Capture additional context
+        if user_input.has_reasoning:
+            decision.user_reasoning = user_input.reasoning
+        
+        if user_input.has_modifications:
+            decision.modification_requests = user_input.modifications
+        
+        if user_input.has_priority_feedback:
+            decision.priority_adjustment = user_input.priority_feedback
+        
+        if user_input.has_timeline_preference:
+            decision.timeline_preference = user_input.timeline_preference
+        
+        # Store decision for learning
+        self.store_decision(decision)
+        
+        # Update suggestion model
+        self.update_suggestion_model(decision)
+        
+        return decision
+```
+
+### User Interaction Patterns
+
+#### Quick Accept/Reject
+```
+User: "Accept suggestions 1, 3, and 5. Skip 2 and 4."
+
+System Response:
+✅ Accepted: User Authentication, Password Reset, Rate Limiting
+❌ Skipped: Email Verification, Social Login
+
+📋 Updated Plan:
+- Phase 1: User Authentication (2-3 days)
+- Phase 1: Password Reset (1 day) 
+- Phase 2: Rate Limiting (1 day)
+
+⏱️ Total Timeline: +4-5 days
+💰 Estimated Effort: +24-32 hours
+
+🤔 **Quick Question**: Would you like to implement Password Reset
+in Phase 1 với Authentication, or move it to Phase 2?
+```
+
+#### Detailed Discussion
+```
+User: "I want to discuss suggestion 2 - not sure about email verification."
+
+System Response:
+💬 **Let's discuss Email Verification**
+
+❓ **Your concerns might include**:
+- Additional complexity for MVP?
+- Email service setup overhead?
+- User experience friction?
+- Development timeline impact?
+
+🎯 **Alternative approaches**:
+1. **Simplified**: Optional email verification (users can skip)
+2. **Deferred**: Implement in Phase 2 after core auth works
+3. **Minimal**: Just collect email, verify later
+4. **Skip**: Focus on core authentication first
+
+💡 **My recommendation**: Start với option 2 (deferred) because:
+- Keeps MVP timeline intact
+- Allows testing core auth first
+- Can add verification based on user feedback
+
+What are your thoughts?
+```
+
+#### Modification Requests
+```
+User: "Accept suggestion 1 but I want to use OAuth instead of custom auth."
+
+System Response:
+✅ **Modified Acceptance: OAuth Authentication**
+
+🔄 **Updated Implementation**:
+- Original: Custom authentication system
+- Modified: OAuth 2.0 integration (Google, GitHub)
+
+📊 **Impact Analysis**:
+- ⏱️ Timeline: 2-3 days → 1-2 days (faster)
+- 🛠️ Complexity: Medium → Low (simpler)
+- 🔗 Dependencies: + OAuth provider setup
+- 🎯 Benefits: + Social login, + Faster development
+
+📋 **Updated Requirements**:
+- [ ] OAuth provider registration
+- [ ] OAuth flow implementation
+- [ ] User profile mapping
+- [ ] Session management
+
+🤔 **Follow-up question**: Which OAuth providers would you prefer?
+(Google, GitHub, Microsoft, or multiple?)
+```
+
+## Plan Integration Interface
+
+### Auto-Plan Updates
+```python
+def integrate_decisions_into_plan(decisions, current_plan):
+    updated_plan = current_plan.copy()
+    
+    for decision in decisions:
+        if decision.user_decision == 'accept':
+            # Add to plan
+            feature = decision.suggestion.feature
+            phase = determine_optimal_phase(feature, updated_plan)
+            updated_plan.add_feature_to_phase(feature, phase)
+            
+            # Update dependencies
+            updated_plan.update_dependencies(feature)
+            
+            # Recalculate timeline
+            updated_plan.recalculate_timeline()
+            
+        elif decision.user_decision == 'defer':
+            # Add to future considerations
+            updated_plan.add_to_backlog(decision.suggestion.feature)
+            
+        elif decision.user_decision == 'discuss':
+            # Mark for follow-up
+            updated_plan.add_discussion_item(decision.suggestion)
+    
+    # Validate plan consistency
+    validation_result = validate_plan_consistency(updated_plan)
+    
+    if not validation_result.is_valid:
+        # Suggest fixes
+        fixes = suggest_plan_fixes(updated_plan, validation_result.issues)
+        return updated_plan, fixes
+    
+    return updated_plan, None
+```
+
+### Timeline Visualization
+```markdown
+📅 **UPDATED PROJECT TIMELINE**
+
+**Phase 1: Foundation** (Days 1-5)
+├── ✅ User Authentication (Days 1-3)
+├── ✅ Password Reset (Day 4)
+└── ✅ Basic Session Management (Day 5)
+
+**Phase 2: Enhancement** (Days 6-8)
+├── 🆕 Rate Limiting (Day 6)
+├── 🆕 Input Validation (Day 7)
+└── 🆕 Error Handling (Day 8)
+
+**Phase 3: Polish** (Days 9-10)
+├── Testing & Bug Fixes (Day 9)
+└── Documentation & Deployment (Day 10)
+
+**📊 Summary Changes**:
+- ⏱️ Timeline: 7 days → 10 days (+3 days)
+- 🎯 Features: 3 → 6 features (+3 features)
+- 🔗 Dependencies: All resolved
+- ⚠️ Risks: Low (no blocking dependencies)
+```
+
+## Learning và Adaptation Interface
+
+### Preference Learning Display
+```markdown
+🧠 **LEARNING FROM YOUR DECISIONS**
+
+📈 **Detected Patterns**:
+- ✅ You prefer security features (100% acceptance)
+- ✅ You favor simple implementations (OAuth over custom)
+- ⏭️ You defer UI enhancements for later phases
+- 🚀 You prioritize MVP speed over feature completeness
+
+🎯 **Updated Recommendations**:
+- Will prioritize security-related suggestions
+- Will suggest simpler implementation approaches
+- Will group UI features in later phases
+- Will emphasize MVP-focused features
+
+💡 **This helps me give you better suggestions in the future!**
+```
+
+### Suggestion Quality Feedback
+```markdown
+📊 **HOW DID I DO?**
+
+Rate the quality of today's suggestions:
+
+**Relevance**: ⭐⭐⭐⭐⭐ (How relevant were the suggestions?)
+**Timing**: ⭐⭐⭐⭐⭐ (Were they suggested at the right time?)
+**Explanation**: ⭐⭐⭐⭐⭐ (Were the explanations clear?)
+**Usefulness**: ⭐⭐⭐⭐⭐ (Did they help your project?)
+
+💬 **Optional feedback**: What could I improve?
+
+[Text input for additional feedback]
+
+📈 **Your feedback helps me learn và improve!**
+```
+
+## Advanced Interaction Features
+
+### Contextual Help
+```python
+def provide_contextual_help(user_query, current_context):
+    help_responses = {
+        'what_is_priority': explain_priority_scoring(),
+        'why_this_suggestion': explain_suggestion_reasoning(current_context.suggestion),
+        'how_long_implement': provide_implementation_estimate(current_context.suggestion),
+        'what_are_dependencies': explain_dependencies(current_context.suggestion),
+        'can_modify_suggestion': explain_modification_options(),
+        'what_happens_if_skip': explain_skip_consequences(current_context.suggestion)
+    }
+    
+    query_type = classify_help_query(user_query)
+    return help_responses.get(query_type, provide_general_help())
+```
+
+### Smart Defaults
+```python
+def suggest_smart_defaults(user_profile, project_context, suggestions):
+    defaults = {
+        'auto_accept': [],
+        'recommended_defer': [],
+        'suggested_modifications': []
+    }
+    
+    for suggestion in suggestions:
+        # Based on user history
+        if matches_user_pattern(suggestion, user_profile.preferences):
+            if suggestion.priority >= 8.0:
+                defaults['auto_accept'].append(suggestion)
+        
+        # Based on project constraints
+        if suggestion.effort > project_context.available_time:
+            defaults['recommended_defer'].append(suggestion)
+        
+        # Based on tech stack compatibility
+        if not fully_compatible(suggestion, project_context.tech_stack):
+            modification = suggest_tech_stack_modification(suggestion, project_context)
+            defaults['suggested_modifications'].append(modification)
+    
+    return defaults
+```
+
+### Batch Operations
+```markdown
+⚡ **QUICK ACTIONS**
+
+🎯 **Smart Suggestions Based on Your History**:
+- Accept all security features (3 suggestions)
+- Defer all UI enhancements to Phase 2 (2 suggestions)
+- Skip advanced features for now (1 suggestion)
+
+📋 **Bulk Operations**:
+- ✅ Accept all high priority (Priority > 8.0)
+- ⏭️ Defer all low effort items to next sprint
+- 🔄 Modify all suggestions to use existing tech stack
+- ❌ Skip all suggestions requiring new dependencies
+
+💡 **Custom Selection**:
+- Select by category: [Security] [UI/UX] [Performance] [Integration]
+- Select by effort: [< 1 day] [1-3 days] [> 3 days]
+- Select by priority: [High] [Medium] [Low]
+```
+
+## Error Handling và Recovery
+
+### Graceful Error Handling
+```python
+def handle_interaction_errors(error, context):
+    error_handlers = {
+        'invalid_selection': handle_invalid_selection,
+        'conflicting_decisions': handle_conflicting_decisions,
+        'plan_validation_failed': handle_plan_validation_error,
+        'suggestion_generation_failed': handle_suggestion_error,
+        'user_input_unclear': handle_unclear_input
+    }
+    
+    error_type = classify_error(error)
+    handler = error_handlers.get(error_type, handle_generic_error)
+    
+    return handler(error, context)
+
+def handle_unclear_input(error, context):
+    return {
+        'message': "I'm not sure I understood your request. Could you clarify?",
+        'suggestions': [
+            "Try: 'Accept suggestion 1 and 3'",
+            "Try: 'Skip all UI suggestions'",
+            "Try: 'Discuss the authentication approach'",
+            "Try: 'Show me more details about suggestion 2'"
+        ],
+        'context_help': generate_context_help(context)
+    }
+```
+
+### Recovery Mechanisms
+```python
+def recover_from_interaction_failure(failure_context):
+    recovery_strategies = {
+        'restore_previous_state': lambda: restore_previous_interaction_state(),
+        'simplify_interface': lambda: present_simplified_options(),
+        'provide_examples': lambda: show_interaction_examples(),
+        'offer_guided_mode': lambda: start_guided_interaction_mode()
+    }
+    
+    # Try recovery strategies in order
+    for strategy_name, strategy_func in recovery_strategies.items():
+        try:
+            result = strategy_func()
+            if result.success:
+                log_successful_recovery(strategy_name)
+                return result
+        except Exception as e:
+            log_recovery_failure(strategy_name, e)
+    
+    # Fallback to basic mode
+    return fallback_to_basic_mode()
+```
+
+## Performance Optimization
+
+### Response Time Optimization
+```python
+class InteractionOptimizer:
+    def __init__(self):
+        self.response_cache = {}
+        self.user_preference_cache = {}
+        self.suggestion_cache = {}
+    
+    def optimize_interaction_response(self, user_input, context):
+        # Pre-compute common responses
+        if self.is_common_interaction(user_input):
+            return self.get_cached_response(user_input, context)
+        
+        # Parallel processing for complex interactions
+        if self.is_complex_interaction(user_input):
+            return self.process_complex_interaction_parallel(user_input, context)
+        
+        # Standard processing
+        return self.process_standard_interaction(user_input, context)
+    
+    def process_complex_interaction_parallel(self, user_input, context):
+        # Process multiple aspects concurrently
+        tasks = [
+            asyncio.create_task(self.analyze_user_intent(user_input)),
+            asyncio.create_task(self.generate_response_options(user_input, context)),
+            asyncio.create_task(self.update_user_model(user_input, context)),
+            asyncio.create_task(self.prepare_follow_up_questions(user_input, context))
+        ]
+        
+        results = await asyncio.gather(*tasks)
+        return self.combine_parallel_results(results)
+```
+
+---
+
+**Interface Status**: 🎨 User Experience Optimized
+**Features**: Interactive suggestions, Smart defaults, Learning system
+**Integration**: Planning system, Feature engine, User preferences
+**Performance**: Optimized response times, Cached interactions

@@ -1,0 +1,560 @@
+---
+description: Feature Suggestion Engine - Core AI logic để phân tích và gợi ý tính năng liên quan
+globs: "*.*"
+alwaysApply: false
+---
+
+# Feature Suggestion Engine
+
+## Core Algorithm
+
+### Feature Analysis Pipeline
+```
+User Request → Feature Extraction → Context Analysis → Relationship Query → Prioritization → Reasoning Generation → User Presentation
+```
+
+### 1. Feature Extraction
+```
+Input: User request text
+Process:
+- Parse natural language để identify main feature
+- Extract technical keywords
+- Determine feature category (auth, data, UI, etc.)
+- Identify project context clues
+Output: Structured feature object
+```
+
+### 2. Context Analysis
+```
+Input: Feature object + project files
+Process:
+- Analyze existing codebase
+- Determine project type (web, mobile, API, etc.)
+- Check current tech stack
+- Identify existing features
+- Assess project maturity level
+Output: Project context profile
+```
+
+### 3. Relationship Query
+```
+Input: Feature + Context
+Process:
+- Query knowledge base cho related features
+- Apply context-specific filters
+- Check technical compatibility
+- Validate với existing architecture
+Output: Raw suggestion list
+```
+
+### 4. Prioritization Algorithm
+```
+Input: Raw suggestions + Context
+Process:
+- Calculate dependency scores
+- Assess business value
+- Estimate implementation complexity
+- Consider user project goals
+- Apply learning từ previous decisions
+Output: Prioritized suggestion list
+```
+
+### 5. Reasoning Generation
+```
+Input: Prioritized suggestions
+Process:
+- Generate clear explanations
+- Provide technical justification
+- Explain business benefits
+- Estimate effort và timeline
+Output: Reasoned suggestions
+```
+
+## Knowledge Base Structure
+
+### Feature Categories
+
+#### Authentication & Security
+```yaml
+feature: "user_authentication"
+category: "security"
+required_dependencies:
+  - session_management
+  - password_hashing
+  - input_validation
+recommended_additions:
+  - password_reset
+  - email_verification
+  - rate_limiting
+optional_enhancements:
+  - two_factor_auth
+  - social_login
+  - oauth_integration
+future_considerations:
+  - sso_integration
+  - biometric_auth
+  - advanced_mfa
+compatibility:
+  web: high
+  mobile: high
+  api: high
+complexity: medium
+business_value: high
+```
+
+#### Data Management
+```yaml
+feature: "data_crud"
+category: "data"
+required_dependencies:
+  - database_connection
+  - data_models
+  - validation_layer
+recommended_additions:
+  - error_handling
+  - transaction_management
+  - audit_logging
+optional_enhancements:
+  - data_export
+  - backup_system
+  - data_archiving
+future_considerations:
+  - real_time_sync
+  - data_analytics
+  - ml_integration
+compatibility:
+  web: high
+  mobile: medium
+  api: high
+complexity: medium
+business_value: high
+```
+
+#### User Interface
+```yaml
+feature: "responsive_ui"
+category: "ui_ux"
+required_dependencies:
+  - css_framework
+  - component_library
+  - state_management
+recommended_additions:
+  - dark_mode
+  - accessibility_features
+  - loading_states
+optional_enhancements:
+  - animations
+  - micro_interactions
+  - progressive_enhancement
+future_considerations:
+  - ai_personalization
+  - voice_interface
+  - ar_vr_support
+compatibility:
+  web: high
+  mobile: high
+  api: low
+complexity: medium
+business_value: medium
+```
+
+### Project Type Patterns
+
+#### E-commerce Application
+```yaml
+project_type: "ecommerce"
+core_features:
+  - product_catalog
+  - shopping_cart
+  - payment_processing
+  - user_accounts
+  - order_management
+common_additions:
+  - inventory_management
+  - shipping_integration
+  - tax_calculation
+  - discount_system
+  - review_rating
+advanced_features:
+  - recommendation_engine
+  - analytics_dashboard
+  - multi_vendor_support
+  - subscription_billing
+  - loyalty_program
+```
+
+#### Content Management System
+```yaml
+project_type: "cms"
+core_features:
+  - content_creation
+  - content_editing
+  - user_roles
+  - media_management
+  - seo_optimization
+common_additions:
+  - workflow_approval
+  - version_control
+  - multi_language
+  - comment_system
+  - search_functionality
+advanced_features:
+  - ai_content_generation
+  - personalization
+  - analytics_integration
+  - api_headless
+  - performance_optimization
+```
+
+#### Mobile Health App
+```yaml
+project_type: "health_mobile"
+core_features:
+  - user_profile
+  - health_tracking
+  - data_visualization
+  - offline_support
+  - push_notifications
+common_additions:
+  - goal_setting
+  - progress_tracking
+  - social_sharing
+  - reminder_system
+  - data_export
+advanced_features:
+  - ai_insights
+  - wearable_integration
+  - telemedicine
+  - emergency_features
+  - clinical_integration
+```
+
+## Suggestion Scoring Algorithm
+
+### Dependency Score (0-10)
+```python
+def calculate_dependency_score(feature, main_feature, project_context):
+    score = 0
+    
+    # Technical dependency
+    if feature in main_feature.required_dependencies:
+        score += 8
+    elif feature in main_feature.recommended_additions:
+        score += 6
+    elif feature in main_feature.optional_enhancements:
+        score += 3
+    
+    # Project compatibility
+    compatibility = feature.compatibility.get(project_context.type, 0)
+    score += compatibility * 0.2
+    
+    # Existing codebase integration
+    if feature_exists_partially(feature, project_context):
+        score += 2
+    
+    return min(score, 10)
+```
+
+### Business Value Score (0-10)
+```python
+def calculate_business_value(feature, project_context, user_goals):
+    base_value = feature.business_value  # từ knowledge base
+    
+    # Adjust based on project type
+    if feature.category in project_context.priority_categories:
+        base_value += 2
+    
+    # Adjust based on user goals
+    if feature.category in user_goals.focus_areas:
+        base_value += 1
+    
+    # Market demand factor
+    market_score = get_market_demand_score(feature, project_context.industry)
+    base_value += market_score * 0.3
+    
+    return min(base_value, 10)
+```
+
+### Implementation Complexity Score (0-10)
+```python
+def calculate_complexity_score(feature, project_context):
+    base_complexity = feature.complexity  # từ knowledge base
+    
+    # Adjust based on existing tech stack
+    if has_compatible_libraries(feature, project_context.tech_stack):
+        base_complexity -= 1
+    
+    # Adjust based on team experience
+    if feature.category in project_context.team_expertise:
+        base_complexity -= 1
+    
+    # Adjust based on project maturity
+    if project_context.maturity == "early":
+        base_complexity += 1
+    
+    return max(min(base_complexity, 10), 1)
+```
+
+### Final Priority Score
+```python
+def calculate_priority_score(feature, main_feature, project_context, user_goals):
+    dependency = calculate_dependency_score(feature, main_feature, project_context)
+    business_value = calculate_business_value(feature, project_context, user_goals)
+    complexity = calculate_complexity_score(feature, project_context)
+    
+    # Weighted combination
+    priority = (
+        dependency * 0.4 +
+        business_value * 0.4 +
+        (10 - complexity) * 0.2  # Lower complexity = higher priority
+    )
+    
+    return priority
+```
+
+## Reasoning Generation Templates
+
+### High Priority Reasoning
+```
+"This feature is essential because {main_feature} requires {dependency_explanation}. 
+Without {suggested_feature}, users would experience {problem_description}. 
+Implementing this now will {benefit_description} and takes approximately {effort_estimate}."
+```
+
+### Medium Priority Reasoning
+```
+"Adding {suggested_feature} would significantly enhance {main_feature} by {enhancement_description}. 
+This is commonly implemented in {project_type} applications because {industry_reason}. 
+The implementation effort is {effort_estimate} and provides {business_benefit}."
+```
+
+### Low Priority Reasoning
+```
+"{suggested_feature} is a valuable future enhancement that would {future_benefit}. 
+While not immediately necessary, it's worth considering for {timeline} because {strategic_reason}. 
+This feature typically requires {effort_estimate} and could be implemented {when_condition}."
+```
+
+## Context-Aware Filtering
+
+### Project Stage Filtering
+```python
+def filter_by_project_stage(suggestions, project_stage):
+    if project_stage == "mvp":
+        # Focus on core functionality
+        return [s for s in suggestions if s.category in ["core", "essential"]]
+    
+    elif project_stage == "growth":
+        # Add user experience improvements
+        return [s for s in suggestions if s.category in ["core", "ux", "performance"]]
+    
+    elif project_stage == "scale":
+        # Focus on scalability và advanced features
+        return [s for s in suggestions if s.category in ["performance", "analytics", "advanced"]]
+    
+    return suggestions
+```
+
+### Tech Stack Compatibility
+```python
+def filter_by_tech_stack(suggestions, tech_stack):
+    compatible_suggestions = []
+    
+    for suggestion in suggestions:
+        compatibility_score = 0
+        
+        # Check framework compatibility
+        if suggestion.frameworks:
+            for framework in tech_stack.frameworks:
+                if framework in suggestion.frameworks:
+                    compatibility_score += 2
+        
+        # Check language compatibility
+        if suggestion.languages:
+            for language in tech_stack.languages:
+                if language in suggestion.languages:
+                    compatibility_score += 1
+        
+        # Only include if reasonably compatible
+        if compatibility_score >= 1 or not suggestion.frameworks:
+            compatible_suggestions.append(suggestion)
+    
+    return compatible_suggestions
+```
+
+### User Experience Level Filtering
+```python
+def filter_by_user_level(suggestions, user_experience):
+    if user_experience == "beginner":
+        # Suggest simpler, well-documented features
+        return [s for s in suggestions if s.complexity <= 5 and s.documentation_quality >= 7]
+    
+    elif user_experience == "intermediate":
+        # Include moderate complexity features
+        return [s for s in suggestions if s.complexity <= 7]
+    
+    elif user_experience == "advanced":
+        # Include all suggestions
+        return suggestions
+    
+    return suggestions
+```
+
+## Learning và Adaptation
+
+### User Decision Tracking
+```python
+class UserDecision:
+    def __init__(self, suggestion, decision, reasoning, context):
+        self.suggestion = suggestion
+        self.decision = decision  # approved, rejected, deferred
+        self.user_reasoning = reasoning
+        self.project_context = context
+        self.timestamp = datetime.now()
+        self.outcome = None  # Set later based on implementation success
+```
+
+### Pattern Learning
+```python
+def learn_from_decisions(decisions):
+    # Analyze approval patterns
+    approved_features = [d.suggestion for d in decisions if d.decision == "approved"]
+    rejected_features = [d.suggestion for d in decisions if d.decision == "rejected"]
+    
+    # Update feature relationship weights
+    for feature in approved_features:
+        increase_relationship_weight(feature.category, feature.main_feature)
+    
+    for feature in rejected_features:
+        decrease_relationship_weight(feature.category, feature.main_feature)
+    
+    # Learn user preferences
+    user_preferences = extract_preference_patterns(decisions)
+    update_user_preference_model(user_preferences)
+    
+    # Improve scoring algorithm
+    optimize_scoring_weights(decisions)
+```
+
+### Continuous Improvement
+```python
+def improve_suggestions():
+    # Weekly: Analyze recent decisions
+    recent_decisions = get_decisions_last_week()
+    accuracy_score = calculate_suggestion_accuracy(recent_decisions)
+    
+    if accuracy_score < 0.8:  # Target 80% accuracy
+        # Adjust algorithm parameters
+        optimize_algorithm_parameters(recent_decisions)
+    
+    # Monthly: Update knowledge base
+    if is_monthly_update_due():
+        update_feature_relationships()
+        refresh_market_trends()
+        validate_complexity_scores()
+    
+    # Quarterly: Major improvements
+    if is_quarterly_review_due():
+        analyze_long_term_trends()
+        update_reasoning_templates()
+        optimize_filtering_algorithms()
+```
+
+## Integration APIs
+
+### Main Suggestion Function
+```python
+def generate_feature_suggestions(user_request, project_context):
+    # 1. Extract main feature
+    main_feature = extract_feature(user_request)
+    
+    # 2. Get related features
+    related_features = query_knowledge_base(main_feature, project_context)
+    
+    # 3. Apply filters
+    filtered_features = apply_context_filters(related_features, project_context)
+    
+    # 4. Calculate priorities
+    prioritized_features = prioritize_features(filtered_features, main_feature, project_context)
+    
+    # 5. Generate reasoning
+    reasoned_suggestions = generate_reasoning(prioritized_features, main_feature, project_context)
+    
+    # 6. Format for presentation
+    formatted_suggestions = format_suggestions(reasoned_suggestions)
+    
+    return formatted_suggestions
+```
+
+### Context7 Integration
+```python
+def enhance_with_context7(suggestions, project_context):
+    enhanced_suggestions = []
+    
+    for suggestion in suggestions:
+        # Get best practices từ Context7
+        best_practices = context7_query(suggestion.feature_name, project_context.tech_stack)
+        
+        # Validate technical feasibility
+        feasibility = validate_feasibility(suggestion, best_practices)
+        
+        # Update suggestion với Context7 data
+        suggestion.best_practices = best_practices
+        suggestion.feasibility_score = feasibility
+        suggestion.implementation_guide = generate_implementation_guide(suggestion, best_practices)
+        
+        enhanced_suggestions.append(suggestion)
+    
+    return enhanced_suggestions
+```
+
+## Performance Optimization
+
+### Caching Strategy
+```python
+class SuggestionCache:
+    def __init__(self):
+        self.feature_cache = {}
+        self.context_cache = {}
+        self.suggestion_cache = {}
+    
+    def get_cached_suggestions(self, feature_key, context_key):
+        cache_key = f"{feature_key}:{context_key}"
+        return self.suggestion_cache.get(cache_key)
+    
+    def cache_suggestions(self, feature_key, context_key, suggestions):
+        cache_key = f"{feature_key}:{context_key}"
+        self.suggestion_cache[cache_key] = {
+            'suggestions': suggestions,
+            'timestamp': datetime.now(),
+            'ttl': 3600  # 1 hour
+        }
+```
+
+### Async Processing
+```python
+async def generate_suggestions_async(user_request, project_context):
+    # Run expensive operations concurrently
+    feature_extraction_task = asyncio.create_task(extract_feature_async(user_request))
+    context_analysis_task = asyncio.create_task(analyze_context_async(project_context))
+    
+    # Wait for both to complete
+    main_feature, enhanced_context = await asyncio.gather(
+        feature_extraction_task,
+        context_analysis_task
+    )
+    
+    # Continue với suggestion generation
+    suggestions = await generate_suggestions_from_cache_or_compute(
+        main_feature, enhanced_context
+    )
+    
+    return suggestions
+```
+
+---
+
+**Engine Status**: 🚧 Core Implementation Complete
+**Integration**: Logic Reasoning Workflow, Context7, Knowledge Base
+**Performance**: Optimized với caching và async processing
+**Learning**: Continuous improvement từ user feedback

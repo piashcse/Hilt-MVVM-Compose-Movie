@@ -1,0 +1,129 @@
+---
+description: Chi tiết quy tắc sử dụng shadcn/ui và cách xử lý xung đột với Chakra UI
+globs: *.js,*.jsx,*.ts,*.tsx
+alwaysApply: false
+---
+
+## Nguyên Tắc Cơ Bản
+- ***BẮT BUỘC*** sử dụng shadcn/ui cho tất cả dự án React có Tailwind CSS
+- ***BẮT BUỘC*** sử dụng Tailwind CSS như styling system chính
+- ***BẮT BUỘC*** tuân thủ cấu trúc component của shadcn/ui
+- ***KHUYẾN KHÍCH*** sử dụng CLI của shadcn/ui để add components
+- ***NGHIÊM CẤM*** mix Chakra UI và shadcn/ui trong cùng một component
+
+## Cài Đặt & Cấu Hình
+- Cài đặt shadcn/ui theo hướng dẫn chính thức: `npx shadcn-ui@latest init`
+- Tuân thủ cấu trúc thư mục: `/components/ui/` cho shadcn components
+- Cấu hình `tailwind.config.js` đúng theo yêu cầu của shadcn/ui
+- Sử dụng `cn()` helper function từ `lib/utils.ts` cho class conditionals
+- Import global CSS vào file gốc của dự án
+
+## Sử Dụng Components
+- Chỉ import từ đường dẫn tương đối: `import { Button } from "@/components/ui/button"`
+- Không import trực tiếp từ `shadcn/ui` package
+- Tuân thủ props API của từng component
+- Sử dụng Typescript types được cung cấp
+- Mở rộng components bằng cách sử dụng composition, không chỉnh sửa component gốc
+
+## Styling & Theming
+- ***BẮT BUỘC*** sử dụng CSS variables được cung cấp bởi shadcn/ui
+- Chỉnh sửa theme trong `globals.css` theo convention của shadcn/ui
+- Sử dụng dark mode thông qua `next-themes` hoặc tương tự
+- Custom variants thông qua `cva` function
+- Maintain nhất quán color palette qua toàn bộ ứng dụng
+
+## Xử Lý Xung Đột Với Chakra UI
+### Xung Đột CSS Variables
+- Sử dụng prefix rõ ràng cho tất cả CSS variables
+- Chakra UI dùng prefix `--chakra-*`, shadcn/ui dùng các prefix như `--radius`, `--background`
+- Trong trường hợp migration, cần định nghĩa lại các variables trong scoped CSS
+
+### Xung Đột Components
+- ***KHÔNG*** sử dụng cả hai phiên bản của cùng một loại component (VD: Button từ cả hai library)
+- Nếu cần sử dụng cả hai trong quá trình migration, tạo adapter components:
+
+```typescript
+// components/Button.tsx - Adapter pattern
+import { Button as ShadcnButton } from "@/components/ui/button";
+import { Button as ChakraButton } from "@chakra-ui/react";
+
+type ButtonProps = {
+  useChakra?: boolean;
+  // other common props
+};
+
+export const Button = ({ useChakra, ...props }: ButtonProps) => {
+  if (useChakra) {
+    return <ChakraButton {...props} />;
+  }
+  return <ShadcnButton {...props} />;
+};
+```
+
+### Isolation Pattern
+Khi cần dùng cả hai libraries trong cùng một dự án (chỉ trong quá trình migration):
+
+```tsx
+// Isolation Container cho shadcn/ui
+export const ShadcnScope = ({ children }) => (
+  <div className="shadcn-scope">
+    {children}
+  </div>
+)
+
+// Isolation Container cho Chakra UI
+export const ChakraScope = ({ children }) => (
+  <ChakraProvider>
+    <div className="chakra-scope">
+      {children}
+    </div>
+  </ChakraProvider>
+)
+
+// CSS trong global.css
+.shadcn-scope {
+  /* Reset các styles từ Chakra có thể ảnh hưởng đến shadcn/ui */
+}
+
+.chakra-scope {
+  /* Đảm bảo styles Chakra chỉ áp dụng trong container này */
+  isolation: isolate;
+}
+```
+
+### Migration Strategy
+1. Xác định các components cần migration
+2. Ưu tiên migration từng page hoặc feature hoàn chỉnh
+3. Không migration từng component lẻ trong cùng một page
+4. Sử dụng feature flags để enable/disable components mới
+5. Viết tests để đảm bảo UI không bị regression
+
+## Quy Trình Kiểm Tra Xung Đột
+1. Áp dụng visual regression testing
+2. Sử dụng React Developer Tools để xác định component hierarchy
+3. Verify CSS specificity conflicts với Chrome DevTools
+4. Kiểm tra z-index stacking
+5. Test tất cả breakpoints
+
+## Performance Considerations
+- Sử dụng dynamic imports để giảm initial bundle size
+- Tránh re-renders không cần thiết với memo và callback
+- Áp dụng code-splitting theo route
+- Optimize Tailwind bằng PurgeCSS trong production
+
+## Accessibility Standards
+- Đảm bảo tất cả custom components kế thừa accessibility của shadcn/ui
+- Test với screen readers
+- Support keyboard navigation
+- Maintain đủ color contrast
+- Cung cấp alt text cho tất cả images
+
+## Troubleshooting Guide
+### Các vấn đề phổ biến và cách khắc phục:
+1. CSS conflicts: Sử dụng !important hoặc CSS modules cho conflicts
+2. z-index issues: Audit toàn bộ z-index stack
+3. Font inconsistencies: Sử dụng cùng font family qua cả dự án
+4. Responsive breakpoints: Đảm bảo consistency giữa Tailwind và custom CSS
+5. Theme inconsistencies: Sync dark mode between libraries
+
+@file ../tailwind.config.js 

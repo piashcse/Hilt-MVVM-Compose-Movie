@@ -1,0 +1,17 @@
+{
+  "mcpServers": {
+    "review-gate-v2": {
+      "command": "python",
+      "args": ["./tools/Review-Gate/V2/review_gate_v2_mcp.py"],
+      "env": {
+        "PYTHONPATH": "./tools/Review-Gate/V2/",
+        "PYTHONUNBUFFERED": "1",
+        "REVIEW_GATE_MODE": "cursor_integration"
+      }
+    },
+    "lucide-icons": {
+      "command": "npx",
+      "args": ["lucide-icons-mcp", "--stdio"]
+    }
+  }
+}

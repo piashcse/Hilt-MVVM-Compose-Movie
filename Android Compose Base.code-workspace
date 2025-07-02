@@ -1,0 +1,149 @@
+{
+  "folders": [
+    {
+      "name": "Base-AI-Project",
+      "path": "."
+    }
+  ],
+  "settings": {
+    // Editor settings
+    "window.title": "Ⓜ️ ====== ${separator} ${activeEditorShort} -- Đổi tên nếu muôn =====",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": false,
+    "editor.tabSize": 2,
+    "editor.detectIndentation": true,
+    "editor.wordWrap": "on",
+    "editor.rulers": [88, 120],
+    "editor.suggestSelection": "first",
+    "editor.inlineSuggest.enabled": true,
+
+    // Files settings
+    "files.autoSave": "afterDelay",
+    "files.autoSaveDelay": 1000,
+    "files.exclude": {
+      "**/.git": true,
+      "**/.DS_Store": true,
+      "**/node_modules": true,
+      "**/__pycache__": true,
+      "**/.pytest_cache": true,
+      "**/.venv": true,
+      "**/venv": true,
+      "**/env": true,
+      "**/dist": true,
+      "**/build": true
+    },
+    "files.watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/node_modules/**": true,
+      "**/.venv/**": true,
+      "**/venv/**": true,
+      "**/env/**": true,
+      "**/__pycache__/**": true
+    },
+
+    // Terminal settings
+    "terminal.integrated.defaultProfile.linux": "bash",
+    "terminal.integrated.defaultProfile.osx": "zsh",
+    "terminal.integrated.defaultProfile.windows": "PowerShell",
+
+    // Git settings
+    "git.enableSmartCommit": true,
+    "git.confirmSync": false,
+    "git.autofetch": true,
+
+    // Cursor specific settings
+    "cursor.controller.settings.shouldShowCursorOnboarding": false,
+    "cursor.controller.settings.shouldSuppressRatingPrompt": true,
+    "cursor.controller.settings.showInlineSuggestions": true,
+    "cursor.features.completions.enabled": true,
+
+    // Color coding different workspaces for easier identification
+//Đổi màu ở đây
+    "workbench.colorCustomizations": {
+      "activityBar.background": "#1E5582",
+      "titleBar.activeBackground": "#1E5582",
+      "titleBar.activeForeground": "#FFFFFF"
+    },
+
+    // Language specific settings
+    "[javascript][typescript][javascriptreact][typescriptreact]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode",
+      "editor.codeActionsOnSave": {
+        "source.fixAll.eslint": "explicit"
+      }
+    },
+    "[python]": {
+      "editor.defaultFormatter": "ms-python.black-formatter",
+      "editor.formatOnSave": true,
+      "editor.tabSize": 4
+    },
+    "[dart]": {
+      "editor.formatOnSave": true,
+      "editor.selectionHighlight": false,
+      "editor.suggest.snippetsPreventQuickSuggestions": false,
+      "editor.suggestSelection": "first",
+      "editor.tabCompletion": "onlySnippets",
+      "editor.wordBasedSuggestions": "off"
+    },
+    "[go]": {
+      "editor.formatOnSave": true,
+      "editor.codeActionsOnSave": {
+        "source.organizeImports": "explicit"
+      }
+    }
+  },
+  "extensions": {
+    "recommendations": [
+      "ms-python.python",
+      "ms-python.vscode-pylance",
+      "ms-python.black-formatter",
+      "dbaeumer.vscode-eslint",
+      "esbenp.prettier-vscode",
+      "golang.go",
+      "dart-code.dart-code",
+      "dart-code.flutter",
+      "redhat.java",
+      "vscjava.vscode-java-debug",
+      "ms-vscode.cpptools",
+      "ms-dotnettools.csharp",
+      "rust-lang.rust-analyzer",
+      "bradlc.vscode-tailwindcss",
+      "github.copilot",
+      "github.copilot-chat",
+      "eamodio.gitlens",
+      "ms-azuretools.vscode-docker",
+      "ms-kubernetes-tools.vscode-kubernetes-tools"
+    ]
+  },
+  "launch": {
+    "version": "0.2.0",
+    "configurations": [
+      {
+        "name": "Python: Current File",
+        "type": "python",
+        "request": "launch",
+        "program": "${file}",
+        "console": "integratedTerminal"
+      },
+      {
+        "name": "Node.js: Current File",
+        "type": "node",
+        "request": "launch",
+        "program": "${file}",
+        "skipFiles": ["<node_internals>/**"]
+      }
+    ]
+  },
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Clean project",
+        "type": "shell",
+        "command": "find . -name '*.pyc' -delete && find . -name '__pycache__' -delete && find . -name '.pytest_cache' -delete",
+        "problemMatcher": []
+      }
+    ]
+  }
+} 

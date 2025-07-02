@@ -1,0 +1,87 @@
+---
+description: Rules for file protection and backup in all projects
+globs: *.*
+alwaysApply: true
+---
+
+## Nguyên Tắc Cơ Bản
+- ***BẮT BUỘC*** tạo backup trước khi xóa bất kỳ file hoặc thư mục nào
+- ***BẮT BUỘC*** di chuyển file vào thư mục backup thay vì xóa trực tiếp
+- ***BẮT BUỘC*** giữ cấu trúc thư mục khi backup để dễ dàng phục hồi sau này
+- ***BẮT BUỘC*** ghi log mỗi khi di chuyển file vào backup
+- ***KHUYẾN NGHỊ*** kiểm tra file trước khi xóa để đảm bảo không ảnh hưởng đến chức năng hiện có
+
+## Cấu Trúc Thư Mục Backup
+- Tạo thư mục `_backups` trong root của dự án (đã thêm vào .gitignore)
+- Bên trong tạo cấu trúc theo dạng ngày: `_backups/YYYY-MM-DD/`
+- Trong mỗi thư mục ngày, duy trì cấu trúc thư mục gốc để dễ dàng phục hồi
+- Ví dụ: `src/components/Button.js` → `_backups/2024-05-10/src/components/Button.js`
+
+## Quy Trình Backup
+1. Xác định thời gian hiện tại để tạo thư mục backup nếu chưa tồn tại
+2. Tạo thư mục cần thiết trong backup để giữ nguyên cấu trúc
+3. Di chuyển file vào thư mục backup thay vì xóa trực tiếp
+4. Cập nhật file log với thông tin: thời gian, đường dẫn gốc, lý do xóa
+5. Thông báo cho người dùng về vị trí lưu backup
+
+## File Log Backup
+- Tạo và duy trì file `_backups/backup_log.md` để ghi lại hoạt động
+- Mỗi entry có định dạng:
+  ```
+  ## [Ngày] - [Giờ]
+  - File: `đường_dẫn_gốc/tên_file`
+  - Backup: `_backups/YYYY-MM-DD/đường_dẫn_gốc/tên_file`
+  - Lý do: [Mô tả lý do xóa/di chuyển]
+  - Người thực hiện: [Tên/ID]
+  ```
+
+## Lệnh Backup Tự Động
+- Sử dụng lệnh sau để backup file thay vì xóa trực tiếp:
+  ```bash
+  # Thay vì: rm file.txt
+  mkdir -p _backups/$(date +%Y-%m-%d)/$(dirname "file.txt")
+  mv file.txt _backups/$(date +%Y-%m-%d)/file.txt
+  echo "## $(date '+%Y-%m-%d - %H:%M:%S')\n- File: \`file.txt\`\n- Backup: \`_backups/$(date +%Y-%m-%d)/file.txt\`\n- Lý do: [Lý do xóa]\n- Người thực hiện: [Tên]\n\n$(cat _backups/backup_log.md 2>/dev/null || echo '')" > _backups/backup_log.md.tmp
+  mv _backups/backup_log.md.tmp _backups/backup_log.md
+  ```
+
+## Quy Tắc Phục Hồi
+- Kiểm tra `_backups/backup_log.md` để tìm file cần phục hồi
+- Sử dụng lệnh cơ bản để phục hồi:
+  ```bash
+  cp _backups/YYYY-MM-DD/đường_dẫn_gốc/tên_file đường_dẫn_gốc/tên_file
+  ```
+- Ghi log phục hồi trong file log với thông tin phù hợp
+
+## Chính Sách Lưu Trữ
+- Giữ backup trong ít nhất 30 ngày
+- Tiến hành nén (zip) các thư mục backup cũ hơn 7 ngày để tiết kiệm không gian
+- Xóa backup cũ hơn 90 ngày sau khi đã xác nhận không cần thiết
+- Backup quan trọng nên được đánh dấu trong log để tránh bị xóa tự động
+
+## Quy Trình Khi Refactor Lớn
+- Trước khi refactor lớn, tạo một backup toàn bộ các file liên quan
+- Sử dụng thư mục đặc biệt `_backups/refactor-YYYY-MM-DD/` cho các refactor lớn
+- Thêm thông tin chi tiết về mục đích refactor trong log
+
+## Tích Hợp với Git
+- Backup chỉ là biện pháp bổ sung, không thay thế cho version control
+- Trước khi phục hồi từ backup, kiểm tra xem có thể phục hồi từ Git không
+- Cho các file chưa commit, backup là biện pháp bảo vệ chính
+- Đảm bảo thêm `_backups/` vào `.gitignore` để tránh theo dõi các file backup
+
+## Công Cụ Quản Lý Backup
+- Cân nhắc tạo script hỗ trợ để:
+  * Liệt kê các file trong backup
+  * Tìm kiếm file backup theo tên
+  * Phục hồi file từ backup
+  * Dọn dẹp backup cũ
+  * Hiển thị thống kê về dung lượng và số lượng file backup
+
+## Khi Nào Không Cần Backup
+- File tạm thời có thể tái tạo (như file build, cache)
+- File log và dữ liệu thống kê không quan trọng
+- File có kích thước quá lớn và có thể tái tạo
+- Trong những trường hợp này, vẫn nên xác nhận trước khi xóa
+
+@file ../.gitignore 

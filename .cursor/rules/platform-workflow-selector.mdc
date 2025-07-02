@@ -1,0 +1,222 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Platform Workflow Selector Rules
+
+## Nguyên Tắc Chọn Platform
+- ***BẮT BUỘC*** xác định platform dựa trên brainstorm và user requirements
+- ***BẮT BUỘC*** áp dụng workflow rules tương ứng với platform được chọn
+- ***BẮT BUỘC*** load các tech stack requirements cụ thể cho platform
+- ***KHUYẾN NGHỊ*** cân nhắc cross-platform development khi phù hợp
+
+## Platform Detection Logic
+```javascript
+function detectPlatform(brainstormData, userRequirements) {
+  // Mobile App Indicators
+  if (containsKeywords(["mobile", "app", "android", "ios", "smartphone"])) {
+    return determineMobilePlatform(brainstormData);
+  }
+  
+  // Web App Indicators  
+  if (containsKeywords(["web", "website", "browser", "webapp"])) {
+    return "web";
+  }
+  
+  // Desktop App Indicators
+  if (containsKeywords(["desktop", "macos", "windows", "linux"])) {
+    return "desktop";
+  }
+  
+  // Default to cross-platform
+  return "cross-platform";
+}
+```
+
+## Android Platform
+### When to Choose
+- Target audience primarily Android users
+- Need extensive hardware integration
+- Budget-conscious development
+- Quick market entry strategy
+
+### Required Rules
+- `.cursor/rules/android-workflow.mdc`
+- `.cursor/rules/android-code-deduplication.mdc`
+- `.cursor/rules/tdd-mobile-workflow.mdc`
+- `.cursor/rules/android-aso-package-workflow.mdc`
+
+### Tech Stack Template
+```json
+{
+  "language": "Kotlin",
+  "ui": "Jetpack Compose",
+  "architecture": "MVVM + Clean Architecture",
+  "di": "Hilt",
+  "database": "Room + SQLite",
+  "networking": "Retrofit + OkHttp",
+  "testing": "JUnit 5 + Mockito + Espresso"
+}
+```
+
+## iOS Platform
+### When to Choose
+- Target audience primarily iOS users
+- Premium app positioning
+- Need iOS-specific features
+- Revenue-first strategy
+
+### Required Rules
+- `.cursor/rules/ios-workflow.mdc`
+- `.cursor/rules/tdd-mobile-workflow.mdc`
+
+### Tech Stack Template
+```json
+{
+  "language": "Swift",
+  "ui": "SwiftUI",
+  "architecture": "MVVM + Clean Architecture",
+  "async": "Combine",
+  "networking": "Alamofire",
+  "testing": "XCTest + XCUITest"
+}
+```
+
+## Flutter Platform (Cross-Platform Mobile)
+### When to Choose
+- Need both Android + iOS coverage
+- Limited development resources
+- Consistent UI across platforms
+- Rapid prototyping needs
+
+### Required Rules
+- `.cursor/rules/mobile-utility-workflow.mdc`
+- `.cursor/rules/tdd-mobile-workflow.mdc`
+
+### Tech Stack Template
+```json
+{
+  "language": "Dart",
+  "ui": "Flutter Widgets",
+  "stateManagement": "BLoC/Cubit",
+  "di": "get_it + injectable",
+  "database": "floor (SQLite)",
+  "testing": "flutter_test + mockito"
+}
+```
+
+## Web Platform
+### When to Choose
+- Browser-based application
+- Need wide accessibility
+- Server-side rendering requirements
+- SaaS/Dashboard applications
+
+### Required Rules
+- `.cursor/rules/frontend-rules.mdc`
+- `.cursor/rules/backend-rules-optimized.mdc`
+- `.cursor/rules/api-integration-rules.mdc`
+
+### Tech Stack Options
+```json
+{
+  "frontend": {
+    "react": "React + TypeScript + Vite",
+    "vue": "Vue 3 + TypeScript + Nuxt",
+    "angular": "Angular + TypeScript"
+  },
+  "backend": {
+    "node": "Node.js + Express + TypeScript",
+    "python": "FastAPI + Python",
+    "java": "Spring Boot + Java"
+  }
+}
+```
+
+## Platform Selection Workflow
+### Step 1: Analysis
+```markdown
+## Platform Analysis Questions
+1. Who is your target audience? (demographics, tech preferences)
+2. What devices will they primarily use?
+3. Do you need platform-specific features?
+4. What's your development timeline and budget?
+5. Do you plan to monetize differently per platform?
+```
+
+### Step 2: Decision Matrix
+| Criteria | Android | iOS | Flutter | Web |
+|----------|---------|-----|---------|-----|
+| Dev Speed | ⭐⭐⭐ | ⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+| Performance | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐ |
+| Platform Access | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐ |
+| Maintenance | ⭐⭐⭐ | ⭐⭐⭐ | ⭐⭐⭐⭐ | ⭐⭐⭐⭐ |
+
+### Step 3: Tech Stack Configuration
+```bash
+# Auto-configure based on selection
+function configurePlatform(platform) {
+  updateProjectIdentity(platform);
+  loadPlatformRules(platform);
+  setupTechStack(platform);
+  initializeProjectStructure(platform);
+}
+```
+
+## Cross-Platform Considerations
+### When Multiple Platforms Needed
+- Start with primary platform first
+- Use shared business logic architecture
+- Plan for code reuse across platforms
+- Consider Flutter or React Native for mobile
+- Use Progressive Web Apps for web + mobile
+
+### Shared Components
+```markdown
+## Reusable Across Platforms
+- Business logic and data models
+- API integration patterns
+- Testing strategies
+- UI/UX design systems
+- Analytics and tracking
+```
+
+## Platform-Specific Optimizations
+### Android
+- APK size optimization
+- Battery usage optimization
+- Material Design compliance
+- Google Play Store optimization
+
+### iOS
+- App Store guidelines compliance
+- iOS Human Interface Guidelines
+- Battery and memory optimization
+- App Store Connect integration
+
+### Flutter
+- Platform channel optimization
+- Native performance tuning
+- Platform-adaptive UI design
+- App store deployment for both platforms
+
+### Web
+- SEO optimization
+- Performance optimization (Core Web Vitals)
+- Cross-browser compatibility
+- Responsive design implementation
+
+## Migration Between Platforms
+### Adding New Platforms
+1. Analyze existing codebase for reusable components
+2. Extract shared business logic
+3. Choose appropriate cross-platform solution
+4. Implement platform-specific UI layers
+5. Ensure consistent user experience
+
+### Platform Deprecation
+1. Analyze usage metrics and ROI
+2. Plan migration strategy for users
+3. Maintain critical bug fixes during transition
+4. Redirect resources to primary platforms

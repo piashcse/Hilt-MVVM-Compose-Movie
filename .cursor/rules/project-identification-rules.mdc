@@ -1,0 +1,119 @@
+---
+description: Quy tắc nhận dạng và cảnh báo khi có nhầm lẫn giữa các dự án
+globs: *.*
+alwaysApply: true
+---
+
+## Nguyên Tắc Cơ Bản
+- ***BẮT BUỘC*** kiểm tra file `.project-identity` trước tiên trong mọi phiên làm việc
+- ***BẮT BUỘC*** nhận diện và phân biệt các dự án khi làm việc song song
+- ***BẮT BUỘC*** cảnh báo người dùng khi có yêu cầu không phù hợp với dự án hiện tại
+- ***BẮT BUỘC*** lưu trữ thông tin nhận dạng dự án trong file `.project-identity` ở root
+- ***BẮT BUỘC*** tạo `.project-identity` nếu chưa tồn tại sử dụng project-identity-template
+- ***KHUYẾN NGHỊ*** sử dụng các dấu hiệu nhận biết rõ ràng để phân biệt dự án
+
+## Quy Trình Nhận Dạng Dự Án
+1. **BƯỚC ĐẦU TIÊN**: Kiểm tra file `.project-identity` ở root directory
+2. Nếu không có `.project-identity`, tự động tạo sử dụng project-identity-template
+3. Load thông tin dự án từ `.project-identity` để hiểu context
+4. So sánh nội dung yêu cầu với thông tin dự án trong file `.project-identity`
+5. Phát hiện các bất thường hoặc mâu thuẫn giữa yêu cầu và dự án hiện tại
+6. Cảnh báo người dùng khi có dấu hiệu nhầm lẫn dự án
+
+## Cấu Trúc File .project-identity
+```json
+{
+  "projectName": "Tên dự án",
+  "projectType": "android|nodejs|flutter|react|...",
+  "mainLanguages": ["Java", "JavaScript", "Dart", ...],
+  "mainFrameworks": ["Express", "React Native", "Flutter", ...],
+  "keyTechnologies": ["MongoDB", "Firebase", "SQLite", ...],
+  "keyFeatures": ["Authentication", "Real-time chat", ...],
+  "projectIdentifiers": [
+    "android manifest",
+    "gradle",
+    "node_modules",
+    "package.json",
+    "pubspec.yaml",
+    ...
+  ],
+  "projectPaths": {
+    "src": "./src",
+    "assets": "./assets",
+    "config": "./config",
+    ...
+  },
+  "uniquePatterns": [
+    "MainActivity.java",
+    "AndroidManifest.xml",
+    "server.js",
+    "App.tsx",
+    ...
+  ]
+}
+```
+
+## Thuật Toán Phát Hiện Nhầm Lẫn
+1. Phân tích từ khóa trong yêu cầu người dùng
+2. Trích xuất các khái niệm kỹ thuật, ngôn ngữ, và framework được đề cập
+3. So sánh với `mainLanguages`, `mainFrameworks`, và `keyTechnologies` trong dự án hiện tại
+4. Tính toán độ tương đồng và xác định mức độ phù hợp
+5. Phát hiện các thuật ngữ đặc trưng của các dự án khác
+
+## Mức Độ Cảnh Báo
+- **Nghi Ngờ Nhẹ**: Đề cập đến công nghệ ngoài dự án nhưng có thể liên quan
+- **Nghi Ngờ Vừa**: Sử dụng thuật ngữ đặc trưng của dự án khác
+- **Nghi Ngờ Cao**: Đề cập trực tiếp đến file/cấu trúc của dự án khác
+- **Xác Định Nhầm Lẫn**: Đề cập rõ ràng đến tên dự án khác hoặc yêu cầu hành động không khả thi
+
+## Quy Trình Khi Phát Hiện Nhầm Lẫn
+1. Hiển thị cảnh báo với mức độ tương ứng
+2. Đề xuất xác nhận lại dự án đang làm việc
+3. Liệt kê các dấu hiệu nhầm lẫn được phát hiện
+4. Gợi ý chuyển đổi sang dự án phù hợp nếu cần
+
+## Mẫu Cảnh báo
+```
+⚠️ CẢNH BÁO: Có vẻ như bạn đang nhầm lẫn với dự án khác!
+
+Dự án hiện tại: [Tên dự án hiện tại] ([Loại dự án])
+Dự án nghi vấn: [Tên dự án nghi vấn] ([Loại dự án])
+
+Dấu hiệu nhầm lẫn:
+- Bạn đề cập đến [công nghệ/file/thuật ngữ] không có trong dự án hiện tại
+- [Thuật ngữ/công nghệ] bạn nhắc đến thường xuất hiện trong dự án [tên dự án nghi vấn]
+
+Bạn có muốn:
+1. Tiếp tục với dự án hiện tại
+2. Chuyển sang dự án [tên dự án nghi vấn]
+3. Xác nhận lại yêu cầu
+```
+
+## Quy Tắc Thiết Lập File .project-identity
+1. Tạo file `.project-identity` ngay khi khởi tạo dự án mới
+2. Cập nhật file khi có thay đổi đáng kể về công nghệ hoặc cấu trúc
+3. Thêm các `uniquePatterns` khi phát hiện mẫu đặc trưng mới
+4. Thêm vào `.gitignore` nếu không muốn chia sẻ cấu hình này
+
+## Tích Hợp Với Quy Trình Làm Việc
+- ***BẮT BUỘC*** kiểm tra tính nhất quán của yêu cầu ngay khi bắt đầu phiên làm việc
+- ***BẮT BUỘC*** thông báo rõ ràng khi chuyển đổi giữa các dự án
+- ***BẮT BUỘC*** xác nhận lại dự án đang làm việc sau một thời gian dài không tương tác
+- ***KHUYẾN NGHỊ*** sử dụng nhắc nhở trực quan (emoji, màu sắc) để phân biệt dự án
+
+## Quy Trình Tự Học & Cải Thiện
+- Ghi nhận các trường hợp nhầm lẫn để cải thiện thuật toán phát hiện
+- Cập nhật danh sách `uniquePatterns` khi phát hiện mẫu mới
+- Lưu trữ lịch sử các yêu cầu bị cảnh báo để phân tích và cải thiện
+- Điều chỉnh ngưỡng cảnh báo dựa trên phản hồi của người dùng
+
+## Tương Thích Với Project Personality
+- Kết hợp với tính năng Project Personality để nhận diện phong cách trò chuyện riêng
+- Sử dụng phong cách trò chuyện như một dấu hiệu phụ để nhận dạng dự án
+- Điều chỉnh cảnh báo phù hợp với phong cách trò chuyện của dự án
+
+## Quy Trình Áp Dụng Cho Dự Án Hiện Có
+1. Tạo hoặc cập nhật file `.project-identity` với thông tin chi tiết
+2. Phân tích cấu trúc dự án để xác định các mẫu đặc trưng
+3. Thêm các dấu hiệu nhận dạng độc đáo vào `uniquePatterns`
+4. Kiểm tra và cải thiện định kỳ để tăng độ chính xác 

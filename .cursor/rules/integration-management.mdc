@@ -1,0 +1,258 @@
+---
+description:
+globs:
+alwaysApply: false
+---
+# Integration Management Rules
+
+## Nguyên Tắc Tích Hợp
+- ***BẮT BUỘC*** thiết lập tích hợp dựa trên project requirements
+- ***BẮT BUỘC*** test tất cả integrations trước khi production
+- ***BẮT BUỘC*** có fallback mechanism cho external services
+- ***KHUYẾN NGHỊ*** sử dụng environment-based configuration
+
+## Telegram Notifications
+### Setup Requirements
+- Python >= 3.9.0
+- telegram-bot-api token
+- SOCKS5 proxy configuration (if needed)
+
+### Configuration Files
+- `./scripts/telegram_notifier.py` - Main notification script
+- `./scripts/notify.sh` - Shell wrapper for easy usage
+- `.cursor/rules/telegram-notification-workflow.mdc` - Detailed workflow
+
+### Usage Examples
+```bash
+# Basic notification
+./scripts/notify.sh "Task Completed"
+
+# Detailed notification with status
+./scripts/notify.sh "Database Setup" completed "All tables created successfully"
+
+# Error notification without screenshot
+./scripts/notify.sh "Build Failed" failed "Compilation error in MainActivity.kt" --no-screenshot
+```
+
+### Auto-Trigger Events
+- Stage completion (brainstorm → setup → development)
+- Major milestone achievements
+- Critical errors or build failures
+- Daily progress reports (configurable)
+
+## MCP (Model Context Protocol) Tools
+### Review Gate V2
+- **Purpose**: Interactive user feedback collection
+- **Usage**: Critical decision points, requirement clarification
+- **Configuration**: `.cursor/rules/review-gate-v2-setup.mdc`
+
+### Browser Debug
+- **Purpose**: Web development debugging support
+- **Usage**: Frontend testing, responsive design verification
+- **Configuration**: `.cursor/rules/debug-with-browser-mcp.mdc`
+
+### Integration Test
+```javascript
+// Test review_gate_chat availability
+function testMCPTools() {
+  try {
+    review_gate_chat("Test connection", "MCP Test", "Testing MCP connectivity");
+    return true;
+  } catch (error) {
+    console.log("MCP tools not available");
+    return false;
+  }
+}
+```
+
+## AI API Integrations
+### Supported APIs
+- OpenAI GPT models
+- Anthropic Claude
+- Google Gemini
+- Local AI models (Ollama)
+
+### Configuration Pattern
+```json
+{
+  "aiApis": {
+    "primary": "openai",
+    "fallback": "local",
+    "rateLimiting": true,
+    "caching": true,
+    "retryLogic": {
+      "maxRetries": 3,
+      "backoffDelay": 1000
+    }
+  }
+}
+```
+
+### Usage Rules
+- `.cursor/rules/api-integration-rules.mdc`
+- Cost optimization strategies
+- Regional compliance considerations
+- Performance monitoring
+
+## Resource Management
+### Icon Library Integration
+- **API Endpoint**: `https://icon-library.trungkientn.workers.dev/`
+- **Search**: `/search?q=term&category=ui`
+- **Sets**: `/icon-sets`
+
+### File Organization
+```
+assets/
+├── icons/
+│   ├── ui/           # User interface icons
+│   ├── weather/      # Weather-related icons  
+│   ├── social/       # Social media icons
+│   └── misc/         # Other icons
+├── images/
+└── fonts/
+```
+
+### Auto-Download Workflow
+```bash
+# Find and download appropriate icons
+function downloadIcon(description, category) {
+  local search_result=$(curl -s "https://icon-library.trungkientn.workers.dev/search?q=${description}&category=${category}")
+  # Process result and download to appropriate folder
+  local icon_path="assets/icons/${category}/${description}.svg"
+  # Update assets inventory
+}
+```
+
+## Environment Configuration
+### Development Stages
+```bash
+# Development
+export NODE_ENV=development
+export DEBUG=true
+export LOG_LEVEL=debug
+
+# Staging  
+export NODE_ENV=staging
+export DEBUG=false
+export LOG_LEVEL=info
+
+# Production
+export NODE_ENV=production
+export DEBUG=false
+export LOG_LEVEL=error
+```
+
+### API Keys Management
+```bash
+# Local development
+.env.local
+
+# Staging
+.env.staging
+
+# Production  
+.env.production
+```
+
+### Security Rules
+- Never commit API keys to version control
+- Use environment variables for sensitive data
+- Implement proper key rotation strategies
+- Monitor API usage and costs
+
+## Integration Health Monitoring
+### Monitoring Checklist
+- [ ] Telegram bot connectivity
+- [ ] MCP tools functionality
+- [ ] AI API responses
+- [ ] Icon library accessibility
+- [ ] Database connections
+- [ ] External service dependencies
+
+### Health Check Script
+```bash
+#!/bin/bash
+# Integration health check
+function checkIntegrations() {
+  echo "🔍 Checking integrations..."
+  
+  # Test Telegram
+  ./scripts/notify.sh "Health Check" started "Testing integrations"
+  
+  # Test MCP tools (if available)
+  # Test AI APIs
+  # Test other services
+  
+  echo "✅ Integration check completed"
+}
+```
+
+## Error Handling & Fallbacks
+### Network Failures
+- Retry logic with exponential backoff
+- Local caching for critical data
+- Graceful degradation of features
+
+### Service Unavailability
+- Alternative service endpoints
+- Local fallback implementations  
+- User notification about reduced functionality
+
+### API Rate Limiting
+- Request queuing and throttling
+- Priority-based request handling
+- Cost optimization strategies
+
+## Integration Testing
+### Test Scenarios
+```markdown
+## Integration Test Cases
+1. **Telegram Notifications**
+   - Send test message
+   - Verify delivery
+   - Test screenshot attachment
+   - Test proxy routing (if applicable)
+
+2. **MCP Tools**
+   - Test review_gate_chat functionality
+   - Verify browser debug capabilities
+   - Test timeout handling
+
+3. **AI APIs**
+   - Test primary API connectivity
+   - Verify fallback mechanisms
+   - Test rate limiting behavior
+
+4. **Resource Management**
+   - Test icon library search
+   - Verify download functionality
+   - Test asset organization
+```
+
+### Automated Testing
+```bash
+# Run integration tests
+npm run test:integration
+
+# Test specific integration
+npm run test:telegram
+npm run test:mcp
+npm run test:ai-apis
+```
+
+## Performance Optimization
+### Caching Strategies
+- API response caching
+- Asset caching (icons, images)
+- Database query caching
+
+### Request Optimization
+- Batch API requests when possible
+- Implement request deduplication
+- Use compression for large payloads
+
+### Resource Usage Monitoring
+- Track API usage and costs
+- Monitor bandwidth consumption
+- Optimize asset sizes and formats
+
