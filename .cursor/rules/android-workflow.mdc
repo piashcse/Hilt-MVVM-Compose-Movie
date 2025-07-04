@@ -1,18 +1,14 @@
----
-description: Quy trình phát triển Android theo blueprint không dùng script
-globs: *.kt,*.java,*.xml
-alwaysApply: false
----
-
 ## Quy Trình Blueprint-First
-- ***BẮT BUỘC*** tạo blueprint trước khi viết code cho mỗi tính năng
-- ***BẮT BUỘC*** kiểm tra module registry để tránh trùng lặp
-- ***BẮT BUỘC*** cập nhật module registry sau khi hoàn thành tính năng
-- ***BẮT BUỘC*** tuân thủ cấu trúc package tiêu chuẩn
-- ***BẮT BUỘC*** sử dụng các base classes đã có
-- ***NGHIÊM CẤM*** tạo code trùng lặp chức năng đã có
+
+- **_BẮT BUỘC_** tạo blueprint trước khi viết code cho mỗi tính năng
+- **_BẮT BUỘC_** kiểm tra module registry để tránh trùng lặp
+- **_BẮT BUỘC_** cập nhật module registry sau khi hoàn thành tính năng
+- **_BẮT BUỘC_** tuân thủ cấu trúc package tiêu chuẩn
+- **_BẮT BUỘC_** sử dụng các base classes đã có
+- **_NGHIÊM CẤM_** tạo code trùng lặp chức năng đã có
 
 ## Cấu Trúc Package Chuẩn
+
 ```
 com.base.app/
 ├── base/                 # Base classes
@@ -45,13 +41,16 @@ com.base.app/
 ```
 
 ## Feature Blueprint Template
+
 ```markdown
 # FEATURE BLUEPRINT: [Tên Tính Năng]
 
 ## MÔ TẢ
+
 [Mô tả chi tiết về tính năng]
 
 ## DOMAIN LAYER
+
 - Models:
   - [Model 1]: [Mô tả]
   - [Model 2]: [Mô tả]
@@ -60,6 +59,7 @@ com.base.app/
   - [UseCase 2]: [Input/Output, mô tả]
 
 ## DATA LAYER
+
 - Repository: [Tên repository]
 - API Endpoints (nếu có):
   - [Endpoint 1]: [Method, URL pattern, params]
@@ -67,6 +67,7 @@ com.base.app/
   - [Entity/Table 1]: [Mô tả]
 
 ## UI LAYER
+
 - ViewModels:
   - [ViewModel 1]: [States, Events]
 - Screens:
@@ -75,6 +76,7 @@ com.base.app/
   - [Component 1]: [Mục đích, tái sử dụng]
 
 ## RESOURCES
+
 - Strings: [Danh sách string keys]
 - Colors: [Màu sắc cần thêm]
 - Drawables: [Resources cần thiết]
@@ -83,12 +85,14 @@ com.base.app/
 ## Quy Trình Làm Việc
 
 ### Bước 1: Tạo Feature Blueprint
+
 1. Tạo file blueprint trong thư mục `blueprint/features/`
 2. Đặt tên file: `[feature-name]-blueprint.md`
 3. Sử dụng Feature Blueprint Template ở trên
 4. Điền đầy đủ thông tin vào các section
 
 ### Bước 2: Tạo Cấu Trúc Package
+
 1. Tạo package theo feature name trong `com.base.app.ui.features`
 2. Tạo các sub-packages:
    - `ui/features/[feature]/presentation` (fragments, adapters)
@@ -97,12 +101,15 @@ com.base.app/
    - `data/repository/[feature]` (nếu cần)
 
 ### Bước 3: Triển Khai Theo Layer
+
 1. Triển khai Domain Layer:
+
    - Tạo domain models
    - Tạo repository interfaces
    - Tạo use cases
 
 2. Triển khai Data Layer:
+
    - Tạo data models
    - Tạo data sources (remote, local)
    - Tạo repository implementation
@@ -113,11 +120,14 @@ com.base.app/
    - Tạo Screens/Fragments
 
 ### Bước 4: Cập Nhật Registry
+
 1. Cập nhật `blueprint/module-registry.md` với các components mới
 2. Cập nhật `blueprint/component-catalog.md` với UI components mới
 
 ## Quy Tắc Chống Trùng Lặp Code
-- ***BẮT BUỘC*** trước khi tạo class/function/resource mới:
+
+- **_BẮT BUỘC_** trước khi tạo class/function/resource mới:
+
   1. Tìm kiếm trong project với pattern: `class/interface/fun [Tên]`
   2. Kiểm tra module-registry.md
   3. Kiểm tra component-catalog.md
@@ -125,12 +135,13 @@ com.base.app/
   5. Tìm trong package `ui/components` trước khi tạo UI components mới
   6. Ưu tiên mở rộng code hiện có thay vì tạo mới
 
-- ***BẮT BUỘC*** khi gặp logic tương tự ở 2+ nơi:
+- **_BẮT BUỘC_** khi gặp logic tương tự ở 2+ nơi:
+
   1. Trích xuất vào base class/util class
   2. Tạo extension function cho code dùng chung
   3. Cập nhật tất cả occurrences để sử dụng code dùng chung
 
-- ***KHUYẾN NGHỊ*** khi thấy code tương tự nhưng khác biệt nhỏ:
+- **_KHUYẾN NGHỊ_** khi thấy code tương tự nhưng khác biệt nhỏ:
   1. Tìm mẫu chung và tham số hóa sự khác biệt
   2. Tạo một version tổng quát có thể tùy chỉnh
   3. Tái cấu trúc code hiện tại để dùng version tổng quát
@@ -138,13 +149,15 @@ com.base.app/
 ## Luồng Tạo Dự Án Android Tự Động
 
 ### Bước 1: Định Nghĩa Kiến Trúc Cốt Lõi
-- ***BẮT BUỘC*** sử dụng **MVVM + Clean Architecture** với phân tách 3 lớp:
-  * **UI Layer**: Composables + ViewModels
-  * **Domain Layer**: Use Cases + Models + Repository Interfaces
-  * **Data Layer**: Repository Implementations + Data Sources
-- ***BẮT BUỘC*** đảm bảo **Unidirectional Data Flow**: UI → ViewModel → UseCase → Repository
+
+- **_BẮT BUỘC_** sử dụng **MVVM + Clean Architecture** với phân tách 3 lớp:
+  - **UI Layer**: Composables + ViewModels
+  - **Domain Layer**: Use Cases + Models + Repository Interfaces
+  - **Data Layer**: Repository Implementations + Data Sources
+- **_BẮT BUỘC_** đảm bảo **Unidirectional Data Flow**: UI → ViewModel → UseCase → Repository
 
 #### Tech Stack Chuẩn:
+
 ```kotlin
 // UI Framework
 implementation "androidx.compose.ui:compose-ui:$compose_version"
@@ -182,6 +195,7 @@ implementation "com.karumi:dexter:$dexter_version"
 ### Bước 2: Thiết Lập Build Configuration & Tối Ưu
 
 #### Gradle Configuration (build.gradle :app)
+
 ```kotlin
 android {
     buildTypes {
@@ -191,14 +205,14 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    
+
     defaultConfig {
         // ABI Filtering - chỉ hỗ trợ ARM
         ndk {
             abiFilters 'armeabi-v7a', 'arm64-v8a'
         }
     }
-    
+
     // Enable Android App Bundle
     bundle {
         language {
@@ -215,13 +229,15 @@ android {
 ```
 
 #### Tối Ưu Resource:
-- ***BẮT BUỘC*** sử dụng **Vector Drawables** cho icons
-- ***BẮT BUỘC*** sử dụng **WebP** format cho images
-- ***BẮT BUỘC*** auto-optimize images khi import vào project
+
+- **_BẮT BUỘC_** sử dụng **Vector Drawables** cho icons
+- **_BẮT BUỘC_** sử dụng **WebP** format cho images
+- **_BẮT BUỘC_** auto-optimize images khi import vào project
 
 ### Bước 3: Quy Tắc Sinh Code Cho AI
 
 #### Component Reusability:
+
 ```kotlin
 // Base Composables
 @Composable
@@ -237,7 +253,7 @@ fun BaseButton(
 abstract class BaseViewModel : ViewModel() {
     protected val _uiState = MutableStateFlow(UiState.Loading)
     val uiState = _uiState.asStateFlow()
-    
+
     protected fun handleError(error: Throwable) {
         Timber.e(error, "Error in ${this::class.simpleName}")
         _uiState.value = UiState.Error(error.message ?: "Unknown error")
@@ -249,19 +265,20 @@ abstract class BaseUseCase<in P, R> {
     suspend operator fun invoke(parameters: P): Result<R> = runCatching {
         execute(parameters)
     }
-    
+
     protected abstract suspend fun execute(parameters: P): R
 }
 ```
 
 #### Error Handling Pattern:
+
 ```kotlin
 // Repository Pattern with Error Handling
 class UserRepository @Inject constructor(
     private val remoteDataSource: UserRemoteDataSource,
     private val localDataSource: UserLocalDataSource
 ) : IUserRepository {
-    
+
     override suspend fun getUser(id: String): Result<User> = runCatching {
         try {
             val remoteUser = remoteDataSource.getUser(id)
@@ -276,14 +293,15 @@ class UserRepository @Inject constructor(
 ```
 
 #### State Management Pattern:
+
 ```kotlin
 class FeatureViewModel @Inject constructor(
     private val getUserUseCase: GetUserUseCase
 ) : BaseViewModel() {
-    
+
     private val _userState = MutableStateFlow<UserUiState>(UserUiState.Loading)
     val userState = _userState.asStateFlow()
-    
+
     fun loadUser(userId: String) {
         viewModelScope.launch {
             _userState.value = UserUiState.Loading
@@ -309,31 +327,32 @@ sealed class UserUiState {
 ### Bước 4: Testing Setup
 
 #### Unit Test Template:
+
 ```kotlin
 @ExperimentalCoroutinesTest
 class FeatureViewModelTest {
-    
+
     @Mock private lateinit var getUserUseCase: GetUserUseCase
-    
+
     private lateinit var viewModel: FeatureViewModel
     private val testDispatcher = TestCoroutineDispatcher()
-    
+
     @Before
     fun setup() {
         MockKAnnotations.init(this)
         Dispatchers.setMain(testDispatcher)
         viewModel = FeatureViewModel(getUserUseCase)
     }
-    
+
     @Test
     fun `loadUser success updates state correctly`() = runTest {
         // Given
         val expectedUser = User("1", "John Doe")
         coEvery { getUserUseCase("1") } returns Result.success(expectedUser)
-        
+
         // When
         viewModel.loadUser("1")
-        
+
         // Then
         assertEquals(UserUiState.Success(expectedUser), viewModel.userState.value)
     }
@@ -341,18 +360,19 @@ class FeatureViewModelTest {
 ```
 
 #### UI Test Template:
+
 ```kotlin
 @ExperimentalComposeUiApi
 class FeatureScreenTest {
-    
+
     @get:Rule
     val composeTestRule = createComposeRule()
-    
+
     @Test
     fun userScreen_displaysUserInfo_whenStateIsSuccess() {
         // Given
         val user = User("1", "John Doe")
-        
+
         // When
         composeTestRule.setContent {
             UserScreen(
@@ -360,7 +380,7 @@ class FeatureScreenTest {
                 onAction = {}
             )
         }
-        
+
         // Then
         composeTestRule.onNodeWithText("John Doe").assertIsDisplayed()
     }
@@ -370,20 +390,21 @@ class FeatureScreenTest {
 ### Bước 5: Performance Monitoring Setup
 
 #### Firebase Integration:
+
 ```kotlin
 // Application Class
 class MyApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        
+
         // Timber logging
         if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
         }
-        
+
         // Firebase Crashlytics
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(!BuildConfig.DEBUG)
-        
+
         // Performance Monitoring
         FirebasePerformance.getInstance().isPerformanceCollectionEnabled = true
     }
@@ -391,13 +412,14 @@ class MyApplication : Application() {
 ```
 
 #### Performance Traces:
+
 ```kotlin
 // Repository with Performance Monitoring
 class NetworkRepository {
     suspend fun fetchData(): Result<Data> {
         val trace = FirebasePerformance.getInstance().newTrace("fetch_data")
         trace.start()
-        
+
         return try {
             val result = apiService.getData()
             trace.putAttribute("success", "true")
@@ -416,21 +438,25 @@ class NetworkRepository {
 ## Quy Tắc Tối Ưu APK Size
 
 ### Resource Optimization:
-- ***BẮT BUỘC*** compress images trước khi add vào project
-- ***BắT BUỘC*** sử dụng vector drawables thay vì multiple density images
-- ***BẮT BUỘC*** remove unused resources với `shrinkResources = true`
+
+- **_BẮT BUỘC_** compress images trước khi add vào project
+- **_BắT BUỘC_** sử dụng vector drawables thay vì multiple density images
+- **_BẮT BUỘC_** remove unused resources với `shrinkResources = true`
 
 ### Code Optimization:
-- ***BẮT BUỘC*** sử dụng R8/ProGuard để minify code
-- ***BẮT BUỘC*** avoid reflection khi có thể
-- ***BẮT BUỘC*** sử dụng `@Keep` annotation cho classes cần thiết
+
+- **_BẮT BUỘC_** sử dụng R8/ProGuard để minify code
+- **_BẮT BUỘC_** avoid reflection khi có thể
+- **_BẮT BUỘC_** sử dụng `@Keep` annotation cho classes cần thiết
 
 ### Dependency Management:
-- ***BẮT BUỘC*** regularly audit dependencies và remove unused ones
-- ***KHUYẾN NGHỊ*** prefer lightweight alternatives khi có thể
-- ***KHUYẾN NGHỊ*** sử dụng `implementation` thay vì `api` trong Gradle
+
+- **_BẮT BUỘC_** regularly audit dependencies và remove unused ones
+- **_KHUYẾN NGHỊ_** prefer lightweight alternatives khi có thể
+- **_KHUYẾN NGHỊ_** sử dụng `implementation` thay vì `api` trong Gradle
 
 ## Danh Sách Kiểm Tra Chất Lượng
+
 - [ ] MVVM + Clean Architecture được implement đúng
 - [ ] Unidirectional Data Flow được đảm bảo
 - [ ] R8/ProGuard configuration hoạt động
@@ -447,4 +473,28 @@ class NetworkRepository {
 - [ ] Sử dụng các base classes khi thích hợp
 - [ ] UI components được tái sử dụng khi có thể
 - [ ] Blueprint được hoàn thiện trước khi viết code
-- [ ] Module Registry được cập nhật sau khi hoàn thành 
+- [ ] Module Registry được cập nhật sau khi hoàn thành
+
+## Quy Tắc Tham Khảo & Sử Dụng Template Mẫu
+
+- **_BẮT BUỘC_** luôn tham khảo các template mẫu đã thiết kế trong `docs/templates/` và `.trae/rules` khi thực hiện bất kỳ bước nào trong workflow Android.
+- **_BẮT BUỘC_** ưu tiên sử dụng các cấu trúc, pattern, và quy trình mẫu từ các template này để đảm bảo tính nhất quán và chuẩn hóa.
+- **_BẮT BUỘC_** khi sử dụng template, phải tạo bản sao cấu trúc độc lập (copy/clone) vào workspace dự án, KHÔNG phụ thuộc trực tiếp vào file template gốc.
+- **_BẮT BUỘC_** không import hoặc reference trực tiếp template gốc trong codebase dự án.
+- **_BẮT BUỘC_** sau khi hoàn thiện ứng dụng, các file template trong `docs/templates/` và `.trae/rules` sẽ bị xóa để giảm clutter, do đó mọi cấu trúc sử dụng phải độc lập.
+- **_KHUYẾN NGHỊ_** ghi chú rõ nguồn gốc template khi copy vào dự án để dễ trace về sau.
+- **_KHUYẾN NGHỊ_** cập nhật documentation nếu có chỉnh sửa hoặc mở rộng từ template gốc.
+
+---
+
+## Lưu Ý Khi Sử Dụng Template
+
+- Luôn kiểm tra version mới nhất của template trước khi copy.
+- Nếu cần chỉnh sửa, hãy chỉnh sửa trên bản copy trong workspace, không sửa trực tiếp template gốc.
+- Đảm bảo mọi quy trình, cấu trúc, và code sinh ra từ template đều có thể hoạt động độc lập khi template gốc bị xóa.
+- Khi hoàn thiện ứng dụng, xác nhận lại rằng không còn reference nào tới template gốc.
+- [ ] Không có code trùng lặp chức năng
+- [ ] Sử dụng các base classes khi thích hợp
+- [ ] UI components được tái sử dụng khi có thể
+- [ ] Blueprint được hoàn thiện trước khi viết code
+- [ ] Module Registry được cập nhật sau khi hoàn thành
