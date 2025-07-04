@@ -35,3 +35,12 @@ fun BaseAppTheme(
             content = content
         )
 }
+
+// Alias for BaseAppTheme to maintain compatibility
+@Composable
+fun BaseTheme(
+    darkTheme: Boolean = isSystemInDarkTheme(),
+    content: @Composable () -> Unit
+) {
+    BaseAppTheme(darkTheme = darkTheme, content = content)
+}

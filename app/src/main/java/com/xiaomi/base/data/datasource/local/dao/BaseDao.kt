@@ -9,9 +9,9 @@ import androidx.room.Update
  * Base Data Access Object interface that provides common database operations.
  * All DAO interfaces should extend this interface to inherit these common operations.
  *
- * @param T the entity type this DAO operates on
+ * @param T the entity type this DAO operates on (must be non-null)
  */
-interface BaseDao<T> {
+interface BaseDao<T : Any> {
     
     /**
      * Insert an item in the database.

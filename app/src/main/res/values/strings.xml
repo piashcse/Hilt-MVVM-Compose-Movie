@@ -46,6 +46,7 @@
     <string name="do_you_wanna_remove_this_from_favorite">Do you want to remove this item from favorite list?</string>
     <string name="home">Home</string>
     <string name="favorite">Favorite</string>
+    <string name="preview_catalog">Preview Catalog</string>
     <string name="no_favorites">No favorite items yet</string>
     <string name="add_to_favorites">Add to favorites</string>
     <string name="remove_from_favorites">Remove from favorites</string>

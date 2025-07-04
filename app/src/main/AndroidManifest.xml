@@ -22,6 +22,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <!-- Lego Component System Demo Activity -->
+        <activity
+            android:name=".templates.demo.DemoActivity"
+            android:exported="true"
+            android:label="Lego Component Demo"
+            android:theme="@style/Theme.splashScreenTheme" />
     </application>
 
 </manifest>

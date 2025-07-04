@@ -12,6 +12,7 @@ import com.xiaomi.base.ui.screens.favorite.FavoriteScreen
 import com.xiaomi.base.ui.screens.home.HomeScreen
 import com.xiaomi.base.ui.screens.popular.PopularScreen
 import com.xiaomi.base.ui.screens.toprated.TopRatedScreen
+import com.xiaomi.base.ui.screens.preview.PreviewCatalogScreen
 
 @Composable
 fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
@@ -31,6 +32,11 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
         }
         composable(Screen.Favorite.route) {
             FavoriteScreen(navController = navController)
+        }
+        composable(Screen.PreviewCatalog.route) {
+            PreviewCatalogScreen(
+                navController = navController
+            )
         }
         composable(
             route = Screen.ItemDetail.route,

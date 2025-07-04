@@ -17,7 +17,8 @@ fun BottomNavigationBar(navController: NavController) {
         Screen.Home,
         Screen.Popular,
         Screen.TopRated,
-        Screen.Favorite
+        Screen.Favorite,
+        Screen.PreviewCatalog
     )
 
     NavigationBar {
