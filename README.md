@@ -1,4 +1,4 @@
-﻿# Appdexer - Vibe Coding 🤖
+# Appdexer - Vibe Coding 🤖
 
 ## Ví dụ:
 
@@ -132,6 +132,35 @@ scripts/config/telegram_config.py
 - **Design-to-Prompt**: Tự động phân tích design files và tạo instruction
 - **Competitor Analysis**: AI phân tích đối thủ cạnh tranh và đề xuất tính năng
 - **Smart Resource Management**: Tự động tải icons, cập nhật rules
+- **🧩 Lego Component System**: AI-powered template system tạo Android Compose components từ mô tả ngôn ngữ tự nhiên
+
+### 🧩 Lego Component System
+
+Hệ thống template thông minh được tích hợp AI, giúp tự động tạo ra các Android Compose components dựa trên mô tả bằng ngôn ngữ tự nhiên.
+
+#### ✨ Tính Năng Chính
+- **Natural Language Processing**: Mô tả component bằng tiếng Việt/Anh tự nhiên
+- **AI Component Selection**: Tự động chọn template phù hợp nhất
+- **Smart Customization**: AI đề xuất customization options
+- **Live Preview**: Xem trước code được generate
+- **19 Component Categories**: Từ Button, Input đến AI/ML components
+- **4 Complexity Levels**: Simple (5-10 min) đến Expert (2+ hours)
+
+#### 🎯 Ví Dụ Sử Dụng
+```
+✅ "Tạo button submit màu xanh có icon"
+✅ "Tôi cần input email có validation"
+✅ "Làm password field có toggle hiện/ẩn"
+✅ "Tạo form đăng nhập với email và password"
+✅ "Generate product card có hình và giá"
+```
+
+#### 📚 Chi Tiết
+**Xem documentation đầy đủ**: [Template System Guide](docs/TEMPLATE_SYSTEM.md)
+
+**Location**: `app/src/main/java/com/xiaomi/base/templates/`
+
+**Demo**: Chạy `LegoComponentDemo` để trải nghiệm interactive
 
 ## 🚀 Quick Start
 
@@ -179,6 +208,37 @@ python ./review_gate_v2_mcp.py
 ```
 
 ### 3. Initialize Your Project
+
+### 🧩 Quick Start với Template System
+
+```kotlin
+// 1. Khởi tạo Template System
+val registry = ComponentRegistry
+val selector = ComponentSelector(registry)
+val engine = TemplateEngine()
+
+// 2. Mô tả component bằng ngôn ngữ tự nhiên
+val requirement = "Tôi muốn button đăng nhập màu xanh có loading state"
+
+// 3. AI phân tích và suggest
+val suggestion = selector.analyzeRequirement(requirement, projectContext)
+
+// 4. Generate component
+val component = engine.generateComponent(
+    metadata = suggestion.suggestedComponents.first().component,
+    customizations = mapOf(
+        "COMPONENT_NAME" to "LoginButton",
+        "COLOR" to "Blue",
+        "HAS_LOADING_STATE" to true
+    ),
+    projectContext = projectContext
+)
+
+// 5. Sử dụng generated code
+// component.sourceCode chứa Compose code hoàn chỉnh
+```
+
+**Demo Interactive**: Chạy `LegoComponentDemo` trong app để test real-time!
 
 ## 📖 Hướng Dẫn Sử Dụng
 
@@ -254,6 +314,25 @@ Sử dụng quy trình design to prompt để phân tích thiết kế ./design/
 - Tạo plan chi tiết
 
 [AI sẽ tạo file: instructions/VoiceSearch_Feature_Instruction.md]
+```
+
+#### 🧩 Sử Dụng Template System trong Development
+
+```
+💬 "Tạo search bar có voice input cho weather app"
+
+🤖 Lego AI:
+🔍 Analyzing requirement...
+✅ Intent detected: CREATE_INPUT + VOICE_FEATURE
+✅ Suggested: VoiceSearchInput template
+✅ Customizations: 
+   - Placeholder: "Search city or say it..."
+   - Voice icon: microphone
+   - Animation: pulse when listening
+   - Validation: city name format
+
+📝 Generated component: VoiceSearchBar.kt
+📱 Preview: Interactive demo available
 ```
 
 2. **Architecture Phase**

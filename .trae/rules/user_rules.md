@@ -178,3 +178,198 @@
 - Validate input và output
 - Test các thay đổi trước khi commit
 - Có kế hoạch rollback khi cần thiết
+
+---
+
+# Android Development Workflow
+
+> **🔗 MANDATORY RULES SYNCHRONIZATION**  
+> **BẮT BUỘC** sử dụng các rules từ `.cursor/rules/` làm nguồn chính thức cho tất cả Android workflows.  
+> Phần này chỉ là alias/link đến các rules chính thức trong `.cursor/rules/`
+
+## 🎯 Android Primary Rules Sources (MANDATORY)
+
+### Core Android Development Rules
+
+- **[Android Workflow](../../.cursor/rules/android-workflow.mdc)** - Quy trình phát triển Android chính
+- **[Android Code Deduplication](../../.cursor/rules/android-code-deduplication.mdc)** - Tránh trùng lặp code Android
+- **[TDD Mobile Workflow](../../.cursor/rules/tdd-mobile-workflow.mdc)** - Test-driven development cho mobile
+- **[Android Project Template](../../.cursor/rules/android-project-template.mdc)** - Template dự án Android
+
+## 🚀 Android Development Workflow Summary
+
+### Blueprint-First Development
+
+- **BẮT BUỘC** tạo blueprint trước khi viết code cho mỗi tính năng
+- **BẮT BUỘC** kiểm tra module registry để tránh trùng lặp
+- **BẮT BUỘC** cập nhật module registry sau khi hoàn thành tính năng
+- **BẮT BUỘC** tuân thủ cấu trúc package tiêu chuẩn
+- **BẮT BUỘC** sử dụng các base classes đã có
+- **NGHIÊM CẤM** tạo code trùng lặp chức năng đã có
+
+### Standard Package Structure
+
+```
+com.base.app/
+├── base/                 # Base classes
+│   ├── activity/         # Base Activities
+│   ├── fragment/         # Base Fragments
+│   ├── viewmodel/        # Base ViewModels
+│   ├── adapter/          # Base Adapters
+│   └── view/             # Base Custom Views
+├── core/                 # Core modules
+│   ├── di/               # Dependency Injection
+│   ├── network/          # Network components
+│   ├── storage/          # Local storage
+│   ├── analytics/        # Analytics tracking
+│   └── utils/            # Utility classes
+├── data/                 # Data layer
+│   ├── repository/       # Repositories implementation
+│   ├── datasource/       # Data sources (remote, local)
+│   ├── model/            # Data models (entities, DTOs)
+│   └── mapper/           # Mappers
+├── domain/               # Domain layer
+│   ├── usecase/          # Use cases (business logic)
+│   ├── model/            # Domain models
+│   └── repository/       # Repository interfaces
+└── ui/                   # UI layer
+    ├── components/       # Shared UI components
+    └── features/         # Feature packages
+        ├── feature1/     # Tính năng 1
+        ├── feature2/     # Tính năng 2
+        └── ...
+```
+
+### Architecture Standards
+
+- **BẮT BUỘC** sử dụng **MVVM + Clean Architecture** với 3 lớp:
+  - **UI Layer**: Composables + ViewModels
+  - **Domain Layer**: Use Cases + Models + Repository Interfaces
+  - **Data Layer**: Repository Implementations + Data Sources
+- **BẮT BUỘC** đảm bảo **Unidirectional Data Flow**: UI → ViewModel → UseCase → Repository
+
+### Tech Stack Chuẩn
+
+```kotlin
+// UI Framework
+implementation "androidx.compose.ui:compose-ui:$compose_version"
+implementation "androidx.compose.material3:material3:$material3_version"
+
+// Dependency Injection
+implementation "com.google.dagger:hilt-android:$hilt_version"
+
+// Async Programming
+implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines_version"
+
+// Networking
+implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+implementation "com.squareup.okhttp3:okhttp:$okhttp_version"
+
+// Database
+implementation "androidx.room:room-runtime:$room_version"
+implementation "androidx.room:room-ktx:$room_version"
+
+// Image Loading
+implementation "io.coil-kt:coil-compose:$coil_version"
+```
+
+### Code Quality & Anti-Duplication Rules
+
+- **BẮT BUỘC** trước khi tạo class/function/resource mới:
+  1. Tìm kiếm trong project với pattern: `class/interface/fun [Tên]`
+  2. Kiểm tra module-registry.md
+  3. Kiểm tra component-catalog.md
+  4. Tìm trong package `core/utils` trước khi tạo utility functions
+  5. Tìm trong package `ui/components` trước khi tạo UI components mới
+  6. Ưu tiên mở rộng code hiện có thay vì tạo mới
+
+- **BẮT BUỘC** khi gặp logic tương tự ở 2+ nơi:
+  1. Trích xuất vào base class/util class
+  2. Tạo extension function cho code dùng chung
+  3. Cập nhật tất cả occurrences để sử dụng code dùng chung
+
+### TDD Mobile Workflow
+
+- **BẮT BUỘC** viết tests trước khi viết implementation code
+- **BẮT BUỘC** follow Red-Green-Refactor cycle nghiêm ngặt
+- **BẮT BUỘC** 85% unit test coverage minimum
+- **BẮT BUỘC** 70% integration test coverage minimum
+- **BẮT BUỘC** 100% critical user flow UI test coverage
+- **NGHIÊM CẤM** implementation code trước khi có failing tests
+
+### Testing Stack
+
+```kotlin
+// Testing Dependencies
+dependencies {
+    // Unit Testing
+    testImplementation 'junit:junit:5.9.2'
+    testImplementation 'org.mockito:mockito-core:5.1.1'
+    testImplementation 'io.mockk:mockk:1.13.4'
+    testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.6.4'
+    
+    // Android Testing
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    androidTestImplementation 'androidx.compose.ui:ui-test-junit4:1.4.0'
+    
+    // Integration Testing
+    androidTestImplementation 'androidx.room:room-testing:2.5.0'
+    androidTestImplementation 'okhttp3:mockwebserver:4.10.0'
+}
+```
+
+### Performance & Optimization
+
+- **BẮT BUỘC** sử dụng **Vector Drawables** cho icons
+- **BẮT BUỘC** sử dụng **WebP** format cho images
+- **BẮT BUỘC** enable R8/ProGuard để minify code
+- **BẮT BUỘC** sử dụng Android App Bundle
+- **BẮT BUỘC** ABI filtering - chỉ hỗ trợ ARM (armeabi-v7a, arm64-v8a)
+
+### Quality Checklist
+
+- [ ] MVVM + Clean Architecture được implement đúng
+- [ ] Unidirectional Data Flow được đảm bảo
+- [ ] R8/ProGuard configuration hoạt động
+- [ ] Vector Drawables được sử dụng cho icons
+- [ ] WebP format được sử dụng cho images
+- [ ] Unit tests cover ViewModels và UseCases
+- [ ] UI tests cover critical user flows
+- [ ] Error handling được implement đầy đủ
+- [ ] Performance monitoring được setup
+- [ ] APK size được tối ưu
+- [ ] Code tuân thủ cấu trúc package định nghĩa
+- [ ] Classes được đặt đúng package
+- [ ] Không có code trùng lặp chức năng
+- [ ] Sử dụng các base classes khi thích hợp
+- [ ] UI components được tái sử dụng khi có thể
+- [ ] Blueprint được hoàn thiện trước khi viết code
+- [ ] Module Registry được cập nhật sau khi hoàn thành
+
+## ⚠️ CRITICAL ENFORCEMENT RULES
+
+### Mandatory Compliance
+
+1. **BẮT BUỘC** tuân thủ 100% các rules trong `.cursor/rules/android-workflow.mdc`
+2. **BẮT BUỘC** tuân thủ 100% các rules trong `.cursor/rules/android-code-deduplication.mdc`
+3. **BẮT BUỘC** tuân thủ 100% các rules trong `.cursor/rules/tdd-mobile-workflow.mdc`
+4. **NGHIÊM CẤM** tạo rules mới trong `.trae/rules/` mà không sync với `.cursor/rules/`
+5. **BẮT BUỘC** cập nhật alias links khi có thay đổi trong `.cursor/rules/`
+
+### Synchronization Protocol
+
+- Mọi thay đổi Android workflow rules phải được thực hiện trong `.cursor/rules/` trước
+- File này chỉ được cập nhật để sync alias links
+- Không được override hoặc modify nội dung rules gốc
+
+## 🔄 Android Rules Hierarchy Priority
+
+1. `.cursor/rules/android-workflow.mdc` - **PRIMARY SOURCE** (Highest Priority)
+2. `.cursor/rules/android-code-deduplication.mdc` - **PRIMARY SOURCE** (Highest Priority)
+3. `.cursor/rules/tdd-mobile-workflow.mdc` - **PRIMARY SOURCE** (Highest Priority)
+4. `.trae/rules/user_rules.md` - Alias/Link layer only (Lowest Priority)
+
+---
+
+**📝 Lưu ý**: Để xem chi tiết đầy đủ các quy trình Android, vui lòng tham khảo trực tiếp các file trong `.cursor/rules/`. Phần này chỉ là tóm tắt và alias links.
