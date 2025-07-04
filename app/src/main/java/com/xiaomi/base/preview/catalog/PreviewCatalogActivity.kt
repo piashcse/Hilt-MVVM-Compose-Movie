@@ -33,8 +33,9 @@ class PreviewCatalogActivity : ComponentActivity() {
             BaseTheme {
                 PreviewCatalogScreen(
                     onPreviewClick = { previewItem ->
-                        // Navigate to specific preview
-                        // This will be implemented when we have navigation setup
+                        // Launch demo as standalone screen
+                        val intent = DemoActivity.createIntent(this@PreviewCatalogActivity, previewItem.id)
+                        startActivity(intent)
                     },
                     onBackClick = {
                         finish()

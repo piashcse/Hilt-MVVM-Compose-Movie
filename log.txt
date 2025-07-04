@@ -1,0 +1,85 @@
+> Task :app:preBuild UP-TO-DATE
+> Task :app:preDevelopDebugBuild UP-TO-DATE
+> Task :app:mergeDevelopDebugNativeDebugMetadata NO-SOURCE
+> Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
+> Task :app:generateDevelopDebugBuildConfig UP-TO-DATE
+> Task :app:checkDevelopDebugAarMetadata UP-TO-DATE
+> Task :app:generateDevelopDebugResValues UP-TO-DATE
+> Task :app:mapDevelopDebugSourceSetPaths UP-TO-DATE
+> Task :app:generateDevelopDebugResources UP-TO-DATE
+> Task :app:mergeDevelopDebugResources UP-TO-DATE
+> Task :app:packageDevelopDebugResources UP-TO-DATE
+> Task :app:parseDevelopDebugLocalResources UP-TO-DATE
+> Task :app:createDevelopDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDevelopDebug UP-TO-DATE
+> Task :app:processDevelopDebugMainManifest UP-TO-DATE
+> Task :app:processDevelopDebugManifest UP-TO-DATE
+> Task :app:processDevelopDebugManifestForPackage UP-TO-DATE
+> Task :app:processDevelopDebugResources UP-TO-DATE
+> Task :app:kspDevelopDebugKotlin UP-TO-DATE
+> Task :app:javaPreCompileDevelopDebug UP-TO-DATE
+> Task :app:mergeDevelopDebugShaders UP-TO-DATE
+> Task :app:compileDevelopDebugShaders NO-SOURCE
+> Task :app:generateDevelopDebugAssets UP-TO-DATE
+> Task :app:mergeDevelopDebugAssets UP-TO-DATE
+> Task :app:compressDevelopDebugAssets UP-TO-DATE
+> Task :app:desugarDevelopDebugFileDependencies UP-TO-DATE
+> Task :app:checkDevelopDebugDuplicateClasses UP-TO-DATE
+> Task :app:mergeExtDexDevelopDebug UP-TO-DATE
+> Task :app:mergeLibDexDevelopDebug UP-TO-DATE
+> Task :app:mergeDevelopDebugJniLibFolders UP-TO-DATE
+> Task :app:mergeDevelopDebugNativeLibs UP-TO-DATE
+> Task :app:stripDevelopDebugDebugSymbols UP-TO-DATE
+> Task :app:validateSigningDevelopDebug UP-TO-DATE
+> Task :app:writeDevelopDebugAppMetadata UP-TO-DATE
+> Task :app:writeDevelopDebugSigningConfigVersions UP-TO-DATE
+
+> Task :app:compileDevelopDebugKotlin FAILED
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:20:54 Unresolved reference 'I18nConfig'.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:26:54 Unresolved reference 'ParticleAnimationComponent'.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:28:54 Unresolved reference 'ParticleConfig'.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:29:54 Unresolved reference 'WaveConfig'.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:179:52 Unresolved reference 'STANDARD'.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:180:25 No parameter with name 'highContrast' found.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:181:25 No parameter with name 'fontSize' found.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:182:25 No parameter with name 'reduceMotion' found.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:183:25 No parameter with name 'screenReader' found.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:184:25 No parameter with name 'voiceGuidance' found.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:184:25 No value passed for parameter 'feature'.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:189:31 Cannot infer type for this parameter. Specify it explicitly.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:189:31 Not enough information to infer type argument for 'T'.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:189:31 Cannot infer type for this parameter. Specify it explicitly.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:189:31 Not enough information to infer type argument for 'T'.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:190:17 Cannot infer type for this parameter. Specify it explicitly.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:190:17 Not enough information to infer type argument for 'T'.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:191:21 Unresolved reference 'I18nConfig'.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:203:17 No parameter with name 'accessibilitySettings' found.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:204:17 No parameter with name 'i18nConfig' found.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:205:17 No parameter with name 'onAccessibilitySettingsChange' found.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:205:75 Unresolved reference 'it'.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:206:17 No parameter with name 'onI18nConfigChange' found.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:206:53 Unresolved reference 'it'.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:280:29 Unresolved reference 'ParticleAnimationComponent'.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:284:42 Unresolved reference 'ParticleConfig'.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:312:33 No parameter with name 'config' found.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:312:42 Unresolved reference 'WaveConfig'.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:317:47 Unresolved reference 'Purple'.
+e: file:///Users/trungkientn/Dev2/HuyDev/Android-Compose-Base/app/src/main/java/com/xiaomi/base/preview/demos/components/UIComponentsPreviews.kt:461:25 No parameter with name 'minLength' found.
+
+> Task :app:copyRoomSchemas NO-SOURCE
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+Execution failed for task ':app:compileDevelopDebugKotlin'.
+> A failure occurred while executing org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction
+   > Compilation error. See log for more details
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 1s
+30 actionable tasks: 1 executed, 29 up-to-date

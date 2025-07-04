@@ -29,6 +29,26 @@
             android:exported="true"
             android:label="Lego Component Demo"
             android:theme="@style/Theme.splashScreenTheme" />
+        
+        <!-- Preview Catalog Activity -->
+        <activity
+            android:name=".preview.catalog.PreviewCatalogActivity"
+            android:exported="false"
+            android:label="Preview Catalog"
+            android:theme="@style/Theme.splashScreenTheme" />
+        
+        <!-- Preview Viewer Activity -->
+        <activity
+            android:name=".preview.catalog.PreviewViewerActivity"
+            android:exported="false"
+            android:label="Preview Viewer"
+            android:theme="@style/Theme.splashScreenTheme" />
+            
+        <!-- Demo Activity (for standalone preview demos) -->
+        <activity
+            android:name=".preview.catalog.DemoActivity"
+            android:exported="false"
+            android:theme="@style/Theme.splashScreenTheme" />
     </application>
 
 </manifest>

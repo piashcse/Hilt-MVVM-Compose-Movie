@@ -6,6 +6,7 @@ import com.xiaomi.base.preview.catalog.PreviewItem
 import com.xiaomi.base.preview.catalog.PreviewDifficulty
 import com.xiaomi.base.preview.demos.ai.registerAIPreviews
 import com.xiaomi.base.preview.demos.business.registerBusinessPreviews
+import com.xiaomi.base.preview.demos.components.registerUIComponentsPreviews
 import com.xiaomi.base.preview.demos.creative.registerCreativePreviews
 import com.xiaomi.base.preview.demos.education.registerEducationPreviews
 import com.xiaomi.base.preview.demos.entertainment.registerEntertainmentPreviews
@@ -21,6 +22,9 @@ import com.xiaomi.base.preview.demos.sports.registerSportsPreviews
  * all available preview templates with the PreviewRegistry.
  */
 fun registerAllPreviews() {
+    // UI Components
+    registerUIComponentsPreviews()
+    
     // Health & Fitness
     registerHealthTrackingPreviews()
     registerSportsPreviews()

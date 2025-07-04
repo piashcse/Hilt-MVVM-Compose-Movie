@@ -71,6 +71,9 @@ dependencies {
     implementation(libs.androidx.material.icons.extended)
     implementation(libs.androidx.navigation.runtime.ktx)
     implementation(libs.androidx.navigation.compose)
+    
+    // Biometric authentication
+    implementation("androidx.biometric:biometric:1.1.0")
 
     // Testing dependencies
     testImplementation(libs.junit)

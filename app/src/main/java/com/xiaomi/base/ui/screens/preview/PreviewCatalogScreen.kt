@@ -233,8 +233,12 @@ fun PreviewCatalogScreen(
                     PreviewGrid(
                         items = filteredItems,
                         onItemClick = { previewItem ->
-                            // Handle preview item click
-                            // This could navigate to a detail screen or launch the preview
+                            // Launch demo as standalone screen
+                            val intent = com.xiaomi.base.preview.catalog.DemoActivity.createIntent(
+                                navController.context, 
+                                previewItem.id
+                            )
+                            navController.context.startActivity(intent)
                         },
                         columns = if (isTablet) 3 else 2
                     )
@@ -242,8 +246,12 @@ fun PreviewCatalogScreen(
                     PreviewList(
                         items = filteredItems,
                         onItemClick = { previewItem ->
-                            // Handle preview item click
-                            // This could navigate to a detail screen or launch the preview
+                            // Launch demo as standalone screen
+                            val intent = com.xiaomi.base.preview.catalog.DemoActivity.createIntent(
+                                navController.context, 
+                                previewItem.id
+                            )
+                            navController.context.startActivity(intent)
                         }
                     )
                 }

@@ -79,6 +79,7 @@ data class ComponentMetadata(
  * Các category của components
  */
 enum class ComponentCategory(val displayName: String, val icon: String, val description: String) {
+    // Core UI Components
     BUTTON("Buttons", "🔘", "Interactive buttons và action triggers"),
     INPUT("Inputs", "📝", "Text fields và form inputs"),
     CARD("Cards", "🃏", "Content containers và display cards"),
@@ -89,13 +90,23 @@ enum class ComponentCategory(val displayName: String, val icon: String, val desc
     CHART("Charts", "📊", "Data visualization và charts"),
     MEDIA("Media", "🎬", "Image, video và media components"),
     FORM("Forms", "📄", "Form layouts và validation"),
+    
+    // Integration Components
     AUTHENTICATION("Auth", "🔐", "Login, signup và authentication"),
     PAYMENT("Payment", "💳", "Payment processing components"),
     SOCIAL("Social", "👥", "Social media integration"),
     CAMERA("Camera", "📷", "Camera và image capture"),
     UTILITY("Utility", "🔧", "Helper components và utilities"),
+    
+    // Enhanced Components (New)
     ANIMATION("Animation", "✨", "Animations và transitions"),
     ACCESSIBILITY("A11y", "♿", "Accessibility components"),
+    GESTURE("Gesture", "👆", "Gesture handling components"),
+    FEEDBACK("Feedback", "📳", "User feedback components"),
+    AI_ML("AI/ML", "🤖", "AI và Machine Learning components"),
+    ADAPTIVE("Adaptive", "📱", "Adaptive và responsive components"),
+    ENTERPRISE("Enterprise", "🏢", "Enterprise-grade components"),
+    SECURITY("Security", "🔒", "Security và privacy components"),
     TESTING("Testing", "🧪", "Testing utilities và mocks")
 }
 
