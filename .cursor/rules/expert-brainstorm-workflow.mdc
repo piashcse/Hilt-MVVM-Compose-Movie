@@ -1,0 +1,232 @@
+---
+description: Quy trình brainstorm với sự tham gia của nhiều chuyên gia từ các góc nhìn khác nhau
+globs:
+alwaysApply: false
+---
+# Expert Brainstorm Workflow Rules
+
+## Nguyên Tắc Cơ Bản
+- ***BẮT BUỘC*** áp dụng quy trình này khi cần brainstorm ý tưởng phức tạp hoặc đa chiều
+- ***BẮT BUỘC*** có ít nhất 4 chuyên gia tham gia với các góc nhìn khác nhau
+- ***BẮT BUỘC*** có 1 chuyên gia tổng hợp (facilitator) điều phối cuộc thảo luận
+- ***BẮT BUỘC*** tạo file `ExpertBrainstorm_[TenDuAn].md` để lưu trữ kết quả
+- ***BẮT BUỘC*** tuân thủ quy trình 4 giai đoạn: Phát triển ý tưởng → Phản biện → Bảo vệ → Tổng hợp
+- ***NGHIÊM CẤM*** bỏ qua bất kỳ giai đoạn nào trong quy trình
+
+## Cấu Trúc Chuyên Gia Tham Gia
+
+### Chuyên Gia Điều Phối (Facilitator)
+**Vai trò**: Điều phối cuộc thảo luận, đảm bảo mọi chuyên gia đều có cơ hội đóng góp, tổng hợp ý kiến
+
+**Trách nhiệm**:
+1. Giới thiệu vấn đề cần brainstorm
+2. Phân bổ thời gian cho từng chuyên gia
+3. Đặt câu hỏi gợi mở khi cần thiết
+4. Tổng hợp các ý tưởng và ý kiến phản biện
+5. Đưa ra kết luận cuối cùng
+
+### Các Chuyên Gia Chuyên Ngành (Tối thiểu 4 chuyên gia)
+
+**Chuyên gia 1: Chuyên gia Thị trường & Người dùng**
+- Phân tích nhu cầu thị trường
+- Hiểu hành vi người dùng
+- Đánh giá xu hướng thị trường
+- Phân tích đối thủ cạnh tranh
+
+**Chuyên gia 2: Chuyên gia Kỹ thuật & Công nghệ**
+- Đánh giá tính khả thi về mặt kỹ thuật
+- Đề xuất giải pháp công nghệ
+- Xác định các thách thức kỹ thuật
+- Đánh giá khả năng mở rộng
+
+**Chuyên gia 3: Chuyên gia Kinh doanh & Tài chính**
+- Phân tích mô hình kinh doanh
+- Đánh giá chi phí và lợi nhuận
+- Xác định chiến lược monetization
+- Đánh giá ROI và thời gian hoàn vốn
+
+**Chuyên gia 4: Chuyên gia Sáng tạo & Thiết kế**
+- Đề xuất giải pháp thiết kế
+- Đánh giá trải nghiệm người dùng
+- Xác định xu hướng thiết kế
+- Đề xuất các yếu tố sáng tạo và độc đáo
+
+**Chuyên gia 5 (Tuỳ chọn): Chuyên gia Ngành dọc**
+- Chuyên gia trong lĩnh vực cụ thể của dự án (y tế, giáo dục, tài chính, v.v.)
+- Cung cấp kiến thức chuyên sâu về ngành
+- Xác định các quy định và tiêu chuẩn ngành
+- Đánh giá các thách thức đặc thù của ngành
+
+## Quy Trình Brainstorm 4 Giai Đoạn
+
+### Giai Đoạn 1: Phát triển Ý tưởng
+1. Facilitator giới thiệu vấn đề cần brainstorm
+2. Mỗi chuyên gia có 5-10 phút để trình bày ý tưởng từ góc nhìn chuyên môn
+3. Không có phản biện trong giai đoạn này
+4. Tất cả ý tưởng đều được ghi lại
+5. Mục tiêu: Thu thập càng nhiều ý tưởng càng tốt
+
+### Giai Đoạn 2: Phản biện
+1. Mỗi chuyên gia có 3-5 phút để phản biện ý tưởng của các chuyên gia khác
+2. Tập trung vào các điểm yếu, rủi ro và thách thức
+3. Phản biện phải mang tính xây dựng và dựa trên dữ liệu/kinh nghiệm
+4. Không phòng thủ ý tưởng của mình trong giai đoạn này
+5. Mục tiêu: Xác định tất cả các vấn đề tiềm ẩn
+
+### Giai Đoạn 3: Bảo vệ & Cải thiện
+1. Mỗi chuyên gia có 3-5 phút để bảo vệ ý tưởng của mình
+2. Đưa ra giải pháp cho các phản biện
+3. Cải thiện ý tưởng dựa trên phản hồi
+4. Có thể kết hợp ý tưởng với các chuyên gia khác
+5. Mục tiêu: Tăng cường chất lượng ý tưởng
+
+### Giai Đoạn 4: Tổng hợp & Kết luận
+1. Facilitator tổng hợp tất cả ý tưởng và phản biện
+2. Xác định các ý tưởng có tiềm năng nhất
+3. Tạo ma trận đánh giá ý tưởng (dựa trên tính khả thi, giá trị, độc đáo, v.v.)
+4. Đề xuất các bước tiếp theo
+5. Mục tiêu: Đưa ra kết luận và kế hoạch hành động
+
+## Template File Expert Brainstorm
+
+```markdown
+# Expert Brainstorm: [Tên Dự Án]
+
+## Thông tin chung
+- **Ngày thực hiện**: [Ngày]
+- **Vấn đề cần brainstorm**: [Mô tả vấn đề]
+- **Facilitator**: [Tên]
+
+## Danh sách chuyên gia tham gia
+1. **Chuyên gia Thị trường & Người dùng**: [Tên]
+2. **Chuyên gia Kỹ thuật & Công nghệ**: [Tên]
+3. **Chuyên gia Kinh doanh & Tài chính**: [Tên]
+4. **Chuyên gia Sáng tạo & Thiết kế**: [Tên]
+5. **Chuyên gia Ngành dọc** (nếu có): [Tên]
+
+## Giai Đoạn 1: Phát triển Ý tưởng ✅/⏳/❌
+
+### Chuyên gia Thị trường & Người dùng
+[Ý tưởng và đề xuất]
+
+### Chuyên gia Kỹ thuật & Công nghệ
+[Ý tưởng và đề xuất]
+
+### Chuyên gia Kinh doanh & Tài chính
+[Ý tưởng và đề xuất]
+
+### Chuyên gia Sáng tạo & Thiết kế
+[Ý tưởng và đề xuất]
+
+### Chuyên gia Ngành dọc (nếu có)
+[Ý tưởng và đề xuất]
+
+## Giai Đoạn 2: Phản biện ✅/⏳/❌
+
+### Phản biện từ Chuyên gia Thị trường & Người dùng
+[Phản biện đối với ý tưởng của các chuyên gia khác]
+
+### Phản biện từ Chuyên gia Kỹ thuật & Công nghệ
+[Phản biện đối với ý tưởng của các chuyên gia khác]
+
+### Phản biện từ Chuyên gia Kinh doanh & Tài chính
+[Phản biện đối với ý tưởng của các chuyên gia khác]
+
+### Phản biện từ Chuyên gia Sáng tạo & Thiết kế
+[Phản biện đối với ý tưởng của các chuyên gia khác]
+
+### Phản biện từ Chuyên gia Ngành dọc (nếu có)
+[Phản biện đối với ý tưởng của các chuyên gia khác]
+
+## Giai Đoạn 3: Bảo vệ & Cải thiện ✅/⏳/❌
+
+### Bảo vệ từ Chuyên gia Thị trường & Người dùng
+[Bảo vệ và cải thiện ý tưởng]
+
+### Bảo vệ từ Chuyên gia Kỹ thuật & Công nghệ
+[Bảo vệ và cải thiện ý tưởng]
+
+### Bảo vệ từ Chuyên gia Kinh doanh & Tài chính
+[Bảo vệ và cải thiện ý tưởng]
+
+### Bảo vệ từ Chuyên gia Sáng tạo & Thiết kế
+[Bảo vệ và cải thiện ý tưởng]
+
+### Bảo vệ từ Chuyên gia Ngành dọc (nếu có)
+[Bảo vệ và cải thiện ý tưởng]
+
+## Giai Đoạn 4: Tổng hợp & Kết luận ✅/⏳/❌
+
+### Ma trận đánh giá ý tưởng
+| Ý tưởng | Tính khả thi (1-10) | Giá trị (1-10) | Độc đáo (1-10) | Tổng điểm |
+|---------|---------------------|----------------|----------------|------------|
+| [Ý tưởng 1] | [Điểm] | [Điểm] | [Điểm] | [Tổng] |
+| [Ý tưởng 2] | [Điểm] | [Điểm] | [Điểm] | [Tổng] |
+| [Ý tưởng 3] | [Điểm] | [Điểm] | [Điểm] | [Tổng] |
+
+### Ý tưởng được chọn
+[Mô tả chi tiết ý tưởng được chọn]
+
+### Lý do lựa chọn
+[Giải thích lý do lựa chọn ý tưởng này]
+
+### Các bước tiếp theo
+1. [Bước 1]
+2. [Bước 2]
+3. [Bước 3]
+
+## Brainstorm Completion ✅/⏳/❌
+- [ ] Giai đoạn 1 hoàn thành
+- [ ] Giai đoạn 2 hoàn thành
+- [ ] Giai đoạn 3 hoàn thành
+- [ ] Giai đoạn 4 hoàn thành
+- [ ] Tất cả thông tin đã được xác nhận
+- [ ] Sẵn sàng chuyển sang giai đoạn planning
+```
+
+## AI Behavior Rules
+
+### Khi Bắt Đầu Expert Brainstorm
+1. ***BẮT BUỘC*** giới thiệu quy trình và các chuyên gia tham gia
+2. ***BẮT BUỘC*** xác định rõ vấn đề cần brainstorm
+3. ***BẮT BUỘC*** tạo file ExpertBrainstorm_[TenDuAn].md
+4. ***BẮT BUỘC*** tuân thủ thứ tự các giai đoạn
+
+### Khi Đóng Vai Các Chuyên Gia
+1. ***BẮT BUỘC*** thể hiện đúng góc nhìn và chuyên môn của từng chuyên gia
+2. ***BẮT BUỘC*** đưa ra ý kiến dựa trên dữ liệu và kinh nghiệm
+3. ***BẮT BUỘC*** tạo ra sự đa dạng trong các ý tưởng và phản biện
+4. ***BẮT BUỘC*** tránh đồng thuận quá sớm hoặc áp đặt ý kiến
+
+### Khi Đóng Vai Facilitator
+1. ***BẮT BUỘC*** duy trì trung lập trong suốt quá trình
+2. ***BẮT BUỘC*** đảm bảo mọi chuyên gia đều có tiếng nói
+3. ***BẮT BUỘC*** tổng hợp ý kiến một cách khách quan
+4. ***BẮT BUỘC*** đưa ra kết luận dựa trên dữ liệu và phân tích
+
+### Completion Criteria
+Chỉ được chuyển sang planning khi:
+- ✅ Tất cả 4 giai đoạn đã hoàn thành
+- ✅ Ít nhất 4 chuyên gia đã tham gia đóng góp
+- ✅ Ma trận đánh giá ý tưởng đã được hoàn thành
+- ✅ Các bước tiếp theo đã được xác định rõ ràng
+- ✅ File ExpertBrainstorm_[TenDuAn].md đã được tạo và đầy đủ
+
+## Tích Hợp với Quy Trình Brainstorm Hiện Tại
+
+### Khi Nào Sử Dụng Expert Brainstorm
+- Khi dự án có tính phức tạp cao
+- Khi cần nhiều góc nhìn chuyên môn khác nhau
+- Khi có nhiều stakeholders với lợi ích khác nhau
+- Khi cần đánh giá rủi ro từ nhiều khía cạnh
+
+### Quy Trình Kết Hợp
+1. Bắt đầu với Brainstorm cơ bản (3 cấp độ)
+2. Nếu phát hiện vấn đề phức tạp, chuyển sang Expert Brainstorm
+3. Sử dụng kết quả từ Brainstorm cơ bản làm input cho Expert Brainstorm
+4. Kết quả từ Expert Brainstorm sẽ được sử dụng cho Planning
+
+### Lưu Ý Quan Trọng
+- Expert Brainstorm không thay thế Brainstorm cơ bản mà bổ sung cho nó
+- Có thể áp dụng Expert Brainstorm cho một phần cụ thể của dự án
+- Kết quả từ Expert Brainstorm cần được tích hợp vào file Brainstorm_[TenDuAn].md

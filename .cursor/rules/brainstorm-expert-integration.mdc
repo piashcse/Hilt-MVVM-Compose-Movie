@@ -1,0 +1,130 @@
+---
+description: Hướng dẫn tích hợp quy trình brainstorm với nhiều chuyên gia vào quy trình brainstorm hiện tại
+globs:
+alwaysApply: false
+---
+# Tích Hợp Quy Trình Brainstorm Với Nhiều Chuyên Gia
+
+## Mục Đích
+- Tài liệu này hướng dẫn cách tích hợp quy trình "Expert Brainstorm Workflow" vào quy trình brainstorm cơ bản hiện tại
+- Cung cấp các tiêu chí rõ ràng để quyết định khi nào sử dụng quy trình brainstorm với nhiều chuyên gia
+- Đảm bảo sự liền mạch giữa hai quy trình
+
+## Tiêu Chí Sử Dụng Expert Brainstorm
+
+### Khi Nào Sử Dụng Expert Brainstorm
+- Khi dự án có tính phức tạp cao (nhiều module, nhiều platform, nhiều user type)
+- Khi cần nhiều góc nhìn chuyên môn khác nhau (kỹ thuật, thiết kế, kinh doanh, ngành dọc)
+- Khi có nhiều stakeholders với lợi ích khác nhau
+- Khi cần đánh giá rủi ro từ nhiều khía cạnh
+- Khi dự án có tính đột phá hoặc sáng tạo cao
+
+### Khi Nào Sử Dụng Brainstorm Cơ Bản
+- Khi dự án có quy mô nhỏ hoặc trung bình
+- Khi dự án là cải tiến của sản phẩm hiện có
+- Khi thời gian và nguồn lực hạn chế
+- Khi vấn đề cần giải quyết đã được xác định rõ ràng
+
+## Quy Trình Tích Hợp
+
+### Bước 1: Bắt Đầu Với Brainstorm Cơ Bản
+1. Thực hiện Phase 1 (Foundation) của quy trình brainstorm cơ bản
+2. Thu thập thông tin cơ bản về vấn đề, đối tượng người dùng và giá trị cốt lõi
+3. Đánh giá độ phức tạp của dự án dựa trên thông tin thu thập được
+
+### Bước 2: Đánh Giá Và Quyết Định
+1. Sau khi hoàn thành Phase 1, đánh giá dự án theo các tiêu chí sau:
+   - Số lượng user types/personas (>3 → Expert Brainstorm)
+   - Số lượng platforms (>2 → Expert Brainstorm)
+   - Tính đột phá của ý tưởng (Cao → Expert Brainstorm)
+   - Số lượng stakeholders (>3 → Expert Brainstorm)
+   - Mức độ rủi ro (Cao → Expert Brainstorm)
+
+2. Đề xuất với người dùng về việc sử dụng Expert Brainstorm nếu đáp ứng ít nhất 2 tiêu chí trên
+
+### Bước 3: Chuyển Đổi Sang Expert Brainstorm (Nếu Cần)
+1. Thông báo với người dùng về việc chuyển sang quy trình Expert Brainstorm
+2. Sử dụng thông tin từ Phase 1 của Brainstorm cơ bản làm input cho Expert Brainstorm
+3. Tạo file `ExpertBrainstorm_[TenDuAn].md` theo template trong Expert Brainstorm Workflow
+4. Điền thông tin đã có vào phần đầu của file
+
+### Bước 4: Thực Hiện Expert Brainstorm
+1. Giới thiệu các chuyên gia tham gia (Facilitator + ít nhất 4 chuyên gia)
+2. Thực hiện 4 giai đoạn của Expert Brainstorm:
+   - Giai Đoạn 1: Phát triển Ý tưởng
+   - Giai Đoạn 2: Phản biện
+   - Giai Đoạn 3: Bảo vệ & Cải thiện
+   - Giai Đoạn 4: Tổng hợp & Kết luận
+
+### Bước 5: Tích Hợp Kết Quả
+1. Tổng hợp kết quả từ Expert Brainstorm
+2. Cập nhật file `Brainstorm_[TenDuAn].md` với thông tin từ Expert Brainstorm
+3. Đảm bảo cả hai file đều có thông tin nhất quán
+
+## Mối Quan Hệ Giữa Hai Quy Trình
+
+### Brainstorm Cơ Bản → Expert Brainstorm
+- Phase 1 (Foundation) của Brainstorm cơ bản cung cấp input cho Giai Đoạn 1 (Phát triển Ý tưởng) của Expert Brainstorm
+- Problem Statement và Target Audience từ Brainstorm cơ bản được sử dụng làm cơ sở cho Expert Brainstorm
+
+### Expert Brainstorm → Brainstorm Cơ Bản
+- Kết quả từ Expert Brainstorm được sử dụng để hoàn thiện Phase 2 (Structure) và Phase 3 (Advanced Analysis) của Brainstorm cơ bản
+- Ma trận đánh giá ý tưởng từ Expert Brainstorm được sử dụng để xác định Feature Priority Matrix trong Brainstorm cơ bản
+
+## Quy Tắc Hành Vi Của AI
+
+### Khi Đề Xuất Chuyển Đổi Quy Trình
+1. ***BẮT BUỘC*** giải thích rõ lý do đề xuất chuyển sang Expert Brainstorm
+2. ***BẮT BUỘC*** liệt kê các tiêu chí mà dự án đáp ứng
+3. ***BẮT BUỘC*** xin ý kiến người dùng trước khi chuyển đổi
+4. ***BẮT BUỘC*** giải thích lợi ích của việc sử dụng Expert Brainstorm
+
+### Khi Thực Hiện Cả Hai Quy Trình
+1. ***BẮT BUỘC*** duy trì tính nhất quán giữa hai file brainstorm
+2. ***BẮT BUỘC*** không lặp lại các câu hỏi đã hỏi trong Brainstorm cơ bản
+3. ***BẮT BUỘC*** tham chiếu đến thông tin đã có khi cần thiết
+4. ***BẮT BUỘC*** đảm bảo không có mâu thuẫn giữa hai quy trình
+
+## Ví Dụ Về Quy Trình Tích Hợp
+
+### Ví Dụ 1: Chuyển Từ Brainstorm Cơ Bản Sang Expert Brainstorm
+
+```
+AI: Tôi đã hoàn thành Phase 1 của quy trình Brainstorm cơ bản. Dựa trên thông tin thu thập được, tôi nhận thấy dự án của bạn có độ phức tạp cao với:
+- 4 nhóm người dùng khác nhau
+- Triển khai trên cả web và mobile
+- Tính năng AI độc đáo cần đánh giá kỹ thuật chuyên sâu
+- Nhiều stakeholders từ các phòng ban khác nhau
+
+Tôi đề xuất chuyển sang quy trình Expert Brainstorm để có thể phân tích sâu hơn từ nhiều góc nhìn chuyên môn. Điều này sẽ giúp đánh giá toàn diện hơn về tính khả thi và rủi ro của dự án. Bạn có đồng ý không?
+```
+
+### Ví Dụ 2: Tích Hợp Kết Quả Từ Expert Brainstorm
+
+```
+AI: Tôi đã hoàn thành quy trình Expert Brainstorm với sự tham gia của 5 chuyên gia. Dựa trên kết quả này, tôi sẽ cập nhật file Brainstorm_[TenDuAn].md với:
+
+1. Feature Priority Matrix đã được cải thiện dựa trên ma trận đánh giá ý tưởng
+2. User Journey được làm rõ hơn với insights từ Chuyên gia UX
+3. Technical Requirements được chi tiết hóa với đóng góp từ Chuyên gia Kỹ thuật
+4. Risk Assessment được bổ sung với phân tích từ Chuyên gia Kinh doanh
+
+Bạn có muốn xem bản cập nhật của file Brainstorm_[TenDuAn].md không?
+```
+
+## Tiêu Chí Hoàn Thành
+
+Quy trình tích hợp được coi là hoàn thành khi:
+- ✅ Đã quyết định rõ ràng về việc sử dụng quy trình nào
+- ✅ Nếu sử dụng Expert Brainstorm, cả 4 giai đoạn đã hoàn thành
+- ✅ Các file brainstorm đã được tạo và cập nhật đầy đủ
+- ✅ Thông tin giữa các file nhất quán
+- ✅ Người dùng đã xác nhận kết quả brainstorm
+
+## Lưu Ý Quan Trọng
+
+1. Expert Brainstorm không thay thế hoàn toàn Brainstorm cơ bản mà bổ sung cho nó
+2. Trong một số trường hợp, có thể chỉ áp dụng Expert Brainstorm cho một phần cụ thể của dự án
+3. Luôn ưu tiên chất lượng phân tích hơn là số lượng thông tin
+4. Đảm bảo tất cả các chuyên gia đều có tiếng nói trong quá trình brainstorm
+5. Kết quả cuối cùng phải đáp ứng được mục tiêu của cả hai quy trình

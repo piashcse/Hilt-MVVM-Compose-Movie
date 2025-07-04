@@ -11,7 +11,7 @@ android {
     compileSdk = 36
 
     defaultConfig {
-        applicationId = "com.piashcse.hilt_mvvm_compose_movie"
+        applicationId = "com.xiaomi.base"
         minSdk = 23
         targetSdk = 35
         versionCode = 40
@@ -23,7 +23,7 @@ android {
         }
     }
 
-    namespace = "com.piashcse.hilt_mvvm_compose_movie"
+    namespace = "com.xiaomi.base"
 
     flavorDimensions += "version"
     productFlavors {

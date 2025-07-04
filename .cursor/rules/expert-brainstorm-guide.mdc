@@ -1,0 +1,210 @@
+---
+description: Hướng dẫn thực hiện quy trình brainstorm với nhiều chuyên gia
+globs:
+alwaysApply: false
+---
+# Hướng Dẫn Thực Hiện Brainstorm Với Nhiều Chuyên Gia
+
+## Giới Thiệu
+
+Tài liệu này cung cấp hướng dẫn chi tiết về cách thực hiện quy trình brainstorm với nhiều chuyên gia (Expert Brainstorm) trong dự án của bạn. Quy trình này được thiết kế để tận dụng góc nhìn đa chiều từ các chuyên gia khác nhau, giúp phát triển ý tưởng sản phẩm toàn diện hơn.
+
+## Chuẩn Bị
+
+### Trước Khi Bắt Đầu
+1. Đọc kỹ tài liệu `expert-brainstorm-workflow.mdc` để hiểu rõ quy trình
+2. Chuẩn bị thông tin cơ bản về ý tưởng sản phẩm
+3. Xác định vấn đề cần brainstorm
+4. Tạo file `ExpertBrainstorm_[TenDuAn].md` theo template
+
+### Chuẩn Bị Môi Trường
+1. Đảm bảo môi trường làm việc yên tĩnh, không bị gián đoạn
+2. Chuẩn bị công cụ ghi chép (Trae AI, Cursor, VS Code, etc.)
+3. Dành thời gian đủ cho toàn bộ quy trình (khoảng 2-3 giờ)
+
+## Các Bước Thực Hiện
+
+### Bước 1: Khởi Động Quy Trình
+
+1. Mở Trae AI hoặc Cursor
+2. Nhập prompt sau để bắt đầu:
+
+```
+Tôi muốn thực hiện quy trình Expert Brainstorm cho dự án [Tên Dự Án]. Vấn đề cần brainstorm là [Mô tả vấn đề]. Hãy bắt đầu quy trình với vai trò Facilitator và giới thiệu các chuyên gia tham gia.
+```
+
+3. AI sẽ giới thiệu quy trình và các chuyên gia tham gia
+
+### Bước 2: Giai Đoạn 1 - Phát Triển Ý Tưởng
+
+1. Facilitator sẽ giới thiệu vấn đề cần brainstorm
+2. Mỗi chuyên gia sẽ trình bày ý tưởng từ góc nhìn chuyên môn
+3. Bạn có thể hỏi thêm để làm rõ ý tưởng của từng chuyên gia
+4. Ghi lại tất cả ý tưởng vào file `ExpertBrainstorm_[TenDuAn].md`
+
+Prompt gợi ý:
+```
+Tôi muốn nghe ý kiến từ Chuyên gia [Tên chuyên gia] về [khía cạnh cụ thể]. Hãy phát triển thêm về [điểm cần làm rõ].
+```
+
+### Bước 3: Giai Đoạn 2 - Phản Biện
+
+1. Mỗi chuyên gia sẽ phản biện ý tưởng của các chuyên gia khác
+2. Tập trung vào các điểm yếu, rủi ro và thách thức
+3. Đảm bảo phản biện mang tính xây dựng
+
+Prompt gợi ý:
+```
+Tôi muốn nghe phản biện từ Chuyên gia [Tên chuyên gia] về ý tưởng của Chuyên gia [Tên chuyên gia khác]. Hãy chỉ ra các điểm yếu và rủi ro tiềm ẩn.
+```
+
+### Bước 4: Giai Đoạn 3 - Bảo Vệ & Cải Thiện
+
+1. Mỗi chuyên gia sẽ bảo vệ ý tưởng của mình
+2. Đưa ra giải pháp cho các phản biện
+3. Cải thiện ý tưởng dựa trên phản hồi
+
+Prompt gợi ý:
+```
+Tôi muốn Chuyên gia [Tên chuyên gia] bảo vệ ý tưởng của mình trước phản biện của Chuyên gia [Tên chuyên gia phản biện]. Làm thế nào để khắc phục những điểm yếu đã được chỉ ra?
+```
+
+### Bước 5: Giai Đoạn 4 - Tổng Hợp & Kết Luận
+
+1. Facilitator sẽ tổng hợp tất cả ý tưởng và phản biện
+2. Xác định các ý tưởng có tiềm năng nhất
+3. Tạo ma trận đánh giá ý tưởng
+4. Đề xuất các bước tiếp theo
+
+Prompt gợi ý:
+```
+Hãy tổng hợp tất cả ý tưởng và phản biện từ các chuyên gia. Tạo ma trận đánh giá ý tưởng dựa trên tính khả thi, giá trị và tính độc đáo. Đề xuất ý tưởng tốt nhất và các bước tiếp theo.
+```
+
+## Kỹ Thuật Điều Phối Hiệu Quả
+
+### Kỹ Thuật Đặt Câu Hỏi
+
+1. **Câu hỏi mở**: "Bạn nghĩ gì về...?", "Làm thế nào để...?"
+2. **Câu hỏi đào sâu**: "Tại sao điều đó quan trọng?", "Điều gì sẽ xảy ra nếu...?"
+3. **Câu hỏi chuyển hướng**: "Nếu nhìn từ góc độ khác thì sao?"
+4. **Câu hỏi tổng hợp**: "Làm thế nào để kết hợp ý tưởng A và B?"
+
+### Kỹ Thuật Khuyến Khích Sự Tham Gia
+
+1. Đảm bảo mỗi chuyên gia đều có cơ hội đóng góp
+2. Yêu cầu phản hồi cụ thể từ các chuyên gia ít phát biểu
+3. Tạo không khí an toàn cho việc đưa ra ý tưởng mới
+4. Ghi nhận và đánh giá cao mọi đóng góp
+
+### Kỹ Thuật Giải Quyết Xung Đột
+
+1. Tập trung vào vấn đề, không phải cá nhân
+2. Tìm điểm chung giữa các ý kiến trái chiều
+3. Sử dụng dữ liệu và bằng chứng để đánh giá khách quan
+4. Khuyến khích thử nghiệm các giải pháp kết hợp
+
+## Mẫu Prompt Cho Từng Giai Đoạn
+
+### Prompt Khởi Động Quy Trình
+
+```
+Tôi muốn thực hiện quy trình Expert Brainstorm cho dự án [Tên Dự Án]. 
+Vấn đề cần brainstorm: [Mô tả vấn đề]
+Các chuyên gia cần tham gia:
+1. Chuyên gia Thị trường & Người dùng
+2. Chuyên gia Kỹ thuật & Công nghệ
+3. Chuyên gia Kinh doanh & Tài chính
+4. Chuyên gia Sáng tạo & Thiết kế
+5. [Chuyên gia Ngành dọc nếu cần]
+
+Hãy bắt đầu quy trình với vai trò Facilitator và giới thiệu các chuyên gia.
+```
+
+### Prompt Giai Đoạn 1: Phát Triển Ý Tưởng
+
+```
+Hãy bắt đầu Giai Đoạn 1: Phát triển Ý tưởng. Mỗi chuyên gia hãy trình bày ý tưởng từ góc nhìn chuyên môn của mình về vấn đề [Mô tả vấn đề]. Bắt đầu với Chuyên gia Thị trường & Người dùng.
+```
+
+### Prompt Giai Đoạn 2: Phản Biện
+
+```
+Hãy chuyển sang Giai Đoạn 2: Phản biện. Mỗi chuyên gia hãy phản biện ý tưởng của các chuyên gia khác, tập trung vào các điểm yếu, rủi ro và thách thức. Bắt đầu với Chuyên gia Kỹ thuật & Công nghệ phản biện ý tưởng của Chuyên gia Thị trường & Người dùng.
+```
+
+### Prompt Giai Đoạn 3: Bảo Vệ & Cải Thiện
+
+```
+Hãy chuyển sang Giai Đoạn 3: Bảo vệ & Cải thiện. Mỗi chuyên gia hãy bảo vệ ý tưởng của mình trước các phản biện và đề xuất cải tiến. Bắt đầu với Chuyên gia Thị trường & Người dùng.
+```
+
+### Prompt Giai Đoạn 4: Tổng Hợp & Kết Luận
+
+```
+Hãy chuyển sang Giai Đoạn 4: Tổng hợp & Kết luận. Facilitator hãy tổng hợp tất cả ý tưởng và phản biện, tạo ma trận đánh giá ý tưởng, và đề xuất ý tưởng tốt nhất cùng các bước tiếp theo.
+```
+
+## Lưu Ý Quan Trọng
+
+1. **Thời gian**: Mỗi giai đoạn nên có thời gian hợp lý, không quá ngắn hoặc quá dài
+2. **Ghi chép**: Đảm bảo ghi lại đầy đủ ý kiến của tất cả các chuyên gia
+3. **Khách quan**: Duy trì sự khách quan trong suốt quá trình
+4. **Linh hoạt**: Điều chỉnh quy trình nếu cần thiết để phù hợp với vấn đề cụ thể
+5. **Tôn trọng**: Tôn trọng ý kiến của tất cả các chuyên gia, kể cả khi không đồng ý
+
+## Sau Khi Hoàn Thành
+
+1. Lưu file `ExpertBrainstorm_[TenDuAn].md` vào thư mục dự án
+2. Tích hợp kết quả vào quy trình planning
+3. Chia sẻ kết quả với team và stakeholders
+4. Sử dụng kết quả làm cơ sở cho các quyết định tiếp theo
+
+## Ví Dụ Thực Tế
+
+### Ví Dụ: Brainstorm Ứng Dụng Học Ngôn Ngữ
+
+**Vấn đề cần brainstorm**: Phát triển ứng dụng học ngôn ngữ sáng tạo cho người Việt
+
+**Giai Đoạn 1: Phát triển Ý tưởng**
+
+*Chuyên gia Thị trường & Người dùng:*
+- Người Việt thường học ngôn ngữ để đi du lịch, làm việc hoặc học tập
+- Thời gian học hạn chế, cần phương pháp hiệu quả
+- Thích học theo ngữ cảnh thực tế hơn là ngữ pháp khô khan
+- Đề xuất: Ứng dụng học ngôn ngữ theo tình huống thực tế với AI conversation partner
+
+*Chuyên gia Kỹ thuật & Công nghệ:*
+- Có thể sử dụng AI để tạo đối thoại tùy chỉnh theo trình độ
+- Speech recognition để đánh giá phát âm
+- Gamification để tăng động lực học tập
+- Đề xuất: Hệ thống AI adaptive learning tùy chỉnh theo tiến độ người dùng
+
+**Giai Đoạn 2: Phản biện**
+
+*Chuyên gia Kinh doanh & Tài chính phản biện ý tưởng AI conversation partner:*
+- Chi phí phát triển và duy trì AI conversation cao
+- Người dùng Việt Nam có xu hướng không chi tiền cho ứng dụng học tập
+- Khó cạnh tranh với các ứng dụng lớn như Duolingo, Babbel
+
+**Giai Đoạn 3: Bảo vệ & Cải thiện**
+
+*Chuyên gia Thị trường & Người dùng bảo vệ ý tưởng:*
+- Tập trung vào thị trường ngách: người Việt học tiếng Hàn, Nhật
+- Tích hợp văn hóa Việt Nam vào các bài học để tạo sự khác biệt
+- Mô hình freemium: cơ bản miễn phí, tính năng nâng cao trả phí
+
+**Giai Đoạn 4: Tổng hợp & Kết luận**
+
+*Ma trận đánh giá ý tưởng:*
+| Ý tưởng | Tính khả thi (1-10) | Giá trị (1-10) | Độc đáo (1-10) | Tổng điểm |
+|---------|---------------------|----------------|----------------|------------|
+| AI conversation partner | 7 | 9 | 8 | 24 |
+| Gamification system | 9 | 7 | 6 | 22 |
+| Cultural context learning | 8 | 9 | 9 | 26 |
+
+*Ý tưởng được chọn:* Cultural context learning - Học ngôn ngữ trong bối cảnh văn hóa
+
+## Kết Luận
+
+Quy trình Expert Brainstorm là công cụ mạnh mẽ để phát triển ý tưởng sản phẩm từ nhiều góc nhìn chuyên môn khác nhau. Bằng cách tuân thủ quy trình 4 giai đoạn và áp dụng các kỹ thuật điều phối hiệu quả, bạn có thể tạo ra những ý tưởng sáng tạo, toàn diện và khả thi cho dự án của mình.

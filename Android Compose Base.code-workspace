@@ -59,7 +59,7 @@
     "cursor.features.completions.enabled": true,
 
     // Color coding different workspaces for easier identification
-//Đổi màu ở đây
+    //Đổi màu ở đây
     "workbench.colorCustomizations": {
       "activityBar.background": "#1E5582",
       "titleBar.activeBackground": "#1E5582",
@@ -146,4 +146,4 @@
       }
     ]
   }
-} 
+}

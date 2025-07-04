@@ -25,7 +25,11 @@
 - **[Planning Workflow](../../.cursor/rules/planning-workflow.mdc)** - Quy trình lập kế hoạch
 - **[Planning Enforcement](../../.cursor/rules/planning-enforcement.mdc)** - Thực thi kế hoạch
 - **[Planning Validation Rules](../../.cursor/rules/planning-validation-rules.mdc)** - Xác thực kế hoạch
-- **[Brainstorm Workflow](../../.cursor/rules/brainstorm-workflow.mdc)** - Quy trình brainstorm
+- **[Brainstorm Overview](../../.cursor/rules/brainstorm-overview.mdc)** - Tài liệu tổng quan về hệ thống brainstorm
+- **[Brainstorm Workflow](../../.cursor/rules/brainstorm-workflow.mdc)** - Quy trình brainstorm cơ bản
+- **[Expert Brainstorm Workflow](../../.cursor/rules/expert-brainstorm-workflow.mdc)** - Quy trình brainstorm với các chuyên gia
+- **[Brainstorm Expert Integration](../../.cursor/rules/brainstorm-expert-integration.mdc)** - Tích hợp quy trình brainstorm với nhiều chuyên gia
+- **[Expert Brainstorm Guide](../../.cursor/rules/expert-brainstorm-guide.mdc)** - Hướng dẫn thực hiện brainstorm với nhiều chuyên gia
 
 ### Code Quality & Architecture
 
