@@ -507,7 +507,7 @@ fun XiaomiTextFieldsPreview() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.Medium)
             ) {
                 Text(
                     "Text Field Variants",
@@ -583,7 +583,7 @@ fun XiaomiTextFieldsErrorPreview() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.Medium)
             ) {
                 Text(
                     "Error States",
@@ -631,7 +631,7 @@ fun XiaomiMultilineTextFieldPreview() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.Medium)
             ) {
                 Text(
                     "Multiline Text Field",
@@ -663,7 +663,7 @@ fun XiaomiTextFieldsDarkPreview() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.Medium)
             ) {
                 Text(
                     "Dark Theme Text Fields",

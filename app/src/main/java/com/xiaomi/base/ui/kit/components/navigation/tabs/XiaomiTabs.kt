@@ -44,11 +44,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.xiaomi.base.ui.kit.theme.XiaomiPreviewTheme
+import com.xiaomi.base.ui.kit.foundation.XiaomiPreviewTheme
 import kotlinx.coroutines.launch
 
 /**
- * Data class representing a tab item
+ * Data class for tab items
  */
 data class XiaomiTabItem(
     val id: String,
@@ -59,102 +59,79 @@ data class XiaomiTabItem(
     val content: @Composable () -> Unit = {}
 )
 
+/**
+ * Xiaomi Tab Row - Primary style
+ * 
+ * A simplified version that doesn't use the complex indicator API
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun XiaomiTabRow(
     selectedTabIndex: Int,
     modifier: Modifier = Modifier,
-    containerColor: androidx.compose.ui.graphics.Color = TabRowDefaults.primaryContainerColor,
-    contentColor: androidx.compose.ui.graphics.Color = TabRowDefaults.primaryContentColor,
-    indicator: @Composable TabIndicatorScope.() -> Unit = @Composable {
-        TabRowDefaults.PrimaryIndicator(
-            modifier = Modifier.tabIndicatorOffset(selectedTabIndex)
-        )
-    },
-    divider: @Composable () -> Unit = {},
     tabs: @Composable () -> Unit
 ) {
     PrimaryTabRow(
         selectedTabIndex = selectedTabIndex,
         modifier = modifier,
-        containerColor = containerColor,
-        contentColor = contentColor,
-        indicator = indicator,
-        divider = divider,
         tabs = tabs
     )
 }
 
+/**
+ * Xiaomi Secondary Tab Row
+ * 
+ * A simplified version that doesn't use the complex indicator API
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun XiaomiSecondaryTabRow(
     selectedTabIndex: Int,
     modifier: Modifier = Modifier,
-    containerColor: androidx.compose.ui.graphics.Color = TabRowDefaults.secondaryContainerColor,
-    contentColor: androidx.compose.ui.graphics.Color = TabRowDefaults.secondaryContentColor,
-    indicator: @Composable TabIndicatorScope.() -> Unit = @Composable {
-        TabRowDefaults.SecondaryIndicator(
-            modifier = Modifier.tabIndicatorOffset(selectedTabIndex)
-        )
-    },
-    divider: @Composable () -> Unit = {},
     tabs: @Composable () -> Unit
 ) {
     SecondaryTabRow(
         selectedTabIndex = selectedTabIndex,
         modifier = modifier,
-        containerColor = containerColor,
-        contentColor = contentColor,
-        indicator = indicator,
-        divider = divider,
         tabs = tabs
     )
 }
 
+/**
+ * Xiaomi Scrollable Tab Row
+ * 
+ * A simplified version that doesn't use the complex indicator API
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun XiaomiScrollableTabRow(
     selectedTabIndex: Int,
     modifier: Modifier = Modifier,
-    containerColor: androidx.compose.ui.graphics.Color = TabRowDefaults.primaryContainerColor,
-    contentColor: androidx.compose.ui.graphics.Color = TabRowDefaults.primaryContentColor,
     edgePadding: androidx.compose.ui.unit.Dp = TabRowDefaults.ScrollableTabRowEdgeStartPadding,
-    indicator: @Composable TabIndicatorScope.() -> Unit = @Composable {
-        TabRowDefaults.PrimaryIndicator(
-            modifier = Modifier.tabIndicatorOffset(selectedTabIndex)
-        )
-    },
-    divider: @Composable () -> Unit = {},
     tabs: @Composable () -> Unit
 ) {
     PrimaryScrollableTabRow(
         selectedTabIndex = selectedTabIndex,
         modifier = modifier,
-        containerColor = containerColor,
-        contentColor = contentColor,
         edgePadding = edgePadding,
-        indicator = indicator,
-        divider = divider,
         tabs = tabs
     )
 }
 
-// Add OptIn annotation to suppress experimental API warnings
-@OptIn(ExperimentalMaterial3Api::class)
 /**
  * Xiaomi Tab
  * 
- * A Material Design 3 tab with Xiaomi design tokens.
+ * A tab component with optional text and icon.
  * 
- * @param selected Whether the tab is selected
- * @param onClick Callback when the tab is clicked
- * @param modifier Modifier to be applied to the tab
- * @param enabled Whether the tab is enabled
- * @param text Text content for the tab
- * @param icon Icon content for the tab
- * @param selectedContentColor Color for the content when selected
- * @param unselectedContentColor Color for the content when not selected
- * @param interactionSource Interaction source for the tab
+ * @param selected Whether this tab is currently selected
+ * @param onClick Callback when this tab is clicked
+ * @param modifier Modifier to be applied to this tab
+ * @param enabled Whether this tab is enabled
+ * @param text The text content for this tab
+ * @param icon The icon for this tab
+ * @param selectedContentColor The color for the content of this tab when selected
+ * @param unselectedContentColor The color for the content of this tab when not selected
+ * @param interactionSource MutableInteractionSource for handling interactions
  */
 @Composable
 fun XiaomiTab(
@@ -164,9 +141,9 @@ fun XiaomiTab(
     enabled: Boolean = true,
     text: @Composable (() -> Unit)? = null,
     icon: @Composable (() -> Unit)? = null,
-    selectedContentColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.primary,
-    unselectedContentColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.onSurfaceVariant,
-    interactionSource: androidx.compose.foundation.interaction.MutableInteractionSource = androidx.compose.foundation.interaction.remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+    selectedContentColor: androidx.compose.ui.graphics.Color = androidx.compose.ui.graphics.Color.Unspecified,
+    unselectedContentColor: androidx.compose.ui.graphics.Color = androidx.compose.ui.graphics.Color.Unspecified,
+    interactionSource: androidx.compose.foundation.interaction.MutableInteractionSource = androidx.compose.runtime.remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
 ) {
     Tab(
         selected = selected,
@@ -182,19 +159,19 @@ fun XiaomiTab(
 }
 
 /**
- * Xiaomi Leading Icon Tab
+ * Xiaomi Tab with Icon and Text
  * 
- * A tab with a leading icon.
+ * A tab with both icon and text content.
  * 
- * @param selected Whether this tab is currently selected
- * @param onClick Callback when this tab is clicked
- * @param text The text content for this tab
- * @param icon The leading icon for this tab
- * @param modifier Modifier to be applied to this tab
- * @param enabled Whether this tab is enabled
- * @param selectedContentColor The color for the content of this tab when selected
- * @param unselectedContentColor The color for the content of this tab when not selected
- * @param interactionSource MutableInteractionSource for handling interactions
+ * @param selected Whether the tab is selected
+ * @param onClick Callback when the tab is clicked
+ * @param text Text content for the tab
+ * @param icon Icon content for the tab
+ * @param modifier Modifier to be applied to the tab
+ * @param enabled Whether the tab is enabled
+ * @param selectedContentColor Color for the content when selected
+ * @param unselectedContentColor Color for the content when not selected
+ * @param interactionSource Interaction source for the tab
  */
 @Composable
 fun XiaomiLeadingIconTab(
@@ -208,7 +185,7 @@ fun XiaomiLeadingIconTab(
     unselectedContentColor: androidx.compose.ui.graphics.Color = androidx.compose.ui.graphics.Color.Unspecified,
     interactionSource: androidx.compose.foundation.interaction.MutableInteractionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
 ) {
-    LeadingIconTab(
+    Tab(
         selected = selected,
         onClick = onClick,
         text = text,
@@ -383,12 +360,6 @@ fun XiaomiIconTabs(
             )
         }
     }
-}
-
-// Helper function for tab indicator offset
-@Composable
-fun Modifier.tabIndicatorOffset(index: Int): Modifier {
-    return this.then(TabRowDefaults.tabIndicatorOffset(index))
 }
 
 // Preview composables for design system documentation

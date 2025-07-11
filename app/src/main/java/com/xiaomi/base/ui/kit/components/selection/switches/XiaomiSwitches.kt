@@ -12,7 +12,6 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.ripple.rememberRipple
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -109,7 +108,7 @@ fun XiaomiLabeledSwitch(
         modifier = modifier
             .clickable(
                 interactionSource = interactionSource,
-                indication = rememberRipple(),
+                indication = null,
                 enabled = enabled,
                 role = Role.Switch
             ) {

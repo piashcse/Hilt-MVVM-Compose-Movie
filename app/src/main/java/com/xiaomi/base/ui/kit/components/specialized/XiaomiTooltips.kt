@@ -121,9 +121,9 @@ fun XiaomiPlainTooltip(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun XiaomiRichTooltip(
-    title: @Composable (() -> Unit)? = null,
-    text: @Composable (() -> Unit)? = null,
-    action: @Composable (() -> Unit)? = null,
+    title: @Composable () -> Unit,
+    text: @Composable () -> Unit,
+    action: @Composable () -> Unit,
     modifier: Modifier = Modifier,
     focusable: Boolean = true,
     enableUserInput: Boolean = true,
@@ -143,9 +143,7 @@ fun XiaomiRichTooltip(
                     actionContentColor = MaterialTheme.colorScheme.primary
                 ),
                 shape = MaterialTheme.shapes.medium
-            ) {
-                // Rich tooltip content
-            }
+            )
         },
         state = rememberTooltipState(),
         modifier = modifier,
@@ -264,6 +262,9 @@ fun XiaomiInfoTooltip(
                     style = MaterialTheme.typography.bodySmall
                 )
             },
+            action = {
+                // Empty action required by Material3
+            },
             modifier = modifier
         ) {
             Icon(
@@ -313,10 +314,10 @@ fun XiaomiHelpTooltip(
     modifier: Modifier = Modifier
 ) {
     XiaomiRichTooltip(
-        title = title?.let {
-            {
+        title = {
+            if (title != null) {
                 Text(
-                    text = it,
+                    text = title,
                     style = MaterialTheme.typography.titleSmall,
                     fontWeight = FontWeight.Medium
                 )
@@ -328,8 +329,8 @@ fun XiaomiHelpTooltip(
                 style = MaterialTheme.typography.bodySmall
             )
         },
-        action = if (actionText != null && onActionClick != null) {
-            {
+        action = {
+            if (actionText != null && onActionClick != null) {
                 TextButton(onClick = onActionClick) {
                     Text(
                         text = actionText,
@@ -337,7 +338,7 @@ fun XiaomiHelpTooltip(
                     )
                 }
             }
-        } else null,
+        },
         modifier = modifier
     ) {
         Icon(
@@ -508,7 +509,7 @@ fun XiaomiTooltipsPreview() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.large)
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.Large)
             ) {
                 Text(
                     "Tooltip Examples",
@@ -518,7 +519,7 @@ fun XiaomiTooltipsPreview() {
                 // Plain Tooltip
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.Small)
                 ) {
                     Text("Plain Tooltip:")
                     XiaomiPlainTooltip(
@@ -539,7 +540,7 @@ fun XiaomiTooltipsPreview() {
                 // Rich Tooltip
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.Small)
                 ) {
                     Text("Rich Tooltip:")
                     XiaomiRichTooltip(
@@ -575,7 +576,7 @@ fun XiaomiTooltipsPreview() {
                 // Info Tooltip
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.Small)
                 ) {
                     Text("Info Tooltip:")
                     XiaomiInfoTooltip(
@@ -587,7 +588,7 @@ fun XiaomiTooltipsPreview() {
                 // Help Tooltip
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.Small)
                 ) {
                     Text("Help Tooltip:")
                     XiaomiHelpTooltip(
@@ -603,7 +604,7 @@ fun XiaomiTooltipsPreview() {
                 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.Small)
                 ) {
                     Text("Custom Tooltip:")
                     XiaomiTooltipWithArrow(
@@ -784,7 +785,7 @@ fun XiaomiTooltipsDarkPreview() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.Medium)
             ) {
                 Text(
                     "Dark Theme Tooltips",
@@ -793,7 +794,7 @@ fun XiaomiTooltipsDarkPreview() {
                 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+                    horizontalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.Small)
                 ) {
                     Text("Dark Theme Tooltip:")
                     XiaomiInfoTooltip(

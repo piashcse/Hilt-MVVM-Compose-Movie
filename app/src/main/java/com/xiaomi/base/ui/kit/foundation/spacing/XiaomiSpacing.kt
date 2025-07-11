@@ -11,20 +11,13 @@ import androidx.compose.ui.unit.dp
  * based on an 8dp grid system following Material Design principles.
  */
 data class XiaomiSpacing(
-    // Base spacing units (Capitalized)
+    // Base spacing units
     val ExtraSmall: Dp = 4.dp,
     val Small: Dp = 8.dp,
     val Medium: Dp = 16.dp,
     val Large: Dp = 24.dp,
     val ExtraLarge: Dp = 32.dp,
     val XXL: Dp = 48.dp,
-    
-    // Base spacing units (lowercase for compatibility)
-    val extraSmall: Dp = 4.dp,
-    val small: Dp = 8.dp,
-    val medium: Dp = 16.dp,
-    val large: Dp = 24.dp,
-    val extraLarge: Dp = 32.dp,
     
     // Screen-level spacing
     val ScreenPaddingHorizontal: Dp = 16.dp,

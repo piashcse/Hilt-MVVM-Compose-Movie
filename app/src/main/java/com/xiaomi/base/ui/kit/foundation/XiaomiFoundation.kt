@@ -292,10 +292,15 @@ object XiaomiTokens {
     val ButtonShape = XiaomiDesignSystem.Shapes.Button.Medium
     val CardShape = XiaomiDesignSystem.Shapes.Card.Medium
     
-    // Quick typography access
-    val HeadlineText = XiaomiDesignSystem.Typography.Headline.Medium
-    val BodyText = XiaomiDesignSystem.Typography.Body.Medium
-    val LabelText = XiaomiDesignSystem.Typography.Label.Medium
+    // Quick typography access - convert to functions
+    @Composable
+    fun HeadlineText() = MaterialTheme.typography.headlineMedium
+    
+    @Composable
+    fun BodyText() = MaterialTheme.typography.bodyMedium
+    
+    @Composable
+    fun LabelText() = MaterialTheme.typography.labelMedium
 }
 
 /**

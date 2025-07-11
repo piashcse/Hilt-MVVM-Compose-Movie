@@ -31,19 +31,6 @@ import kotlinx.coroutines.launch
 
 /**
  * Xiaomi Base UI Kit Snackbar
- * 
- * A Material Design 3 snackbar component with Xiaomi design tokens.
- * Provides brief feedback about an operation through a message at the bottom of the screen.
- * 
- * @param snackbarData The data for the snackbar including message and action
- * @param modifier Modifier to be applied to the snackbar
- * @param actionOnNewLine Whether to show the action on a new line
- * @param shape The shape of the snackbar
- * @param containerColor The background color of the snackbar
- * @param contentColor The color of the content inside the snackbar
- * @param actionColor The color of the action button
- * @param actionContentColor The color of the action button content
- * @param dismissActionContentColor The color of the dismiss action content
  */
 @Composable
 fun XiaomiSnackbar(
@@ -70,15 +57,6 @@ fun XiaomiSnackbar(
     )
 }
 
-/**
- * Xiaomi Base UI Kit Snackbar Host
- * 
- * A host for displaying snackbars. This should be placed in your app's layout hierarchy.
- * 
- * @param hostState The state holder for the snackbar host
- * @param modifier Modifier to be applied to the snackbar host
- * @param snackbar The composable function to create the snackbar
- */
 @Composable
 fun XiaomiSnackbarHost(
     hostState: SnackbarHostState,
@@ -92,16 +70,6 @@ fun XiaomiSnackbarHost(
     )
 }
 
-/**
- * Xiaomi Success Snackbar
- * 
- * A specialized snackbar for success messages with appropriate styling.
- * 
- * @param message The success message to display
- * @param actionLabel Optional action button label
- * @param onActionClick Callback for action button click
- * @param modifier Modifier to be applied to the snackbar
- */
 @Composable
 fun XiaomiSuccessSnackbar(
     message: String,
@@ -113,7 +81,7 @@ fun XiaomiSuccessSnackbar(
         modifier = modifier,
         containerColor = MaterialTheme.colorScheme.primary,
         contentColor = MaterialTheme.colorScheme.onPrimary,
-        actionColor = MaterialTheme.colorScheme.onPrimary,
+        actionContentColor = MaterialTheme.colorScheme.onPrimary,
         action = if (actionLabel != null && onActionClick != null) {
             {
                 TextButton(
@@ -125,22 +93,11 @@ fun XiaomiSuccessSnackbar(
                     Text(actionLabel)
                 }
             }
-        } else null
-    ) {
-        Text(message)
-    }
+        } else null,
+        content = { Text(message) }
+    )
 }
 
-/**
- * Xiaomi Error Snackbar
- * 
- * A specialized snackbar for error messages with appropriate styling.
- * 
- * @param message The error message to display
- * @param actionLabel Optional action button label
- * @param onActionClick Callback for action button click
- * @param modifier Modifier to be applied to the snackbar
- */
 @Composable
 fun XiaomiErrorSnackbar(
     message: String,
@@ -152,7 +109,7 @@ fun XiaomiErrorSnackbar(
         modifier = modifier,
         containerColor = MaterialTheme.colorScheme.error,
         contentColor = MaterialTheme.colorScheme.onError,
-        actionColor = MaterialTheme.colorScheme.onError,
+        actionContentColor = MaterialTheme.colorScheme.onError,
         action = if (actionLabel != null && onActionClick != null) {
             {
                 TextButton(
@@ -164,22 +121,11 @@ fun XiaomiErrorSnackbar(
                     Text(actionLabel)
                 }
             }
-        } else null
-    ) {
-        Text(message)
-    }
+        } else null,
+        content = { Text(message) }
+    )
 }
 
-/**
- * Xiaomi Warning Snackbar
- * 
- * A specialized snackbar for warning messages with appropriate styling.
- * 
- * @param message The warning message to display
- * @param actionLabel Optional action button label
- * @param onActionClick Callback for action button click
- * @param modifier Modifier to be applied to the snackbar
- */
 @Composable
 fun XiaomiWarningSnackbar(
     message: String,
@@ -191,7 +137,7 @@ fun XiaomiWarningSnackbar(
         modifier = modifier,
         containerColor = MaterialTheme.colorScheme.tertiary,
         contentColor = MaterialTheme.colorScheme.onTertiary,
-        actionColor = MaterialTheme.colorScheme.onTertiary,
+        actionContentColor = MaterialTheme.colorScheme.onTertiary,
         action = if (actionLabel != null && onActionClick != null) {
             {
                 TextButton(
@@ -203,22 +149,11 @@ fun XiaomiWarningSnackbar(
                     Text(actionLabel)
                 }
             }
-        } else null
-    ) {
-        Text(message)
-    }
+        } else null,
+        content = { Text(message) }
+    )
 }
 
-/**
- * Xiaomi Info Snackbar
- * 
- * A specialized snackbar for informational messages with appropriate styling.
- * 
- * @param message The info message to display
- * @param actionLabel Optional action button label
- * @param onActionClick Callback for action button click
- * @param modifier Modifier to be applied to the snackbar
- */
 @Composable
 fun XiaomiInfoSnackbar(
     message: String,
@@ -230,7 +165,7 @@ fun XiaomiInfoSnackbar(
         modifier = modifier,
         containerColor = MaterialTheme.colorScheme.secondary,
         contentColor = MaterialTheme.colorScheme.onSecondary,
-        actionColor = MaterialTheme.colorScheme.onSecondary,
+        actionContentColor = MaterialTheme.colorScheme.onSecondary,
         action = if (actionLabel != null && onActionClick != null) {
             {
                 TextButton(
@@ -242,10 +177,9 @@ fun XiaomiInfoSnackbar(
                     Text(actionLabel)
                 }
             }
-        } else null
-    ) {
-        Text(message)
-    }
+        } else null,
+        content = { Text(message) }
+    )
 }
 
 /**
@@ -286,53 +220,35 @@ suspend fun showXiaomiSnackbar(
 }
 
 // Preview composables for design system documentation
-@Preview(name = "Xiaomi Snackbars - Light")
+@Preview
 @Composable
 fun XiaomiSnackbarsPreview() {
     XiaomiPreviewTheme {
         Column(
-            modifier = Modifier.padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            Text("Snackbar Types", style = MaterialTheme.typography.titleMedium)
-            
-            // Default snackbar
-            Snackbar(
-                action = {
-                    TextButton(onClick = { }) {
-                        Text("Action")
-                    }
-                }
-            ) {
-                Text("This is a default snackbar message")
-            }
-            
-            // Success snackbar
             XiaomiSuccessSnackbar(
-                message = "Operation completed successfully!",
-                actionLabel = "View",
-                onActionClick = { }
+                message = "Success message",
+                actionLabel = "Action",
+                onActionClick = {}
             )
-            
-            // Error snackbar
             XiaomiErrorSnackbar(
-                message = "An error occurred. Please try again.",
-                actionLabel = "Retry",
-                onActionClick = { }
+                message = "Error message",
+                actionLabel = "Action",
+                onActionClick = {}
             )
-            
-            // Warning snackbar
             XiaomiWarningSnackbar(
-                message = "Warning: This action cannot be undone.",
-                actionLabel = "Understand",
-                onActionClick = { }
+                message = "Warning message",
+                actionLabel = "Action",
+                onActionClick = {}
             )
-            
-            // Info snackbar
             XiaomiInfoSnackbar(
-                message = "New features are available in settings.",
-                actionLabel = "Settings",
-                onActionClick = { }
+                message = "Info message",
+                actionLabel = "Action",
+                onActionClick = {}
             )
         }
     }

@@ -394,7 +394,7 @@ fun XiaomiDateRangePicker(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
+        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.Medium)
     ) {
         XiaomiDateInputField(
             selectedDate = startDate,
@@ -432,7 +432,7 @@ fun XiaomiDatePickersPreview() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.Medium)
             ) {
                 Text(
                     "Date & Time Pickers",
@@ -487,8 +487,8 @@ fun XiaomiDatePickersPreview() {
                 // Show selected values
                 if (selectedDate != null || selectedHour != null || startDate != null) {
                     Column(
-                        modifier = Modifier.padding(top = MaterialTheme.spacing.medium),
-                        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.small)
+                        modifier = Modifier.padding(top = MaterialTheme.spacing.Medium),
+                        verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.Small)
                     ) {
                         Text(
                             "Selected Values:",
@@ -564,7 +564,7 @@ fun XiaomiDatePickersDarkPreview() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.medium)
+                verticalArrangement = Arrangement.spacedBy(MaterialTheme.spacing.Medium)
             ) {
                 Text(
                     "Dark Theme Date Pickers",
