@@ -163,8 +163,8 @@ class ProcessContentUseCase @Inject constructor(
         parameters: Map<String, Any>
     ): Item {
         // Perform analysis and add insights to metadata
-        val analysis = mapOf(
-            "wordCount" to item.description?.length ?: 0,
+        val analysis = mapOf<String, Any>(
+            "wordCount" to (item.description?.length ?: 0),
             "analyzed" to true,
             "analysisDate" to System.currentTimeMillis()
         )

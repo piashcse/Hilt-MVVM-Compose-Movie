@@ -223,7 +223,7 @@ fun XiaomiCustomBadge(
             .sizeIn(minWidth = 16.dp, minHeight = 16.dp),
         contentAlignment = Alignment.Center
     ) {
-        androidx.compose.material3.LocalContentColor.CompositeLocalProvider(
+        androidx.compose.material3.LocalContentColor.CompositionLocalProvider(
             value = contentColor
         ) {
             content()

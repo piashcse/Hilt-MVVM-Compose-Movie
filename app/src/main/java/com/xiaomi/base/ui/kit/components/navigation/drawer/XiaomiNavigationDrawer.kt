@@ -234,7 +234,7 @@ fun XiaomiDrawerHeader(
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(XiaomiSpacing.medium)
+                .padding(16.dp)
         ) {
             // Close button
             if (onCloseClick != null) {
