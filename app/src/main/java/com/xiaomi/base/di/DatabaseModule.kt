@@ -4,7 +4,8 @@ import android.content.Context
 import androidx.room.Room
 import com.xiaomi.base.data.datasource.local.dao.FavoriteItemDao
 import com.xiaomi.base.data.datasource.local.dao.FavoriteCategoryDao
-import com.xiaomi.base.data.datasource.local.dao.FavoriteCreatorDao
+import com.xiaomi.base.data.datasource.local.dao.UserProfileDao
+import com.xiaomi.base.data.datasource.local.dao.UserDataDao
 import com.xiaomi.base.data.datasource.local.database.AppDatabase
 import dagger.Module
 import dagger.Provides
@@ -14,7 +15,7 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 /**
- * Dagger Hilt module that provides database-related dependencies.
+ * Dagger Hilt module that provides database-related dependencies for universal framework.
  */
 @Module
 @InstallIn(SingletonComponent::class)
@@ -63,14 +64,26 @@ object DatabaseModule {
     }
     
     /**
-     * Provides the FavoriteCreatorDao.
+     * Provides the UserProfileDao.
      *
      * @param database the AppDatabase instance
-     * @return the FavoriteCreatorDao instance
+     * @return the UserProfileDao instance
      */
     @Provides
     @Singleton
-    fun provideFavoriteCreatorDao(database: AppDatabase): FavoriteCreatorDao {
-        return database.favoriteCreatorDao()
+    fun provideUserProfileDao(database: AppDatabase): UserProfileDao {
+        return database.userProfileDao()
+    }
+    
+    /**
+     * Provides the UserDataDao.
+     *
+     * @param database the AppDatabase instance
+     * @return the UserDataDao instance
+     */
+    @Provides
+    @Singleton
+    fun provideUserDataDao(database: AppDatabase): UserDataDao {
+        return database.userDataDao()
     }
 }

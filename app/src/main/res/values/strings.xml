@@ -5,7 +5,7 @@
     <string name="category">Category</string>
     <string name="featured">Featured</string>
     <string name="now_available">Now Available</string>
-    <string name="popular">Popular</string>
+    <string name="discover">Discover</string> <!-- Updated from Popular -->
     <string name="trending">Trending</string>
     <string name="top_rated">Top Rated</string>
     <string name="upcoming">Upcoming</string>
@@ -44,13 +44,26 @@
     <string name="favorite_categories">Favorite Categories</string>
     <string name="remove_from_favorite">Remove from favorite</string>
     <string name="do_you_wanna_remove_this_from_favorite">Do you want to remove this item from favorite list?</string>
+    
+    <!-- Universal Navigation Strings -->
     <string name="home">Home</string>
     <string name="favorite">Favorite</string>
+    <string name="profile">Profile</string>
+    <string name="settings">Settings</string>
+    <string name="dashboard">Dashboard</string>
+    <string name="data_view">Data View</string>
+    <string name="editor">Editor</string>
+    <string name="analytics">Analytics</string>
     <string name="preview_catalog">Preview Catalog</string>
+    
+    <!-- Universal App Strings -->
     <string name="no_favorites">No favorite items yet</string>
     <string name="add_to_favorites">Add to favorites</string>
     <string name="remove_from_favorites">Remove from favorites</string>
     <string name="error_unknown">Unknown error occurred</string>
     <string name="error_title">Error</string>
     <string name="retry">Retry</string>
+    
+    <!-- Keep legacy strings for backward compatibility -->
+    <string name="popular">Popular</string> <!-- Kept for backward compatibility -->
 </resources>
