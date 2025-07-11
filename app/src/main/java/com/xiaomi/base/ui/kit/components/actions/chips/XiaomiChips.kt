@@ -62,7 +62,7 @@ fun XiaomiAssistChip(
     shape: Shape = ComponentShapes.ChipMedium,
     colors: ChipColors = AssistChipDefaults.assistChipColors(),
     elevation: ChipElevation? = AssistChipDefaults.assistChipElevation(),
-    border: BorderStroke? = AssistChipDefaults.assistChipBorder,
+    border: BorderStroke? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
     AssistChip(
@@ -111,7 +111,7 @@ fun XiaomiFilterChip(
     shape: Shape = ComponentShapes.ChipMedium,
     colors: SelectableChipColors = FilterChipDefaults.filterChipColors(),
     elevation: SelectableChipElevation? = FilterChipDefaults.filterChipElevation(),
-    border: BorderStroke? = FilterChipDefaults.filterChipBorder,
+    border: BorderStroke? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
     FilterChip(
@@ -162,7 +162,7 @@ fun XiaomiInputChip(
     shape: Shape = ComponentShapes.ChipMedium,
     colors: SelectableChipColors = InputChipDefaults.inputChipColors(),
     elevation: SelectableChipElevation? = InputChipDefaults.inputChipElevation(),
-    border: BorderStroke? = InputChipDefaults.inputChipBorder,
+    border: BorderStroke? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
     InputChip(
@@ -209,7 +209,7 @@ fun XiaomiSuggestionChip(
     shape: Shape = ComponentShapes.ChipMedium,
     colors: ChipColors = SuggestionChipDefaults.suggestionChipColors(),
     elevation: ChipElevation? = SuggestionChipDefaults.suggestionChipElevation(),
-    border: BorderStroke? = SuggestionChipDefaults.suggestionChipBorder,
+    border: BorderStroke? = null,
     interactionSource: MutableInteractionSource = remember { MutableInteractionSource() }
 ) {
     SuggestionChip(

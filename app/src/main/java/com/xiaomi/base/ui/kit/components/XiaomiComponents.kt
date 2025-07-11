@@ -413,10 +413,10 @@ object XiaomiComponentRegistry {
 object XiaomiQuickAccess {
     
     // Most common button
-    val Button = XiaomiActions.Buttons.Primary
+    val Button = XiaomiActions.Buttons::Primary
     
     // Most common card
-    val Card = XiaomiContainment.Cards.Basic
+    val Card = XiaomiContainment.Cards::Basic
     
     /**
      * Get quick access components
