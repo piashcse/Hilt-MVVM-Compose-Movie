@@ -142,7 +142,7 @@ fun XiaomiLabeledCheckbox(
                 onCheckedChange(!checked)
             },
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(XiaomiSpacing.small)
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         if (labelFirst) {
             Column(modifier = Modifier.weight(1f)) {
@@ -233,7 +233,7 @@ fun XiaomiCheckboxGroup(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(XiaomiSpacing.small)
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         if (title != null) {
             Text(
@@ -241,7 +241,7 @@ fun XiaomiCheckboxGroup(
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(bottom = XiaomiSpacing.small)
+                modifier = Modifier.padding(bottom = 8.dp)
             )
         }
         
@@ -268,9 +268,9 @@ fun XiaomiCheckboxGroup(
                         enabled = enabled,
                         role = Role.Checkbox
                     )
-                    .padding(vertical = XiaomiSpacing.extraSmall),
+                    .padding(vertical = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(XiaomiSpacing.small)
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 XiaomiTriStateCheckbox(
                     state = selectAllState,

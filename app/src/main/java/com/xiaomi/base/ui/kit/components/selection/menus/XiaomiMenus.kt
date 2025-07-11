@@ -547,7 +547,7 @@ fun XiaomiMenusPreview() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(XiaomiSpacing.medium)
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
                     "Menu Examples",
@@ -562,7 +562,7 @@ fun XiaomiMenusPreview() {
                 // Context Menu
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(XiaomiSpacing.small)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Text("Context Menu:")
                     Box {
@@ -604,7 +604,7 @@ fun XiaomiMenusPreview() {
                 // Action Menu
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(XiaomiSpacing.small)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Text("Action Menu:")
                     Box {
@@ -652,7 +652,7 @@ fun XiaomiMenusPreview() {
                 // Cascading Menu
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(XiaomiSpacing.small)
+                    horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Text("Cascading Menu:")
                     Box {
@@ -774,7 +774,7 @@ fun XiaomiMenusDarkPreview() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(XiaomiSpacing.medium)
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
                     "Dark Theme Menus",

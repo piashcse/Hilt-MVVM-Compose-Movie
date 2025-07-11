@@ -116,7 +116,7 @@ fun XiaomiLabeledSwitch(
                 onCheckedChange(!checked)
             },
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(XiaomiSpacing.small)
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         if (labelFirst) {
             Column(modifier = Modifier.weight(1f)) {
@@ -241,7 +241,7 @@ fun XiaomiSwitchGroup(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(XiaomiSpacing.small)
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         if (title != null) {
             Text(
@@ -249,7 +249,7 @@ fun XiaomiSwitchGroup(
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(bottom = XiaomiSpacing.small)
+                modifier = Modifier.padding(bottom = 8.dp)
             )
         }
         
@@ -365,9 +365,9 @@ fun XiaomiCardSwitch(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(XiaomiSpacing.medium),
+                .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(XiaomiSpacing.small)
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(

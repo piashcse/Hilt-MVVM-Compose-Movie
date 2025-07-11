@@ -109,7 +109,7 @@ fun XiaomiLabeledRadioButton(
                 indication = rememberRipple()
             ),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(XiaomiSpacing.small)
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         if (labelFirst) {
             Column(modifier = Modifier.weight(1f)) {
@@ -200,7 +200,7 @@ fun XiaomiRadioButtonGroup(
 ) {
     Column(
         modifier = modifier.selectableGroup(),
-        verticalArrangement = Arrangement.spacedBy(XiaomiSpacing.small)
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         if (title != null) {
             Text(
@@ -208,7 +208,7 @@ fun XiaomiRadioButtonGroup(
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.Medium,
                 color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(bottom = XiaomiSpacing.small)
+                modifier = Modifier.padding(bottom = 8.dp)
             )
         }
         
@@ -246,7 +246,7 @@ fun XiaomiHorizontalRadioButtonGroup(
 ) {
     Row(
         modifier = modifier.selectableGroup(),
-        horizontalArrangement = Arrangement.spacedBy(XiaomiSpacing.medium),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         options.forEach { option ->
@@ -364,9 +364,9 @@ fun XiaomiCardRadioButton(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(XiaomiSpacing.medium),
+                .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(XiaomiSpacing.small)
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(

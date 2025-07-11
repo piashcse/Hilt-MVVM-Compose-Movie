@@ -440,7 +440,7 @@ fun XiaomiDialogsPreview() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(XiaomiSpacing.medium)
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
                     "Dialog Examples",
@@ -457,7 +457,7 @@ fun XiaomiDialogsPreview() {
                 
                 // Dialog trigger buttons
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(XiaomiSpacing.small)
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     Button(
                         onClick = { showConfirmDialog = true },
@@ -638,7 +638,7 @@ fun XiaomiDialogsDarkPreview() {
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(16.dp),
-                verticalArrangement = Arrangement.spacedBy(XiaomiSpacing.medium)
+                verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 Text(
                     "Dark Theme Dialogs",

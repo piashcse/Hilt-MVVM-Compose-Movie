@@ -143,7 +143,7 @@ fun XiaomiLabeledSlider(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(XiaomiSpacing.extraSmall)
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -225,7 +225,7 @@ fun XiaomiIconSlider(
     Row(
         modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(XiaomiSpacing.small)
+        horizontalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         Icon(
             imageVector = startIcon,
@@ -285,7 +285,7 @@ fun XiaomiSteppedSlider(
 ) {
     Column(
         modifier = modifier,
-        verticalArrangement = Arrangement.spacedBy(XiaomiSpacing.extraSmall)
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         XiaomiSlider(
             value = value,

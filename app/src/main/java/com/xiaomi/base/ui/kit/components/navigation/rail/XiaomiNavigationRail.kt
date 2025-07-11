@@ -245,7 +245,7 @@ fun XiaomiNavigationRailWithFAB(
         header = {
             FloatingActionButton(
                 onClick = onFabClick,
-                modifier = Modifier.padding(bottom = XiaomiSpacing.medium)
+                modifier = Modifier.padding(bottom = 16.dp)
             ) {
                 Icon(
                     imageVector = fabIcon,
@@ -290,7 +290,7 @@ fun XiaomiNavigationRailWithMenu(
         header = {
             IconButton(
                 onClick = onMenuClick,
-                modifier = Modifier.padding(bottom = XiaomiSpacing.medium)
+                modifier = Modifier.padding(bottom = 16.dp)
             ) {
                 Icon(
                     imageVector = menuIcon,
@@ -364,14 +364,14 @@ fun XiaomiExtendedNavigationRail(
             {
                 Column(
                     horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.spacedBy(XiaomiSpacing.small)
+                    verticalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     if (headerTitle != null) {
                         Text(
                             text = headerTitle,
                             style = MaterialTheme.typography.titleMedium,
                             textAlign = TextAlign.Center,
-                            modifier = Modifier.padding(horizontal = XiaomiSpacing.small)
+                            modifier = Modifier.padding(horizontal = 8.dp)
                         )
                     }
                     
@@ -379,7 +379,7 @@ fun XiaomiExtendedNavigationRail(
                         headerActions()
                     }
                     
-                    Spacer(modifier = Modifier.height(XiaomiSpacing.medium))
+                    Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         } else null
@@ -438,7 +438,7 @@ fun XiaomiNavigationRailPreview() {
                 color = MaterialTheme.colorScheme.background
             ) {
                 Column(
-                    modifier = Modifier.padding(XiaomiSpacing.large),
+                    modifier = Modifier.padding(24.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -498,7 +498,7 @@ fun XiaomiNavigationRailWithFABPreview() {
                 color = MaterialTheme.colorScheme.background
             ) {
                 Column(
-                    modifier = Modifier.padding(XiaomiSpacing.large),
+                    modifier = Modifier.padding(24.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -569,7 +569,7 @@ fun XiaomiCompactNavigationRailPreview() {
                 color = MaterialTheme.colorScheme.background
             ) {
                 Column(
-                    modifier = Modifier.padding(XiaomiSpacing.large),
+                    modifier = Modifier.padding(24.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {
@@ -628,7 +628,7 @@ fun XiaomiNavigationRailDarkPreview() {
                 color = MaterialTheme.colorScheme.background
             ) {
                 Column(
-                    modifier = Modifier.padding(XiaomiSpacing.large),
+                    modifier = Modifier.padding(24.dp),
                     verticalArrangement = Arrangement.Center,
                     horizontalAlignment = Alignment.CenterHorizontally
                 ) {

@@ -122,7 +122,7 @@ fun XiaomiHorizontalStepper(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(top = XiaomiSpacing.small),
+                    .padding(top = 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 steps.forEachIndexed { index, step ->
@@ -231,7 +231,7 @@ fun XiaomiVerticalStepper(
                 Column(
                     modifier = Modifier
                         .weight(1f)
-                        .padding(start = XiaomiSpacing.medium)
+                        .padding(start = 16.dp)
                 ) {
                     Text(
                         text = step.title,
@@ -266,7 +266,7 @@ fun XiaomiVerticalStepper(
                     content?.invoke(index, step)
                     
                     if (index < steps.lastIndex) {
-                        Box(modifier = Modifier.height(XiaomiSpacing.medium))
+                        Box(modifier = Modifier.height(16.dp))
                     }
                 }
             }
@@ -450,7 +450,7 @@ fun XiaomiProgressStepper(
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(bottom = XiaomiSpacing.medium),
+                    .padding(bottom = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
@@ -492,7 +492,7 @@ fun XiaomiProgressStepper(
         XiaomiHorizontalStepper(
             steps = steps,
             currentStep = currentStep,
-            modifier = Modifier.padding(top = XiaomiSpacing.medium)
+            modifier = Modifier.padding(top = 16.dp)
         )
     }
 }

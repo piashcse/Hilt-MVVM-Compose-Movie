@@ -253,7 +253,7 @@ fun XiaomiDrawerHeader(
             // Content
             Column(
                 modifier = Modifier.align(Alignment.BottomStart),
-                verticalArrangement = Arrangement.spacedBy(XiaomiSpacing.small)
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 // Avatar
                 if (avatar != null) {
@@ -324,7 +324,7 @@ fun XiaomiDrawerContent(
         // Content
         LazyColumn(
             modifier = Modifier.weight(1f),
-            verticalArrangement = Arrangement.spacedBy(XiaomiSpacing.extraSmall)
+            verticalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             sections.forEachIndexed { sectionIndex, section ->
                 // Section title
@@ -333,8 +333,8 @@ fun XiaomiDrawerContent(
                         if (sectionIndex > 0) {
                             HorizontalDivider(
                                 modifier = Modifier.padding(
-                                    horizontal = XiaomiSpacing.medium,
-                                    vertical = XiaomiSpacing.small
+                                    horizontal = 16.dp,
+                                    vertical = 8.dp
                                 )
                             )
                         }
@@ -343,8 +343,8 @@ fun XiaomiDrawerContent(
                             style = MaterialTheme.typography.labelMedium,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             modifier = Modifier.padding(
-                                horizontal = XiaomiSpacing.large,
-                                vertical = XiaomiSpacing.small
+                                horizontal = 24.dp,
+                                vertical = 8.dp
                             )
                         )
                     }
@@ -361,7 +361,7 @@ fun XiaomiDrawerContent(
                         },
                         selected = item.isSelected,
                         onClick = item.onClick,
-                        modifier = Modifier.padding(horizontal = XiaomiSpacing.small),
+                        modifier = Modifier.padding(horizontal = 8.dp),
                         icon = {
                             Icon(
                                 imageVector = item.icon,
@@ -398,8 +398,8 @@ fun XiaomiSimpleDrawerContent(
     LazyColumn(
         modifier = modifier
             .fillMaxHeight()
-            .padding(vertical = XiaomiSpacing.small),
-        verticalArrangement = Arrangement.spacedBy(XiaomiSpacing.extraSmall)
+            .padding(vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(4.dp)
     ) {
         items(items) { item ->
             XiaomiNavigationDrawerItem(
@@ -411,7 +411,7 @@ fun XiaomiSimpleDrawerContent(
                 },
                 selected = item.isSelected,
                 onClick = item.onClick,
-                modifier = Modifier.padding(horizontal = XiaomiSpacing.small),
+                modifier = Modifier.padding(horizontal = 8.dp),
                 icon = {
                     if (item.badge != null) {
                         BadgedBox(

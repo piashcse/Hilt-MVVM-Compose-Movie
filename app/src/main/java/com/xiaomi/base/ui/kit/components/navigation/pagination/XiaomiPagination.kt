@@ -81,7 +81,7 @@ fun XiaomiPagination(
     
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(XiaomiSpacing.small),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         // First page button
@@ -112,7 +112,7 @@ fun XiaomiPagination(
         
         // Page numbers
         LazyRow(
-            horizontalArrangement = Arrangement.spacedBy(XiaomiSpacing.extraSmall)
+            horizontalArrangement = Arrangement.spacedBy(4.dp)
         ) {
             items(pageNumbers) { pageNumber ->
                 when (pageNumber) {
@@ -231,7 +231,7 @@ fun XiaomiSimplePagination(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(XiaomiSpacing.medium),
+        horizontalArrangement = Arrangement.spacedBy(16.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Previous button
@@ -290,7 +290,7 @@ fun XiaomiCompactPagination(
 ) {
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(XiaomiSpacing.small),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Previous button
@@ -306,7 +306,7 @@ fun XiaomiCompactPagination(
         
         // Current page indicator
         Surface(
-            modifier = Modifier.padding(horizontal = XiaomiSpacing.small),
+            modifier = Modifier.padding(horizontal = 8.dp),
             shape = RoundedCornerShape(16.dp),
             color = MaterialTheme.colorScheme.primaryContainer
         ) {
@@ -315,8 +315,8 @@ fun XiaomiCompactPagination(
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
                 modifier = Modifier.padding(
-                    horizontal = XiaomiSpacing.medium,
-                    vertical = XiaomiSpacing.small
+                    horizontal = 16.dp,
+                    vertical = 8.dp
                 )
             )
         }
@@ -361,7 +361,7 @@ fun XiaomiTextPagination(
     
     Row(
         modifier = modifier,
-        horizontalArrangement = Arrangement.spacedBy(XiaomiSpacing.small),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         // Previous

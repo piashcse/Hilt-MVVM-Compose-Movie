@@ -603,7 +603,7 @@ fun XiaomiTabsWithPagerPreview() {
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(XiaomiSpacing.medium)
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Home,
@@ -632,7 +632,7 @@ fun XiaomiTabsWithPagerPreview() {
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(XiaomiSpacing.medium)
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Favorite,
@@ -660,7 +660,7 @@ fun XiaomiTabsWithPagerPreview() {
                     ) {
                         Column(
                             horizontalAlignment = Alignment.CenterHorizontally,
-                            verticalArrangement = Arrangement.spacedBy(XiaomiSpacing.medium)
+                            verticalArrangement = Arrangement.spacedBy(16.dp)
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Person,
