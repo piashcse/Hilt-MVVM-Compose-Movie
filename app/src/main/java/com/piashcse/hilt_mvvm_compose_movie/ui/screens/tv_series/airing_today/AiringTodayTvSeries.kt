@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.airing_today
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.airing_today
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

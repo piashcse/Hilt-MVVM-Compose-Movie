@@ -133,4 +133,9 @@ interface ApiService {
     suspend fun trendingCelebrities(
         @Query("page") page: Int,
     ): BaseModel<Celebrity>
+
+    @GET("search/person?page=1&include_adult=false")
+    suspend fun searchCelebrity(
+        @Query("query") searchKey: String
+    ): SearchBaseModel
 }

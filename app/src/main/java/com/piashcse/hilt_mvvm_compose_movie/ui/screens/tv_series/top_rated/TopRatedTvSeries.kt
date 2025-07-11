@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.top_rated
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.top_rated
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect

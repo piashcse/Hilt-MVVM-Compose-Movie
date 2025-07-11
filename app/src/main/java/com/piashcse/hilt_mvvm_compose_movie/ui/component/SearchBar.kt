@@ -26,12 +26,15 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.MainViewModel
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.Blue
+import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_CELEBRITIES_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_MOVIE_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_TV_SERIES_TAB
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @Composable
-fun SearchBar(isAppBarVisible:MutableState<Boolean>, viewModel: MainViewModel, activeTab: Int){
+fun SearchBar(isAppBarVisible: MutableState<Boolean>, viewModel: MainViewModel, activeTab: Int) {
     var text by remember { mutableStateOf("") }
     val focusRequester = FocusRequester()
     BackHandler(isAppBarVisible.value.not()) {
@@ -51,10 +54,16 @@ fun SearchBar(isAppBarVisible:MutableState<Boolean>, viewModel: MainViewModel, a
             ),
             onValueChange = {
                 text = it
-                if (activeTab == 0 ){
-                    viewModel.searchMovies(it)
-                }else{
-                    viewModel.searchTvSeries(it)
+                when (activeTab) {
+                    ACTIVE_MOVIE_TAB -> {
+                        viewModel.searchMovies(it)
+                    }
+                    ACTIVE_TV_SERIES_TAB -> {
+                        viewModel.searchTvSeries(it)
+                    }
+                    ACTIVE_CELEBRITIES_TAB -> {
+                        viewModel.searchCelebrities(it)
+                    }
                 }
             },
             //shape = RoundedCornerShape(8.dp),

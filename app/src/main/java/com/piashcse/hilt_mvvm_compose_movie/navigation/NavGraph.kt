@@ -22,11 +22,11 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.nowplaying.NowPlay
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.popular.PopularMovie
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.toprated.TopRatedMovie
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.upcoming.UpcomingMovie
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.airing_today.AiringTodayTvSeries
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.on_the_air.OnTheAirTvSeries
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.popular.PopularTvSeries
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.top_rated.TopRatedTvSeries
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.tv_series_detail.TvSeriesDetail
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.airing_today.AiringTodayTvSeries
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.on_the_air.OnTheAirTvSeries
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.popular.PopularTvSeries
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.top_rated.TopRatedTvSeries
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.tv_series_detail.TvSeriesDetail
 
 @Composable
 fun Navigation(
