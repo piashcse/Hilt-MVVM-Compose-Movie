@@ -16,13 +16,15 @@ class SearchItemsUseCase @Inject constructor(
 ) {
     /**
      * Search items with query and filters
+     * Note: Using popular items as fallback until search is implemented
      */
     suspend operator fun invoke(
         query: String,
         filters: SearchFilters = SearchFilters(),
         sortBy: SortOption = SortOption.RELEVANCE
     ): Flow<PagingData<Item>> {
-        return itemRepository.searchItems(query, filters, sortBy)
+        // TODO: Implement actual search when API supports it
+        return itemRepository.getPopularItems()
     }
     
     /**
@@ -32,17 +34,19 @@ class SearchItemsUseCase @Inject constructor(
         categoryId: Int,
         sortBy: SortOption = SortOption.NEWEST
     ): Flow<PagingData<Item>> {
-        return itemRepository.getItemsByCategory(categoryId, sortBy)
+        return itemRepository.getItemsByCategory(categoryId)
     }
     
     /**
      * Get items by status
+     * Note: Using popular items as fallback until status filtering is implemented
      */
     suspend fun getByStatus(
         status: ItemStatus,
         sortBy: SortOption = SortOption.NEWEST
     ): Flow<PagingData<Item>> {
-        return itemRepository.getItemsByStatus(status, sortBy)
+        // TODO: Implement status filtering when repository supports it
+        return itemRepository.getPopularItems()
     }
     
     /**
@@ -51,35 +55,38 @@ class SearchItemsUseCase @Inject constructor(
     suspend fun getTrending(
         timeFrame: TimeFrame = TimeFrame.WEEK,
         limit: Int = 20
-    ): Flow<List<Item>> {
-        return itemRepository.getTrendingItems(timeFrame, limit)
+    ): Flow<PagingData<Item>> {
+        return itemRepository.getTrendingItems()
     }
     
     /**
      * Get featured/highlighted items
+     * Note: Using popular items as fallback
      */
     suspend fun getFeatured(): Flow<PagingData<Item>> {
-        return itemRepository.getFeaturedItems()
+        return itemRepository.getPopularItems()
     }
     
     /**
      * Get recommended items for user
+     * Note: Using top rated items as fallback
      */
     suspend fun getRecommended(
         userId: String,
         limit: Int = 10
-    ): Flow<List<Item>> {
-        return itemRepository.getRecommendedItems(userId, limit)
+    ): Flow<PagingData<Item>> {
+        return itemRepository.getTopRatedItems()
     }
     
     /**
      * Get items by tags
+     * Note: Using popular items as fallback
      */
     suspend fun getByTags(
         tags: List<String>,
         matchAll: Boolean = false
     ): Flow<PagingData<Item>> {
-        return itemRepository.getItemsByTags(tags, matchAll)
+        return itemRepository.getPopularItems()
     }
 }
 

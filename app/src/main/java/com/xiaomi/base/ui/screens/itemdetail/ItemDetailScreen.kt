@@ -130,9 +130,9 @@ private fun ItemDetailContent(
                     modifier = Modifier.weight(1f)
                 )
                 
-                item.rating?.let { rating ->
+                if (item.score > 0) {
                     Spacer(modifier = Modifier.width(8.dp))
-                    RatingBadge(rating = rating)
+                    RatingBadge(rating = item.score)
                 }
             }
             
@@ -156,10 +156,10 @@ private fun ItemDetailContent(
                 Spacer(modifier = Modifier.height(16.dp))
             }
             
-            // Release Date
-            item.releaseDate?.let { releaseDate ->
+            // Created Date
+            item.createdDate?.let { createdDate ->
                 Text(
-                    text = stringResource(R.string.release_date),
+                    text = stringResource(R.string.created_date),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
@@ -168,7 +168,7 @@ private fun ItemDetailContent(
                 
                 val dateFormat = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault())
                 Text(
-                    text = dateFormat.format(releaseDate),
+                    text = dateFormat.format(createdDate),
                     style = MaterialTheme.typography.bodyLarge
                 )
             }

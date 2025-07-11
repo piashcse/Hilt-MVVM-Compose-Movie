@@ -1,7 +1,7 @@
 package com.xiaomi.base
 
-import androidx.multidex.BuildConfig
 import androidx.multidex.MultiDexApplication
+import com.xiaomi.base.BuildConfig
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 

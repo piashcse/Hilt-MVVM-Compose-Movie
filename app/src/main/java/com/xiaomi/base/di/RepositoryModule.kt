@@ -1,23 +1,20 @@
 package com.xiaomi.base.di
 
 import com.xiaomi.base.data.datasource.local.dao.FavoriteCategoryDao
-import com.xiaomi.base.data.datasource.local.dao.FavoriteCreatorDao
 import com.xiaomi.base.data.datasource.local.dao.FavoriteItemDao
+import com.xiaomi.base.data.datasource.local.dao.UserDataDao
 import com.xiaomi.base.data.datasource.remote.ApiService
 import com.xiaomi.base.data.model.mapper.CategoryMapper
-import com.xiaomi.base.data.model.mapper.CreatorMapper
 import com.xiaomi.base.data.model.mapper.ItemMapper
 import com.xiaomi.base.data.repository.CategoryRepositoryImpl
-import com.xiaomi.base.data.repository.CreatorRepositoryImpl
 import com.xiaomi.base.data.repository.ItemRepositoryImpl
+import com.xiaomi.base.data.repository.UserDataRepositoryImpl
 import com.xiaomi.base.data.repository.local.LocalCategoryRepository as LocalCategoryRepositoryImpl
-import com.xiaomi.base.data.repository.local.LocalCreatorRepository as LocalCreatorRepositoryImpl
 import com.xiaomi.base.data.repository.local.LocalItemRepository as LocalItemRepositoryImpl
 import com.xiaomi.base.domain.repository.CategoryRepository
-import com.xiaomi.base.domain.repository.CreatorRepository
 import com.xiaomi.base.domain.repository.ItemRepository
+import com.xiaomi.base.domain.repository.UserDataRepository
 import com.xiaomi.base.domain.repository.local.LocalCategoryRepository
-import com.xiaomi.base.domain.repository.local.LocalCreatorRepository
 import com.xiaomi.base.domain.repository.local.LocalItemRepository
 import dagger.Module
 import dagger.Provides
@@ -54,16 +51,7 @@ object RepositoryModule {
         return CategoryMapper()
     }
     
-    /**
-     * Provides a CreatorMapper instance.
-     *
-     * @return CreatorMapper instance.
-     */
-    @Provides
-    @Singleton
-    fun provideCreatorMapper(): CreatorMapper {
-        return CreatorMapper()
-    }
+
     
     /**
      * Provides an ItemRepository implementation.
@@ -93,19 +81,7 @@ object RepositoryModule {
         return CategoryRepositoryImpl(apiService)
     }
     
-    /**
-     * Provides a CreatorRepository implementation.
-     *
-     * @param apiService The API service for remote data operations.
-     * @return CreatorRepository implementation.
-     */
-    @Provides
-    @Singleton
-    fun provideCreatorRepository(
-        apiService: ApiService
-    ): CreatorRepository {
-        return CreatorRepositoryImpl(apiService)
-    }
+
     
     /**
      * Provides a LocalItemRepository instance.
@@ -132,14 +108,15 @@ object RepositoryModule {
     }
     
     /**
-     * Provides a LocalCreatorRepository instance.
+     * Provides a UserDataRepository implementation.
      *
-     * @param favoriteCreatorDao The DAO for favorite creators operations.
-     * @return LocalCreatorRepository instance.
+     * @param userDataDao The DAO for user data operations.
+     * @return UserDataRepository implementation.
      */
     @Provides
     @Singleton
-    fun provideLocalCreatorRepository(favoriteCreatorDao: FavoriteCreatorDao): LocalCreatorRepository {
-        return LocalCreatorRepositoryImpl(favoriteCreatorDao)
+    fun provideUserDataRepository(userDataDao: UserDataDao): UserDataRepository {
+        return UserDataRepositoryImpl(userDataDao)
     }
+
 }

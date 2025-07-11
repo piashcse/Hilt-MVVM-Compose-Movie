@@ -25,7 +25,7 @@ import java.util.Date
 fun UniversalComponentShowcase() {
     BasePreviewScreen(
         title = "Universal Components",
-        description = "Flexible components that can be adapted for any app type"
+        subtitle = "Flexible components that can be adapted for any app type"
     ) {
         LazyColumn(
             modifier = Modifier.fillMaxSize(),

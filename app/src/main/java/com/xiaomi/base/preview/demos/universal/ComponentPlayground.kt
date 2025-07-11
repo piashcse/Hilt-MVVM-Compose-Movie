@@ -31,7 +31,7 @@ fun ComponentPlayground() {
     
     BasePreviewScreen(
         title = "Component Playground",
-        description = "Interactive testing ground for universal components"
+        subtitle = "Interactive testing ground for universal components"
     ) {
         Column(
             modifier = Modifier.fillMaxSize()
@@ -583,7 +583,7 @@ enum class PlaygroundComponent(
     val displayName: String,
     val icon: ImageVector
 ) {
-    UNIVERSAL_CARD("Universal Card", Icons.Default.ViewCard),
+    UNIVERSAL_CARD("Universal Card", Icons.Default.GridView),
     METRIC_CARD("Metric Card", Icons.Default.Analytics),
     FORM_INPUT("Form Input", Icons.Default.EditNote),
     PROGRESS_CARD("Progress Card", Icons.Default.TrendingUp),

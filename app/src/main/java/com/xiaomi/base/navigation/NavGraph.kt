@@ -24,13 +24,13 @@ fun NavGraph(navController: NavHostController, modifier: Modifier = Modifier) {
         composable(Screen.Home.route) {
             HomeScreen(navController = navController)
         }
-        composable(Screen.Popular.route) {
+        composable(Screen.Discover.route) {
             PopularScreen(navController = navController)
         }
-        composable(Screen.TopRated.route) {
+        composable(Screen.Featured.route) {
             TopRatedScreen(navController = navController)
         }
-        composable(Screen.Favorite.route) {
+        composable(Screen.Favorites.route) {
             FavoriteScreen(navController = navController)
         }
         composable(Screen.PreviewCatalog.route) {

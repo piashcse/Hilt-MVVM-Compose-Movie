@@ -1,12 +1,9 @@
 package com.xiaomi.base.di
 
 import com.xiaomi.base.domain.repository.CategoryRepository
-import com.xiaomi.base.domain.repository.CreatorRepository
 import com.xiaomi.base.domain.repository.ItemRepository
 import com.xiaomi.base.domain.usecase.category.GetCategoriesUseCase
 import com.xiaomi.base.domain.usecase.category.GetCategoryDetailsUseCase
-import com.xiaomi.base.domain.usecase.creator.GetCreatorDetailsUseCase
-import com.xiaomi.base.domain.usecase.creator.GetPopularCreatorsUseCase
 import com.xiaomi.base.domain.usecase.item.GetItemDetailsUseCase
 import com.xiaomi.base.domain.usecase.item.GetPopularItemsUseCase
 import com.xiaomi.base.domain.usecase.item.GetTopRatedItemsUseCase
@@ -96,27 +93,5 @@ object UseCaseModule {
         return GetCategoryDetailsUseCase(categoryRepository)
     }
     
-    /**
-     * Provides a GetPopularCreatorsUseCase instance.
-     *
-     * @param creatorRepository The repository for creator operations.
-     * @return GetPopularCreatorsUseCase instance.
-     */
-    @Provides
-    @Singleton
-    fun provideGetPopularCreatorsUseCase(creatorRepository: CreatorRepository): GetPopularCreatorsUseCase {
-        return GetPopularCreatorsUseCase(creatorRepository)
-    }
-    
-    /**
-     * Provides a GetCreatorDetailsUseCase instance.
-     *
-     * @param creatorRepository The repository for creator operations.
-     * @return GetCreatorDetailsUseCase instance.
-     */
-    @Provides
-    @Singleton
-    fun provideGetCreatorDetailsUseCase(creatorRepository: CreatorRepository): GetCreatorDetailsUseCase {
-        return GetCreatorDetailsUseCase(creatorRepository)
-    }
+
 }

@@ -27,20 +27,21 @@ class ProcessContentUseCase @Inject constructor(
         emit(ProcessingResult.Loading)
         
         try {
-            val item = itemRepository.getItemById(itemId)
-            val processedItem = when (action) {
-                ContentAction.DUPLICATE -> duplicateItem(item, parameters)
-                ContentAction.TRANSFORM -> transformItem(item, parameters)
-                ContentAction.ENHANCE -> enhanceItem(item, parameters)
-                ContentAction.COMPRESS -> compressItem(item, parameters)
-                ContentAction.EXPORT -> exportItem(item, parameters)
-                ContentAction.ANALYZE -> analyzeItem(item, parameters)
-                ContentAction.VALIDATE -> validateItem(item, parameters)
-                ContentAction.OPTIMIZE -> optimizeItem(item, parameters)
+            itemRepository.getItemDetails(itemId).collect { item ->
+                val processedItem = when (action) {
+                    ContentAction.DUPLICATE -> duplicateItem(item, parameters)
+                    ContentAction.TRANSFORM -> transformItem(item, parameters)
+                    ContentAction.ENHANCE -> enhanceItem(item, parameters)
+                    ContentAction.COMPRESS -> compressItem(item, parameters)
+                    ContentAction.EXPORT -> exportItem(item, parameters)
+                    ContentAction.ANALYZE -> analyzeItem(item, parameters)
+                    ContentAction.VALIDATE -> validateItem(item, parameters)
+                    ContentAction.OPTIMIZE -> optimizeItem(item, parameters)
+                }
+                
+                // Note: No saveItem method in repository, processing is for analysis only
+                emit(ProcessingResult.Success(processedItem))
             }
-            
-            val savedItem = itemRepository.saveItem(processedItem)
-            emit(ProcessingResult.Success(savedItem))
             
         } catch (e: Exception) {
             emit(ProcessingResult.Error(e.message ?: "Processing failed"))
@@ -143,7 +144,7 @@ class ProcessContentUseCase @Inject constructor(
     ): Item {
         // Compress/optimize item
         return item.copy(
-            metadata = item.metadata + mapOf("compressed" to true)
+            metadata = item.metadata + mapOf<String, Any>("compressed" to true)
         )
     }
     
@@ -153,7 +154,7 @@ class ProcessContentUseCase @Inject constructor(
     ): Item {
         val format = parameters["format"] as? String ?: "json"
         return item.copy(
-            metadata = item.metadata + mapOf("exportFormat" to format)
+            metadata = item.metadata + mapOf<String, Any>("exportFormat" to format)
         )
     }
     
@@ -178,7 +179,7 @@ class ProcessContentUseCase @Inject constructor(
     ): Item {
         val isValid = item.title.isNotBlank() && item.description?.isNotBlank() == true
         return item.copy(
-            metadata = item.metadata + mapOf("isValid" to isValid)
+            metadata = item.metadata + mapOf<String, Any>("isValid" to isValid)
         )
     }
     
@@ -188,7 +189,7 @@ class ProcessContentUseCase @Inject constructor(
     ): Item {
         // Optimize item for performance/storage
         return item.copy(
-            metadata = item.metadata + mapOf("optimized" to true)
+            metadata = item.metadata + mapOf<String, Any>("optimized" to true)
         )
     }
     

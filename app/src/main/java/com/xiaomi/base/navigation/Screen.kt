@@ -43,4 +43,11 @@ sealed class Screen(val route: String, @StringRes val title: Int, val icon: Imag
     object DataView : Screen("data_view", R.string.data_view, Icons.Default.Star)
     object Editor : Screen("editor", R.string.editor, Icons.Default.Star)
     object Analytics : Screen("analytics", R.string.analytics, Icons.Default.Star)
+    
+    // Backward compatibility aliases for old naming
+    companion object {
+        val Popular = Discover   // Alias for backward compatibility
+        val TopRated = Featured  // Alias for backward compatibility
+        val Favorite = Favorites // Alias for backward compatibility
+    }
 }

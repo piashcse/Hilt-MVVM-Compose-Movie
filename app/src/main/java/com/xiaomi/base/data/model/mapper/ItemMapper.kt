@@ -4,6 +4,7 @@ import com.xiaomi.base.data.model.CategoryDto
 import com.xiaomi.base.data.model.ItemDto
 import com.xiaomi.base.domain.model.Category
 import com.xiaomi.base.domain.model.Item
+import com.xiaomi.base.domain.model.ItemStatus
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -22,7 +23,7 @@ class ItemMapper {
      * @return The domain model.
      */
     fun mapToDomain(dto: ItemDto): Item {
-        val releaseDate: Date? = dto.releaseDate?.let {
+        val createdDate: Date? = dto.releaseDate?.let {
             try {
                 dateFormat.parse(it)
             } catch (e: Exception) {
@@ -36,17 +37,25 @@ class ItemMapper {
             else -> emptyList()
         }
         
+        // Build metadata from additional DTO fields
+        val metadata = mutableMapOf<String, Any>()
+        dto.originalLanguage?.let { metadata["language"] = it }
+        dto.runtime?.let { metadata["duration"] = it }
+        
         return Item(
             id = dto.id,
             title = dto.title,
             description = dto.overview,
             imageUrl = dto.posterPath,
-            backdropUrl = dto.backdropPath,
-            rating = dto.voteAverage ?: 0f,
-            releaseDate = releaseDate,
-            language = dto.originalLanguage,
-            duration = dto.runtime,
-            categories = categories
+            thumbnailUrl = dto.backdropPath,
+            score = dto.voteAverage ?: 0f,
+            createdDate = createdDate,
+            lastModified = Date(), // Current time as last modified
+            status = ItemStatus.ACTIVE, // Default status
+            metadata = metadata,
+            categories = categories,
+            isFavorite = false, // Default to false, can be updated later
+            tags = emptyList() // Can be populated from other sources
         )
     }
     
@@ -57,7 +66,7 @@ class ItemMapper {
      * @return The data model.
      */
     fun mapToData(domain: Item): ItemDto {
-        val releaseDateStr = domain.releaseDate?.let {
+        val releaseDateStr = domain.createdDate?.let {
             try {
                 dateFormat.format(it)
             } catch (e: Exception) {
@@ -72,11 +81,11 @@ class ItemMapper {
             title = domain.title,
             overview = domain.description,
             posterPath = domain.imageUrl,
-            backdropPath = domain.backdropUrl,
-            voteAverage = domain.rating,
+            backdropPath = domain.thumbnailUrl,
+            voteAverage = domain.score,
             releaseDate = releaseDateStr,
-            originalLanguage = domain.language,
-            runtime = domain.duration,
+            originalLanguage = domain.metadata["language"] as? String,
+            runtime = domain.metadata["duration"] as? Int,
             genreIds = genreIds
         )
     }

@@ -3,6 +3,7 @@ package com.xiaomi.base.data.repository.local
 import com.xiaomi.base.data.datasource.local.dao.FavoriteItemDao
 import com.xiaomi.base.data.datasource.local.entity.FavoriteItemEntity
 import com.xiaomi.base.domain.model.Item
+import com.xiaomi.base.domain.model.ItemStatus
 import com.xiaomi.base.domain.repository.local.LocalItemRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -29,8 +30,10 @@ class LocalItemRepository @Inject constructor(
                     title = entity.title,
                     description = entity.overview,
                     imageUrl = entity.posterPath,
-                    rating = entity.voteAverage.toFloat(),
-                    releaseDate = entity.addedDate,
+                    score = entity.voteAverage.toFloat(),
+                    createdDate = entity.addedDate,
+                    lastModified = Date(),
+                    status = ItemStatus.ACTIVE,
                     isFavorite = true
                 )
             }
@@ -61,8 +64,10 @@ class LocalItemRepository @Inject constructor(
                     title = it.title,
                     description = it.overview,
                     imageUrl = it.posterPath,
-                    rating = it.voteAverage.toFloat(),
-                    releaseDate = it.addedDate,
+                    score = it.voteAverage.toFloat(),
+                    createdDate = it.addedDate,
+                    lastModified = Date(),
+                    status = ItemStatus.ACTIVE,
                     isFavorite = true
                 )
             }
@@ -90,7 +95,7 @@ class LocalItemRepository @Inject constructor(
             title = item.title,
             overview = item.description,
             posterPath = item.imageUrl,
-            voteAverage = item.rating.toDouble()
+            voteAverage = item.score.toDouble()
         )
         favoriteItemDao.insert(favoriteEntity)
     }

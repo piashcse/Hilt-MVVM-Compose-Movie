@@ -39,7 +39,7 @@ class GetUserDataUseCase @Inject constructor(
         endDate: Date,
         dataType: String? = null
     ): Flow<List<UserData>> {
-        return userDataRepository.getUserDataByTimeRange(userId, startDate, endDate, dataType)
+        return userDataRepository.getUserDataByTimeRange(userId, startDate.time, endDate.time, dataType)
     }
     
     /**

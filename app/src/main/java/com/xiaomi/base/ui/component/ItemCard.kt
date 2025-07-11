@@ -22,12 +22,14 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.skydoves.landscapist.ImageOptions
 import com.skydoves.landscapist.coil.CoilImage
 import com.xiaomi.base.R
 import com.xiaomi.base.domain.model.Item
+import com.xiaomi.base.domain.model.ItemStatus
 import com.xiaomi.base.ui.component.RatingBadge
 
 /**
@@ -82,9 +84,9 @@ fun ItemCard(
                 )
                 
                 // Rating badge
-                if (item.rating > 0) {
+                if (item.score > 0) {
                     RatingBadge(
-                        rating = item.rating,
+                        rating = item.score,
                         modifier = Modifier
                             .align(Alignment.TopEnd)
                             .padding(8.dp)
@@ -105,4 +107,21 @@ fun ItemCard(
             )
         }
     }
+}
+
+@Preview
+@Composable
+fun ItemCardPreview() {
+    val item = Item(
+        id = 1,
+        title = "Sample Item",
+        description = "This is a sample item for preview.",
+        imageUrl = "https://example.com/image.jpg",
+        thumbnailUrl = "https://example.com/thumbnail.jpg",
+        score = 4.5f,
+        status = ItemStatus.ACTIVE,
+        isFavorite = true,
+        tags = listOf("sample", "preview")
+    )
+    ItemCard(item = item, onClick = {})
 }
