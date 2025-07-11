@@ -10,7 +10,7 @@ data class SearchBaseModel(
     @SerializedName("total_pages")
     val totalPages: Int,
     @SerializedName("total_results")
-    val totalResults: Int
+    val totalResults: Int,
 )
 
 data class SearchItem(
@@ -20,6 +20,8 @@ data class SearchItem(
     val id: Int,
     @SerializedName("poster_path")
     val posterPath: String?,
+    @SerializedName("profile_path")
+    val profilePath: String?,
     @SerializedName("title")
     val title: String?,
     @SerializedName("name")

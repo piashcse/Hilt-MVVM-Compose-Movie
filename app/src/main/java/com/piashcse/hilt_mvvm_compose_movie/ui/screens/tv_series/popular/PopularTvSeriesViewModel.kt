@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.popular
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.popular
 
 
 import androidx.compose.runtime.mutableStateOf

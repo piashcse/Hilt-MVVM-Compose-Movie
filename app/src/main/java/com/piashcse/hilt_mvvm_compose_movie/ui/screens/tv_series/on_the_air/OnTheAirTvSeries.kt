@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.popular
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.on_the_air
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -13,12 +13,12 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.component.TvSeries
 import component.base.BaseColumn
 
 @Composable
-fun PopularTvSeries(
+fun OnTheAirTvSeries(
     navController: NavController,
     genres: List<Genre>? = null,
 ) {
-    val viewModel = hiltViewModel<PopularTvSeriesViewModel>()
-    val tvSeriesItems = viewModel.popularTvSeries.collectAsLazyPagingItems()
+    val viewModel = hiltViewModel<OnTheAirTvSeriesViewModel>()
+    val tvSeriesItems = viewModel.onTheAirTvSeries.collectAsLazyPagingItems()
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(tvSeriesItems.loadState) {

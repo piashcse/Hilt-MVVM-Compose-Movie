@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.tv_series_detail
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.tv_series_detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

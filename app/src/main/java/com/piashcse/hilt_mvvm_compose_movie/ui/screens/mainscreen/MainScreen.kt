@@ -48,11 +48,12 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminatePr
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchUI
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.ShowExitDialog
-import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.botton_navigation.BottomNavigationUI
+import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.bottom_navigation.BottomNavigationUI
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.tav_view.FavoriteTabView
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.tav_view.TabView
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FloatingActionBackground
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
+import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_CELEBRITIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_MOVIE_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_TV_SERIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.ConnectionState
@@ -193,9 +194,9 @@ fun MainScreen() {
                 val results = when (pagerState.currentPage) {
                     ACTIVE_MOVIE_TAB -> uiState.movieSearchResults
                     ACTIVE_TV_SERIES_TAB -> uiState.tvSeriesSearchResults
+                    ACTIVE_CELEBRITIES_TAB -> uiState.celebritySearchResults
                     else -> null
                 }
-
                 results?.let {
                     SearchUI(navController, it, pagerState.currentPage) {
                         isAppBarVisible.value = true

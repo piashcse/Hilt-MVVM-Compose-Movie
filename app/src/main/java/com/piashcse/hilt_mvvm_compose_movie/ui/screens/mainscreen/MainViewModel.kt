@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
 import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchItem
+import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.celebrity.CelebrityRepositoryImpl
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.movie.MovieRepositoryImpl
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.tvseries.TvSeriesRepositoryImpl
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
@@ -26,7 +27,8 @@ import javax.inject.Inject
 @HiltViewModel
 class MainViewModel @Inject constructor(
     private val movieRepo: MovieRepositoryImpl,
-    private val tvSeriesRepo: TvSeriesRepositoryImpl
+    private val tvSeriesRepo: TvSeriesRepositoryImpl,
+    private val celebrityRepo: CelebrityRepositoryImpl
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MainUiState())
@@ -114,11 +116,37 @@ class MainViewModel @Inject constructor(
                 }
         }
     }
+    @ExperimentalCoroutinesApi
+    @FlowPreview
+    fun searchCelebrities(searchKey: String) {
+        viewModelScope.launch {
+            flowOf(searchKey)
+                .debounce(300)
+                .filter { it.trim().isNotEmpty() }
+                .distinctUntilChanged()
+                .flatMapLatest { query -> celebrityRepo.searchCelebrity(query) }
+                .onStart {
+                    _uiState.value = _uiState.value.copy(isLoading = true, error = null)
+                }
+                .catch { exception ->
+                    _uiState.value = _uiState.value.copy(isLoading = false, error = exception)
+                }
+                .collect { result ->
+                    val celebrityResults =
+                        if (result is DataState.Success) result.data.results else emptyList()
+                    _uiState.value = _uiState.value.copy(
+                        celebritySearchResults = celebrityResults,
+                        isLoading = false
+                    )
+                }
+        }
+    }
 }
 data class MainUiState(
     val genres: Genres? = null,
     val movieSearchResults: List<SearchItem> = emptyList(),
     val tvSeriesSearchResults: List<SearchItem> = emptyList(),
+    val celebritySearchResults: List<SearchItem> = emptyList(),
     val isLoading: Boolean = false,
     val error: Throwable? = null
 )
