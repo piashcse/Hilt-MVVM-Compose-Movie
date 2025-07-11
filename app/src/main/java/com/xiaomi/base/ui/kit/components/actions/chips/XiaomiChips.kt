@@ -2,6 +2,10 @@ package com.xiaomi.base.ui.kit.components.actions.chips
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.AssistChip
 import androidx.compose.material3.AssistChipDefaults
@@ -227,9 +231,9 @@ fun XiaomiSuggestionChip(
 @Composable
 fun XiaomiChipsPreview() {
     XiaomiPreviewTheme {
-        androidx.compose.foundation.layout.Column(
+        Column(
             modifier = Modifier.padding(16.dp),
-            verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             // Assist Chip
             XiaomiAssistChip(
@@ -245,8 +249,8 @@ fun XiaomiChipsPreview() {
             )
             
             // Filter Chips
-            androidx.compose.foundation.layout.Row(
-                horizontalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(8.dp)
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 XiaomiFilterChip(
                     selected = true,
@@ -295,9 +299,9 @@ fun XiaomiChipsPreview() {
 @Composable
 fun XiaomiChipsDarkPreview() {
     XiaomiPreviewTheme(darkTheme = true) {
-        androidx.compose.foundation.layout.Column(
+        Column(
             modifier = Modifier.padding(16.dp),
-            verticalArrangement = androidx.compose.foundation.layout.Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             XiaomiAssistChip(
                 onClick = { },
