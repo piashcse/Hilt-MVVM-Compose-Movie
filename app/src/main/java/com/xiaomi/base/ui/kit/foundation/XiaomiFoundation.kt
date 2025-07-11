@@ -14,6 +14,7 @@ package com.xiaomi.base.ui.kit.foundation
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import com.xiaomi.base.ui.kit.foundation.colors.ColorTokens
 import com.xiaomi.base.ui.kit.foundation.shapes.ComponentShapes
@@ -88,45 +89,45 @@ object XiaomiDesignSystem {
          * Display Styles - Large, prominent text
          */
         object Display {
-            val Large = MaterialTheme.typography.displayLarge
-            val Medium = MaterialTheme.typography.displayMedium
-            val Small = MaterialTheme.typography.displaySmall
+            val Large: TextStyle @Composable get() = MaterialTheme.typography.displayLarge
+            val Medium: TextStyle @Composable get() = MaterialTheme.typography.displayMedium
+            val Small: TextStyle @Composable get() = MaterialTheme.typography.displaySmall
         }
         
         /**
          * Headline Styles - Section headers and titles
          */
         object Headline {
-            val Large = MaterialTheme.typography.headlineLarge
-            val Medium = MaterialTheme.typography.headlineMedium
-            val Small = MaterialTheme.typography.headlineSmall
+            val Large: TextStyle @Composable get() = MaterialTheme.typography.headlineLarge
+            val Medium: TextStyle @Composable get() = MaterialTheme.typography.headlineMedium
+            val Small: TextStyle @Composable get() = MaterialTheme.typography.headlineSmall
         }
         
         /**
          * Title Styles - Component and card titles
          */
         object Title {
-            val Large = MaterialTheme.typography.titleLarge
-            val Medium = MaterialTheme.typography.titleMedium
-            val Small = MaterialTheme.typography.titleSmall
+            val Large: TextStyle @Composable get() = MaterialTheme.typography.titleLarge
+            val Medium: TextStyle @Composable get() = MaterialTheme.typography.titleMedium
+            val Small: TextStyle @Composable get() = MaterialTheme.typography.titleSmall
         }
         
         /**
          * Body Styles - Main content text
          */
         object Body {
-            val Large = MaterialTheme.typography.bodyLarge
-            val Medium = MaterialTheme.typography.bodyMedium
-            val Small = MaterialTheme.typography.bodySmall
+            val Large: TextStyle @Composable get() = MaterialTheme.typography.bodyLarge
+            val Medium: TextStyle @Composable get() = MaterialTheme.typography.bodyMedium
+            val Small: TextStyle @Composable get() = MaterialTheme.typography.bodySmall
         }
         
         /**
          * Label Styles - UI labels and captions
          */
         object Label {
-            val Large = MaterialTheme.typography.labelLarge
-            val Medium = MaterialTheme.typography.labelMedium
-            val Small = MaterialTheme.typography.labelSmall
+            val Large: TextStyle @Composable get() = MaterialTheme.typography.labelLarge
+            val Medium: TextStyle @Composable get() = MaterialTheme.typography.labelMedium
+            val Small: TextStyle @Composable get() = MaterialTheme.typography.labelSmall
         }
         
         /**

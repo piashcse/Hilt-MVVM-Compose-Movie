@@ -3,8 +3,10 @@ package com.xiaomi.base.ui.kit.components.communication.badges
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.sizeIn
@@ -49,7 +51,7 @@ fun XiaomiBadge(
     modifier: Modifier = Modifier,
     containerColor: Color = MaterialTheme.colorScheme.error,
     contentColor: Color = MaterialTheme.colorScheme.onError,
-    content: @Composable (() -> Unit)? = null
+    content: (@Composable RowScope.() -> Unit)? = null
 ) {
     Badge(
         modifier = modifier,
@@ -71,9 +73,9 @@ fun XiaomiBadge(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun XiaomiBadgedBox(
-    badge: @Composable () -> Unit,
+    badge: @Composable BoxScope.() -> Unit,
     modifier: Modifier = Modifier,
-    content: @Composable () -> Unit
+    content: @Composable BoxScope.() -> Unit
 ) {
     BadgedBox(
         badge = badge,
