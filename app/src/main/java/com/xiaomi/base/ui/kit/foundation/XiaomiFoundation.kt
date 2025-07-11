@@ -140,86 +140,87 @@ object XiaomiDesignSystem {
     }
     
     /**
-     * Spacing System - Consistent spacing values
+     * Spacing System - Margins, paddings, and spacing
      */
     object Spacing {
         
         /**
-         * Base Spacing Values
+         * Base Spacing - Fundamental spacing values
          */
         object Base {
-            @get:Composable
-            val ExtraSmall: Dp get() = MaterialTheme.spacing.ExtraSmall
-            @get:Composable
-            val Small: Dp get() = MaterialTheme.spacing.Small
-            @get:Composable
-            val Medium: Dp get() = MaterialTheme.spacing.Medium
-            @get:Composable
-            val Large: Dp get() = MaterialTheme.spacing.Large
-            @get:Composable
-            val ExtraLarge: Dp get() = MaterialTheme.spacing.ExtraLarge
-            @get:Composable
-            val XXL: Dp get() = MaterialTheme.spacing.XXL
+            @Composable
+            fun Small(): Dp = MaterialTheme.spacing.Small
+            
+            @Composable
+            fun Medium(): Dp = MaterialTheme.spacing.Medium
+            
+            @Composable
+            fun Large(): Dp = MaterialTheme.spacing.Large
         }
         
         /**
-         * Component Spacing - Spacing within components
+         * Component Spacing - Component-specific spacing
          */
         object Component {
-            @get:Composable
-            val Spacing: Dp get() = MaterialTheme.spacing.ComponentSpacingMedium
-            @get:Composable
-            val SpacingLarge: Dp get() = MaterialTheme.spacing.ComponentSpacingLarge
+            @Composable
+            fun Small(): Dp = MaterialTheme.spacing.ComponentSpacingSmall
+            
+            @Composable
+            fun Medium(): Dp = MaterialTheme.spacing.ComponentSpacingMedium
+            
+            @Composable
+            fun Large(): Dp = MaterialTheme.spacing.ComponentSpacingLarge
         }
         
         /**
-         * Content Spacing - Spacing for content areas
+         * Content Spacing - Content-specific spacing
          */
         object Content {
-            @get:Composable
-            val Horizontal: Dp get() = MaterialTheme.spacing.ContentPaddingHorizontal
-            @get:Composable
-            val Vertical: Dp get() = MaterialTheme.spacing.ContentPaddingVertical
+            @Composable
+            fun Horizontal(): Dp = MaterialTheme.spacing.ContentPaddingHorizontal
+            
+            @Composable
+            fun Vertical(): Dp = MaterialTheme.spacing.ContentPaddingVertical
         }
         
         /**
-         * Screen Spacing - Screen-level spacing
+         * Screen Spacing - Screen-specific spacing
          */
         object Screen {
-            @get:Composable
-            val Horizontal: Dp get() = MaterialTheme.spacing.ScreenPaddingHorizontal
-            @get:Composable
-            val Vertical: Dp get() = MaterialTheme.spacing.ScreenPaddingVertical
-            @get:Composable
-            val ContentSpacing: Dp get() = MaterialTheme.spacing.ScreenContentSpacing
+            @Composable
+            fun Horizontal(): Dp = MaterialTheme.spacing.ScreenPaddingHorizontal
+            
+            @Composable
+            fun Vertical(): Dp = MaterialTheme.spacing.ScreenPaddingVertical
         }
         
         /**
          * Button Spacing - Button-specific spacing
          */
         object Button {
-            @get:Composable
-            val Horizontal: Dp get() = MaterialTheme.spacing.ContentPaddingHorizontal
-            @get:Composable
-            val Vertical: Dp get() = MaterialTheme.spacing.ContentPaddingVertical
+            @Composable
+            fun Horizontal(): Dp = MaterialTheme.spacing.ContentPaddingHorizontal
+            
+            @Composable
+            fun Vertical(): Dp = MaterialTheme.spacing.ContentPaddingVertical
         }
         
         /**
          * Card Spacing - Card-specific spacing
          */
         object Card {
-            @get:Composable
-            val Padding: Dp get() = MaterialTheme.spacing.CardPaddingMedium
-            @get:Composable
-            val PaddingLarge: Dp get() = MaterialTheme.spacing.CardPaddingLarge
+            @Composable
+            fun Padding(): Dp = MaterialTheme.spacing.CardPaddingMedium
+            
+            @Composable
+            fun PaddingLarge(): Dp = MaterialTheme.spacing.CardPaddingLarge
         }
         
         /**
          * Get current spacing from Material Theme extension
          */
-        val current: XiaomiSpacing
-            @Composable
-            get() = MaterialTheme.spacing
+        @Composable
+        fun current(): XiaomiSpacing = MaterialTheme.spacing
     }
     
     /**
@@ -277,13 +278,15 @@ object XiaomiTokens {
     val BackgroundColor = XiaomiDesignSystem.Colors.Surface.Background
     val TextColor = XiaomiDesignSystem.Colors.Content.OnSurface
     
-    // Quick spacing access
-    @get:Composable
-    val SmallSpacing: Dp get() = XiaomiDesignSystem.Spacing.Base.Small
-    @get:Composable
-    val MediumSpacing: Dp get() = XiaomiDesignSystem.Spacing.Base.Medium
-    @get:Composable
-    val LargeSpacing: Dp get() = XiaomiDesignSystem.Spacing.Base.Large
+    // Quick spacing access - convert to functions
+    @Composable
+    fun SmallSpacing(): Dp = XiaomiDesignSystem.Spacing.Base.Small()
+    
+    @Composable
+    fun MediumSpacing(): Dp = XiaomiDesignSystem.Spacing.Base.Medium()
+    
+    @Composable
+    fun LargeSpacing(): Dp = XiaomiDesignSystem.Spacing.Base.Large()
     
     // Quick shape access
     val ButtonShape = XiaomiDesignSystem.Shapes.Button.Medium

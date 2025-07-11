@@ -54,7 +54,6 @@ import java.util.Locale
  * 
  * @param state DatePickerState for managing the picker state
  * @param modifier Modifier to be applied to the date picker
- * @param dateValidator Function to validate selectable dates
  * @param title Optional title for the date picker
  * @param headline Optional headline for the date picker
  * @param showModeToggle Whether to show the mode toggle button
@@ -64,7 +63,6 @@ import java.util.Locale
 fun XiaomiDatePicker(
     state: DatePickerState,
     modifier: Modifier = Modifier,
-    dateValidator: (Long) -> Boolean = { true },
     title: (@Composable () -> Unit)? = null,
     headline: (@Composable () -> Unit)? = null,
     showModeToggle: Boolean = true
@@ -72,7 +70,6 @@ fun XiaomiDatePicker(
     DatePicker(
         state = state,
         modifier = modifier,
-        dateValidator = dateValidator,
         title = title,
         headline = headline,
         showModeToggle = showModeToggle
@@ -131,7 +128,6 @@ fun XiaomiDatePickerDialog(
     ) {
         XiaomiDatePicker(
             state = datePickerState,
-            dateValidator = dateValidator,
             title = { Text(title) }
         )
     }

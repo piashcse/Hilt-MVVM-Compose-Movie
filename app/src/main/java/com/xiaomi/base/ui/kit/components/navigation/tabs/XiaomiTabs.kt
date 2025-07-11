@@ -19,19 +19,18 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Badge
 import androidx.compose.material3.BadgedBox
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LeadingIconTab
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.PrimaryScrollableTabRow
 import androidx.compose.material3.PrimaryTabRow
-import androidx.compose.material3.ScrollableTabRow
-import androidx.compose.material3.SecondaryScrollableTabRow
 import androidx.compose.material3.SecondaryTabRow
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
+import androidx.compose.material3.TabPosition
 import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
@@ -40,13 +39,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.xiaomi.base.ui.kit.foundation.XiaomiPreviewTheme
-import com.xiaomi.base.ui.kit.foundation.spacing.XiaomiSpacing
+import com.xiaomi.base.ui.kit.theme.XiaomiPreviewTheme
 import kotlinx.coroutines.launch
 
 /**
@@ -55,37 +53,23 @@ import kotlinx.coroutines.launch
 data class XiaomiTabItem(
     val id: String,
     val title: String,
-    val icon: ImageVector? = null,
+    val icon: androidx.compose.ui.graphics.vector.ImageVector? = null,
     val badge: String? = null,
     val enabled: Boolean = true,
     val content: @Composable () -> Unit = {}
 )
 
-/**
- * Xiaomi Primary Tab Row
- * 
- * A Material Design 3 primary tab row component with Xiaomi design tokens.
- * 
- * @param selectedTabIndex The index of the currently selected tab
- * @param modifier Modifier to be applied to the tab row
- * @param containerColor The color used for the background of this tab row
- * @param contentColor The preferred color for content inside this tab row
- * @param indicator The indicator that represents which tab is currently selected
- * @param divider The divider displayed at the bottom of the tab row
- * @param tabs The tabs inside this tab row
- */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun XiaomiPrimaryTabRow(
+fun XiaomiTabRow(
     selectedTabIndex: Int,
     modifier: Modifier = Modifier,
-    containerColor: androidx.compose.ui.graphics.Color = androidx.compose.material3.TabRowDefaults.primaryContainerColor,
-    contentColor: androidx.compose.ui.graphics.Color = androidx.compose.material3.TabRowDefaults.primaryContentColor,
-    indicator: @Composable (tabPositions: List<androidx.compose.material3.TabPosition>) -> Unit = @Composable { tabPositions ->
-        if (selectedTabIndex < tabPositions.size) {
-            androidx.compose.material3.TabRowDefaults.PrimaryIndicator(
-                modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex])
-            )
-        }
+    containerColor: androidx.compose.ui.graphics.Color = TabRowDefaults.primaryContainerColor,
+    contentColor: androidx.compose.ui.graphics.Color = TabRowDefaults.primaryContentColor,
+    indicator: @Composable TabIndicatorScope.() -> Unit = @Composable {
+        TabRowDefaults.PrimaryIndicator(
+            modifier = Modifier.tabIndicatorOffset(selectedTabIndex)
+        )
     },
     divider: @Composable () -> Unit = {},
     tabs: @Composable () -> Unit
@@ -101,31 +85,17 @@ fun XiaomiPrimaryTabRow(
     )
 }
 
-/**
- * Xiaomi Secondary Tab Row
- * 
- * A Material Design 3 secondary tab row component.
- * 
- * @param selectedTabIndex The index of the currently selected tab
- * @param modifier Modifier to be applied to the tab row
- * @param containerColor The color used for the background of this tab row
- * @param contentColor The preferred color for content inside this tab row
- * @param indicator The indicator that represents which tab is currently selected
- * @param divider The divider displayed at the bottom of the tab row
- * @param tabs The tabs inside this tab row
- */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun XiaomiSecondaryTabRow(
     selectedTabIndex: Int,
     modifier: Modifier = Modifier,
-    containerColor: androidx.compose.ui.graphics.Color = androidx.compose.material3.TabRowDefaults.secondaryContainerColor,
-    contentColor: androidx.compose.ui.graphics.Color = androidx.compose.material3.TabRowDefaults.secondaryContentColor,
-    indicator: @Composable (tabPositions: List<androidx.compose.material3.TabPosition>) -> Unit = @Composable { tabPositions ->
-        if (selectedTabIndex < tabPositions.size) {
-            androidx.compose.material3.TabRowDefaults.SecondaryIndicator(
-                modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex])
-            )
-        }
+    containerColor: androidx.compose.ui.graphics.Color = TabRowDefaults.secondaryContainerColor,
+    contentColor: androidx.compose.ui.graphics.Color = TabRowDefaults.secondaryContentColor,
+    indicator: @Composable TabIndicatorScope.() -> Unit = @Composable {
+        TabRowDefaults.SecondaryIndicator(
+            modifier = Modifier.tabIndicatorOffset(selectedTabIndex)
+        )
     },
     divider: @Composable () -> Unit = {},
     tabs: @Composable () -> Unit
@@ -141,33 +111,18 @@ fun XiaomiSecondaryTabRow(
     )
 }
 
-/**
- * Xiaomi Scrollable Tab Row
- * 
- * A scrollable tab row for when there are many tabs.
- * 
- * @param selectedTabIndex The index of the currently selected tab
- * @param modifier Modifier to be applied to the tab row
- * @param containerColor The color used for the background of this tab row
- * @param contentColor The preferred color for content inside this tab row
- * @param edgePadding The padding from the starting edge before the first tab
- * @param indicator The indicator that represents which tab is currently selected
- * @param divider The divider displayed at the bottom of the tab row
- * @param tabs The tabs inside this tab row
- */
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun XiaomiScrollableTabRow(
     selectedTabIndex: Int,
     modifier: Modifier = Modifier,
-    containerColor: androidx.compose.ui.graphics.Color = androidx.compose.material3.TabRowDefaults.primaryContainerColor,
-    contentColor: androidx.compose.ui.graphics.Color = androidx.compose.material3.TabRowDefaults.primaryContentColor,
-    edgePadding: androidx.compose.ui.unit.Dp = androidx.compose.material3.TabRowDefaults.ScrollableTabRowEdgeStartPadding,
-    indicator: @Composable (tabPositions: List<androidx.compose.material3.TabPosition>) -> Unit = @Composable { tabPositions ->
-        if (selectedTabIndex < tabPositions.size) {
-            androidx.compose.material3.TabRowDefaults.PrimaryIndicator(
-                modifier = Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex])
-            )
-        }
+    containerColor: androidx.compose.ui.graphics.Color = TabRowDefaults.primaryContainerColor,
+    contentColor: androidx.compose.ui.graphics.Color = TabRowDefaults.primaryContentColor,
+    edgePadding: androidx.compose.ui.unit.Dp = TabRowDefaults.ScrollableTabRowEdgeStartPadding,
+    indicator: @Composable TabIndicatorScope.() -> Unit = @Composable {
+        TabRowDefaults.PrimaryIndicator(
+            modifier = Modifier.tabIndicatorOffset(selectedTabIndex)
+        )
     },
     divider: @Composable () -> Unit = {},
     tabs: @Composable () -> Unit
@@ -184,20 +139,22 @@ fun XiaomiScrollableTabRow(
     )
 }
 
+// Add OptIn annotation to suppress experimental API warnings
+@OptIn(ExperimentalMaterial3Api::class)
 /**
  * Xiaomi Tab
  * 
- * A single tab in a tab row.
+ * A Material Design 3 tab with Xiaomi design tokens.
  * 
- * @param selected Whether this tab is currently selected
- * @param onClick Callback when this tab is clicked
- * @param modifier Modifier to be applied to this tab
- * @param enabled Whether this tab is enabled
- * @param text Optional text content for this tab
- * @param icon Optional icon content for this tab
- * @param selectedContentColor The color for the content of this tab when selected
- * @param unselectedContentColor The color for the content of this tab when not selected
- * @param interactionSource MutableInteractionSource for handling interactions
+ * @param selected Whether the tab is selected
+ * @param onClick Callback when the tab is clicked
+ * @param modifier Modifier to be applied to the tab
+ * @param enabled Whether the tab is enabled
+ * @param text Text content for the tab
+ * @param icon Icon content for the tab
+ * @param selectedContentColor Color for the content when selected
+ * @param unselectedContentColor Color for the content when not selected
+ * @param interactionSource Interaction source for the tab
  */
 @Composable
 fun XiaomiTab(
@@ -205,11 +162,11 @@ fun XiaomiTab(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
     enabled: Boolean = true,
-    text: (@Composable () -> Unit)? = null,
-    icon: (@Composable () -> Unit)? = null,
-    selectedContentColor: androidx.compose.ui.graphics.Color = androidx.compose.ui.graphics.Color.Unspecified,
-    unselectedContentColor: androidx.compose.ui.graphics.Color = androidx.compose.ui.graphics.Color.Unspecified,
-    interactionSource: androidx.compose.foundation.interaction.MutableInteractionSource = remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
+    text: @Composable (() -> Unit)? = null,
+    icon: @Composable (() -> Unit)? = null,
+    selectedContentColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.primary,
+    unselectedContentColor: androidx.compose.ui.graphics.Color = MaterialTheme.colorScheme.onSurfaceVariant,
+    interactionSource: androidx.compose.foundation.interaction.MutableInteractionSource = androidx.compose.foundation.interaction.remember { androidx.compose.foundation.interaction.MutableInteractionSource() }
 ) {
     Tab(
         selected = selected,
@@ -280,100 +237,43 @@ fun XiaomiSimpleTabs(
     items: List<XiaomiTabItem>,
     selectedTabIndex: Int,
     onTabSelected: (Int) -> Unit,
-    modifier: Modifier = Modifier,
-    scrollable: Boolean = false
+    modifier: Modifier = Modifier
 ) {
-    if (scrollable) {
-        XiaomiScrollableTabRow(
-            selectedTabIndex = selectedTabIndex,
-            modifier = modifier
-        ) {
-            items.forEachIndexed { index, item ->
-                XiaomiTab(
-                    selected = selectedTabIndex == index,
-                    onClick = { onTabSelected(index) },
-                    enabled = item.enabled,
-                    text = {
-                        Text(
-                            text = item.title,
-                            style = MaterialTheme.typography.titleSmall,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    },
-                    icon = if (item.icon != null) {
-                        {
-                            if (item.badge != null) {
-                                BadgedBox(
-                                    badge = {
-                                        Badge {
-                                            Text(item.badge)
-                                        }
+    XiaomiTabRow(
+        selectedTabIndex = selectedTabIndex,
+        modifier = modifier
+    ) {
+        items.forEachIndexed { index, item ->
+            XiaomiTab(
+                selected = selectedTabIndex == index,
+                onClick = { onTabSelected(index) },
+                enabled = item.enabled,
+                icon = if (item.icon != null) {
+                    {
+                        if (item.badge != null) {
+                            BadgedBox(
+                                badge = {
+                                    Badge {
+                                        Text(item.badge)
                                     }
-                                ) {
-                                    Icon(
-                                        imageVector = item.icon,
-                                        contentDescription = item.title,
-                                        modifier = Modifier.size(20.dp)
-                                    )
                                 }
-                            } else {
+                            ) {
                                 Icon(
                                     imageVector = item.icon,
                                     contentDescription = item.title,
-                                    modifier = Modifier.size(20.dp)
+                                    modifier = Modifier.size(24.dp)
                                 )
                             }
+                        } else {
+                            Icon(
+                                imageVector = item.icon,
+                                contentDescription = item.title,
+                                modifier = Modifier.size(24.dp)
+                            )
                         }
-                    } else null
-                )
-            }
-        }
-    } else {
-        XiaomiPrimaryTabRow(
-            selectedTabIndex = selectedTabIndex,
-            modifier = modifier
-        ) {
-            items.forEachIndexed { index, item ->
-                XiaomiTab(
-                    selected = selectedTabIndex == index,
-                    onClick = { onTabSelected(index) },
-                    enabled = item.enabled,
-                    text = {
-                        Text(
-                            text = item.title,
-                            style = MaterialTheme.typography.titleSmall,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis
-                        )
-                    },
-                    icon = if (item.icon != null) {
-                        {
-                            if (item.badge != null) {
-                                BadgedBox(
-                                    badge = {
-                                        Badge {
-                                            Text(item.badge)
-                                        }
-                                    }
-                                ) {
-                                    Icon(
-                                        imageVector = item.icon,
-                                        contentDescription = item.title,
-                                        modifier = Modifier.size(20.dp)
-                                    )
-                                }
-                            } else {
-                                Icon(
-                                    imageVector = item.icon,
-                                    contentDescription = item.title,
-                                    modifier = Modifier.size(20.dp)
-                                )
-                            }
-                        }
-                    } else null
-                )
-            }
+                    }
+                } else null
+            )
         }
     }
 }
@@ -392,23 +292,33 @@ fun XiaomiSimpleTabs(
 @Composable
 fun XiaomiTabsWithPager(
     items: List<XiaomiTabItem>,
-    modifier: Modifier = Modifier,
-    scrollable: Boolean = false,
-    pagerState: PagerState = rememberPagerState(pageCount = { items.size })
+    modifier: Modifier = Modifier
 ) {
-    val coroutineScope = rememberCoroutineScope()
+    val pagerState = rememberPagerState { items.size }
+    val scope = rememberCoroutineScope()
+    val selectedTabIndex = pagerState.currentPage
     
     Column(modifier = modifier) {
-        XiaomiSimpleTabs(
-            items = items,
-            selectedTabIndex = pagerState.currentPage,
-            onTabSelected = { index ->
-                coroutineScope.launch {
-                    pagerState.animateScrollToPage(index)
-                }
-            },
-            scrollable = scrollable
-        )
+        XiaomiTabRow(
+            selectedTabIndex = selectedTabIndex,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            items.forEachIndexed { index, item ->
+                XiaomiTab(
+                    selected = selectedTabIndex == index,
+                    onClick = {
+                        scope.launch {
+                            pagerState.animateScrollToPage(index)
+                        }
+                    },
+                    enabled = item.enabled,
+                    text = { Text(item.title) },
+                    icon = if (item.icon != null) {
+                        { Icon(imageVector = item.icon, contentDescription = null) }
+                    } else null
+                )
+            }
+        }
         
         HorizontalPager(
             state = pagerState,
@@ -436,7 +346,7 @@ fun XiaomiIconTabs(
     onTabSelected: (Int) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    XiaomiPrimaryTabRow(
+    XiaomiTabRow(
         selectedTabIndex = selectedTabIndex,
         modifier = modifier
     ) {
@@ -477,8 +387,8 @@ fun XiaomiIconTabs(
 
 // Helper function for tab indicator offset
 @Composable
-fun Modifier.tabIndicatorOffset(currentTabPosition: androidx.compose.material3.TabPosition): Modifier {
-    return TabRowDefaults.tabIndicatorOffset(currentTabPosition)
+fun Modifier.tabIndicatorOffset(index: Int): Modifier {
+    return this.then(TabRowDefaults.tabIndicatorOffset(index))
 }
 
 // Preview composables for design system documentation
@@ -558,12 +468,50 @@ fun XiaomiScrollableTabsPreview() {
         )
         
         Column {
-            XiaomiSimpleTabs(
-                items = tabItems,
-                selectedTabIndex = selectedTab,
-                onTabSelected = { selectedTab = it },
-                scrollable = true
-            )
+            XiaomiScrollableTabRow(
+                selectedTabIndex = selectedTab
+            ) {
+                tabItems.forEachIndexed { index, item ->
+                    XiaomiTab(
+                        selected = selectedTab == index,
+                        onClick = { selectedTab = index },
+                        enabled = item.enabled,
+                        text = {
+                            Text(
+                                text = item.title,
+                                style = MaterialTheme.typography.titleSmall,
+                                maxLines = 1,
+                                overflow = TextOverflow.Ellipsis
+                            )
+                        },
+                        icon = if (item.icon != null) {
+                            {
+                                if (item.badge != null) {
+                                    BadgedBox(
+                                        badge = {
+                                            Badge {
+                                                Text(item.badge)
+                                            }
+                                        }
+                                    ) {
+                                        Icon(
+                                            imageVector = item.icon,
+                                            contentDescription = item.title,
+                                            modifier = Modifier.size(24.dp)
+                                        )
+                                    }
+                                } else {
+                                    Icon(
+                                        imageVector = item.icon,
+                                        contentDescription = item.title,
+                                        modifier = Modifier.size(24.dp)
+                                    )
+                                }
+                            }
+                        } else null
+                    )
+                }
+            }
             
             Surface(
                 modifier = Modifier
@@ -578,7 +526,7 @@ fun XiaomiScrollableTabsPreview() {
                     Text(
                         text = "Scrollable Tabs\nSelected: ${tabItems[selectedTab].title}",
                         style = MaterialTheme.typography.headlineSmall,
-                        textAlign = androidx.compose.ui.text.style.TextAlign.Center
+                        textAlign = TextAlign.Center
                     )
                 }
             }

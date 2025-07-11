@@ -369,19 +369,18 @@ fun XiaomiSystemInfoCard(
 fun XiaomiPerformanceChart(
     dataPoints: List<PerformanceDataPoint>,
     metricType: PerformanceMetricType,
-    modifier: Modifier = Modifier,
-    timeRange: String = "Last 1 hour"
+    modifier: Modifier = Modifier
 ) {
+    val chartColor = MaterialTheme.colorScheme.primary
+    
     Card(
         modifier = modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surface
+            containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
         )
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp)
+            modifier = Modifier.padding(16.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -389,12 +388,13 @@ fun XiaomiPerformanceChart(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "${metricType.name} Usage",
+                    text = metricType.name.lowercase().replaceFirstChar { it.uppercase() },
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold
                 )
+                
                 Text(
-                    text = timeRange,
+                    text = "Last 24h",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -409,7 +409,7 @@ fun XiaomiPerformanceChart(
             ) {
                 drawPerformanceChart(
                     dataPoints = dataPoints,
-                    color = MaterialTheme.colorScheme.primary
+                    color = chartColor
                 )
             }
         }
@@ -547,7 +547,6 @@ fun XiaomiInfoRow(
 /**
  * Helper function to get status color
  */
-@Composable
 fun getStatusColor(status: PerformanceStatus): Color {
     return when (status) {
         PerformanceStatus.EXCELLENT -> Color(0xFF4CAF50)
