@@ -1,5 +1,14 @@
 # Appdexer - Vibe Coding 🤖
 
+## Workflow
+
+1. Brainstorm
+2. Init project
+3. Create full plan
+4. Create mockup html/wireframe
+5. Create UI
+6. AI logic code
+
 ## Ví dụ:
 
 #### 🧪 Test quy trình
@@ -139,6 +148,7 @@ scripts/config/telegram_config.py
 Hệ thống template thông minh được tích hợp AI, giúp tự động tạo ra các Android Compose components dựa trên mô tả bằng ngôn ngữ tự nhiên.
 
 #### ✨ Tính Năng Chính
+
 - **Natural Language Processing**: Mô tả component bằng tiếng Việt/Anh tự nhiên
 - **AI Component Selection**: Tự động chọn template phù hợp nhất
 - **Smart Customization**: AI đề xuất customization options
@@ -147,6 +157,7 @@ Hệ thống template thông minh được tích hợp AI, giúp tự động t�
 - **4 Complexity Levels**: Simple (5-10 min) đến Expert (2+ hours)
 
 #### 🎯 Ví Dụ Sử Dụng
+
 ```
 ✅ "Tạo button submit màu xanh có icon"
 ✅ "Tôi cần input email có validation"
@@ -156,6 +167,7 @@ Hệ thống template thông minh được tích hợp AI, giúp tự động t�
 ```
 
 #### 📚 Chi Tiết
+
 **Xem documentation đầy đủ**: [Template System Guide](docs/TEMPLATE_SYSTEM.md)
 
 **Location**: `app/src/main/java/com/xiaomi/base/templates/`
@@ -325,7 +337,7 @@ Sử dụng quy trình design to prompt để phân tích thiết kế ./design/
 🔍 Analyzing requirement...
 ✅ Intent detected: CREATE_INPUT + VOICE_FEATURE
 ✅ Suggested: VoiceSearchInput template
-✅ Customizations: 
+✅ Customizations:
    - Placeholder: "Search city or say it..."
    - Voice icon: microphone
    - Animation: pulse when listening
