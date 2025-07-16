@@ -51,7 +51,7 @@ interface ApiService {
         @Path("movieId") movieId: Int
     ): BaseModel<MovieItem>
 
-    @GET("search/movie?include_adult=false")
+    @GET("search/movie")
     suspend fun searchMovie(
         @Query("query") searchKey: String
     ): SearchBaseModel
@@ -119,7 +119,7 @@ interface ApiService {
         @Path("seriesId") seriesId: Int
     ): Artist
 
-    @GET("search/tv?include_adult=false")
+    @GET("search/tv")
     suspend fun searchTvSeries(
         @Query("query") searchKey: String
     ): SearchBaseModel
@@ -134,7 +134,7 @@ interface ApiService {
         @Query("page") page: Int,
     ): BaseModel<Celebrity>
 
-    @GET("search/person?include_adult=false")
+    @GET("search/person")
     suspend fun searchCelebrity(
         @Query("query") searchKey: String
     ): SearchBaseModel
