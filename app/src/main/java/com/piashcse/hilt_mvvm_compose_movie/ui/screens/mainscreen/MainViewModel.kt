@@ -2,8 +2,6 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
-import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchItem
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.celebrity.CelebrityRepositoryImpl
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.movie.MovieRepositoryImpl
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.tvseries.TvSeriesRepositoryImpl
@@ -142,11 +140,3 @@ class MainViewModel @Inject constructor(
         }
     }
 }
-data class MainUiState(
-    val genres: Genres? = null,
-    val movieSearchResults: List<SearchItem> = emptyList(),
-    val tvSeriesSearchResults: List<SearchItem> = emptyList(),
-    val celebritySearchResults: List<SearchItem> = emptyList(),
-    val isLoading: Boolean = false,
-    val error: Throwable? = null
-)

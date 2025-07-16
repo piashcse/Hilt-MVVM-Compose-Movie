@@ -116,29 +116,31 @@ fun SearchUI(
                 )
                 Column {
                     val title = if (activeTab == ACTIVE_MOVIE_TAB) item.title else item.name
-                    val release =
-                        if (activeTab == ACTIVE_MOVIE_TAB) item.releaseDate else item.firstAirDate
+                    val release = if (activeTab == ACTIVE_MOVIE_TAB) item.releaseDate else item.firstAirDate
+
                     Text(
-                        text = title ?: "", modifier = Modifier.padding(
-                            start = 8.dp, top = 4.dp
-                        ), fontWeight = FontWeight.SemiBold
+                        text = title ?: "",
+                        modifier = Modifier.padding(start = 8.dp, top = 4.dp),
+                        fontWeight = FontWeight.SemiBold
                     )
-                    Text(
-                        text = release ?: "",
-                        color = FontColor,
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
-                    Text(
-                        text = "${stringResource(R.string.rating_search)} ${
-                            item.voteAverage?.roundTo(
-                                1
-                            )
-                        }",
-                        color = SecondaryFontColor,
-                        fontSize = 12.sp,
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
+
+                    if (activeTab != ACTIVE_CELEBRITIES_TAB) {
+                        Text(
+                            text = release ?: "",
+                            color = FontColor,
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+
+                        Text(
+                            text = "${stringResource(R.string.rating_search)} ${
+                                item.voteAverage?.roundTo(1)
+                            }",
+                            color = SecondaryFontColor,
+                            fontSize = 12.sp,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                    }
                 }
             }
         })
