@@ -38,6 +38,7 @@ Movie World app built with Jetpack Compose, Hilt, Coroutines, Flow, Room and Vie
 - Celebrities
   - Popular Celebrities
   - Trending Celebrities
+  - Celebrity Search
 - Artist detail
 - Filter with genre 
 - Pagination with paging3
