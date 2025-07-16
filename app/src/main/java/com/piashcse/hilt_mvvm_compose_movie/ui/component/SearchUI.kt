@@ -31,6 +31,7 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
+import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_CELEBRITIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_MOVIE_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_TV_SERIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.roundTo
@@ -59,30 +60,44 @@ fun SearchUI(
 
     ) {
         items(items = searchData, itemContent = { item ->
-            Row(modifier = Modifier
-                .padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
-                .clickable {
-                    itemClick.invoke()
-                    if (activeTab == ACTIVE_MOVIE_TAB) {
-                        navController.navigate(
-                            Screen.MovieDetail.route.plus(
-                                "/${item.id}"
+            Row(
+                modifier = Modifier
+                    .padding(bottom = 8.dp, start = 8.dp, end = 8.dp)
+                    .clickable {
+                        itemClick.invoke()
+                        if (activeTab == ACTIVE_MOVIE_TAB) {
+                            navController.navigate(
+                                Screen.MovieDetail.route.plus(
+                                    "/${item.id}"
+                                )
                             )
-                        )
-                    } else if (activeTab == ACTIVE_TV_SERIES_TAB) {
-                        navController.navigate(
-                            Screen.TvSeriesDetail.route.plus(
-                                "/${item.id}"
+                        } else if (activeTab == ACTIVE_TV_SERIES_TAB) {
+                            navController.navigate(
+                                Screen.TvSeriesDetail.route.plus(
+                                    "/${item.id}"
+                                )
                             )
-                        )
-                    }
-                }) {
+                        } else if (activeTab == ACTIVE_CELEBRITIES_TAB) {
+                            navController.navigate(
+                                Screen.ArtistDetail.route.plus(
+                                    "/${item.id}"
+                                )
+                            )
+                        }
+                    }) {
                 CoilImage(
                     modifier = Modifier
                         .height(100.dp)
                         .width(80.dp)
                         .cornerRadius(8),
-                    imageModel = { ApiURL.IMAGE_URL.plus(item.backdropPath) },
+                    imageModel = {
+                        val imagePath = if (activeTab == ACTIVE_CELEBRITIES_TAB) {
+                            item.profilePath
+                        } else {
+                            item.backdropPath
+                        }
+                        ApiURL.IMAGE_URL.plus(imagePath)
+                    },
                     imageOptions = ImageOptions(
                         contentScale = ContentScale.Crop,
                         alignment = Alignment.Center,
@@ -90,9 +105,7 @@ fun SearchUI(
                         colorFilter = null,
                     ),
                     component = rememberImageComponent {
-                        +CircularRevealPlugin(
-                            duration = 800
-                        )
+                        +CircularRevealPlugin(duration = 800)
                         +ShimmerPlugin(
                             shimmer = Shimmer.Flash(
                                 baseColor = SecondaryFontColor,
@@ -104,27 +117,30 @@ fun SearchUI(
                 Column {
                     val title = if (activeTab == ACTIVE_MOVIE_TAB) item.title else item.name
                     val release = if (activeTab == ACTIVE_MOVIE_TAB) item.releaseDate else item.firstAirDate
+
                     Text(
-                        text = title ?: "", modifier = Modifier.padding(
-                            start = 8.dp, top = 4.dp
-                        ), fontWeight = FontWeight.SemiBold
+                        text = title ?: "",
+                        modifier = Modifier.padding(start = 8.dp, top = 4.dp),
+                        fontWeight = FontWeight.SemiBold
                     )
-                    Text(
-                        text = release ?: "",
-                        color = FontColor,
-                        fontSize = 16.sp,
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
-                    Text(
-                        text = "${stringResource(R.string.rating_search)} ${
-                            item.voteAverage?.roundTo(
-                                1
-                            )
-                        }",
-                        color = SecondaryFontColor,
-                        fontSize = 12.sp,
-                        modifier = Modifier.padding(start = 8.dp)
-                    )
+
+                    if (activeTab != ACTIVE_CELEBRITIES_TAB) {
+                        Text(
+                            text = release ?: "",
+                            color = FontColor,
+                            fontSize = 16.sp,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+
+                        Text(
+                            text = "${stringResource(R.string.rating_search)} ${
+                                item.voteAverage?.roundTo(1)
+                            }",
+                            color = SecondaryFontColor,
+                            fontSize = 12.sp,
+                            modifier = Modifier.padding(start = 8.dp)
+                        )
+                    }
                 }
             }
         })

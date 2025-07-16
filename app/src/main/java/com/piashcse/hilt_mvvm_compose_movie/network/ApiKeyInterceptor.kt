@@ -11,6 +11,7 @@ class ApiKeyInterceptor : Interceptor {
 
         val newUrl = originalUrl.newBuilder()
             .addQueryParameter("api_key", BuildConfig.API_KEY)
+            .addQueryParameter("include_adult", "false")
             .build()
 
         val newRequest = originalRequest.newBuilder()

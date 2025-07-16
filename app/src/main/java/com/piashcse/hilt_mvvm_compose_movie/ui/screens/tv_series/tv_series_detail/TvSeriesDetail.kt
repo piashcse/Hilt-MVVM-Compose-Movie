@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.tv_series_detail
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.tv_series_detail
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.background
@@ -57,7 +57,6 @@ import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.ExpandingText
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.SubtitlePrimary
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.SubtitleSecondary
-import com.piashcse.hilt_mvvm_compose_movie.ui.state.TvSeriesDetailUiState
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor

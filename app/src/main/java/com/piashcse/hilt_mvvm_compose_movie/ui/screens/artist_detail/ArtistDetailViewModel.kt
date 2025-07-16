@@ -3,7 +3,6 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.artist_detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.artist.ArtistRepository
-import com.piashcse.hilt_mvvm_compose_movie.ui.state.ArtistDetailUiState
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

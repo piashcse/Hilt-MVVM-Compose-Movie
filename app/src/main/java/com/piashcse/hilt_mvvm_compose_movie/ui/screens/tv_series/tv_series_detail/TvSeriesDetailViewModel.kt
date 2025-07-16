@@ -1,11 +1,10 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tvseries.tv_series_detail
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.tv_series_detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.dao.FavoriteTvSeriesDao
 import com.piashcse.hilt_mvvm_compose_movie.data.model.tv_series_detail.TvSeriesDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.tvseries.TvSeriesRepository
-import com.piashcse.hilt_mvvm_compose_movie.ui.state.TvSeriesDetailUiState
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

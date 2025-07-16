@@ -1,4 +1,4 @@
-package com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.botton_navigation
+package com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.bottom_navigation
 
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.NavigationBar

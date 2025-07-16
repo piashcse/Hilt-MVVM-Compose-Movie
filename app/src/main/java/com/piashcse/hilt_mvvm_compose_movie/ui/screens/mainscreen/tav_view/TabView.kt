@@ -45,14 +45,17 @@ fun TabView(
         }) {
         tabs.forEachIndexed { index, title ->
             Tab(selected = pagerState.currentPage == index, onClick = {
-                if (index == ACTIVE_MOVIE_TAB) {
-                    navigator.singleTopNavigator(Screen.NowPlaying.route)
+                when (index) {
+                    ACTIVE_MOVIE_TAB -> {
+                        navigator.singleTopNavigator(Screen.NowPlaying.route)
 
-                } else if (index == ACTIVE_TV_SERIES_TAB) {
-                    navigator.singleTopNavigator(Screen.AiringTodayTvSeries.route)
-                }
-                else if (index ==  ACTIVE_CELEBRITIES_TAB) {
-                    navigator.singleTopNavigator(Screen.PopularCelebrities.route)
+                    }
+                    ACTIVE_TV_SERIES_TAB -> {
+                        navigator.singleTopNavigator(Screen.AiringTodayTvSeries.route)
+                    }
+                    ACTIVE_CELEBRITIES_TAB -> {
+                        navigator.singleTopNavigator(Screen.PopularCelebrities.route)
+                    }
                 }
                 coroutineScope.launch {
                     pagerState.animateScrollToPage(index)
