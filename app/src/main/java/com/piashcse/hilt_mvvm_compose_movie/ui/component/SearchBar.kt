@@ -36,10 +36,12 @@ import kotlinx.coroutines.FlowPreview
 @Composable
 fun SearchBar(isAppBarVisible: MutableState<Boolean>, viewModel: MainViewModel, activeTab: Int) {
     var text by remember { mutableStateOf("") }
-    val focusRequester = FocusRequester()
+    val focusRequester = remember { FocusRequester() } // ✅ FIXED
+
     BackHandler(isAppBarVisible.value.not()) {
         isAppBarVisible.value = true
     }
+
     Column {
         TextField(
             modifier = Modifier
@@ -55,18 +57,11 @@ fun SearchBar(isAppBarVisible: MutableState<Boolean>, viewModel: MainViewModel, 
             onValueChange = {
                 text = it
                 when (activeTab) {
-                    ACTIVE_MOVIE_TAB -> {
-                        viewModel.searchMovies(it)
-                    }
-                    ACTIVE_TV_SERIES_TAB -> {
-                        viewModel.searchTvSeries(it)
-                    }
-                    ACTIVE_CELEBRITIES_TAB -> {
-                        viewModel.searchCelebrities(it)
-                    }
+                    ACTIVE_MOVIE_TAB -> viewModel.searchMovies(it)
+                    ACTIVE_TV_SERIES_TAB -> viewModel.searchTvSeries(it)
+                    ACTIVE_CELEBRITIES_TAB -> viewModel.searchCelebrities(it)
                 }
             },
-            //shape = RoundedCornerShape(8.dp),
             singleLine = true,
             trailingIcon = {
                 if (text.trim().isNotEmpty()) {
@@ -76,9 +71,7 @@ fun SearchBar(isAppBarVisible: MutableState<Boolean>, viewModel: MainViewModel, 
                         modifier = Modifier
                             .padding(end = 16.dp)
                             .offset(x = 10.dp)
-                            .clickable {
-                                text = ""
-                            }
+                            .clickable { text = "" }
                     )
                 } else {
                     Icon(
@@ -87,16 +80,13 @@ fun SearchBar(isAppBarVisible: MutableState<Boolean>, viewModel: MainViewModel, 
                         modifier = Modifier
                             .padding(end = 16.dp)
                             .offset(x = 10.dp)
-                            .clickable {
-
-                            }
                     )
                 }
             }
         )
+
         LaunchedEffect(Unit) {
             focusRequester.requestFocus()
         }
     }
-
 }
