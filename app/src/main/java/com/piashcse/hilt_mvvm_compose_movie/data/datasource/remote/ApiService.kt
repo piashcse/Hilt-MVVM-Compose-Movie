@@ -1,6 +1,5 @@
 package com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote
 
-import com.piashcse.hilt_mvvm_compose_movie.BuildConfig
 import com.piashcse.hilt_mvvm_compose_movie.data.model.BaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
@@ -57,7 +56,7 @@ interface ApiService {
     ): SearchBaseModel
 
     @GET("genre/movie/list")
-    suspend fun genreList(@Query("api_key") apiKey: String = BuildConfig.API_KEY): Genres
+    suspend fun genreList(): Genres
 
     @GET("discover/movie")
     suspend fun moviesByGenre(
