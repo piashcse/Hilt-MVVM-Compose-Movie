@@ -86,26 +86,6 @@ defaultConfig {
 - [Material Components for Android](https://github.com/material-components/material-components-android) - Modular and customizable Material Design UI components for Android.
 - [Timber](https://github.com/JakeWharton/timber) - A logger with a small, extensible API which provides utility on top of Android's normal Log class.
 
-## Project Structure 📁
-```
-app/src/main/java/com/piashcse/hilt_mvvm_compose_movie/
-├── data/
-│   ├── model/
-│   ├── repository/
-│   └── source/
-├── di/
-├── navigation/
-├── network/
-│   ├── api/
-│   └── response/
-├── ui/
-│   ├── component/
-│   ├── screens/
-│   ├── state/
-│   └── theme/
-└── utils/
-```
-
 ## 👨 Developed By
 
 <a href="https://twitter.com/piashcse" target="_blank">
