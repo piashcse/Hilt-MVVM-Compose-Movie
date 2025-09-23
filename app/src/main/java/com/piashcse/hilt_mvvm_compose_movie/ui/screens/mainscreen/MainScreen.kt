@@ -34,6 +34,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
@@ -59,9 +60,12 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.tav_view.TabVi
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FloatingActionBackground
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
-import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_CELEBRITIES_TAB
-import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_MOVIE_TAB
-import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_TV_SERIES_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.CELEBRITIES_SEARCH
+import com.piashcse.hilt_mvvm_compose_movie.utils.CELEBRITIES_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.MOVIE_SEARCH
+import com.piashcse.hilt_mvvm_compose_movie.utils.MOVIE_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.TV_SERIES_SEARCH
+import com.piashcse.hilt_mvvm_compose_movie.utils.TV_SERIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.ConnectionState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.connectivityState
 
@@ -103,9 +107,9 @@ fun MainScreen() {
             if (!isAppBarVisible.value) {
                 // Get loading state for current search type
                 val isSearchLoading = when (uiState.selectedSearchType) {
-                    ACTIVE_MOVIE_TAB -> uiState.isMovieSearchLoading
-                    ACTIVE_TV_SERIES_TAB -> uiState.isTvSeriesSearchLoading
-                    ACTIVE_CELEBRITIES_TAB -> uiState.isCelebritySearchLoading
+                    MOVIE_SEARCH -> uiState.isMovieSearchLoading
+                    TV_SERIES_SEARCH -> uiState.isTvSeriesSearchLoading
+                    CELEBRITIES_SEARCH -> uiState.isCelebritySearchLoading
                     else -> false
                 }
                 SearchBar(isAppBarVisible, mainViewModel, isSearchLoading)
@@ -131,7 +135,7 @@ fun MainScreen() {
                                     )
                                 ) {
                                     val targetRoute =
-                                        if (pagerState.currentPage == ACTIVE_MOVIE_TAB)
+                                        if (pagerState.currentPage == MOVIE_TAB)
                                             Screen.NowPlaying.route else Screen.AiringTodayTvSeries.route
 
                                     navController.navigate(targetRoute) {
@@ -229,23 +233,23 @@ fun MainScreen() {
                     ) {
                         val activeSearchType = uiState.selectedSearchType
                         val results = when (activeSearchType) {
-                            ACTIVE_MOVIE_TAB -> uiState.movieSearchResults
-                            ACTIVE_TV_SERIES_TAB -> uiState.tvSeriesSearchResults
-                            ACTIVE_CELEBRITIES_TAB -> uiState.celebritySearchResults
+                            MOVIE_SEARCH -> uiState.movieSearchResults
+                            TV_SERIES_SEARCH -> uiState.tvSeriesSearchResults
+                            CELEBRITIES_SEARCH -> uiState.celebritySearchResults
                             else -> null
                         }
                         // Get the current search query based on active tab
                         val searchQuery = when (activeSearchType) {
-                            ACTIVE_MOVIE_TAB -> uiState.movieSearchQuery
-                            ACTIVE_TV_SERIES_TAB -> uiState.tvSeriesSearchQuery
-                            ACTIVE_CELEBRITIES_TAB -> uiState.celebritySearchQuery
+                            MOVIE_SEARCH -> uiState.movieSearchQuery
+                            TV_SERIES_SEARCH -> uiState.tvSeriesSearchQuery
+                            CELEBRITIES_SEARCH -> uiState.celebritySearchQuery
                             else -> ""
                         }
                         // Get loading state for current search type
                         val isLoading = when (activeSearchType) {
-                            ACTIVE_MOVIE_TAB -> uiState.isLoading && uiState.movieSearchQuery.isNotBlank()
-                            ACTIVE_TV_SERIES_TAB -> uiState.isLoading && uiState.tvSeriesSearchQuery.isNotBlank()
-                            ACTIVE_CELEBRITIES_TAB -> uiState.isLoading && uiState.celebritySearchQuery.isNotBlank()
+                            MOVIE_SEARCH -> uiState.isLoading && uiState.movieSearchQuery.isNotBlank()
+                            TV_SERIES_SEARCH -> uiState.isLoading && uiState.tvSeriesSearchQuery.isNotBlank()
+                            CELEBRITIES_SEARCH -> uiState.isLoading && uiState.celebritySearchQuery.isNotBlank()
                             else -> false
                         }
                         results?.let {

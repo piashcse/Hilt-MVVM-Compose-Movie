@@ -25,9 +25,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
-import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_CELEBRITIES_TAB
-import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_MOVIE_TAB
-import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_TV_SERIES_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.CELEBRITIES_SEARCH
+import com.piashcse.hilt_mvvm_compose_movie.utils.MOVIE_SEARCH
+import com.piashcse.hilt_mvvm_compose_movie.utils.TV_SERIES_SEARCH
 
 @Composable
 fun SearchTypeSelector(
@@ -35,9 +35,9 @@ fun SearchTypeSelector(
     onTypeSelected: (Int) -> Unit
 ) {
     val types = listOf(
-        Pair(ACTIVE_MOVIE_TAB, stringResource(R.string.movie)),
-        Pair(ACTIVE_TV_SERIES_TAB, stringResource(R.string.tv_series)),
-        Pair(ACTIVE_CELEBRITIES_TAB, stringResource(R.string.celebrities))
+        Pair(MOVIE_SEARCH, stringResource(R.string.movie)),
+        Pair(TV_SERIES_SEARCH, stringResource(R.string.tv_series)),
+        Pair(CELEBRITIES_SEARCH, stringResource(R.string.celebrities))
     )
 
     Row(

@@ -2,7 +2,7 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen
 
 import com.piashcse.hilt_mvvm_compose_movie.data.model.Genres
 import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchItem
-import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_MOVIE_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.MOVIE_SEARCH
 
 data class MainUiState(
     val genres: Genres? = null,
@@ -15,7 +15,7 @@ data class MainUiState(
     val isMovieSearchLoading: Boolean = false,
     val isTvSeriesSearchLoading: Boolean = false,
     val isCelebritySearchLoading: Boolean = false,
-    val selectedSearchType: Int = ACTIVE_MOVIE_TAB,
+    val selectedSearchType: Int = MOVIE_SEARCH,
     val isLoading: Boolean = false,
     val error: Throwable? = null
 )

@@ -32,9 +32,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.MainViewModel
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.Blue
-import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_CELEBRITIES_TAB
-import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_MOVIE_TAB
-import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_TV_SERIES_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.CELEBRITIES_SEARCH
+import com.piashcse.hilt_mvvm_compose_movie.utils.MOVIE_SEARCH
+import com.piashcse.hilt_mvvm_compose_movie.utils.TV_SERIES_SEARCH
 
 @Composable
 fun SearchBar(isAppBarVisible: MutableState<Boolean>, viewModel: MainViewModel, isLoading: Boolean = false) {
@@ -66,9 +66,9 @@ fun SearchBar(isAppBarVisible: MutableState<Boolean>, viewModel: MainViewModel, 
             onValueChange = { newText ->
                 text = newText
                 when (selectedSearchType) {
-                    ACTIVE_MOVIE_TAB -> viewModel.searchMovies(newText)
-                    ACTIVE_TV_SERIES_TAB -> viewModel.searchTvSeries(newText)
-                    ACTIVE_CELEBRITIES_TAB -> viewModel.searchCelebrities(newText)
+                    MOVIE_SEARCH -> viewModel.searchMovies(newText)
+                    TV_SERIES_SEARCH -> viewModel.searchTvSeries(newText)
+                    CELEBRITIES_SEARCH -> viewModel.searchCelebrities(newText)
                 }
             },
             singleLine = true,
