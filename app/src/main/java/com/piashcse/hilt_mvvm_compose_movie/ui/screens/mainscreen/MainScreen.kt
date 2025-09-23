@@ -2,9 +2,13 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen
 
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
@@ -30,8 +34,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -51,11 +57,15 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.component.ShowExitDialog
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.bottom_navigation.BottomNavigationUI
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.tav_view.FavoriteTabView
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.tav_view.TabView
+import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FloatingActionBackground
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
-import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_CELEBRITIES_TAB
-import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_MOVIE_TAB
-import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_TV_SERIES_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.CELEBRITIES_SEARCH
+import com.piashcse.hilt_mvvm_compose_movie.utils.CELEBRITIES_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.MOVIE_SEARCH
+import com.piashcse.hilt_mvvm_compose_movie.utils.MOVIE_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.TV_SERIES_SEARCH
+import com.piashcse.hilt_mvvm_compose_movie.utils.TV_SERIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.ConnectionState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.connectivityState
 
@@ -95,7 +105,14 @@ fun MainScreen() {
     Scaffold(
         topBar = {
             if (!isAppBarVisible.value) {
-                SearchBar(isAppBarVisible, mainViewModel, pagerState.currentPage)
+                // Get loading state for current search type
+                val isSearchLoading = when (uiState.selectedSearchType) {
+                    MOVIE_SEARCH -> uiState.isMovieSearchLoading
+                    TV_SERIES_SEARCH -> uiState.isTvSeriesSearchLoading
+                    CELEBRITIES_SEARCH -> uiState.isCelebritySearchLoading
+                    else -> false
+                }
+                SearchBar(isAppBarVisible, mainViewModel, isSearchLoading)
             } else {
                 CenterAlignedTopAppBar(
                     colors = TopAppBarDefaults.topAppBarColors(
@@ -118,7 +135,7 @@ fun MainScreen() {
                                     )
                                 ) {
                                     val targetRoute =
-                                        if (pagerState.currentPage == ACTIVE_MOVIE_TAB)
+                                        if (pagerState.currentPage == MOVIE_TAB)
                                             Screen.NowPlaying.route else Screen.AiringTodayTvSeries.route
 
                                     navController.navigate(targetRoute) {
@@ -169,7 +186,7 @@ fun MainScreen() {
             }
         },
         bottomBar = {
-            if (currentRoute in bottomNavRoutes) {
+            if (currentRoute in bottomNavRoutes && isAppBarVisible.value) {
                 BottomNavigationUI(navController, pagerState)
             }
         },
@@ -182,24 +199,64 @@ fun MainScreen() {
         }
     ) { padding ->
         Box(Modifier.padding(padding)) {
+            // Show main content even when search is active, but dim it
             MainView(
                 navController = navController,
                 pagerState = pagerState,
                 genres = uiState.genres?.genres,
                 isFavorite = isFavoriteActive.value
             )
+            
             CircularIndeterminateProgressBar(isDisplayed = uiState.isLoading, 0.1f)
 
             if (!isAppBarVisible.value) {
-                val results = when (pagerState.currentPage) {
-                    ACTIVE_MOVIE_TAB -> uiState.movieSearchResults
-                    ACTIVE_TV_SERIES_TAB -> uiState.tvSeriesSearchResults
-                    ACTIVE_CELEBRITIES_TAB -> uiState.celebritySearchResults
-                    else -> null
-                }
-                results?.let {
-                    SearchUI(navController, it, pagerState.currentPage) {
-                        isAppBarVisible.value = true
+                // Overlay search results on top of main content
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(Color.Black.copy(alpha = 0.5f)) // Semi-transparent background
+                        .clickable { isAppBarVisible.value = true } // Click outside to close
+                ) {
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .heightIn(max = 500.dp) // Increased height to show more items
+                            .background(color = DefaultBackgroundColor)
+                            .pointerInput(Unit) {
+                                // Consume touch events to prevent closing when clicking inside
+                                awaitPointerEventScope {
+                                    while (true) {
+                                        awaitPointerEvent()
+                                    }
+                                }
+                            }
+                    ) {
+                        val activeSearchType = uiState.selectedSearchType
+                        val results = when (activeSearchType) {
+                            MOVIE_SEARCH -> uiState.movieSearchResults
+                            TV_SERIES_SEARCH -> uiState.tvSeriesSearchResults
+                            CELEBRITIES_SEARCH -> uiState.celebritySearchResults
+                            else -> null
+                        }
+                        // Get the current search query based on active tab
+                        val searchQuery = when (activeSearchType) {
+                            MOVIE_SEARCH -> uiState.movieSearchQuery
+                            TV_SERIES_SEARCH -> uiState.tvSeriesSearchQuery
+                            CELEBRITIES_SEARCH -> uiState.celebritySearchQuery
+                            else -> ""
+                        }
+                        // Get loading state for current search type
+                        val isLoading = when (activeSearchType) {
+                            MOVIE_SEARCH -> uiState.isLoading && uiState.movieSearchQuery.isNotBlank()
+                            TV_SERIES_SEARCH -> uiState.isLoading && uiState.tvSeriesSearchQuery.isNotBlank()
+                            CELEBRITIES_SEARCH -> uiState.isLoading && uiState.celebritySearchQuery.isNotBlank()
+                            else -> false
+                        }
+                        results?.let {
+                            SearchUI(navController, it, activeSearchType, searchQuery, isLoading, itemClick = {
+                                isAppBarVisible.value = true
+                            })
+                        }
                     }
                 }
             }

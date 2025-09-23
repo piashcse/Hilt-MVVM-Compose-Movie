@@ -22,9 +22,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavHostController
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
-import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_CELEBRITIES_TAB
-import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_MOVIE_TAB
-import com.piashcse.hilt_mvvm_compose_movie.utils.ACTIVE_TV_SERIES_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.CELEBRITIES_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.MOVIE_TAB
+import com.piashcse.hilt_mvvm_compose_movie.utils.TV_SERIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.singleTopNavigator
 import kotlinx.coroutines.launch
 
@@ -46,14 +46,14 @@ fun TabView(
         tabs.forEachIndexed { index, title ->
             Tab(selected = pagerState.currentPage == index, onClick = {
                 when (index) {
-                    ACTIVE_MOVIE_TAB -> {
+                    MOVIE_TAB -> {
                         navigator.singleTopNavigator(Screen.NowPlaying.route)
 
                     }
-                    ACTIVE_TV_SERIES_TAB -> {
+                    TV_SERIES_TAB -> {
                         navigator.singleTopNavigator(Screen.AiringTodayTvSeries.route)
                     }
-                    ACTIVE_CELEBRITIES_TAB -> {
+                    CELEBRITIES_TAB -> {
                         navigator.singleTopNavigator(Screen.PopularCelebrities.route)
                     }
                 }
@@ -90,9 +90,9 @@ fun FavoriteTabView(navigator: NavHostController) {
             tabs.forEachIndexed { index, title ->
                 Tab(selected = selectedTabIndex == index, onClick = {
                     selectedTabIndex = index
-                    if (index == ACTIVE_MOVIE_TAB) {
+                    if (index == MOVIE_TAB) {
                         navigator.singleTopNavigator(Screen.FavoriteMovie.route)
-                    } else if (index == ACTIVE_TV_SERIES_TAB) {
+                    } else if (index == TV_SERIES_TAB) {
                         navigator.singleTopNavigator(Screen.FavoriteTvSeries.route)
                     }
 
