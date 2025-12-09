@@ -9,8 +9,8 @@ import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.paging_dataso
 import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchBaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.celebrities.Celebrity
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
+import com.piashcse.hilt_mvvm_compose_movie.utils.network.safeApiCall
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class CelebrityRepositoryImpl @Inject constructor(
@@ -28,14 +28,7 @@ class CelebrityRepositoryImpl @Inject constructor(
             config = PagingConfig(pageSize = 20)
         ).flow
 
-    override fun searchCelebrity(searchKey: String): Flow<DataState<SearchBaseModel>> = flow {
-        emit(DataState.Loading)
-        try {
-            val response = apiService.searchCelebrity(searchKey)
-            emit(DataState.Success(response))
-        } catch (e: Exception) {
-            emit(DataState.Error(e))
-        }
-    }
+    override fun searchCelebrity(searchKey: String): Flow<DataState<SearchBaseModel>> =
+        safeApiCall { apiService.searchCelebrity(searchKey) }
 
 }
