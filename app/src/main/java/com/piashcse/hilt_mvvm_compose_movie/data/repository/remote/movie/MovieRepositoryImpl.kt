@@ -15,69 +15,28 @@ import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchBaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Artist
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
+import com.piashcse.hilt_mvvm_compose_movie.utils.network.safeApiCall
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 
 class MovieRepositoryImpl @Inject constructor(
     private val apiService: ApiService,
 ) : MovieRepository {
-    override suspend fun movieDetail(movieId: Int): Flow<DataState<MovieDetail>> = flow {
-        emit(DataState.Loading)
-        try {
-            val searchResult = apiService.movieDetail(movieId)
-            emit(DataState.Success(searchResult))
-
-        } catch (e: Exception) {
-            emit(DataState.Error(e))
-        }
-    }
+    override suspend fun movieDetail(movieId: Int): Flow<DataState<MovieDetail>> =
+        safeApiCall { apiService.movieDetail(movieId) }
 
     override suspend fun recommendedMovie(movieId: Int): Flow<DataState<List<MovieItem>>> =
-        flow {
-            emit(DataState.Loading)
-            try {
-                val searchResult = apiService.recommendedMovie(movieId)
-                emit(DataState.Success(searchResult.results))
-
-            } catch (e: Exception) {
-                emit(DataState.Error(e))
-            }
-        }
+        safeApiCall { apiService.recommendedMovie(movieId).results }
 
 
-    override suspend fun movieSearch(searchKey: String): Flow<DataState<SearchBaseModel>> = flow {
-        emit(DataState.Loading)
-        try {
-            val searchResult = apiService.searchMovie(searchKey)
-            emit(DataState.Success(searchResult))
+    override suspend fun movieSearch(searchKey: String): Flow<DataState<SearchBaseModel>> =
+        safeApiCall { apiService.searchMovie(searchKey) }
 
-        } catch (e: Exception) {
-            emit(DataState.Error(e))
-        }
-    }
+    override suspend fun genreList(): Flow<DataState<Genres>> =
+        safeApiCall { apiService.genreList() }
 
-    override suspend fun genreList(): Flow<DataState<Genres>> = flow {
-        emit(DataState.Loading)
-        try {
-            val genreResult = apiService.genreList()
-            emit(DataState.Success(genreResult))
-
-        } catch (e: Exception) {
-            emit(DataState.Error(e))
-        }
-    }
-
-    override suspend fun movieCredit(movieId: Int): Flow<DataState<Artist>> = flow {
-        emit(DataState.Loading)
-        try {
-            val artistResult = apiService.movieCredit(movieId)
-            emit(DataState.Success(artistResult))
-
-        } catch (e: Exception) {
-            emit(DataState.Error(e))
-        }
-    }
+    override suspend fun movieCredit(movieId: Int): Flow<DataState<Artist>> =
+        safeApiCall { apiService.movieCredit(movieId) }
 
     override fun nowPlayingMoviePagingDataSource(genreId: String?): Flow<PagingData<MovieItem>> =
         Pager(
