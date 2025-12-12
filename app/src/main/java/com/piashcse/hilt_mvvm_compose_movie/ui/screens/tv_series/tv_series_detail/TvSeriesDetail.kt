@@ -53,7 +53,8 @@ import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.TvSeriesItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Cast
 import com.piashcse.hilt_mvvm_compose_movie.data.model.tv_series_detail.TvSeriesDetail
-import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
+import com.piashcse.hilt_mvvm_compose_movie.navigation.ArtistDetailRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.TvSeriesDetailRoute
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.ExpandingText
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.SubtitlePrimary
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.SubtitleSecondary
@@ -84,13 +85,9 @@ fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
     TvSeriesDetailContent(
         uiState = uiState,
         onFavoriteClick = { tvSeries -> viewModel.toggleFavorite(tvSeries) },
-        onRecommendedTvSeriesClick = { id -> navController.navigate(Screen.TvSeriesDetail.route + "/$id") },
+        onRecommendedTvSeriesClick = { id -> navController.navigate(TvSeriesDetailRoute(id)) },
         onCastClick = { id ->
-            navController.navigate(
-                Screen.ArtistDetail.route.plus(
-                    "/${id}"
-                )
-            )
+            navController.navigate(ArtistDetailRoute(id))
         },
     )
 }

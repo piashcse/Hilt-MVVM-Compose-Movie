@@ -34,7 +34,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
@@ -42,13 +41,15 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavDestination
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigation
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
-import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
 import com.piashcse.hilt_mvvm_compose_movie.navigation.navigationTitle
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchBar
@@ -61,13 +62,12 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FloatingActionBackground
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
 import com.piashcse.hilt_mvvm_compose_movie.utils.CELEBRITIES_SEARCH
-import com.piashcse.hilt_mvvm_compose_movie.utils.CELEBRITIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.MOVIE_SEARCH
 import com.piashcse.hilt_mvvm_compose_movie.utils.MOVIE_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.TV_SERIES_SEARCH
-import com.piashcse.hilt_mvvm_compose_movie.utils.TV_SERIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.ConnectionState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.connectivityState
+import kotlin.reflect.KClass
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -82,21 +82,22 @@ fun MainScreen() {
     val pagerState = rememberPagerState { 3 }
 
     val uiState by mainViewModel.uiState.collectAsState()
-    val currentRoute = currentRoute(navController)
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
 
-    val hideTopBarRoutes = listOf(
-        Screen.MovieDetail.route, Screen.ArtistDetail.route,
-        Screen.TvSeriesDetail.route, Screen.FavoriteMovie.route, Screen.FavoriteTvSeries.route
+    val hideTopBarScreens = listOf(
+        Screen.MovieDetail, Screen.ArtistDetail,
+        Screen.TvSeriesDetail, Screen.FavoriteMovie, Screen.FavoriteTvSeries
     )
 
-    val bottomNavRoutes = listOf(
-        Screen.NowPlaying.route, Screen.Popular.route, Screen.TopRated.route, Screen.Upcoming.route,
-        Screen.AiringTodayTvSeries.route, Screen.OnTheAirTvSeriesNav.route,
-        Screen.PopularTvSeries.route, Screen.TopRatedTvSeries.route,
-        Screen.PopularCelebrities.route, Screen.TrendingCelebrities.route,
+    val bottomNavScreens = listOf(
+        Screen.NowPlaying, Screen.Popular, Screen.TopRated, Screen.Upcoming,
+        Screen.AiringTodayTvSeries, Screen.OnTheAirTvSeriesNav,
+        Screen.PopularTvSeries, Screen.TopRatedTvSeries,
+        Screen.PopularCelebrities, Screen.TrendingCelebrities,
     )
 
-    val showTopAppBarActions = currentRoute !in hideTopBarRoutes
+    val showTopAppBarActions = hideTopBarScreens.none { isScreenActive(currentDestination, it) }
 
     LaunchedEffect(Unit) {
         mainViewModel.loadGenres()
@@ -128,12 +129,13 @@ fun MainScreen() {
                         )
                     },
                     navigationIcon = {
-                        if (currentRoute in hideTopBarRoutes) {
+                        if (hideTopBarScreens.any { isScreenActive(currentDestination, it) }) {
                             IconButton(onClick = {
-                                if (isFavoriteActive.value && currentRoute in listOf(
-                                        Screen.FavoriteMovie.route, Screen.FavoriteTvSeries.route
-                                    )
-                                ) {
+                                val isFavoriteScreen = listOf(
+                                    Screen.FavoriteMovie, Screen.FavoriteTvSeries
+                                ).any { isScreenActive(currentDestination, it) }
+
+                                if (isFavoriteActive.value && isFavoriteScreen) {
                                     val targetRoute =
                                         if (pagerState.currentPage == MOVIE_TAB)
                                             Screen.NowPlaying.route else Screen.AiringTodayTvSeries.route
@@ -186,7 +188,7 @@ fun MainScreen() {
             }
         },
         bottomBar = {
-            if (currentRoute in bottomNavRoutes && isAppBarVisible.value) {
+            if (bottomNavScreens.any { isScreenActive(currentDestination, it) } && isAppBarVisible.value) {
                 BottomNavigationUI(navController, pagerState)
             }
         },
@@ -273,21 +275,24 @@ fun MainView(
 ) {
     val activity = LocalActivity.current
     val openDialog = remember { mutableStateOf(false) }
-    val currentRoute = currentRoute(navController)
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
 
-    val showTabs = currentRoute !in listOf(
-        Screen.MovieDetail.route,
-        Screen.TvSeriesDetail.route,
-        Screen.ArtistDetail.route
+    val hideTabScreens = listOf(
+        Screen.MovieDetail,
+        Screen.TvSeriesDetail,
+        Screen.ArtistDetail
     )
 
-    val backDialogRoutes = listOf(
-        Screen.NowPlaying.route,
-        Screen.AiringTodayTvSeries.route,
-        Screen.PopularCelebrities.route
+    val showTabs = hideTabScreens.none { isScreenActive(currentDestination, it) }
+
+    val backDialogScreens = listOf(
+        Screen.NowPlaying,
+        Screen.AiringTodayTvSeries,
+        Screen.PopularCelebrities
     )
 
-    BackHandler(enabled = currentRoute in backDialogRoutes) {
+    BackHandler(enabled = backDialogScreens.any { isScreenActive(currentDestination, it) }) {
         openDialog.value = true
     }
 
@@ -308,5 +313,14 @@ fun MainView(
         if (openDialog.value) {
             ShowExitDialog(activity, openDialog)
         }
+    }
+}
+
+private fun isScreenActive(destination: NavDestination?, screen: Screen): Boolean {
+    val route = screen.route
+    return if (route is KClass<*>) {
+        destination?.hasRoute(route) == true
+    } else {
+        destination?.hasRoute(route::class) == true
     }
 }
