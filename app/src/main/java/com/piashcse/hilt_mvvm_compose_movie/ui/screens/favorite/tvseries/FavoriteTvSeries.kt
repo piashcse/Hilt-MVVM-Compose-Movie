@@ -35,7 +35,7 @@ import androidx.navigation.NavController
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.tv_series_detail.TvSeriesDetail
-import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
+import com.piashcse.hilt_mvvm_compose_movie.navigation.TvSeriesDetailRoute
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.ExitAlertDialog
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
@@ -92,7 +92,7 @@ fun FavoriteTvSeriesItemView(
                 modifier = Modifier
                     .height(250.dp)
                     .clickable {
-                        navController.navigate(Screen.TvSeriesDetail.route.plus("/${item.id}"))
+                        navController.navigate(TvSeriesDetailRoute(item.id))
                     },
                 imageModel = { ApiURL.IMAGE_URL.plus(item.backdropPath) },
                 imageOptions = ImageOptions(

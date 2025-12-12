@@ -1,15 +1,16 @@
 package com.piashcse.hilt_mvvm_compose_movie.navigation
 
+// Composable imports
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.navArgument
+import androidx.navigation.toRoute
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.artist_detail.ArtistDetail
@@ -32,108 +33,84 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.tv_series_detai
 fun Navigation(
     navController: NavHostController, genres: List<Genre>? = null,
 ) {
-    NavHost(navController, startDestination = Screen.NowPlaying.route) {
-        composable(Screen.NowPlaying.route) {
+    NavHost(navController = navController, startDestination = NowPlayingMovieRoute) {
+        composable<NowPlayingMovieRoute> {
             NowPlayingMovie(
                 navController = navController,
                 genres
             )
         }
-        composable(Screen.Popular.route) {
+        composable<PopularMovieRoute> {
             PopularMovie(
                 navController = navController,
                 genres
             )
         }
-        composable(Screen.TopRated.route) {
+        composable<TopRatedMovieRoute> {
             TopRatedMovie(
                 navController = navController,
                 genres
             )
         }
-        composable(Screen.Upcoming.route) {
+        composable<UpcomingMovieRoute> {
             UpcomingMovie(
                 navController = navController,
                 genres
             )
         }
-        composable(
-            Screen.MovieDetail.route.plus(Screen.MovieDetail.objectPath),
-            arguments = listOf(navArgument(Screen.MovieDetail.objectName) {
-                type = NavType.IntType
-            })
-        ) {
-            label = stringResource(R.string.movie_detail)
-            val movieId = it.arguments?.getInt(Screen.MovieDetail.objectName)
-            movieId?.let {
-                MovieDetail(
-                    navController = navController, movieId
-                )
-            }
+        composable<MovieDetailRoute> {
+            val args = it.toRoute<MovieDetailRoute>()
+            MovieDetail(
+                navController = navController, args.movieId
+            )
         }
-        composable(
-            Screen.ArtistDetail.route.plus(Screen.ArtistDetail.objectPath),
-            arguments = listOf(navArgument(Screen.ArtistDetail.objectName) {
-                type = NavType.IntType
-            })
-        ) {
-            label = stringResource(R.string.artist_detail)
-            val artistId = it.arguments?.getInt(Screen.ArtistDetail.objectName)
-            artistId?.let {
-                ArtistDetail(
-                    navController = navController,
-                    artistId
-                )
-            }
+        composable<ArtistDetailRoute> {
+            val args = it.toRoute<ArtistDetailRoute>()
+            ArtistDetail(
+                navController = navController,
+                args.artistId
+            )
         }
-        composable(Screen.AiringTodayTvSeries.route) {
+        composable<AiringTodayTvSeriesRoute> {
             AiringTodayTvSeries(
                 navController = navController,
                 genres
             )
         }
-        composable(Screen.OnTheAirTvSeries.route) {
+        composable<OnTheAirTvSeriesRoute> {
             OnTheAirTvSeries(
                 navController = navController,
                 genres
             )
         }
-        composable(Screen.PopularTvSeries.route) {
+        composable<PopularTvSeriesRoute> {
             PopularTvSeries(
                 navController = navController,
                 genres
             )
         }
-        composable(Screen.TopRatedTvSeries.route) {
+        composable<TopRatedTvSeriesRoute> {
             TopRatedTvSeries(
                 navController = navController,
                 genres
             )
         }
-        composable(
-            Screen.TvSeriesDetail.route.plus(Screen.TvSeriesDetail.objectPath),
-            arguments = listOf(navArgument(Screen.TvSeriesDetail.objectName) {
-                type = NavType.IntType
-            })
-        ) {
-            label = stringResource(R.string.tv_series_detail)
-            val movieId = it.arguments?.getInt(Screen.TvSeriesDetail.objectName)
-            movieId?.let {
-                TvSeriesDetail(
-                    navController = navController, movieId
-                )
-            }
+        composable<TvSeriesDetailRoute> {
+            val args = it.toRoute<TvSeriesDetailRoute>()
+            TvSeriesDetail(
+                navController = navController, args.seriesId
+            )
         }
-        composable(Screen.FavoriteMovie.route) {
+        composable<FavoriteMovieRoute> {
             FavoriteMovie(navController)
         }
-        composable(Screen.FavoriteTvSeries.route) {
+        composable<FavoriteTvSeriesRoute> {
             FavoriteTvSeries(navController)
         }
-        composable(Screen.PopularCelebrities.route) {
+        composable<PopularCelebritiesRoute> {
             PopularCelebrities(navController)
         }
-        composable(Screen.TrendingCelebritiesNav.route) {
+        composable<TrendingCelebritiesRoute> {
             TrendingCelebrities(navController)
         }
     }
@@ -141,20 +118,17 @@ fun Navigation(
 
 @Composable
 fun navigationTitle(navController: NavController): String {
-    return when (currentRoute(navController)) {
-        Screen.MovieDetail.route -> stringResource(id = R.string.movie_detail)
-        Screen.TvSeriesDetail.route -> stringResource(id = R.string.tv_series_detail)
-        Screen.ArtistDetail.route -> stringResource(id = R.string.artist_detail)
-        Screen.FavoriteMovie.route -> stringResource(id = R.string.favorite_movie)
-        Screen.FavoriteTvSeries.route -> stringResource(id = R.string.favorite_tv_series)
-        else -> {
-            stringResource(R.string.app_name)
-        }
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val destination = navBackStackEntry?.destination ?: return stringResource(R.string.app_name)
+
+    return when {
+        destination.hasRoute<MovieDetailRoute>() -> stringResource(id = R.string.movie_detail)
+        destination.hasRoute<TvSeriesDetailRoute>() -> stringResource(id = R.string.tv_series_detail)
+        destination.hasRoute<ArtistDetailRoute>() -> stringResource(id = R.string.artist_detail)
+        destination.hasRoute<FavoriteMovieRoute>() -> stringResource(id = R.string.favorite_movie)
+        destination.hasRoute<FavoriteTvSeriesRoute>() -> stringResource(id = R.string.favorite_tv_series)
+        else -> stringResource(R.string.app_name)
     }
 }
 
-@Composable
-fun currentRoute(navController: NavController): String? {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    return navBackStackEntry?.destination?.route?.substringBeforeLast("/")
-}
+

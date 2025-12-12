@@ -35,7 +35,7 @@ import androidx.navigation.NavController
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
-import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
+import com.piashcse.hilt_mvvm_compose_movie.navigation.MovieDetailRoute
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.ExitAlertDialog
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
@@ -87,7 +87,7 @@ fun FavoriteMovieItemView(
                 modifier = Modifier
                     .height(250.dp)
                     .clickable {
-                        navController.navigate(Screen.MovieDetail.route.plus("/${item.id}"))
+                        navController.navigate(MovieDetailRoute(item.id))
                     },
                 imageModel = { ApiURL.IMAGE_URL.plus(item.backdropPath) },
                 imageOptions = ImageOptions(

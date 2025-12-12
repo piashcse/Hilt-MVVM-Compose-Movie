@@ -11,6 +11,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -21,11 +22,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.paging.compose.LazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.celebrities.Celebrity
-import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
-import com.piashcse.hilt_mvvm_compose_movie.navigation.currentRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.AiringTodayTvSeriesRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.ArtistDetailRoute
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
@@ -47,9 +50,12 @@ fun Celebrities(
     val activity = LocalActivity.current
     val progressBar = remember { mutableStateOf(false) }
     val openDialog = remember { mutableStateOf(false) }
+    
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
 
     // Handling back press for dialog
-    BackHandler(enabled = currentRoute(navController) == Screen.AiringTodayTvSeries.route) {
+    BackHandler(enabled = currentDestination?.hasRoute(AiringTodayTvSeriesRoute::class) == true) {
         openDialog.value = true
     }
 
@@ -87,7 +93,7 @@ fun DisplayCelebrities(
                         modifier = Modifier
                             .size(230.dp)
                             .cornerRadius(10)
-                            .clickable { navController.navigate(Screen.ArtistDetail.route.plus("/${item.id}")) },
+                            .clickable { navController.navigate(ArtistDetailRoute(item.id)) },
                         imageModel = { ApiURL.IMAGE_URL + item.profilePath },
                         imageOptions = ImageOptions(
                             contentScale = ContentScale.Crop,

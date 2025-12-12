@@ -53,7 +53,8 @@ import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.MovieItem
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.Cast
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
-import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
+import com.piashcse.hilt_mvvm_compose_movie.navigation.ArtistDetailRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.MovieDetailRoute
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.ExpandingText
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.SubtitlePrimary
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.text.SubtitleSecondary
@@ -85,13 +86,9 @@ fun MovieDetail(navController: NavController, movieId: Int) {
     MovieDetailContent(
         uiState = uiState,
         onFavoriteClick = { movie -> viewModel.toggleFavorite(movie) },
-        onRecommendedMovieClick = { id -> navController.navigate(Screen.MovieDetail.route + "/$id") },
+        onRecommendedMovieClick = { id -> navController.navigate(MovieDetailRoute(id)) },
         onCastClick = { id ->
-            navController.navigate(
-                Screen.ArtistDetail.route.plus(
-                    "/${id}"
-                )
-            )
+            navController.navigate(ArtistDetailRoute(id))
         },
     )
 }

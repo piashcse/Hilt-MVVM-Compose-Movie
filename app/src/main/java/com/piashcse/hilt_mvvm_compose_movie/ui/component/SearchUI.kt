@@ -5,23 +5,18 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.asPaddingValues
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -31,7 +26,9 @@ import androidx.navigation.NavController
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchItem
-import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
+import com.piashcse.hilt_mvvm_compose_movie.navigation.ArtistDetailRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.MovieDetailRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.TvSeriesDetailRoute
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
@@ -52,17 +49,16 @@ fun SearchUI(
     navController: NavController,
     searchData: List<SearchItem>,
     activeTab: Int,
-    searchQuery: String = "", // Move searchQuery parameter before itemClick
-    isLoading: Boolean = false, // Add isLoading parameter
+    searchQuery: String = "",
+    isLoading: Boolean = false,
     itemClick: () -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier
             .fillMaxWidth()
-            .heightIn(max = 500.dp) // Increased height to show more items
+            .heightIn(max = 500.dp)
             .background(color = DefaultBackgroundColor)
     ) {
-        // Show placeholder only when API call is complete, there's a search query, but no results
         if (!isLoading && searchQuery.isNotBlank() && searchData.isEmpty()) {
             item {
                 Box(
@@ -86,23 +82,11 @@ fun SearchUI(
                         .clickable {
                             itemClick.invoke()
                             if (activeTab == MOVIE_SEARCH) {
-                                navController.navigate(
-                                    Screen.MovieDetail.route.plus(
-                                        "/${item.id}"
-                                    )
-                                )
+                                navController.navigate(MovieDetailRoute(item.id))
                             } else if (activeTab == TV_SERIES_SEARCH) {
-                                navController.navigate(
-                                    Screen.TvSeriesDetail.route.plus(
-                                        "/${item.id}"
-                                    )
-                                )
+                                navController.navigate(TvSeriesDetailRoute(item.id))
                             } else if (activeTab == CELEBRITIES_SEARCH) {
-                                navController.navigate(
-                                    Screen.ArtistDetail.route.plus(
-                                        "/${item.id}"
-                                    )
-                                )
+                                navController.navigate(ArtistDetailRoute(item.id))
                             }
                         }
                 ) {

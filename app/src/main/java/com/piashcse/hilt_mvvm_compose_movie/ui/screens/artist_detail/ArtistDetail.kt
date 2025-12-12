@@ -30,7 +30,8 @@ import androidx.navigation.NavController
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistMovie
-import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
+import com.piashcse.hilt_mvvm_compose_movie.navigation.MovieDetailRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.TvSeriesDetailRoute
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.ExpandingText
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
@@ -130,9 +131,9 @@ fun ArtistDetailUi(
             artistUiState.artistMovies?.let {
                 ArtistMovies(it) { item ->
                     if (item.mediaType == "movie") {
-                        navController.navigate(Screen.MovieDetail.route + "/${item.id}")
+                        navController.navigate(MovieDetailRoute(item.id))
                     } else {
-                        navController.navigate(Screen.TvSeriesDetail.route + "/${item.id}")
+                        navController.navigate(TvSeriesDetailRoute(item.id))
                     }
                 }
             }
