@@ -11,7 +11,7 @@ data class MovieDetail(
     @SerializedName("backdrop_path")
     val backdropPath: String? = null,
     @SerializedName("budget")
-    val budget: Int,
+    val budget: Long,
     @SerializedName("genres")
     val genres: List<Genre>,
     @SerializedName("homepage")
@@ -34,7 +34,7 @@ data class MovieDetail(
     @SerializedName("release_date")
     val releaseDate: String,
     @SerializedName("revenue")
-    val revenue: Int,
+    val revenue: Long,
     @SerializedName("runtime")
     val runtime: Int,
     @SerializedName("status")

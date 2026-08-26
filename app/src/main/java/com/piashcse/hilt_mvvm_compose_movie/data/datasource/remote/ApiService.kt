@@ -64,6 +64,12 @@ interface ApiService {
         @Query("with_genres") genreId: String,
     ): BaseModel<MovieItem>
 
+    @GET("discover/tv")
+    suspend fun tvSeriesByGenre(
+        @Query("page") page: Int,
+        @Query("with_genres") genreId: String,
+    ): BaseModel<TvSeriesItem>
+
     @GET("movie/{movieId}/credits")
     suspend fun movieCredit(
         @Path("movieId") movieId: Int

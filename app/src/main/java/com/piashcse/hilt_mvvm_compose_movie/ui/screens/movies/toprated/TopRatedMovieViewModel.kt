@@ -36,7 +36,7 @@ class TopRatedMovieViewModel @Inject constructor(
     }.cachedIn(viewModelScope)
 
     fun onGenreSelected(genre: Genre?) {
-        filterData.value = GenreId(genre?.id.toString())
+        filterData.value = genre?.id?.let { GenreId(it.toString()) }
         genre?.let {
             selectedGenre.value = it
         }

@@ -22,7 +22,11 @@ class TopRatedTvSeriesPagingDataSource @Inject constructor(
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, TvSeriesItem> {
         return try {
             val nextPage = params.key ?: 1
-            val movieList = apiService.topRatedTvSeries(nextPage, genreId)
+            val movieList = if (genreId.isNullOrBlank() || genreId == "null") {
+                apiService.topRatedTvSeries(nextPage, null)
+            } else {
+                apiService.tvSeriesByGenre(nextPage, genreId)
+            }
             LoadResult.Page(
                 data = movieList.results,
                 prevKey = if (nextPage == 1) null else nextPage - 1,

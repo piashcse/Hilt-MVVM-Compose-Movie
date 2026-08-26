@@ -19,7 +19,11 @@ class UpcomingMoviePagingDataSource @Inject constructor(private val apiService: 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, MovieItem> {
         return try {
             val nextPage = params.key ?: 1
-            val movieList = apiService.upcomingMovies(nextPage, genreId)
+            val movieList = if (genreId.isNullOrBlank() || genreId == "null") {
+                apiService.upcomingMovies(nextPage, null)
+            } else {
+                apiService.moviesByGenre(nextPage, genreId)
+            }
             LoadResult.Page(
                 data = movieList.results,
                 prevKey = if (nextPage == 1) null else nextPage - 1,

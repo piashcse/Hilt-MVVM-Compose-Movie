@@ -51,7 +51,7 @@ fun DisplayTvSeries(
             item?.let {
                 ItemView(
                     item = it,
-                    itemImageUrlExtractor = { it.posterPath },
+                    itemImageUrlExtractor = { it.posterPath ?: "" },
                     onclick = onclick
                 )
             }
