@@ -5,6 +5,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.navigationevent.compose.LocalNavigationEventDispatcherOwner
+import androidx.navigationevent.compose.rememberNavigationEventDispatcherOwner
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.MainScreen
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.HiltMVVMComposeMovieTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -18,8 +21,13 @@ class MainActivity : AppCompatActivity() {
             setKeepOnScreenCondition { splashViewModel.isLoading.value }
         }
         setContent {
-            HiltMVVMComposeMovieTheme {
-                MainScreen()
+            val navigationEventDispatcherOwner = rememberNavigationEventDispatcherOwner()
+            CompositionLocalProvider(
+                LocalNavigationEventDispatcherOwner provides navigationEventDispatcherOwner
+            ) {
+                HiltMVVMComposeMovieTheme {
+                    MainScreen()
+                }
             }
         }
     }

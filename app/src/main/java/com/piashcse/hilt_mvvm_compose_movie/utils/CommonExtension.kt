@@ -1,7 +1,7 @@
 package com.piashcse.hilt_mvvm_compose_movie.utils
 
-import androidx.navigation.NavController
-import androidx.navigation.NavGraph.Companion.findStartDestination
+import androidx.navigation3.runtime.NavKey
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import kotlin.math.pow
 import kotlin.math.roundToInt
 import kotlin.time.Duration.Companion.minutes
@@ -25,12 +25,9 @@ fun Double.roundTo(numFractionDigits: Int): Double {
 
 
 
-fun <T : Any> NavController.singleTopNavigator(route: T) {
-    this.navigate(route) {
-        popUpTo(graph.findStartDestination().id) {
-            saveState = true
-        }
-        launchSingleTop = true
-        restoreState = true
-    }
+/**
+ * Switches to a tab/root destination, keeping a single root on the back stack.
+ */
+fun Navigator.singleTopNavigator(route: NavKey) {
+    navigateToRoot(route)
 }

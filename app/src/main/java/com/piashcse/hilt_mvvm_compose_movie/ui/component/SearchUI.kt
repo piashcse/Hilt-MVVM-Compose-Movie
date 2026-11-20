@@ -22,7 +22,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchItem
@@ -46,7 +46,7 @@ import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 
 @Composable
 fun SearchUI(
-    navController: NavController,
+    navController: Navigator,
     searchData: List<SearchItem>,
     activeTab: Int,
     searchQuery: String = "",

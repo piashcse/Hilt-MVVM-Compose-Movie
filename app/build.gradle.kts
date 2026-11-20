@@ -10,10 +10,11 @@ plugins {
 
 android {
     compileSdk = 37
+    compileSdkMinor = 1
 
     defaultConfig {
         applicationId = "com.piashcse.hilt_mvvm_compose_movie"
-        minSdk = 23
+        minSdk = 24
         targetSdk = 37
         versionCode = 40
         versionName = "2.2.0"
@@ -74,6 +75,8 @@ dependencies {
 
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
+    implementation(libs.androidx.navigationevent.compose)
+    implementation(libs.androidx.lifecycle.viewmodel.navigation3)
 
     // Testing dependencies
     testImplementation(libs.junit)

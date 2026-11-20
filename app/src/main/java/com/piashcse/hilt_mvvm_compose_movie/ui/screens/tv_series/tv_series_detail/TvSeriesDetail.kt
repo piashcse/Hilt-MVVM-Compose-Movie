@@ -47,7 +47,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.TvSeriesItem
@@ -72,7 +72,7 @@ import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 import component.base.BaseColumn
 
 @Composable
-fun TvSeriesDetail(navController: NavController, tvSeriesId: Int) {
+fun TvSeriesDetail(navController: Navigator, tvSeriesId: Int) {
     val viewModel = hiltViewModel<TvSeriesDetailViewModel>()
     val uiState by viewModel.uiState.collectAsState()
 

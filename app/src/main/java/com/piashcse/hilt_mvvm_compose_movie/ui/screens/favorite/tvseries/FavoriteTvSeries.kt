@@ -31,7 +31,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.tv_series_detail.TvSeriesDetail
@@ -48,7 +48,7 @@ import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 
 @Composable
-fun FavoriteTvSeries(navController: NavController) {
+fun FavoriteTvSeries(navController: Navigator) {
     val viewModel = hiltViewModel<FavoriteTvSeriesViewModel>()
     val favoriteTvSeries by viewModel.favoriteTvSeries.collectAsState()
 
@@ -75,7 +75,7 @@ fun FavoriteTvSeries(navController: NavController) {
 @Composable
 fun FavoriteTvSeriesItemView(
     item: TvSeriesDetail,
-    navController: NavController,
+    navController: Navigator,
     viewModel: FavoriteTvSeriesViewModel,
 ) {
     val openDialog = remember { mutableStateOf(false) }

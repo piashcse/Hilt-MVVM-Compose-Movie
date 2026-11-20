@@ -26,7 +26,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistMovie
@@ -47,7 +47,7 @@ import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 import component.base.BaseColumn
 
 @Composable
-fun ArtistDetail(navController: NavController, personId: Int) {
+fun ArtistDetail(navController: Navigator, personId: Int) {
     val viewModel = hiltViewModel<ArtistDetailViewModel>()
     val uiState by viewModel.uiState.collectAsState()
 
@@ -60,7 +60,7 @@ fun ArtistDetail(navController: NavController, personId: Int) {
 @Composable
 fun ArtistDetailUi(
     artistUiState: ArtistDetailUiState,
-    navController: NavController,
+    navController: Navigator,
 ) {
     BaseColumn(loading = artistUiState.isLoading, errorMessage = artistUiState.errorMessage) {
         Column(

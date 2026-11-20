@@ -3,7 +3,6 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.tav_view
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.pager.PagerState
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Tab
 import androidx.compose.material3.TabRow
@@ -11,59 +10,46 @@ import androidx.compose.material3.TabRowDefaults
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
 import com.piashcse.hilt_mvvm_compose_movie.R
-import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
+import com.piashcse.hilt_mvvm_compose_movie.navigation.AiringTodayTvSeriesRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.FavoriteMovieRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.FavoriteTvSeriesRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
+import com.piashcse.hilt_mvvm_compose_movie.navigation.NowPlayingMovieRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.PopularCelebritiesRoute
 import com.piashcse.hilt_mvvm_compose_movie.utils.CELEBRITIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.MOVIE_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.TV_SERIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.singleTopNavigator
-import kotlinx.coroutines.launch
 
 @Composable
 fun TabView(
-    navigator: NavHostController,
-    pagerState: PagerState,
+    navigator: Navigator,
+    selectedSection: Int,
 ) {
-    val coroutineScope = rememberCoroutineScope()
     val tabs = listOf(stringResource(R.string.movie), stringResource(R.string.tv_series), stringResource(R.string.celebrities))
     TabRow(modifier = Modifier.background(Color.White),
-        selectedTabIndex = pagerState.currentPage,
+        selectedTabIndex = selectedSection,
         indicator = { tabPositions ->
             TabRowDefaults.PrimaryIndicator(
-                Modifier.tabIndicatorOffset(tabPositions[pagerState.currentPage]),
+                Modifier.tabIndicatorOffset(tabPositions[selectedSection]),
                 color = MaterialTheme.colorScheme.primary
             )
         }) {
         tabs.forEachIndexed { index, title ->
-            Tab(selected = pagerState.currentPage == index, onClick = {
+            Tab(selected = selectedSection == index, onClick = {
                 when (index) {
-                    MOVIE_TAB -> {
-                        navigator.singleTopNavigator(Screen.NowPlaying.route)
-
-                    }
-                    TV_SERIES_TAB -> {
-                        navigator.singleTopNavigator(Screen.AiringTodayTvSeries.route)
-                    }
-                    CELEBRITIES_TAB -> {
-                        navigator.singleTopNavigator(Screen.PopularCelebrities.route)
-                    }
-                }
-                coroutineScope.launch {
-                    pagerState.animateScrollToPage(index)
+                    MOVIE_TAB -> navigator.singleTopNavigator(NowPlayingMovieRoute)
+                    TV_SERIES_TAB -> navigator.singleTopNavigator(AiringTodayTvSeriesRoute)
+                    CELEBRITIES_TAB -> navigator.singleTopNavigator(PopularCelebritiesRoute)
                 }
             }, text = {
                 Text(
                     title,
-                    color = if (pagerState.currentPage == index) MaterialTheme.colorScheme.primary else Color.Gray
+                    color = if (selectedSection == index) MaterialTheme.colorScheme.primary else Color.Gray
                 )
             })
         }
@@ -71,8 +57,9 @@ fun TabView(
 }
 
 @Composable
-fun FavoriteTabView(navigator: NavHostController) {
-    var selectedTabIndex by remember { mutableIntStateOf(0) }
+fun FavoriteTabView(navigator: Navigator) {
+    val selectedTabIndex =
+        if (navigator.currentKey == FavoriteTvSeriesRoute) TV_SERIES_TAB else MOVIE_TAB
     val tabs = listOf(stringResource(R.string.movie), stringResource(R.string.tv_series))
     Column(
         Modifier
@@ -89,13 +76,11 @@ fun FavoriteTabView(navigator: NavHostController) {
             }) {
             tabs.forEachIndexed { index, title ->
                 Tab(selected = selectedTabIndex == index, onClick = {
-                    selectedTabIndex = index
                     if (index == MOVIE_TAB) {
-                        navigator.singleTopNavigator(Screen.FavoriteMovie.route)
+                        navigator.singleTopNavigator(FavoriteMovieRoute)
                     } else if (index == TV_SERIES_TAB) {
-                        navigator.singleTopNavigator(Screen.FavoriteTvSeries.route)
+                        navigator.singleTopNavigator(FavoriteTvSeriesRoute)
                     }
-
                 }, text = {
                     Text(
                         title,

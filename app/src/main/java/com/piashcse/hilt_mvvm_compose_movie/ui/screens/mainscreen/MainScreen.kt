@@ -10,9 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.pager.HorizontalPager
-import androidx.compose.foundation.pager.PagerState
-import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
@@ -32,25 +29,34 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavDestination
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.compose.rememberNavController
+import androidx.navigation3.runtime.NavKey
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
+import com.piashcse.hilt_mvvm_compose_movie.navigation.AiringTodayTvSeriesRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.FavoriteTvSeriesRoute
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigation
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
+import com.piashcse.hilt_mvvm_compose_movie.navigation.NowPlayingMovieRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.OnTheAirTvSeriesRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.PopularCelebritiesRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.PopularMovieRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.PopularTvSeriesRoute
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
+import com.piashcse.hilt_mvvm_compose_movie.navigation.TopRatedMovieRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.TopRatedTvSeriesRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.TrendingCelebritiesRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.UpcomingMovieRoute
 import com.piashcse.hilt_mvvm_compose_movie.navigation.navigationTitle
+import com.piashcse.hilt_mvvm_compose_movie.navigation.rememberNavigator
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchUI
@@ -62,28 +68,29 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FloatingActionBackground
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
 import com.piashcse.hilt_mvvm_compose_movie.utils.CELEBRITIES_SEARCH
+import com.piashcse.hilt_mvvm_compose_movie.utils.CELEBRITIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.MOVIE_SEARCH
 import com.piashcse.hilt_mvvm_compose_movie.utils.MOVIE_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.TV_SERIES_SEARCH
+import com.piashcse.hilt_mvvm_compose_movie.utils.TV_SERIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.ConnectionState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.connectivityState
-import kotlin.reflect.KClass
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
     val mainViewModel = hiltViewModel<MainViewModel>()
-    val navController = rememberNavController()
+    val navigator = rememberNavigator(NowPlayingMovieRoute)
     val isAppBarVisible = remember { mutableStateOf(true) }
     val connection by connectivityState()
     val isConnected = connection == ConnectionState.Available
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val isFavoriteActive = remember { mutableStateOf(false) }
-    val pagerState = rememberPagerState { 3 }
+    val favoriteOriginSection = remember { mutableIntStateOf(MOVIE_TAB) }
 
     val uiState by mainViewModel.uiState.collectAsState()
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
+    val currentKey = navigator.currentKey
+    val section = sectionOf(currentKey)
 
     val hideTopBarScreens = listOf(
         Screen.MovieDetail, Screen.ArtistDetail,
@@ -97,7 +104,7 @@ fun MainScreen() {
         Screen.PopularCelebrities, Screen.TrendingCelebrities,
     )
 
-    val showTopAppBarActions = hideTopBarScreens.none { isScreenActive(currentDestination, it) }
+    val showTopAppBarActions = hideTopBarScreens.none { it.matches(currentKey) }
 
     LaunchedEffect(Unit) {
         mainViewModel.loadGenres()
@@ -122,32 +129,30 @@ fun MainScreen() {
                     ),
                     title = {
                         Text(
-                            text = navigationTitle(navController),
+                            text = navigationTitle(navigator),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
                             color = Color.White
                         )
                     },
                     navigationIcon = {
-                        if (hideTopBarScreens.any { isScreenActive(currentDestination, it) }) {
+                        if (hideTopBarScreens.any { it.matches(currentKey) }) {
                             IconButton(onClick = {
                                 val isFavoriteScreen = listOf(
                                     Screen.FavoriteMovie, Screen.FavoriteTvSeries
-                                ).any { isScreenActive(currentDestination, it) }
+                                ).any { it.matches(currentKey) }
 
                                 if (isFavoriteActive.value && isFavoriteScreen) {
-                                    val targetRoute =
-                                        if (pagerState.currentPage == MOVIE_TAB)
-                                            Screen.NowPlaying.route else Screen.AiringTodayTvSeries.route
-
-                                    navController.navigate(targetRoute) {
-                                        popUpTo(navController.graph.startDestinationId) {
-                                            inclusive = true
-                                        }
+                                    val targetRoute = when (favoriteOriginSection.intValue) {
+                                        TV_SERIES_TAB -> AiringTodayTvSeriesRoute
+                                        CELEBRITIES_TAB -> PopularCelebritiesRoute
+                                        else -> NowPlayingMovieRoute
                                     }
+
+                                    navigator.navigateToRoot(targetRoute)
                                     isFavoriteActive.value = false
                                 } else {
-                                    navController.popBackStack()
+                                    navigator.popBackStack()
                                 }
                             }) {
                                 Icon(
@@ -161,7 +166,10 @@ fun MainScreen() {
                     actions = {
                         if (showTopAppBarActions) {
                             IconButton(onClick = {
-                                if (!isFavoriteActive.value) navController.navigate(Screen.FavoriteMovie.route)
+                                if (!isFavoriteActive.value) {
+                                    favoriteOriginSection.intValue = section
+                                    Screen.FavoriteMovie.route?.let { navigator.navigate(it) }
+                                }
                                 isFavoriteActive.value = true
                             }) {
                                 Icon(
@@ -188,8 +196,8 @@ fun MainScreen() {
             }
         },
         bottomBar = {
-            if (bottomNavScreens.any { isScreenActive(currentDestination, it) } && isAppBarVisible.value) {
-                BottomNavigationUI(navController, pagerState)
+            if (bottomNavScreens.any { it.matches(currentKey) } && isAppBarVisible.value) {
+                BottomNavigationUI(navigator, section)
             }
         },
         snackbarHost = {
@@ -203,35 +211,29 @@ fun MainScreen() {
         Box(Modifier.padding(padding)) {
             // Show main content even when search is active, but dim it
             MainView(
-                navController = navController,
-                pagerState = pagerState,
+                navigator = navigator,
+                section = section,
                 genres = uiState.genres?.genres,
                 isFavorite = isFavoriteActive.value
             )
-            
+
             CircularIndeterminateProgressBar(isDisplayed = uiState.isLoading, 0.1f)
 
             if (!isAppBarVisible.value) {
                 // Overlay search results on top of main content
-                Box(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .background(Color.Black.copy(alpha = 0.5f)) // Semi-transparent background
-                        .clickable { isAppBarVisible.value = true } // Click outside to close
-                ) {
+                Box(modifier = Modifier.fillMaxSize()) {
+                    // Scrim: tapping outside the results closes the search
+                    Box(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .background(Color.Black.copy(alpha = 0.5f))
+                            .clickable { isAppBarVisible.value = true }
+                    )
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
                             .heightIn(max = 500.dp) // Increased height to show more items
                             .background(color = DefaultBackgroundColor)
-                            .pointerInput(Unit) {
-                                // Consume touch events to prevent closing when clicking inside
-                                awaitPointerEventScope {
-                                    while (true) {
-                                        awaitPointerEvent()
-                                    }
-                                }
-                            }
                     ) {
                         val activeSearchType = uiState.selectedSearchType
                         val results = when (activeSearchType) {
@@ -255,7 +257,7 @@ fun MainScreen() {
                             else -> false
                         }
                         results?.let {
-                            SearchUI(navController, it, activeSearchType, searchQuery, isLoading, itemClick = {
+                            SearchUI(navigator, it, activeSearchType, searchQuery, isLoading, itemClick = {
                                 isAppBarVisible.value = true
                             })
                         }
@@ -268,15 +270,14 @@ fun MainScreen() {
 
 @Composable
 fun MainView(
-    navController: NavHostController,
-    pagerState: PagerState,
+    navigator: Navigator,
+    section: Int,
     genres: List<Genre>?,
     isFavorite: Boolean,
 ) {
     val activity = LocalActivity.current
     val openDialog = remember { mutableStateOf(false) }
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
+    val currentKey = navigator.currentKey
 
     val hideTabScreens = listOf(
         Screen.MovieDetail,
@@ -284,7 +285,7 @@ fun MainView(
         Screen.ArtistDetail
     )
 
-    val showTabs = hideTabScreens.none { isScreenActive(currentDestination, it) }
+    val showTabs = hideTabScreens.none { it.matches(currentKey) }
 
     val backDialogScreens = listOf(
         Screen.NowPlaying,
@@ -292,23 +293,17 @@ fun MainView(
         Screen.PopularCelebrities
     )
 
-    BackHandler(enabled = backDialogScreens.any { isScreenActive(currentDestination, it) }) {
+    BackHandler(enabled = backDialogScreens.any { it.matches(currentKey) }) {
         openDialog.value = true
     }
 
     Column {
         if (showTabs) {
-            if (isFavorite) FavoriteTabView(navController)
-            else TabView(navController, pagerState)
+            if (isFavorite) FavoriteTabView(navigator)
+            else TabView(navigator, section)
         }
 
-        HorizontalPager(
-            state = pagerState,
-            modifier = Modifier.fillMaxSize(),
-            userScrollEnabled = false
-        ) {
-            Navigation(navController, genres)
-        }
+        Navigation(navigator, genres, Modifier.weight(1f))
 
         if (openDialog.value) {
             ShowExitDialog(activity, openDialog)
@@ -316,11 +311,16 @@ fun MainView(
     }
 }
 
-private fun isScreenActive(destination: NavDestination?, screen: Screen): Boolean {
-    val route = screen.route
-    return if (route is KClass<*>) {
-        destination?.hasRoute(route) == true
-    } else {
-        destination?.hasRoute(route::class) == true
-    }
+/** Maps the current route to the tab/section that owns it. */
+private fun sectionOf(key: NavKey?): Int = when (key) {
+    NowPlayingMovieRoute, PopularMovieRoute, TopRatedMovieRoute, UpcomingMovieRoute -> MOVIE_TAB
+
+    AiringTodayTvSeriesRoute, PopularTvSeriesRoute, TopRatedTvSeriesRoute,
+    OnTheAirTvSeriesRoute -> TV_SERIES_TAB
+
+    PopularCelebritiesRoute, TrendingCelebritiesRoute -> CELEBRITIES_TAB
+
+    FavoriteTvSeriesRoute -> TV_SERIES_TAB
+
+    else -> MOVIE_TAB
 }

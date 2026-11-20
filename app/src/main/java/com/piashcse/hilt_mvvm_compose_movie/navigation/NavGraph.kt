@@ -1,16 +1,12 @@
 package com.piashcse.hilt_mvvm_compose_movie.navigation
 
-// Composable imports
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
-import androidx.navigation.compose.composable
-import androidx.navigation.compose.currentBackStackEntryAsState
-import androidx.navigation.toRoute
+import androidx.lifecycle.viewmodel.navigation3.rememberViewModelStoreNavEntryDecorator
+import androidx.navigation3.runtime.entryProvider
+import androidx.navigation3.runtime.rememberSaveableStateHolderNavEntryDecorator
+import androidx.navigation3.ui.NavDisplay
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.artist_detail.ArtistDetail
@@ -31,104 +27,76 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.tv_series_detai
 
 @Composable
 fun Navigation(
-    navController: NavHostController, genres: List<Genre>? = null,
+    navigator: Navigator,
+    genres: List<Genre>? = null,
+    modifier: Modifier = Modifier,
 ) {
-    NavHost(navController = navController, startDestination = NowPlayingMovieRoute) {
-        composable<NowPlayingMovieRoute> {
-            NowPlayingMovie(
-                navController = navController,
-                genres
-            )
+    NavDisplay(
+        backStack = navigator.backStack,
+        modifier = modifier,
+        onBack = { navigator.popBackStack() },
+        entryDecorators = listOf(
+            rememberSaveableStateHolderNavEntryDecorator(),
+            rememberViewModelStoreNavEntryDecorator()
+        ),
+        entryProvider = entryProvider {
+            entry<NowPlayingMovieRoute> {
+                NowPlayingMovie(navController = navigator, genres = genres)
+            }
+            entry<PopularMovieRoute> {
+                PopularMovie(navController = navigator, genres = genres)
+            }
+            entry<TopRatedMovieRoute> {
+                TopRatedMovie(navController = navigator, genres = genres)
+            }
+            entry<UpcomingMovieRoute> {
+                UpcomingMovie(navController = navigator, genres = genres)
+            }
+            entry<MovieDetailRoute> { route ->
+                MovieDetail(navController = navigator, movieId = route.movieId)
+            }
+            entry<ArtistDetailRoute> { route ->
+                ArtistDetail(navController = navigator, personId = route.artistId)
+            }
+            entry<AiringTodayTvSeriesRoute> {
+                AiringTodayTvSeries(navController = navigator, genres = genres)
+            }
+            entry<OnTheAirTvSeriesRoute> {
+                OnTheAirTvSeries(navController = navigator, genres = genres)
+            }
+            entry<PopularTvSeriesRoute> {
+                PopularTvSeries(navController = navigator, genres = genres)
+            }
+            entry<TopRatedTvSeriesRoute> {
+                TopRatedTvSeries(navController = navigator, genres = genres)
+            }
+            entry<TvSeriesDetailRoute> { route ->
+                TvSeriesDetail(navController = navigator, tvSeriesId = route.seriesId)
+            }
+            entry<FavoriteMovieRoute> {
+                FavoriteMovie(navController = navigator)
+            }
+            entry<FavoriteTvSeriesRoute> {
+                FavoriteTvSeries(navController = navigator)
+            }
+            entry<PopularCelebritiesRoute> {
+                PopularCelebrities(navController = navigator)
+            }
+            entry<TrendingCelebritiesRoute> {
+                TrendingCelebrities(navController = navigator)
+            }
         }
-        composable<PopularMovieRoute> {
-            PopularMovie(
-                navController = navController,
-                genres
-            )
-        }
-        composable<TopRatedMovieRoute> {
-            TopRatedMovie(
-                navController = navController,
-                genres
-            )
-        }
-        composable<UpcomingMovieRoute> {
-            UpcomingMovie(
-                navController = navController,
-                genres
-            )
-        }
-        composable<MovieDetailRoute> {
-            val args = it.toRoute<MovieDetailRoute>()
-            MovieDetail(
-                navController = navController, args.movieId
-            )
-        }
-        composable<ArtistDetailRoute> {
-            val args = it.toRoute<ArtistDetailRoute>()
-            ArtistDetail(
-                navController = navController,
-                args.artistId
-            )
-        }
-        composable<AiringTodayTvSeriesRoute> {
-            AiringTodayTvSeries(
-                navController = navController,
-                genres
-            )
-        }
-        composable<OnTheAirTvSeriesRoute> {
-            OnTheAirTvSeries(
-                navController = navController,
-                genres
-            )
-        }
-        composable<PopularTvSeriesRoute> {
-            PopularTvSeries(
-                navController = navController,
-                genres
-            )
-        }
-        composable<TopRatedTvSeriesRoute> {
-            TopRatedTvSeries(
-                navController = navController,
-                genres
-            )
-        }
-        composable<TvSeriesDetailRoute> {
-            val args = it.toRoute<TvSeriesDetailRoute>()
-            TvSeriesDetail(
-                navController = navController, args.seriesId
-            )
-        }
-        composable<FavoriteMovieRoute> {
-            FavoriteMovie(navController)
-        }
-        composable<FavoriteTvSeriesRoute> {
-            FavoriteTvSeries(navController)
-        }
-        composable<PopularCelebritiesRoute> {
-            PopularCelebrities(navController)
-        }
-        composable<TrendingCelebritiesRoute> {
-            TrendingCelebrities(navController)
-        }
-    }
+    )
 }
 
 @Composable
-fun navigationTitle(navController: NavController): String {
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val destination = navBackStackEntry?.destination ?: return stringResource(R.string.app_name)
-
-    return when {
-        destination.hasRoute<MovieDetailRoute>() -> stringResource(id = R.string.movie_detail)
-        destination.hasRoute<TvSeriesDetailRoute>() -> stringResource(id = R.string.tv_series_detail)
-        destination.hasRoute<ArtistDetailRoute>() -> stringResource(id = R.string.artist_detail)
-        destination.hasRoute<FavoriteMovieRoute>() -> stringResource(id = R.string.favorite_movie)
-        destination.hasRoute<FavoriteTvSeriesRoute>() -> stringResource(id = R.string.favorite_tv_series)
+fun navigationTitle(navigator: Navigator): String {
+    return when (navigator.currentKey) {
+        is MovieDetailRoute -> stringResource(id = R.string.movie_detail)
+        is TvSeriesDetailRoute -> stringResource(id = R.string.tv_series_detail)
+        is ArtistDetailRoute -> stringResource(id = R.string.artist_detail)
+        FavoriteMovieRoute -> stringResource(id = R.string.favorite_movie)
+        FavoriteTvSeriesRoute -> stringResource(id = R.string.favorite_tv_series)
         else -> stringResource(R.string.app_name)
     }
 }
-
-
