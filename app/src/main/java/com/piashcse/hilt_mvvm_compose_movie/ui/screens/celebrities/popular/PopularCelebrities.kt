@@ -2,13 +2,13 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.celebrities.popular
 
 import androidx.compose.runtime.Composable
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.Celebrities
 
 @Composable
 fun PopularCelebrities(
-    navController: NavController,
+    navController: Navigator,
 ) {
     val popularCelebritiesViewModel = hiltViewModel<PopularCelebritiesViewModel>()
     Celebrities(

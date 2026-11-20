@@ -14,17 +14,23 @@ import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation3.runtime.NavKey
 import com.piashcse.hilt_mvvm_compose_movie.R
 
 sealed class Screen(
-    val route: Any,
+    val route: NavKey? = null,
     @StringRes val title: Int = R.string.app_name,
     val navIcon: (@Composable () -> Unit) = {
         Icon(
             Icons.Filled.Home, contentDescription = "home"
         )
-    }
+    },
+    private val matcher: ((NavKey?) -> Boolean)? = null,
 ) {
+    /** Returns true when [key] is the screen described by this item. */
+    fun matches(key: NavKey?): Boolean =
+        matcher?.invoke(key) ?: (route != null && route == key)
+
     data object NowPlaying : Screen(NowPlayingMovieRoute)
     data object Popular : Screen(PopularMovieRoute)
     data object TopRated : Screen(TopRatedMovieRoute)
@@ -36,9 +42,9 @@ sealed class Screen(
     data object PopularCelebrities : Screen(PopularCelebritiesRoute)
     data object TrendingCelebrities : Screen(TrendingCelebritiesRoute)
 
-    data object MovieDetail : Screen(MovieDetailRoute::class)
-    data object TvSeriesDetail : Screen(TvSeriesDetailRoute::class)
-    data object ArtistDetail : Screen(ArtistDetailRoute::class)
+    data object MovieDetail : Screen(matcher = { it is MovieDetailRoute })
+    data object TvSeriesDetail : Screen(matcher = { it is TvSeriesDetailRoute })
+    data object ArtistDetail : Screen(matcher = { it is ArtistDetailRoute })
 
     // Bottom Navigation
     data object NowPlayingNav : Screen(NowPlayingMovieRoute, title = R.string.now_playing, navIcon = {

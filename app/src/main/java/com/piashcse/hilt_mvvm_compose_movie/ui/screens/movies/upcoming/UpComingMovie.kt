@@ -5,7 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.navigation.MovieDetailRoute
@@ -14,7 +14,7 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.component.Movies
 
 @Composable
 fun UpcomingMovie(
-    navController: NavController,
+    navController: Navigator,
     genres: List<Genre>? = null,
 ) {
     val viewModel = hiltViewModel<UpComingMovieViewModel>()

@@ -1,48 +1,49 @@
 package com.piashcse.hilt_mvvm_compose_movie.navigation
 
+import androidx.navigation3.runtime.NavKey
 import kotlinx.serialization.Serializable
 
 @Serializable
-object NowPlayingMovieRoute
+object NowPlayingMovieRoute : NavKey
 
 @Serializable
-object PopularMovieRoute
+object PopularMovieRoute : NavKey
 
 @Serializable
-object TopRatedMovieRoute
+object TopRatedMovieRoute : NavKey
 
 @Serializable
-object UpcomingMovieRoute
+object UpcomingMovieRoute : NavKey
 
 @Serializable
-object AiringTodayTvSeriesRoute
+object AiringTodayTvSeriesRoute : NavKey
 
 @Serializable
-object OnTheAirTvSeriesRoute
+object OnTheAirTvSeriesRoute : NavKey
 
 @Serializable
-object PopularTvSeriesRoute
+object PopularTvSeriesRoute : NavKey
 
 @Serializable
-object TopRatedTvSeriesRoute
+object TopRatedTvSeriesRoute : NavKey
 
 @Serializable
-object PopularCelebritiesRoute
+object PopularCelebritiesRoute : NavKey
 
 @Serializable
-object TrendingCelebritiesRoute
+object TrendingCelebritiesRoute : NavKey
 
 @Serializable
-data class MovieDetailRoute(val movieId: Int)
+data class MovieDetailRoute(val movieId: Int) : NavKey
 
 @Serializable
-data class TvSeriesDetailRoute(val seriesId: Int)
+data class TvSeriesDetailRoute(val seriesId: Int) : NavKey
 
 @Serializable
-data class ArtistDetailRoute(val artistId: Int)
+data class ArtistDetailRoute(val artistId: Int) : NavKey
 
 @Serializable
-object FavoriteMovieRoute
+object FavoriteMovieRoute : NavKey
 
 @Serializable
-object FavoriteTvSeriesRoute
+object FavoriteTvSeriesRoute : NavKey

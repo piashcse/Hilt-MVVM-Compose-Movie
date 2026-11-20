@@ -31,7 +31,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.NavController
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
@@ -48,7 +48,7 @@ import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 
 @Composable
-fun FavoriteMovie(navController: NavController) {
+fun FavoriteMovie(navController: Navigator) {
     val viewModel = hiltViewModel<FavoriteMovieViewModel>()
     val favoriteMovies by viewModel.favoriteMovies.collectAsState()
     LaunchedEffect(Unit) {
@@ -74,7 +74,7 @@ fun FavoriteMovie(navController: NavController) {
 @Composable
 fun FavoriteMovieItemView(
     item: MovieDetail,
-    navController: NavController,
+    navController: Navigator,
     viewModel: FavoriteMovieViewModel,
 ) {
     val openDialog = remember { mutableStateOf(false) }

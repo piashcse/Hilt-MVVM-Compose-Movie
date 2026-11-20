@@ -21,14 +21,12 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hasRoute
-import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.paging.compose.LazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.celebrities.Celebrity
 import com.piashcse.hilt_mvvm_compose_movie.navigation.AiringTodayTvSeriesRoute
 import com.piashcse.hilt_mvvm_compose_movie.navigation.ArtistDetailRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
@@ -44,18 +42,15 @@ import java.util.Locale
 
 @Composable
 fun Celebrities(
-    navController: NavController,
+    navController: Navigator,
     celebrities: LazyPagingItems<Celebrity>,
 ) {
     val activity = LocalActivity.current
     val progressBar = remember { mutableStateOf(false) }
     val openDialog = remember { mutableStateOf(false) }
-    
-    val navBackStackEntry by navController.currentBackStackEntryAsState()
-    val currentDestination = navBackStackEntry?.destination
 
     // Handling back press for dialog
-    BackHandler(enabled = currentDestination?.hasRoute(AiringTodayTvSeriesRoute::class) == true) {
+    BackHandler(enabled = navController.currentKey == AiringTodayTvSeriesRoute) {
         openDialog.value = true
     }
 
@@ -79,7 +74,7 @@ fun Celebrities(
 @Composable
 fun DisplayCelebrities(
     celebrities: LazyPagingItems<Celebrity>,
-    navController: NavController,
+    navController: Navigator,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),

@@ -1,12 +1,15 @@
 # Movie World (Jetpack Compose) 
-[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-1.11.4-%230075FF.svg)](https://developer.android.com/jetpack/compose)
+[![Jetpack Compose](https://img.shields.io/badge/Jetpack%20Compose-1.13.0-%230075FF.svg)](https://developer.android.com/jetpack/compose)
+[![Navigation 3](https://img.shields.io/badge/Navigation%203-1.2.2-4285F4.svg?style=flat)](https://developer.android.com/guide/navigation/navigation-3)
 ![badge-Android](https://img.shields.io/badge/Platform-Android-brightgreen)
-[![API](https://img.shields.io/badge/API-23%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=23)
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.4.0-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
+[![API](https://img.shields.io/badge/API-24%2B-brightgreen.svg?style=flat)](https://android-arsenal.com/api?level=24)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.4.21-blue.svg?style=flat&logo=kotlin)](https://kotlinlang.org)
+[![Gradle](https://img.shields.io/badge/Gradle-9.9.2-02303A.svg?style=flat&logo=gradle)](https://gradle.org)
+[![AGP](https://img.shields.io/badge/AGP-9.5.2-3DDC84.svg?style=flat&logo=android)](https://developer.android.com/build/releases/gradle-plugin)
 [![GitHub license](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg?style=flat)](https://www.apache.org/licenses/LICENSE-2.0)
 <a href="https://github.com/piashcse"><img alt="License" src="https://img.shields.io/static/v1?label=GitHub&message=piashcse&color=C51162"/></a>
 
-Movie World app built with Jetpack Compose, Hilt, Coroutines, Flow, Room and ViewModel based on MVVM architecture. The app follows the architecture to ensure clean, maintainable code and delivers a responsive, modern UI experience, leveraging [The Movie DB API](https://www.themoviedb.org). </br>
+Movie World app built with Jetpack Compose, Navigation 3, Hilt, Coroutines, Flow, Room and ViewModel based on MVVM architecture. The app follows the architecture to ensure clean, maintainable code and delivers a responsive, modern UI experience, leveraging [The Movie DB API](https://www.themoviedb.org). </br>
 
 
 <p align="center">
@@ -73,6 +76,7 @@ defaultConfig {
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
 - [Jetpack Compose](https://developer.android.com/jetpack/compose) - Jetpack Compose is Android's modern toolkit for building native UI.
+- [Navigation 3](https://developer.android.com/guide/navigation/navigation-3) - Android's next-generation navigation library built around a back stack you own.
 - [Coroutines](https://kotlinlang.org/docs/reference/coroutines-overview.html) - For asynchronous and more..
 - [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/-flow/) - A cold asynchronous data stream that sequentially emits values and completes normally or with an exception.
 - [Android Architecture Components](https://developer.android.com/topic/libraries/architecture) - Collection of libraries that help you design robust, testable, and maintainable apps.
