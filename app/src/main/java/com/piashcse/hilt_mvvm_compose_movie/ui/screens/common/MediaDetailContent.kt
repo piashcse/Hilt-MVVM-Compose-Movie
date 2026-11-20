@@ -3,6 +3,8 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.common
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -64,6 +66,7 @@ data class RelatedMedia(val id: Int, val title: String, val posterPath: String?)
  * Shared movie/TV detail screen: backdrop, poster, title and rating, genre
  * chips, key facts, overview, cast and recommendations.
  */
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun MediaDetailContent(
     title: String,
@@ -211,28 +214,31 @@ fun MediaDetailContent(
                                 )
                             }
                         }
-                    }
-                }
 
-                if (genres.isNotEmpty()) {
-                    LazyRow(
-                        modifier = Modifier.padding(top = 12.dp),
-                        horizontalArrangement = Arrangement.spacedBy(8.dp),
-                    ) {
-                        items(genres) { genre ->
-                            GenrePill(genre)
+                        if (genres.isNotEmpty()) {
+                            FlowRow(
+                                modifier = Modifier.padding(top = 8.dp),
+                                horizontalArrangement = Arrangement.spacedBy(6.dp),
+                                verticalArrangement = Arrangement.spacedBy(6.dp),
+                            ) {
+                                genres.forEach { genre ->
+                                    GenrePill(genre)
+                                }
+                            }
+                        }
+
+                        if (!tagline.isNullOrBlank()) {
+                            Text(
+                                text = tagline,
+                                style = MaterialTheme.typography.bodySmall,
+                                fontStyle = FontStyle.Italic,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                maxLines = 2,
+                                overflow = TextOverflow.Ellipsis,
+                                modifier = Modifier.padding(top = 8.dp),
+                            )
                         }
                     }
-                }
-
-                if (!tagline.isNullOrBlank()) {
-                    Text(
-                        text = tagline,
-                        style = MaterialTheme.typography.bodyMedium,
-                        fontStyle = FontStyle.Italic,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        modifier = Modifier.padding(top = 12.dp),
-                    )
                 }
             }
         }
@@ -398,7 +404,7 @@ private fun GenrePill(genre: String) {
             text = genre,
             style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
+            modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
         )
     }
 }
