@@ -1,5 +1,6 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.theme
 
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Typography
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.text.TextStyle
@@ -24,36 +25,29 @@ val Typography = Typography(
         fontWeight = FontWeight.Normal,
         fontSize = 12.sp
     )
-
 )
 
 val Typography.subTitlePrimary: TextStyle
     @Composable
-    get() {
-        return TextStyle(
-            fontFamily = FontFamily.Default,
-            color = FontColor,
-            fontSize = 14.sp,
-            fontWeight = FontWeight.Medium
-        )
-    }
+    get() = TextStyle(
+        fontFamily = FontFamily.Default,
+        color = MaterialTheme.colorScheme.onSurface,
+        fontSize = 14.sp,
+        fontWeight = FontWeight.Medium
+    )
 
 val Typography.subTitleSecondary: TextStyle
     @Composable
-    get() {
-        return TextStyle(
-            fontFamily = FontFamily.Default,
-            color = SecondaryFontColor,
-            fontSize = 10.sp,
-        )
-    }
+    get() = TextStyle(
+        fontFamily = FontFamily.Default,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        fontSize = 12.sp,
+    )
 
 val Typography.bioGrapyText: TextStyle
     @Composable
-    get() {
-        return TextStyle(
-            fontFamily = FontFamily.Default,
-            color = SecondaryFontColor,
-            fontSize = 14.sp,
-        )
-    }
+    get() = TextStyle(
+        fontFamily = FontFamily.Default,
+        color = MaterialTheme.colorScheme.onSurfaceVariant,
+        fontSize = 14.sp,
+    )

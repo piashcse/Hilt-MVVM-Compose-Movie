@@ -6,14 +6,15 @@ import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.dao.FavoriteMo
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.movie.MovieRepository
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
+import com.piashcse.hilt_mvvm_compose_movie.utils.network.toUserMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-
 
 @HiltViewModel
 class MovieDetailViewModel @Inject constructor(
@@ -22,35 +23,42 @@ class MovieDetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MovieDetailUiState())
-    val uiState: StateFlow<MovieDetailUiState> get() = _uiState.asStateFlow()
+    val uiState: StateFlow<MovieDetailUiState> = _uiState.asStateFlow()
+
+    private var movieId: Int? = null
+    private var loadJob: Job? = null
 
     fun fetchMovieDetails(movieId: Int) {
-        viewModelScope.launch {
-            launch { updateMovieDetail(movieId) }
-            launch { updateRecommendedMovies(movieId) }
-            launch { updateMovieCredit(movieId) }
-        }
+        if (this.movieId == movieId) return
+        this.movieId = movieId
+        observeFavoriteStatus(movieId)
+        load(movieId)
     }
 
-    private suspend fun updateMovieDetail(movieId: Int) {
-        repo.movieDetail(movieId).collect { result ->
-            handleStateUpdate(result) { state, data -> state.copy(movieDetail = data) }
-        }
+    fun retry() {
+        movieId?.let(::load)
     }
 
-    private suspend fun updateRecommendedMovies(movieId: Int) {
-        repo.recommendedMovie(movieId).collect { result ->
-            handleStateUpdate(result) { state, data ->
-                state.copy(
-                    recommendedMovies = data ?: emptyList()
-                )
+    private fun load(movieId: Int) {
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
+            launch {
+                repo.movieDetail(movieId).collect { result ->
+                    handleStateUpdate(result) { state, data -> state.copy(movieDetail = data) }
+                }
             }
-        }
-    }
-
-    private suspend fun updateMovieCredit(movieId: Int) {
-        repo.movieCredit(movieId).collect { result ->
-            handleStateUpdate(result) { state, data -> state.copy(movieCredit = data) }
+            launch {
+                repo.recommendedMovie(movieId).collect { result ->
+                    handleStateUpdate(result) { state, data ->
+                        state.copy(recommendedMovies = data.orEmpty())
+                    }
+                }
+            }
+            launch {
+                repo.movieCredit(movieId).collect { result ->
+                    handleStateUpdate(result) { state, data -> state.copy(movieCredit = data) }
+                }
+            }
         }
     }
 
@@ -60,13 +68,19 @@ class MovieDetailViewModel @Inject constructor(
     ) {
         _uiState.update { currentState ->
             when (result) {
-                is DataState.Loading -> currentState.copy(isLoading = true, errorMessage = null)
+                is DataState.Loading -> currentState.copy(
+                    // Only block the screen for the initial detail load; the
+                    // recommendations and credits load in the background.
+                    isLoading = currentState.movieDetail == null,
+                    errorMessage = null,
+                )
+
                 is DataState.Success -> stateUpdater(currentState, result.data)
                     .copy(isLoading = false, errorMessage = null)
 
                 is DataState.Error -> currentState.copy(
                     isLoading = false,
-                    errorMessage = result.exception.message ?: "Unknown error"
+                    errorMessage = result.exception.toUserMessage(),
                 )
             }
         }
@@ -80,15 +94,13 @@ class MovieDetailViewModel @Inject constructor(
             } else {
                 movieDetailDao.insert(movieDetail)
             }
-            observeFavoriteStatus(movieDetail.id)
         }
     }
 
-    fun observeFavoriteStatus(movieId: Int) {
+    private fun observeFavoriteStatus(movieId: Int) {
         viewModelScope.launch {
-            val isFavorite = movieDetailDao.getMovieDetailById(movieId) != null
-            _uiState.update { currentState ->
-                currentState.copy(isFavorite = isFavorite)
+            movieDetailDao.observeMovieDetailById(movieId).collect { movie ->
+                _uiState.update { it.copy(isFavorite = movie != null) }
             }
         }
     }

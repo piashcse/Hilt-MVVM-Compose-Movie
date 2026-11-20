@@ -1,47 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Movie World</string>
-    <string name="title">Title</string>
+
+    <!-- Sections -->
     <string name="movie">Movie</string>
     <string name="tv_series">TV Series</string>
     <string name="celebrities">Celebrities</string>
-    <string name="now_playing">NowPlaying</string>
+    <string name="now_playing">Now Playing</string>
     <string name="popular">Popular</string>
     <string name="trending">Trending</string>
-    <string name="top_rated">Top rated</string>
-    <string name="up_coming">Up coming</string>
-    <string name="airing_today">Airing today</string>
-    <string name="on_the_air">On the air</string>
-    <string name="number_of_episodes">Number of episodes</string>
+    <string name="top_rated">Top Rated</string>
+    <string name="up_coming">Upcoming</string>
+    <string name="airing_today">Airing Today</string>
+    <string name="on_the_air">On The Air</string>
+    <string name="all">All</string>
+
+    <!-- Details -->
+    <string name="movie_detail">Movie Detail</string>
+    <string name="tv_series_detail">TV Series Detail</string>
+    <string name="artist_detail">Artist Detail</string>
     <string name="description">Description</string>
     <string name="release_date">Release Date</string>
     <string name="rating">Rating</string>
     <string name="language">Language</string>
     <string name="duration">Duration</string>
-    <string name="movie_detail">Movie Detail</string>
-    <string name="tv_series_detail">TV Series Detail</string>
+    <string name="number_of_episodes">Episodes</string>
     <string name="similar">Similar</string>
-    <string name="artist_movies">Artist\'s Movies &#38; TV Shows </string>
     <string name="cast">Cast</string>
-    <string name="screen_one">Screen one</string>
-    <string name="screen_two">Screen two</string>
-    <string name="open_drawer">Open drawer</string>
-    <string name="rating_search">Rating :</string>
-    <string name="yes">Yes</string>
-    <string name="do_you_want_to_exit_the_app">Do you want to exit the app?</string>
-    <string name="close_the_app">Close the app</string>
-    <string name="no">No</string>
-    <string name="there_is_no_internet">There is no internet!</string>
-    <string name="enter_username">Enter username</string>
-    <string name="enter_password">Enter password</string>
-    <string name="login">Login</string>
-    <string name="artist_detail">Artist Detail</string>
-    <string name="know_for">Known for</string>
     <string name="biography">Biography</string>
+    <string name="know_for">Known for</string>
     <string name="gender">Gender</string>
     <string name="birth_day">Birthday</string>
     <string name="place_of_birth">Place of Birth</string>
+    <string name="artist_movies">Artist\'s Movies &#38; TV Shows</string>
+    <string name="rating_value">%1$s / 10</string>
+    <string name="gender_female">Female</string>
+    <string name="gender_male">Male</string>
+
+    <!-- Lists and search -->
+    <string name="search_hint">Search movies, TV shows, people</string>
+    <string name="no_results">No results found</string>
+    <string name="no_movies">No movies to show</string>
+    <string name="no_tv_series">No TV shows to show</string>
+    <string name="no_celebrities">No celebrities to show</string>
+    <string name="clear_search">Clear search</string>
+    <string name="close_search">Close search</string>
+    <string name="navigate_up">Navigate up</string>
+
+    <!-- States -->
+    <string name="retry">Retry</string>
+    <string name="there_is_no_internet">There is no internet connection</string>
+    <string name="see_more">…See more</string>
+    <string name="see_less">See less</string>
+
+    <!-- Favorites -->
+    <string name="favorites">Favorites</string>
     <string name="favorite_movie">Favorite Movie</string>
-    <string name="favorite_tv_series">Favorite Tv Series</string>
+    <string name="favorite_tv_series">Favorite TV Series</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="remove_from_favorites">Remove from favorites</string>
+    <string name="favorite_movies_empty">You haven\'t added any favorite movies yet</string>
+    <string name="favorite_tv_series_empty">You haven\'t added any favorite TV shows yet</string>
     <string name="remove_from_favorite">Remove from favorite</string>
-    <string name="do_you_wanna_remove_this_from_favorite">Do you want to remove this item from favorite list?</string>
+    <string name="do_you_wanna_remove_this_from_favorite">Do you want to remove this item from the favorite list?</string>
+
+    <!-- Exit -->
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="do_you_want_to_exit_the_app">Do you want to exit the app?</string>
+    <string name="close_the_app">Close the app</string>
+
+    <!-- Accessibility -->
+    <string name="poster_content_description">%1$s poster</string>
+    <string name="image_content_description">%1$s image</string>
+    <string name="backdrop_content_description">%1$s backdrop</string>
+    <string name="profile_content_description">%1$s profile photo</string>
+    <string name="delete_content_description">Remove %1$s</string>
 </resources>

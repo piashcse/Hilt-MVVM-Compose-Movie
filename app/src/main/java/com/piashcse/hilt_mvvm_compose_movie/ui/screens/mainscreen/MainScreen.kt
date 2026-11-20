@@ -6,6 +6,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
@@ -21,7 +22,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Snackbar
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberTopAppBarState
@@ -32,17 +34,19 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation3.runtime.NavKey
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
 import com.piashcse.hilt_mvvm_compose_movie.navigation.AiringTodayTvSeriesRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.ArtistDetailRoute
 import com.piashcse.hilt_mvvm_compose_movie.navigation.FavoriteTvSeriesRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.MovieDetailRoute
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigation
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import com.piashcse.hilt_mvvm_compose_movie.navigation.NowPlayingMovieRoute
@@ -54,18 +58,16 @@ import com.piashcse.hilt_mvvm_compose_movie.navigation.Screen
 import com.piashcse.hilt_mvvm_compose_movie.navigation.TopRatedMovieRoute
 import com.piashcse.hilt_mvvm_compose_movie.navigation.TopRatedTvSeriesRoute
 import com.piashcse.hilt_mvvm_compose_movie.navigation.TrendingCelebritiesRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.TvSeriesDetailRoute
 import com.piashcse.hilt_mvvm_compose_movie.navigation.UpcomingMovieRoute
 import com.piashcse.hilt_mvvm_compose_movie.navigation.navigationTitle
 import com.piashcse.hilt_mvvm_compose_movie.navigation.rememberNavigator
-import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchUI
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.ShowExitDialog
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.bottom_navigation.BottomNavigationUI
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.tav_view.FavoriteTabView
 import com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen.tav_view.TabView
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FloatingActionBackground
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
 import com.piashcse.hilt_mvvm_compose_movie.utils.CELEBRITIES_SEARCH
 import com.piashcse.hilt_mvvm_compose_movie.utils.CELEBRITIES_TAB
@@ -87,10 +89,13 @@ fun MainScreen() {
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     val isFavoriteActive = remember { mutableStateOf(false) }
     val favoriteOriginSection = remember { mutableIntStateOf(MOVIE_TAB) }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val noInternetMessage = stringResource(R.string.there_is_no_internet)
 
     val uiState by mainViewModel.uiState.collectAsState()
     val currentKey = navigator.currentKey
     val section = sectionOf(currentKey)
+    val activeSearch = uiState.searchFor(uiState.selectedSearchType)
 
     val hideTopBarScreens = listOf(
         Screen.MovieDetail, Screen.ArtistDetail,
@@ -110,29 +115,43 @@ fun MainScreen() {
         mainViewModel.loadGenres()
     }
 
+    LaunchedEffect(isConnected) {
+        if (!isConnected) {
+            snackbarHostState.showSnackbar(
+                message = noInternetMessage,
+                withDismissAction = true,
+            )
+        } else {
+            snackbarHostState.currentSnackbarData?.dismiss()
+        }
+    }
+
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
+        snackbarHost = { SnackbarHost(snackbarHostState) },
         topBar = {
             if (!isAppBarVisible.value) {
-                // Get loading state for current search type
-                val isSearchLoading = when (uiState.selectedSearchType) {
-                    MOVIE_SEARCH -> uiState.isMovieSearchLoading
-                    TV_SERIES_SEARCH -> uiState.isTvSeriesSearchLoading
-                    CELEBRITIES_SEARCH -> uiState.isCelebritySearchLoading
-                    else -> false
-                }
-                SearchBar(isAppBarVisible, mainViewModel, isSearchLoading)
+                SearchBar(
+                    query = activeSearch.query,
+                    selectedType = uiState.selectedSearchType,
+                    isLoading = activeSearch.isLoading,
+                    onQueryChange = mainViewModel::onSearchQueryChange,
+                    onTypeSelected = mainViewModel::setSelectedSearchType,
+                    onClose = { isAppBarVisible.value = true },
+                )
             } else {
                 CenterAlignedTopAppBar(
                     colors = TopAppBarDefaults.topAppBarColors(
                         containerColor = MaterialTheme.colorScheme.primaryContainer,
-                        titleContentColor = MaterialTheme.colorScheme.primary,
+                        titleContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        navigationIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        actionIconContentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                     ),
                     title = {
                         Text(
                             text = navigationTitle(navigator),
                             maxLines = 1,
                             overflow = TextOverflow.Ellipsis,
-                            color = Color.White
                         )
                     },
                     navigationIcon = {
@@ -148,7 +167,6 @@ fun MainScreen() {
                                         CELEBRITIES_TAB -> PopularCelebritiesRoute
                                         else -> NowPlayingMovieRoute
                                     }
-
                                     navigator.navigateToRoot(targetRoute)
                                     isFavoriteActive.value = false
                                 } else {
@@ -157,8 +175,7 @@ fun MainScreen() {
                             }) {
                                 Icon(
                                     Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = null,
-                                    tint = Color.White
+                                    contentDescription = stringResource(R.string.navigate_up),
                                 )
                             }
                         }
@@ -173,9 +190,8 @@ fun MainScreen() {
                                 isFavoriteActive.value = true
                             }) {
                                 Icon(
-                                    Icons.Filled.Favorite,
-                                    contentDescription = null,
-                                    tint = Color.Gray
+                                    imageVector = Icons.Filled.Favorite,
+                                    contentDescription = stringResource(R.string.favorites),
                                 )
                             }
                         }
@@ -188,10 +204,14 @@ fun MainScreen() {
             if (showTopAppBarActions) {
                 FloatingActionButton(
                     modifier = Modifier.cornerRadius(30),
-                    containerColor = FloatingActionBackground,
+                    containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                    contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                     onClick = { isAppBarVisible.value = false },
                 ) {
-                    Icon(Icons.Filled.Search, contentDescription = null, tint = Color.White)
+                    Icon(
+                        Icons.Filled.Search,
+                        contentDescription = stringResource(R.string.search_hint),
+                    )
                 }
             }
         },
@@ -200,24 +220,14 @@ fun MainScreen() {
                 BottomNavigationUI(navigator, section)
             }
         },
-        snackbarHost = {
-            if (!isConnected) {
-                Snackbar(modifier = Modifier.padding(8.dp)) {
-                    Text(stringResource(R.string.there_is_no_internet))
-                }
-            }
-        }
     ) { padding ->
         Box(Modifier.padding(padding)) {
-            // Show main content even when search is active, but dim it
             MainView(
                 navigator = navigator,
                 section = section,
                 genres = uiState.genres?.genres,
                 isFavorite = isFavoriteActive.value
             )
-
-            CircularIndeterminateProgressBar(isDisplayed = uiState.isLoading, 0.1f)
 
             if (!isAppBarVisible.value) {
                 // Overlay search results on top of main content
@@ -226,40 +236,42 @@ fun MainScreen() {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(Color.Black.copy(alpha = 0.5f))
+                            .background(MaterialTheme.colorScheme.scrim.copy(alpha = 0.5f))
                             .clickable { isAppBarVisible.value = true }
                     )
                     Column(
                         modifier = Modifier
                             .fillMaxWidth()
-                            .heightIn(max = 500.dp) // Increased height to show more items
-                            .background(color = DefaultBackgroundColor)
+                            .fillMaxHeight(0.7f)
+                            .heightIn(min = 200.dp)
+                            .background(MaterialTheme.colorScheme.surface)
                     ) {
-                        val activeSearchType = uiState.selectedSearchType
-                        val results = when (activeSearchType) {
-                            MOVIE_SEARCH -> uiState.movieSearchResults
-                            TV_SERIES_SEARCH -> uiState.tvSeriesSearchResults
-                            CELEBRITIES_SEARCH -> uiState.celebritySearchResults
-                            else -> null
-                        }
-                        // Get the current search query based on active tab
-                        val searchQuery = when (activeSearchType) {
-                            MOVIE_SEARCH -> uiState.movieSearchQuery
-                            TV_SERIES_SEARCH -> uiState.tvSeriesSearchQuery
-                            CELEBRITIES_SEARCH -> uiState.celebritySearchQuery
-                            else -> ""
-                        }
-                        // Get loading state for current search type
-                        val isLoading = when (activeSearchType) {
-                            MOVIE_SEARCH -> uiState.isLoading && uiState.movieSearchQuery.isNotBlank()
-                            TV_SERIES_SEARCH -> uiState.isLoading && uiState.tvSeriesSearchQuery.isNotBlank()
-                            CELEBRITIES_SEARCH -> uiState.isLoading && uiState.celebritySearchQuery.isNotBlank()
-                            else -> false
-                        }
-                        results?.let {
-                            SearchUI(navigator, it, activeSearchType, searchQuery, isLoading, itemClick = {
-                                isAppBarVisible.value = true
-                            })
+                        if (activeSearch.query.isBlank()) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(32.dp),
+                                contentAlignment = Alignment.Center,
+                            ) {
+                                Text(
+                                    text = stringResource(R.string.search_hint),
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                )
+                            }
+                        } else {
+                            SearchUI(
+                                searchState = activeSearch,
+                                activeTab = uiState.selectedSearchType,
+                                onResultClick = { item ->
+                                    isAppBarVisible.value = true
+                                    val route: NavKey = when (uiState.selectedSearchType) {
+                                        MOVIE_SEARCH -> MovieDetailRoute(item.id)
+                                        TV_SERIES_SEARCH -> TvSeriesDetailRoute(item.id)
+                                        else -> ArtistDetailRoute(item.id)
+                                    }
+                                    navigator.navigate(route)
+                                },
+                            )
                         }
                     }
                 }
@@ -287,13 +299,14 @@ fun MainView(
 
     val showTabs = hideTabScreens.none { it.matches(currentKey) }
 
-    val backDialogScreens = listOf(
-        Screen.NowPlaying,
-        Screen.AiringTodayTvSeries,
-        Screen.PopularCelebrities
+    val exitDialogScreens = listOf(
+        Screen.NowPlaying, Screen.Popular, Screen.TopRated, Screen.Upcoming,
+        Screen.AiringTodayTvSeries, Screen.OnTheAirTvSeries,
+        Screen.PopularTvSeries, Screen.TopRatedTvSeries,
+        Screen.PopularCelebrities, Screen.TrendingCelebrities,
     )
 
-    BackHandler(enabled = backDialogScreens.any { it.matches(currentKey) }) {
+    BackHandler(enabled = exitDialogScreens.any { it.matches(currentKey) }) {
         openDialog.value = true
     }
 

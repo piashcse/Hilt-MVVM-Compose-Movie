@@ -8,8 +8,15 @@ import com.piashcse.hilt_mvvm_compose_movie.R
 
 @Composable
 fun ShowExitDialog(activity: Activity?, openDialog: MutableState<Boolean>) {
-    ExitAlertDialog(title = stringResource(R.string.close_the_app),
+    if (!openDialog.value) return
+
+    ConfirmDialog(
+        title = stringResource(R.string.close_the_app),
         description = stringResource(R.string.do_you_want_to_exit_the_app),
-        onConfirm = { activity?.finish() },
-        onDismiss = { openDialog.value = false })
+        onConfirm = {
+            openDialog.value = false
+            activity?.finish()
+        },
+        onDismiss = { openDialog.value = false },
+    )
 }

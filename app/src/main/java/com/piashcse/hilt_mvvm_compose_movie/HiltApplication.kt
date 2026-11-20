@@ -1,12 +1,11 @@
 package com.piashcse.hilt_mvvm_compose_movie
 
-import androidx.multidex.BuildConfig
-import androidx.multidex.MultiDexApplication
+import android.app.Application
 import dagger.hilt.android.HiltAndroidApp
 import timber.log.Timber
 
 @HiltAndroidApp
-class HiltApplication : MultiDexApplication() {
+class HiltApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         if (BuildConfig.DEBUG) {

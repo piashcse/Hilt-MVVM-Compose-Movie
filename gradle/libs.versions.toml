@@ -6,19 +6,17 @@ junit = "4.13.2"
 androidx-junit = "1.3.0"
 espresso-core = "3.7.0"
 splashscreen = "1.2.0"
-constraint-layout-compose = "1.1.2"
 lifecycle-runtime-ktx = "2.11.1"
 activity-compose = "1.13.0"
 material = "1.14.0"
-material-icons-extended = "1.7.8"
-multidex = "2.0.1"
+material-icons-core = "1.7.8"
 retrofit = "3.0.0"
 gson = "2.15.0"
 logging-interceptor = "5.5.1"
 paging-compose = "3.5.3"
 landscapist = "2.13.2"
 timber = "5.0.1"
-hilt-navigation-compose = "1.4.0"
+hilt-lifecycle-viewmodel-compose = "1.4.0"
 hilt = "2.60.1"
 ksp = "2.3.14"
 compose-bom = "2026.11.01"
@@ -31,8 +29,7 @@ navigation-event = "1.2.0"
 [libraries]
 kotlinx-serialization-json = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinx-serialization" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
-androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hilt-navigation-compose" }
-androidx-material-icons-extended = { module = "androidx.compose.material:material-icons-extended", version.ref = "material-icons-extended" }
+androidx-hilt-lifecycle-viewmodel-compose = { module = "androidx.hilt:hilt-lifecycle-viewmodel-compose", version.ref = "hilt-lifecycle-viewmodel-compose" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-junit" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espresso-core" }
@@ -40,7 +37,6 @@ androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecyc
 androidx-lifecycle-viewmodel-navigation3 = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-navigation3", version.ref = "lifecycle-runtime-ktx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
-androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraint-layout-compose" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
 androidx-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
@@ -50,8 +46,8 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-navigation3-runtime = { group = "androidx.navigation3", name = "navigation3-runtime", version.ref = "nav3" }
 androidx-navigation3-ui = { group = "androidx.navigation3", name = "navigation3-ui", version.ref = "nav3" }
 androidx-navigationevent-compose = { module = "androidx.navigationevent:navigationevent-compose", version.ref = "navigation-event" }
-androidx-multidex = { module = "androidx.multidex:multidex", version.ref = "multidex" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
+androidx-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "material-icons-core" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splashscreen" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging-compose" }
 material = { module = "com.google.android.material:material", version.ref = "material" }

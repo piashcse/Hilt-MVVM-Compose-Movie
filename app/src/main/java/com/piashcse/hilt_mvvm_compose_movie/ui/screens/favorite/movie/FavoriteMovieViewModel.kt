@@ -5,8 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.MovieDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.local.movie.LocalMovieRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,14 +15,13 @@ import javax.inject.Inject
 class FavoriteMovieViewModel @Inject constructor(
     private val localMovieRepo: LocalMovieRepository,
 ) : ViewModel() {
-    private val _favoriteMovies = MutableStateFlow<List<MovieDetail?>>(arrayListOf())
-    val favoriteMovies get() = _favoriteMovies.asStateFlow()
 
-    fun favoriteMoviesFromDB() {
-        viewModelScope.launch {
-            _favoriteMovies.value = localMovieRepo.favoriteMovies()
-        }
-    }
+    val favoriteMovies: StateFlow<List<MovieDetail>> = localMovieRepo.favoriteMovies()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = emptyList(),
+        )
 
     fun removeMovieFromDB(movieId: Int) {
         viewModelScope.launch {

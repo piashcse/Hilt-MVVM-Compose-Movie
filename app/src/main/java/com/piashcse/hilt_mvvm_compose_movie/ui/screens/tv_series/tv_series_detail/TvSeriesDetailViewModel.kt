@@ -6,7 +6,9 @@ import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.dao.FavoriteTv
 import com.piashcse.hilt_mvvm_compose_movie.data.model.tv_series_detail.TvSeriesDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.tvseries.TvSeriesRepository
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
+import com.piashcse.hilt_mvvm_compose_movie.utils.network.toUserMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,35 +23,46 @@ class TvSeriesDetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(TvSeriesDetailUiState())
-    val uiState: StateFlow<TvSeriesDetailUiState> get() = _uiState.asStateFlow()
+    val uiState: StateFlow<TvSeriesDetailUiState> = _uiState.asStateFlow()
+
+    private var tvSeriesId: Int? = null
+    private var loadJob: Job? = null
 
     fun fetchTvSeriesDetails(tvSeriesId: Int) {
-        viewModelScope.launch {
-            launch { updateTvSeriesDetail(tvSeriesId) }
-            launch { updateRecommendedTvSeries(tvSeriesId) }
-            launch { updateTvSeriesCredit(tvSeriesId) }
-        }
+        if (this.tvSeriesId == tvSeriesId) return
+        this.tvSeriesId = tvSeriesId
+        observeFavoriteStatus(tvSeriesId)
+        load(tvSeriesId)
     }
 
-    private suspend fun updateTvSeriesDetail(tvSeriesId: Int) {
-        repo.tvSeriesDetail(tvSeriesId).collect { result ->
-            handleStateUpdate(result) { state, data -> state.copy(tvSeriesDetail = data) }
-        }
+    fun retry() {
+        tvSeriesId?.let(::load)
     }
 
-    private suspend fun updateRecommendedTvSeries(tvSeriesId: Int) {
-        repo.recommendedTvSeries(tvSeriesId).collect { result ->
-            handleStateUpdate(result) { state, data ->
-                state.copy(
-                    recommendedTvSeries = data ?: emptyList()
-                )
+    private fun load(tvSeriesId: Int) {
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
+            launch {
+                repo.tvSeriesDetail(tvSeriesId).collect { result ->
+                    handleStateUpdate(result) { state, data ->
+                        state.copy(tvSeriesDetail = data)
+                    }
+                }
             }
-        }
-    }
-
-    private suspend fun updateTvSeriesCredit(tvSeriesId: Int) {
-        repo.artistDetail(tvSeriesId).collect { result ->
-            handleStateUpdate(result) { state, data -> state.copy(tvSeriesCredit = data) }
+            launch {
+                repo.recommendedTvSeries(tvSeriesId).collect { result ->
+                    handleStateUpdate(result) { state, data ->
+                        state.copy(recommendedTvSeries = data.orEmpty())
+                    }
+                }
+            }
+            launch {
+                repo.tvSeriesCredit(tvSeriesId).collect { result ->
+                    handleStateUpdate(result) { state, data ->
+                        state.copy(tvSeriesCredit = data)
+                    }
+                }
+            }
         }
     }
 
@@ -59,13 +72,17 @@ class TvSeriesDetailViewModel @Inject constructor(
     ) {
         _uiState.update { currentState ->
             when (result) {
-                is DataState.Loading -> currentState.copy(isLoading = true, errorMessage = null)
+                is DataState.Loading -> currentState.copy(
+                    isLoading = currentState.tvSeriesDetail == null,
+                    errorMessage = null,
+                )
+
                 is DataState.Success -> stateUpdater(currentState, result.data)
                     .copy(isLoading = false, errorMessage = null)
 
                 is DataState.Error -> currentState.copy(
                     isLoading = false,
-                    errorMessage = result.exception?.message ?: "Unknown error"
+                    errorMessage = result.exception.toUserMessage(),
                 )
             }
         }
@@ -79,15 +96,13 @@ class TvSeriesDetailViewModel @Inject constructor(
             } else {
                 tvSeriesDao.insert(tvSeriesDetail)
             }
-            observeFavoriteStatus(tvSeriesDetail.id)
         }
     }
 
-    fun observeFavoriteStatus(tvSeriesId: Int) {
+    private fun observeFavoriteStatus(tvSeriesId: Int) {
         viewModelScope.launch {
-            val isFavorite = tvSeriesDao.getTvSeriesDetailById(tvSeriesId) != null
-            _uiState.update { currentState ->
-                currentState.copy(isFavorite = isFavorite)
+            tvSeriesDao.observeTvSeriesDetailById(tvSeriesId).collect { series ->
+                _uiState.update { it.copy(isFavorite = series != null) }
             }
         }
     }

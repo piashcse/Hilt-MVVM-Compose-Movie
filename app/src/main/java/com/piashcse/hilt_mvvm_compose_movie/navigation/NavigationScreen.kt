@@ -7,9 +7,9 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.LiveTv
+import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material.icons.filled.Timeline
+import androidx.compose.material.icons.automirrored.filled.List
 import androidx.compose.material3.Icon
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -59,7 +59,7 @@ sealed class Screen(
 
     data object PopularNav : Screen(PopularMovieRoute, title = R.string.popular, navIcon = {
         Icon(
-            Icons.Filled.Timeline,
+            Icons.AutoMirrored.Filled.List,
             contentDescription = "search",
             modifier = Modifier
                 .padding(end = 16.dp)
@@ -88,7 +88,7 @@ sealed class Screen(
     })
     data object AiringTodayTvSeriesNav : Screen(AiringTodayTvSeriesRoute, title = R.string.airing_today, navIcon = {
         Icon(
-            Icons.Filled.LiveTv,
+            Icons.Filled.PlayArrow,
             contentDescription = "Home",
             modifier = Modifier
                 .padding(end = 16.dp)
@@ -97,7 +97,7 @@ sealed class Screen(
     })
     data object OnTheAirTvSeriesNav : Screen(OnTheAirTvSeriesRoute, title = R.string.on_the_air, navIcon = {
         Icon(
-            Icons.Filled.Timeline,
+            Icons.AutoMirrored.Filled.List,
             contentDescription = "Timeline",
             modifier = Modifier
                 .padding(end = 16.dp)
@@ -133,7 +133,7 @@ sealed class Screen(
     })
     data object TrendingCelebritiesNav : Screen(TrendingCelebritiesRoute, title = R.string.trending, navIcon = {
         Icon(
-            Icons.Filled.Timeline,
+            Icons.AutoMirrored.Filled.List,
             contentDescription = "KeyboardArrowDown",
             modifier = Modifier
                 .padding(end = 16.dp)

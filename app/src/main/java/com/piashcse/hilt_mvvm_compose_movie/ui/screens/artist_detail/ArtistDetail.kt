@@ -2,10 +2,15 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.artist_detail
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -13,6 +18,8 @@ import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -20,181 +27,179 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.piashcse.hilt_mvvm_compose_movie.R
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistMovie
+import com.piashcse.hilt_mvvm_compose_movie.data.model.artist.ArtistDetail
 import com.piashcse.hilt_mvvm_compose_movie.navigation.MovieDetailRoute
+import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import com.piashcse.hilt_mvvm_compose_movie.navigation.TvSeriesDetailRoute
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.ErrorState
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.ExpandingText
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.FontColor
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
-import com.piashcse.hilt_mvvm_compose_movie.utils.genderInString
-import com.skydoves.landscapist.ImageOptions
-import com.skydoves.landscapist.animation.circular.CircularRevealPlugin
-import com.skydoves.landscapist.coil.CoilImage
-import com.skydoves.landscapist.components.rememberImageComponent
-import com.skydoves.landscapist.placeholder.shimmer.Shimmer
-import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
-import component.base.BaseColumn
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.PosterImage
+import com.piashcse.hilt_mvvm_compose_movie.utils.asDisplayDate
+import com.piashcse.hilt_mvvm_compose_movie.utils.genderRes
 
 @Composable
 fun ArtistDetail(navController: Navigator, personId: Int) {
     val viewModel = hiltViewModel<ArtistDetailViewModel>()
     val uiState by viewModel.uiState.collectAsState()
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(personId) {
         viewModel.fetchArtistDetails(personId)
     }
-    ArtistDetailUi(uiState, navController)
-}
 
-@Composable
-fun ArtistDetailUi(
-    artistUiState: ArtistDetailUiState,
-    navController: Navigator,
-) {
-    BaseColumn(loading = artistUiState.isLoading, errorMessage = artistUiState.errorMessage) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .background(DefaultBackgroundColor)
-                .padding(start = 8.dp, top = 8.dp, end = 8.dp)
-        ) {
-            artistUiState.artistDetail?.let {
-                Row {
-                    CoilImage(
-                        modifier = Modifier
-                            .padding(bottom = 8.dp)
-                            .height(250.dp)
-                            .width(190.dp)
-                            .cornerRadius(10),
-                        imageModel = { it.profilePath?.let { path -> ApiURL.IMAGE_URL.plus(path) } },
-                        imageOptions = ImageOptions(
-                            contentScale = ContentScale.Crop,
-                            alignment = Alignment.Center,
-                            contentDescription = "artist image",
-                        ),
-                        component = rememberImageComponent {
-                            +CircularRevealPlugin(duration = 800)
-                            +ShimmerPlugin(
-                                shimmer = Shimmer.Flash(
-                                    baseColor = SecondaryFontColor,
-                                    highlightColor = DefaultBackgroundColor
-                                )
-                            )
-                        })
-                    Column {
-                        Text(
-                            modifier = Modifier.padding(start = 8.dp),
-                            text = it.name,
-                            color = FontColor,
-                            fontSize = 26.sp,
-                            fontWeight = FontWeight.Medium
-                        )
-                        PersonalInfo(stringResource(R.string.know_for), it.knownForDepartment)
-                        PersonalInfo(
-                            stringResource(R.string.gender), it.gender.genderInString()
-                        )
-                        it.birthday?.let { birthday ->
-                            PersonalInfo(
-                                stringResource(R.string.birth_day), birthday
-                            )
-                        }
-                        it.placeOfBirth?.let { birthPlace ->
-                            PersonalInfo(
-                                stringResource(R.string.place_of_birth), birthPlace
-                            )
-                        }
-                    }
-                }
-                Text(
-                    modifier = Modifier.padding(bottom = 8.dp),
-                    text = stringResource(R.string.biography),
-                    color = SecondaryFontColor,
-                    fontSize = 22.sp,
-                    fontWeight = FontWeight.Medium
-                )
-                ExpandingText(
-                    text = it.biography, visibleLines = 15
-                )
-            }
-            artistUiState.artistMovies?.let {
-                ArtistMovies(it) { item ->
-                    if (item.mediaType == "movie") {
-                        navController.navigate(MovieDetailRoute(item.id))
-                    } else {
-                        navController.navigate(TvSeriesDetailRoute(item.id))
-                    }
-                }
+    val detail = uiState.artistDetail
+    when {
+        uiState.errorMessage != null && detail == null -> {
+            ErrorState(message = uiState.errorMessage.orEmpty(), onRetry = viewModel::retry)
+        }
+
+        detail == null -> {
+            Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                if (uiState.isLoading) CircularProgressIndicator()
             }
         }
-    }
-}
 
-@Composable
-fun PersonalInfo(title: String, info: String) {
-    Column(modifier = Modifier.padding(start = 10.dp, bottom = 10.dp)) {
-        Text(
-            text = title,
-            color = SecondaryFontColor,
-            fontSize = 13.sp,
-            fontWeight = FontWeight.SemiBold
-        )
-        Text(
-            text = info, color = FontColor, fontSize = 16.sp
-        )
-    }
-}
-
-@Composable
-fun ArtistMovies(artistMovies: List<ArtistMovie>, onMovieClick: (ArtistMovie) -> Unit) {
-    Column(modifier = Modifier.padding(bottom = 10.dp, top = 10.dp)) {
-        if (artistMovies.isNotEmpty()) {
-            Text(
-                text = stringResource(R.string.artist_movies),
-                color = FontColor,
-                fontSize = 17.sp,
-                fontWeight = FontWeight.SemiBold
+        else -> {
+            ArtistDetailContent(
+                detail = detail,
+                movies = uiState.artistMovies.orEmpty(),
+                onMovieClick = { movie ->
+                    if (movie.mediaType == "movie") {
+                        navController.navigate(MovieDetailRoute(movie.id))
+                    } else {
+                        navController.navigate(TvSeriesDetailRoute(movie.id))
+                    }
+                },
             )
         }
-        LazyRow(modifier = Modifier.fillMaxHeight()) {
-            items(artistMovies, itemContent = { item ->
-                Column(
-                    modifier = Modifier.padding(
-                        start = 0.dp, end = 8.dp, top = 5.dp, bottom = 5.dp
-                    )
-                ) {
-                    CoilImage(
-                        modifier = Modifier
-                            .height(180.dp)
-                            .width(135.dp)
-                            .cornerRadius(10)
-                            .clickable {
-                                onMovieClick(item)
-                            },
-                        imageModel = { ApiURL.IMAGE_URL.plus(item.posterPath) },
-                        imageOptions = ImageOptions(
-                            contentScale = ContentScale.Crop,
-                            alignment = Alignment.Center,
-                        ),
-                        component = rememberImageComponent {
-                            +CircularRevealPlugin(
-                                duration = 800
-                            )
-                        },
-                    )
+    }
+}
+
+@Composable
+private fun ArtistDetailContent(
+    detail: ArtistDetail,
+    movies: List<ArtistMovie>,
+    onMovieClick: (ArtistMovie) -> Unit,
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .verticalScroll(rememberScrollState())
+            .background(MaterialTheme.colorScheme.background)
+            .padding(12.dp),
+    ) {
+        Row {
+            PosterImage(
+                path = detail.profilePath,
+                contentDescription = stringResource(
+                    R.string.profile_content_description,
+                    detail.name,
+                ),
+                modifier = Modifier
+                    .width(150.dp)
+                    .aspectRatio(2f / 3f),
+            )
+            Column(modifier = Modifier.padding(start = 12.dp)) {
+                Text(
+                    text = detail.name,
+                    style = MaterialTheme.typography.headlineSmall,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                )
+                Spacer(modifier = Modifier.height(8.dp))
+                PersonalInfo(stringResource(R.string.know_for), detail.knownForDepartment)
+                val gender = detail.gender.genderRes()
+                if (gender != 0) {
+                    PersonalInfo(stringResource(R.string.gender), stringResource(gender))
                 }
-            })
+                detail.birthday.asDisplayDate()?.let {
+                    PersonalInfo(stringResource(R.string.birth_day), it)
+                }
+                detail.placeOfBirth?.let {
+                    PersonalInfo(stringResource(R.string.place_of_birth), it)
+                }
+            }
         }
+
+        if (detail.biography.isNotBlank()) {
+            Text(
+                text = stringResource(R.string.biography),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(top = 16.dp, bottom = 4.dp),
+            )
+            ExpandingText(text = detail.biography, visibleLines = 8)
+        }
+
+        if (movies.isNotEmpty()) {
+            Text(
+                text = stringResource(R.string.artist_movies),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(top = 16.dp, bottom = 8.dp),
+            )
+            LazyRow(
+                contentPadding = PaddingValues(vertical = 4.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+            ) {
+                items(movies, key = { "${it.mediaType}-${it.id}" }) { movie ->
+                    Column(
+                        modifier = Modifier
+                            .width(110.dp)
+                            .clickable { onMovieClick(movie) },
+                    ) {
+                        PosterImage(
+                            path = movie.posterPath,
+                            contentDescription = stringResource(
+                                R.string.poster_content_description,
+                                movie.title,
+                            ),
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .aspectRatio(2f / 3f),
+                        )
+                        Text(
+                            text = movie.title,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            maxLines = 1,
+                            overflow = TextOverflow.Ellipsis,
+                            textAlign = TextAlign.Center,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .padding(top = 4.dp),
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun PersonalInfo(title: String, info: String) {
+    Column(modifier = Modifier.padding(bottom = 8.dp)) {
+        Text(
+            text = title,
+            style = MaterialTheme.typography.bodySmall,
+            fontWeight = FontWeight.SemiBold,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+        )
+        Text(
+            text = info,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurface,
+        )
     }
 }

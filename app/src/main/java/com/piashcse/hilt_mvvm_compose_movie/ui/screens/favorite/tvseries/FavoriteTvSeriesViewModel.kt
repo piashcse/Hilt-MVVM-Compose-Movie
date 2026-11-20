@@ -5,8 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.piashcse.hilt_mvvm_compose_movie.data.model.tv_series_detail.TvSeriesDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.local.tvseries.LocalTvSeriesRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -14,18 +15,17 @@ import javax.inject.Inject
 class FavoriteTvSeriesViewModel @Inject constructor(
     private val localTvSeriesRepo: LocalTvSeriesRepository,
 ) : ViewModel() {
-    private val _favoriteTvSeries = MutableStateFlow<List<TvSeriesDetail?>>(arrayListOf())
-    val favoriteTvSeries get() = _favoriteTvSeries.asStateFlow()
 
-    fun favoriteTvSeriesFromDB() {
-        viewModelScope.launch {
-            _favoriteTvSeries.value = localTvSeriesRepo.favoriteTvSeries()
-        }
-    }
+    val favoriteTvSeries: StateFlow<List<TvSeriesDetail>> = localTvSeriesRepo.favoriteTvSeries()
+        .stateIn(
+            scope = viewModelScope,
+            started = SharingStarted.WhileSubscribed(5_000),
+            initialValue = emptyList(),
+        )
 
-    fun removeTvSeriesFromDB(tvSeries: Int) {
+    fun removeTvSeriesFromDB(tvSeriesId: Int) {
         viewModelScope.launch {
-            localTvSeriesRepo.removeTvSeriesById(tvSeries)
+            localTvSeriesRepo.removeTvSeriesById(tvSeriesId)
         }
     }
 }

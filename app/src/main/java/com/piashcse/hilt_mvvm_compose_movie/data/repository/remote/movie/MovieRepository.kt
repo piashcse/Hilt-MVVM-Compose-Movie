@@ -19,5 +19,4 @@ interface MovieRepository {
     fun popularMoviePagingDataSource(genreId: String?): Flow<PagingData<MovieItem>>
     fun topRatedMoviePagingDataSource(genreId: String?): Flow<PagingData<MovieItem>>
     fun upcomingMoviePagingDataSource(genreId: String?): Flow<PagingData<MovieItem>>
-    fun genrePagingDataSource(genreId: String): Flow<PagingData<MovieItem>>
 }

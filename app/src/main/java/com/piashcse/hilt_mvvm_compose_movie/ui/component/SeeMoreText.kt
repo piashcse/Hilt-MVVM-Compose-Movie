@@ -1,175 +1,57 @@
 package com.piashcse.hilt_mvvm_compose_movie.ui.component
 
-import androidx.compose.animation.animateContentSize
-import androidx.compose.foundation.text.ClickableText
-import androidx.compose.foundation.text.selection.SelectionContainer
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalUriHandler
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.TextLayoutResult
-import androidx.compose.ui.text.TextStyle
-import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.TextDecoration
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.unit.sp
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.LinkColor
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
-import com.piashcse.hilt_mvvm_compose_movie.ui.theme.Teal200
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
+import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.utils.AppConstant
-import java.util.regex.Pattern
 
+/**
+ * Collapsible text with an explicit, accessible "See more"/"See less" action.
+ */
 @Composable
 fun ExpandingText(
-    modifier: Modifier = Modifier,
     text: String,
-    visibleLines: Int = AppConstant.MINIMIZED_MAX_LINES // Accept visibleLines as parameter
+    modifier: Modifier = Modifier,
+    visibleLines: Int = AppConstant.MINIMIZED_MAX_LINES,
 ) {
-    var isExpanded by remember { mutableStateOf(false) }
-    val textLayoutResultState = remember { mutableStateOf<TextLayoutResult?>(null) }
-    var isClickable by remember { mutableStateOf(false) }
-    val textLayoutResult = textLayoutResultState.value
+    var isExpanded by rememberSaveable(text) { mutableStateOf(false) }
+    var hasOverflow by rememberSaveable(text) { mutableStateOf(false) }
 
-    //first we match the html tags and enable the links
-    val textWithLinks = buildAnnotatedString {
-        val htmlTagPattern = Pattern.compile(
-            "(?i)<a([^>]+)>(.+?)</a>",
-            Pattern.CASE_INSENSITIVE or Pattern.MULTILINE or Pattern.DOTALL
-        )
-        val matcher = htmlTagPattern.matcher(text)
-        var matchStart: Int
-        var matchEnd = 0
-        var previousMatchStart = 0
-
-        while (matcher.find()) {
-            matchStart = matcher.start(1)
-            matchEnd = matcher.end()
-            val beforeMatch = text.substring(
-                startIndex = previousMatchStart,
-                endIndex = matchStart - 2
-            )
-            val tagMatch = text.substring(
-                startIndex = text.indexOf(
-                    char = '>',
-                    startIndex = matchStart
-                ) + 1,
-                endIndex = text.indexOf(
-                    char = '<',
-                    startIndex = matchStart + 1
-                ),
-            )
-            append(
-                beforeMatch
-            )
-            // attach a string annotation that stores a URL to the text
-            val annotation = text.substring(
-                startIndex = matchStart + 7, //omit <a href=
-                endIndex = text.indexOf(
-                    char = '"',
-                    startIndex = matchStart + 7,
-                )
-            )
-            pushStringAnnotation(tag = "link_tag", annotation = annotation)
-            withStyle(
-                SpanStyle(
-                    color = LinkColor,
-                    textDecoration = TextDecoration.Underline
-                )
-            ) {
-                append(
-                    tagMatch
-                )
-            }
-            pop() //don't forget to add this line after a pushStringAnnotation
-            previousMatchStart = matchEnd
-        }
-        //append the rest of the string
-        if (text.length > matchEnd) {
-            append(
-                text.substring(
-                    startIndex = matchEnd,
-                    endIndex = text.length
-                )
-            )
-        }
-    }
-
-    //then we create the Show more/less animation effect
-    var textWithMoreLess by remember { mutableStateOf(textWithLinks) }
-    LaunchedEffect(textLayoutResult) {
-        if (textLayoutResult == null) return@LaunchedEffect
-
-        when {
-            isExpanded -> {
-                textWithMoreLess = buildAnnotatedString {
-                    append(textWithLinks)
-                    pushStringAnnotation(tag = "show_more_tag", annotation = "")
-                    withStyle(SpanStyle(Teal200)) {
-                        append(" See less")
-                    }
-                    pop()
-                }
-            }
-            !isExpanded && textLayoutResult.hasVisualOverflow -> {
-                val lastCharIndex = textLayoutResult.getLineEnd(visibleLines - 1) // Use visibleLines
-                val showMoreString = "...See more"
-                val adjustedText = textWithLinks
-                    .substring(startIndex = 0, endIndex = lastCharIndex)
-                    .dropLast(showMoreString.length)
-                    .dropLastWhile { it == ' ' || it == '.' }
-
-                textWithMoreLess = buildAnnotatedString {
-                    append(adjustedText)
-                    pushStringAnnotation(tag = "show_more_tag", annotation = "")
-                    withStyle(SpanStyle(Teal200)) {
-                        append(showMoreString)
-                    }
-                    pop()
-                }
-
-                isClickable = true
-            }
-        }
-    }
-
-    // UriHandler parse and opens URI inside AnnotatedString Item in Browse
-    val uriHandler = LocalUriHandler.current
-
-    //Composable container
-    SelectionContainer {
-        ClickableText(
-            text = textWithMoreLess,
-            style = TextStyle(
-                color = SecondaryFontColor,
-                fontSize = 15.sp
-            ),
-            onClick = { offset ->
-                textWithMoreLess.getStringAnnotations(
-                    tag = "link_tag",
-                    start = offset,
-                    end = offset
-                ).firstOrNull()?.let { stringAnnotation ->
-                    uriHandler.openUri(stringAnnotation.item)
-                }
-                if (isClickable) {
-                    textWithMoreLess.getStringAnnotations(
-                        tag = "show_more_tag",
-                        start = offset,
-                        end = offset
-                    ).firstOrNull()?.let {
-                        isExpanded = !isExpanded
-                    }
-                }
+    Column(modifier = modifier) {
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = if (isExpanded) Int.MAX_VALUE else visibleLines,
+            overflow = TextOverflow.Ellipsis,
+            onTextLayout = { layout ->
+                if (!isExpanded) hasOverflow = layout.hasVisualOverflow
             },
-            maxLines = if (isExpanded) Int.MAX_VALUE else visibleLines, // Use visibleLines here
-            onTextLayout = { textLayoutResultState.value = it },
-            modifier = modifier
-                .animateContentSize()
         )
+        if (hasOverflow || isExpanded) {
+            TextButton(
+                onClick = { isExpanded = !isExpanded },
+                contentPadding = PaddingValues(0.dp),
+            ) {
+                Text(
+                    text = stringResource(
+                        if (isExpanded) R.string.see_less else R.string.see_more
+                    ),
+                    color = MaterialTheme.colorScheme.primary,
+                )
+            }
+        }
     }
 }

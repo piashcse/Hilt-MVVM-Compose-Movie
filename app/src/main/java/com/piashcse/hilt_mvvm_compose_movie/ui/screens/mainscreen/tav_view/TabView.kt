@@ -4,14 +4,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.PrimaryTabRow
 import androidx.compose.material3.Tab
-import androidx.compose.material3.TabRow
-import androidx.compose.material3.TabRowDefaults
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.navigation.AiringTodayTvSeriesRoute
@@ -30,28 +27,36 @@ fun TabView(
     navigator: Navigator,
     selectedSection: Int,
 ) {
-    val tabs = listOf(stringResource(R.string.movie), stringResource(R.string.tv_series), stringResource(R.string.celebrities))
-    TabRow(modifier = Modifier.background(Color.White),
+    val tabs = listOf(
+        stringResource(R.string.movie),
+        stringResource(R.string.tv_series),
+        stringResource(R.string.celebrities),
+    )
+    PrimaryTabRow(
+        modifier = Modifier.background(MaterialTheme.colorScheme.surface),
         selectedTabIndex = selectedSection,
-        indicator = { tabPositions ->
-            TabRowDefaults.PrimaryIndicator(
-                Modifier.tabIndicatorOffset(tabPositions[selectedSection]),
-                color = MaterialTheme.colorScheme.primary
-            )
-        }) {
+    ) {
         tabs.forEachIndexed { index, title ->
-            Tab(selected = selectedSection == index, onClick = {
-                when (index) {
-                    MOVIE_TAB -> navigator.singleTopNavigator(NowPlayingMovieRoute)
-                    TV_SERIES_TAB -> navigator.singleTopNavigator(AiringTodayTvSeriesRoute)
-                    CELEBRITIES_TAB -> navigator.singleTopNavigator(PopularCelebritiesRoute)
-                }
-            }, text = {
-                Text(
-                    title,
-                    color = if (selectedSection == index) MaterialTheme.colorScheme.primary else Color.Gray
-                )
-            })
+            Tab(
+                selected = selectedSection == index,
+                onClick = {
+                    when (index) {
+                        MOVIE_TAB -> navigator.singleTopNavigator(NowPlayingMovieRoute)
+                        TV_SERIES_TAB -> navigator.singleTopNavigator(AiringTodayTvSeriesRoute)
+                        CELEBRITIES_TAB -> navigator.singleTopNavigator(PopularCelebritiesRoute)
+                    }
+                },
+                text = {
+                    Text(
+                        text = title,
+                        color = if (selectedSection == index) {
+                            MaterialTheme.colorScheme.primary
+                        } else {
+                            MaterialTheme.colorScheme.onSurfaceVariant
+                        },
+                    )
+                },
+            )
         }
     }
 }
@@ -64,29 +69,33 @@ fun FavoriteTabView(navigator: Navigator) {
     Column(
         Modifier
             .fillMaxWidth()
-            .background(Color.Gray)
+            .background(MaterialTheme.colorScheme.surface)
     ) {
-        TabRow(modifier = Modifier.background(Color.White),
+        PrimaryTabRow(
+            modifier = Modifier.background(MaterialTheme.colorScheme.surface),
             selectedTabIndex = selectedTabIndex,
-            indicator = { tabPositions ->
-                TabRowDefaults.PrimaryIndicator(
-                    Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }) {
+        ) {
             tabs.forEachIndexed { index, title ->
-                Tab(selected = selectedTabIndex == index, onClick = {
-                    if (index == MOVIE_TAB) {
-                        navigator.singleTopNavigator(FavoriteMovieRoute)
-                    } else if (index == TV_SERIES_TAB) {
-                        navigator.singleTopNavigator(FavoriteTvSeriesRoute)
-                    }
-                }, text = {
-                    Text(
-                        title,
-                        color = if (selectedTabIndex == index) MaterialTheme.colorScheme.primary else Color.Gray
-                    )
-                })
+                Tab(
+                    selected = selectedTabIndex == index,
+                    onClick = {
+                        if (index == MOVIE_TAB) {
+                            navigator.singleTopNavigator(FavoriteMovieRoute)
+                        } else if (index == TV_SERIES_TAB) {
+                            navigator.singleTopNavigator(FavoriteTvSeriesRoute)
+                        }
+                    },
+                    text = {
+                        Text(
+                            text = title,
+                            color = if (selectedTabIndex == index) {
+                                MaterialTheme.colorScheme.primary
+                            } else {
+                                MaterialTheme.colorScheme.onSurfaceVariant
+                            },
+                        )
+                    },
+                )
             }
         }
     }
