@@ -45,6 +45,7 @@ import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 import component.base.BaseColumn
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.ArtistDetailShimmer
 
 @Composable
 fun ArtistDetail(navController: Navigator, personId: Int) {
@@ -62,7 +63,11 @@ fun ArtistDetailUi(
     artistUiState: ArtistDetailUiState,
     navController: Navigator,
 ) {
-    BaseColumn(loading = artistUiState.isLoading, errorMessage = artistUiState.errorMessage) {
+    BaseColumn(
+        loading = artistUiState.isLoading,
+        errorMessage = artistUiState.errorMessage,
+        loadingContent = { ArtistDetailShimmer() },
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

@@ -71,6 +71,7 @@ import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 import component.base.BaseColumn
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.MediaDetailShimmer
 
 @Composable
 fun MovieDetail(navController: Navigator, movieId: Int) {
@@ -102,7 +103,11 @@ fun MovieDetailContent(
 ) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val calculatedOffset = screenHeight / 5.5f
-    BaseColumn(loading = uiState.isLoading, errorMessage = uiState.errorMessage) {
+    BaseColumn(
+        loading = uiState.isLoading,
+        errorMessage = uiState.errorMessage,
+        loadingContent = { MediaDetailShimmer() },
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

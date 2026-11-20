@@ -100,7 +100,6 @@ dependencies {
 
     // Additional libraries
     implementation(libs.androidx.paging.compose)
-    implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.material)
 
