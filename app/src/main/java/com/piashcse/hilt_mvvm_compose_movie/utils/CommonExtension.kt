@@ -4,12 +4,6 @@ import androidx.navigation3.runtime.NavKey
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import kotlin.math.pow
 import kotlin.math.roundToInt
-import kotlin.time.Duration.Companion.minutes
-
-fun Int.hourMinutes(): String {
-    return "${this.minutes.inWholeHours}h ${this % 60}m"
-}
-
 fun Int.genderInString(): String {
     return when (this) {
         1 -> "Female"

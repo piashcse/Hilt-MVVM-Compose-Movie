@@ -75,7 +75,7 @@ fun SearchUI(
                 }
             }
         } else {
-            items(items = searchData, itemContent = { item ->
+            items(items = searchData, key = { it.id }, itemContent = { item ->
                 Row(
                     modifier = Modifier
                         .padding(bottom = 8.dp, start = 8.dp, end = 8.dp)

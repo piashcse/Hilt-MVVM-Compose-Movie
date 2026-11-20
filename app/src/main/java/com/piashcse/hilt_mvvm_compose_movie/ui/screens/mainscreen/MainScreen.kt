@@ -75,6 +75,26 @@ import com.piashcse.hilt_mvvm_compose_movie.utils.TV_SERIES_TAB
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.ConnectionState
 import com.piashcse.hilt_mvvm_compose_movie.utils.networkconnection.connectivityState
 
+private val topBarHiddenScreens = listOf(
+    Screen.MovieDetail, Screen.ArtistDetail,
+    Screen.TvSeriesDetail, Screen.FavoriteMovie, Screen.FavoriteTvSeries,
+)
+
+private val bottomNavScreens = listOf(
+    Screen.NowPlaying, Screen.Popular, Screen.TopRated, Screen.Upcoming,
+    Screen.AiringTodayTvSeries, Screen.OnTheAirTvSeries,
+    Screen.PopularTvSeries, Screen.TopRatedTvSeries,
+    Screen.PopularCelebrities, Screen.TrendingCelebrities,
+)
+
+private val tabHiddenScreens = listOf(
+    Screen.MovieDetail, Screen.TvSeriesDetail, Screen.ArtistDetail,
+)
+
+private val backDialogScreens = listOf(
+    Screen.NowPlaying, Screen.AiringTodayTvSeries, Screen.PopularCelebrities,
+)
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainScreen() {
@@ -91,19 +111,7 @@ fun MainScreen() {
     val currentKey = navigator.currentKey
     val section = sectionOf(currentKey)
 
-    val hideTopBarScreens = listOf(
-        Screen.MovieDetail, Screen.ArtistDetail,
-        Screen.TvSeriesDetail, Screen.FavoriteMovie, Screen.FavoriteTvSeries
-    )
-
-    val bottomNavScreens = listOf(
-        Screen.NowPlaying, Screen.Popular, Screen.TopRated, Screen.Upcoming,
-        Screen.AiringTodayTvSeries, Screen.OnTheAirTvSeriesNav,
-        Screen.PopularTvSeries, Screen.TopRatedTvSeries,
-        Screen.PopularCelebrities, Screen.TrendingCelebrities,
-    )
-
-    val showTopAppBarActions = hideTopBarScreens.none { it.matches(currentKey) }
+    val showTopAppBarActions = topBarHiddenScreens.none { it.matches(currentKey) }
 
     LaunchedEffect(Unit) {
         mainViewModel.loadGenres()
@@ -135,7 +143,7 @@ fun MainScreen() {
                         )
                     },
                     navigationIcon = {
-                        if (hideTopBarScreens.any { it.matches(currentKey) }) {
+                        if (topBarHiddenScreens.any { it.matches(currentKey) }) {
                             IconButton(onClick = {
                                 val isFavoriteScreen = listOf(
                                     Screen.FavoriteMovie, Screen.FavoriteTvSeries
@@ -276,19 +284,7 @@ fun MainView(
     val openDialog = remember { mutableStateOf(false) }
     val currentKey = navigator.currentKey
 
-    val hideTabScreens = listOf(
-        Screen.MovieDetail,
-        Screen.TvSeriesDetail,
-        Screen.ArtistDetail
-    )
-
-    val showTabs = hideTabScreens.none { it.matches(currentKey) }
-
-    val backDialogScreens = listOf(
-        Screen.NowPlaying,
-        Screen.AiringTodayTvSeries,
-        Screen.PopularCelebrities
-    )
+    val showTabs = tabHiddenScreens.none { it.matches(currentKey) }
 
     BackHandler(enabled = backDialogScreens.any { it.matches(currentKey) }) {
         openDialog.value = true

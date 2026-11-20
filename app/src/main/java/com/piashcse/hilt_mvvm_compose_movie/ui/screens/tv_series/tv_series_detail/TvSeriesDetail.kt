@@ -17,7 +17,7 @@ import com.piashcse.hilt_mvvm_compose_movie.ui.screens.common.RelatedMedia
 import com.piashcse.hilt_mvvm_compose_movie.utils.asDisplayDate
 import com.piashcse.hilt_mvvm_compose_movie.utils.asLanguageName
 import com.piashcse.hilt_mvvm_compose_movie.utils.asYear
-import component.base.BaseColumn
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.base.BaseColumn
 
 @Composable
 fun TvSeriesDetail(navController: Navigator, tvSeriesId: Int) {
@@ -25,10 +25,10 @@ fun TvSeriesDetail(navController: Navigator, tvSeriesId: Int) {
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(tvSeriesId) {
-        viewModel.fetchTvSeriesDetails(tvSeriesId)
+        viewModel.fetch(tvSeriesId)
     }
 
-    val series = uiState.tvSeriesDetail
+    val series = uiState.detail
 
     BaseColumn(
         loading = uiState.isLoading && series == null,
@@ -76,8 +76,8 @@ fun TvSeriesDetail(navController: Navigator, tvSeriesId: Int) {
                 year = detail.firstAirDate.asYear(),
                 genres = detail.genres.map { it.name },
                 facts = facts,
-                cast = uiState.tvSeriesCredit?.cast.orEmpty(),
-                recommended = uiState.recommendedTvSeries.map {
+                cast = uiState.credits?.cast.orEmpty(),
+                recommended = uiState.related.map {
                     RelatedMedia(id = it.id, title = it.name, posterPath = it.posterPath)
                 },
                 isFavorite = uiState.isFavorite,

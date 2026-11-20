@@ -44,7 +44,7 @@ import com.skydoves.landscapist.coil.CoilImage
 import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
-import component.base.BaseColumn
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.base.BaseColumn
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.ArtistDetailShimmer
 
 @Composable

@@ -18,7 +18,7 @@ import com.piashcse.hilt_mvvm_compose_movie.utils.asDisplayDate
 import com.piashcse.hilt_mvvm_compose_movie.utils.asDuration
 import com.piashcse.hilt_mvvm_compose_movie.utils.asLanguageName
 import com.piashcse.hilt_mvvm_compose_movie.utils.asYear
-import component.base.BaseColumn
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.base.BaseColumn
 
 @Composable
 fun MovieDetail(navController: Navigator, movieId: Int) {
@@ -26,10 +26,10 @@ fun MovieDetail(navController: Navigator, movieId: Int) {
     val uiState by viewModel.uiState.collectAsState()
 
     LaunchedEffect(movieId) {
-        viewModel.fetchMovieDetails(movieId)
+        viewModel.fetch(movieId)
     }
 
-    val movie = uiState.movieDetail
+    val movie = uiState.detail
 
     BaseColumn(
         loading = uiState.isLoading && movie == null,
@@ -44,7 +44,7 @@ fun MovieDetail(navController: Navigator, movieId: Int) {
                 detail.releaseDate.asDisplayDate()?.let {
                     DetailFact(stringResource(R.string.release_date), it)
                 },
-                uiState.movieCredit?.crew
+                uiState.credits?.crew
                     ?.firstOrNull { it.job.equals("Director", ignoreCase = true) }
                     ?.name
                     ?.takeIf { it.isNotBlank() }
@@ -70,8 +70,8 @@ fun MovieDetail(navController: Navigator, movieId: Int) {
                 year = detail.releaseDate.asYear(),
                 genres = detail.genres.map { it.name },
                 facts = facts,
-                cast = uiState.movieCredit?.cast.orEmpty(),
-                recommended = uiState.recommendedMovies.map {
+                cast = uiState.credits?.cast.orEmpty(),
+                recommended = uiState.related.map {
                     RelatedMedia(id = it.id, title = it.title, posterPath = it.posterPath)
                 },
                 isFavorite = uiState.isFavorite,

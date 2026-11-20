@@ -30,64 +30,71 @@ fun TabView(
     navigator: Navigator,
     selectedSection: Int,
 ) {
-    val tabs = listOf(stringResource(R.string.movie), stringResource(R.string.tv_series), stringResource(R.string.celebrities))
-    TabRow(modifier = Modifier.background(Color.White),
-        selectedTabIndex = selectedSection,
-        indicator = { tabPositions ->
-            TabRowDefaults.PrimaryIndicator(
-                Modifier.tabIndicatorOffset(tabPositions[selectedSection]),
-                color = MaterialTheme.colorScheme.primary
-            )
-        }) {
-        tabs.forEachIndexed { index, title ->
-            Tab(selected = selectedSection == index, onClick = {
-                when (index) {
-                    MOVIE_TAB -> navigator.singleTopNavigator(NowPlayingMovieRoute)
-                    TV_SERIES_TAB -> navigator.singleTopNavigator(AiringTodayTvSeriesRoute)
-                    CELEBRITIES_TAB -> navigator.singleTopNavigator(PopularCelebritiesRoute)
-                }
-            }, text = {
-                Text(
-                    title,
-                    color = if (selectedSection == index) MaterialTheme.colorScheme.primary else Color.Gray
-                )
-            })
+    val tabs = listOf(
+        stringResource(R.string.movie),
+        stringResource(R.string.tv_series),
+        stringResource(R.string.celebrities),
+    )
+    SectionTabRow(tabs, selectedSection) { index ->
+        when (index) {
+            MOVIE_TAB -> navigator.singleTopNavigator(NowPlayingMovieRoute)
+            TV_SERIES_TAB -> navigator.singleTopNavigator(AiringTodayTvSeriesRoute)
+            CELEBRITIES_TAB -> navigator.singleTopNavigator(PopularCelebritiesRoute)
         }
     }
 }
 
 @Composable
 fun FavoriteTabView(navigator: Navigator) {
-    val selectedTabIndex =
+    val selectedIndex =
         if (navigator.currentKey == FavoriteTvSeriesRoute) TV_SERIES_TAB else MOVIE_TAB
     val tabs = listOf(stringResource(R.string.movie), stringResource(R.string.tv_series))
+
     Column(
         Modifier
             .fillMaxWidth()
             .background(Color.Gray)
     ) {
-        TabRow(modifier = Modifier.background(Color.White),
-            selectedTabIndex = selectedTabIndex,
-            indicator = { tabPositions ->
-                TabRowDefaults.PrimaryIndicator(
-                    Modifier.tabIndicatorOffset(tabPositions[selectedTabIndex]),
-                    color = MaterialTheme.colorScheme.primary
-                )
-            }) {
-            tabs.forEachIndexed { index, title ->
-                Tab(selected = selectedTabIndex == index, onClick = {
-                    if (index == MOVIE_TAB) {
-                        navigator.singleTopNavigator(FavoriteMovieRoute)
-                    } else if (index == TV_SERIES_TAB) {
-                        navigator.singleTopNavigator(FavoriteTvSeriesRoute)
-                    }
-                }, text = {
-                    Text(
-                        title,
-                        color = if (selectedTabIndex == index) MaterialTheme.colorScheme.primary else Color.Gray
-                    )
-                })
+        SectionTabRow(tabs, selectedIndex) { index ->
+            when (index) {
+                MOVIE_TAB -> navigator.singleTopNavigator(FavoriteMovieRoute)
+                TV_SERIES_TAB -> navigator.singleTopNavigator(FavoriteTvSeriesRoute)
             }
+        }
+    }
+}
+
+@Composable
+private fun SectionTabRow(
+    tabs: List<String>,
+    selectedIndex: Int,
+    onSelect: (Int) -> Unit,
+) {
+    TabRow(
+        modifier = Modifier.background(Color.White),
+        selectedTabIndex = selectedIndex,
+        indicator = { tabPositions ->
+            TabRowDefaults.PrimaryIndicator(
+                Modifier.tabIndicatorOffset(tabPositions[selectedIndex]),
+                color = MaterialTheme.colorScheme.primary,
+            )
+        },
+    ) {
+        tabs.forEachIndexed { index, title ->
+            Tab(
+                selected = selectedIndex == index,
+                onClick = { onSelect(index) },
+                text = {
+                    Text(
+                        text = title,
+                        color = if (selectedIndex == index) {
+                            MaterialTheme.colorScheme.primary
+                        } else {
+                            Color.Gray
+                        },
+                    )
+                },
+            )
         }
     }
 }
