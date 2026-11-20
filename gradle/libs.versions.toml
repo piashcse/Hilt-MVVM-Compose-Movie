@@ -1,5 +1,6 @@
 [versions]
 agp = "9.5.2"
+constraint-layout-compose = "1.1.2"
 kotlin = "2.4.21"
 core-ktx = "1.19.1"
 junit = "4.13.2"
@@ -9,7 +10,7 @@ splashscreen = "1.2.0"
 lifecycle-runtime-ktx = "2.11.1"
 activity-compose = "1.13.0"
 material = "1.14.0"
-material-icons-core = "1.7.8"
+material-icons-extended = "1.7.8"
 retrofit = "3.0.0"
 gson = "2.15.0"
 logging-interceptor = "5.5.1"
@@ -36,6 +37,7 @@ androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-co
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "lifecycle-runtime-ktx" }
 androidx-lifecycle-viewmodel-navigation3 = { group = "androidx.lifecycle", name = "lifecycle-viewmodel-navigation3", version.ref = "lifecycle-runtime-ktx" }
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
+androidx-constraintlayout-compose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraint-layout-compose" }
 androidx-compose-bom = { group = "androidx.compose", name = "compose-bom", version.ref = "compose-bom" }
 androidx-ui = { group = "androidx.compose.ui", name = "ui" }
 androidx-ui-graphics = { group = "androidx.compose.ui", name = "ui-graphics" }
@@ -47,7 +49,7 @@ androidx-navigation3-runtime = { group = "androidx.navigation3", name = "navigat
 androidx-navigation3-ui = { group = "androidx.navigation3", name = "navigation3-ui", version.ref = "nav3" }
 androidx-navigationevent-compose = { module = "androidx.navigationevent:navigationevent-compose", version.ref = "navigation-event" }
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
-androidx-material-icons-core = { group = "androidx.compose.material", name = "material-icons-core", version.ref = "material-icons-core" }
+androidx-material-icons-extended = { group = "androidx.compose.material", name = "material-icons-extended", version.ref = "material-icons-extended" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "splashscreen" }
 androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "paging-compose" }
 material = { module = "com.google.android.material:material", version.ref = "material" }

@@ -6,7 +6,6 @@ import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.dao.FavoriteTv
 import com.piashcse.hilt_mvvm_compose_movie.data.model.tv_series_detail.TvSeriesDetail
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.tvseries.TvSeriesRepository
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
-import com.piashcse.hilt_mvvm_compose_movie.utils.network.toUserMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -82,7 +81,7 @@ class TvSeriesDetailViewModel @Inject constructor(
 
                 is DataState.Error -> currentState.copy(
                     isLoading = false,
-                    errorMessage = result.exception.toUserMessage(),
+                    errorMessage = result.exception.message ?: "Unknown error",
                 )
             }
         }

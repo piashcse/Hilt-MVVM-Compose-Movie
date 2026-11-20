@@ -2,22 +2,18 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.mainscreen
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.piashcse.hilt_mvvm_compose_movie.data.model.SearchBaseModel
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.celebrity.CelebrityRepository
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.movie.MovieRepository
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.tvseries.TvSeriesRepository
-import com.piashcse.hilt_mvvm_compose_movie.utils.CELEBRITIES_SEARCH
-import com.piashcse.hilt_mvvm_compose_movie.utils.TV_SERIES_SEARCH
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
-import com.piashcse.hilt_mvvm_compose_movie.utils.network.toUserMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -29,85 +25,190 @@ class MainViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(MainUiState())
-    val uiState: StateFlow<MainUiState> = _uiState.asStateFlow()
+    val uiState: StateFlow<MainUiState> get() = _uiState.asStateFlow()
 
-    /** One debounced search job per search type; replaced on every keystroke. */
-    private val searchJobs = mutableMapOf<Int, Job>()
+    private var movieSearchJob: Job? = null
+    private var tvSeriesSearchJob: Job? = null
+    private var celebritySearchJob: Job? = null
 
     fun setSelectedSearchType(type: Int) {
-        _uiState.update { it.copy(selectedSearchType = type) }
+        _uiState.value = _uiState.value.copy(selectedSearchType = type)
     }
 
-    fun onSearchQueryChange(query: String) {
-        val type = _uiState.value.selectedSearchType
-        _uiState.update { state ->
-            state.updateSearch(type) { search ->
-                search.copy(
-                    query = query,
-                    results = if (query.isBlank()) emptyList() else search.results,
-                    errorMessage = null,
-                )
-            }
+    fun loadGenres() {
+        viewModelScope.launch {
+            movieRepo.genreList()
+                .onStart {
+                    _uiState.value = _uiState.value.copy(isLoading = true, error = null)
+                }
+                .catch { exception ->
+                    _uiState.value = _uiState.value.copy(isLoading = false, error = exception)
+                }
+                .collect { result ->
+                    when (result) {
+                        is DataState.Success -> {
+                            _uiState.value = _uiState.value.copy(
+                                genres = result.data,
+                                isLoading = false
+                            )
+                        }
+
+                        is DataState.Error -> {
+                            _uiState.value = _uiState.value.copy(
+                                isLoading = false,
+                                error = result.exception
+                            )
+                        }
+
+                        is DataState.Loading -> {
+                            _uiState.value = _uiState.value.copy(isLoading = true)
+                        }
+                    }
+                }
         }
+    }
 
-        // Cancel any in-flight request for this type so older responses cannot
-        // overwrite newer ones.
-        searchJobs[type]?.cancel()
+    fun searchMovies(searchKey: String) {
+        _uiState.value = _uiState.value.copy(movieSearchQuery = searchKey)
+        movieSearchJob?.cancel()
 
-        if (query.isBlank()) {
-            _uiState.update { state ->
-                state.updateSearch(type) { it.copy(isLoading = false, results = emptyList()) }
-            }
+        if (searchKey.trim().isEmpty()) {
+            _uiState.value = _uiState.value.copy(
+                movieSearchResults = emptyList(),
+                isMovieSearchLoading = false
+            )
             return
         }
 
-        searchJobs[type] = viewModelScope.launch {
+        movieSearchJob = viewModelScope.launch {
             delay(SEARCH_DEBOUNCE_MILLIS)
-            val search: suspend (String) -> Flow<DataState<SearchBaseModel>> = when (type) {
-                TV_SERIES_SEARCH -> tvSeriesRepo::searchTvSeries
-                CELEBRITIES_SEARCH -> celebrityRepo::searchCelebrity
-                else -> movieRepo::movieSearch
-            }
-            search(query).collect { result ->
-                _uiState.update { state ->
-                    state.updateSearch(type) { current ->
-                        when (result) {
-                            is DataState.Loading -> current.copy(isLoading = true)
-                            is DataState.Success -> current.copy(
-                                isLoading = false,
-                                results = result.data.results,
-                                errorMessage = null,
+            movieRepo.movieSearch(searchKey)
+                .catch { exception ->
+                    _uiState.value = _uiState.value.copy(
+                        isMovieSearchLoading = false,
+                        error = exception
+                    )
+                }
+                .collect { result ->
+                    when (result) {
+                        is DataState.Success -> {
+                            _uiState.value = _uiState.value.copy(
+                                movieSearchResults = result.data.results,
+                                isMovieSearchLoading = false
                             )
+                        }
 
-                            is DataState.Error -> current.copy(
-                                isLoading = false,
-                                results = emptyList(),
-                                errorMessage = result.exception.toUserMessage(),
+                        is DataState.Error -> {
+                            _uiState.value = _uiState.value.copy(
+                                isMovieSearchLoading = false,
+                                error = result.exception
+                            )
+                        }
+
+                        is DataState.Loading -> {
+                            _uiState.value = _uiState.value.copy(
+                                isMovieSearchLoading = true,
+                                error = null
                             )
                         }
                     }
                 }
-            }
         }
     }
 
-    fun clearSearch() = onSearchQueryChange("")
+    fun searchTvSeries(searchKey: String) {
+        _uiState.value = _uiState.value.copy(tvSeriesSearchQuery = searchKey)
+        tvSeriesSearchJob?.cancel()
 
-    fun loadGenres() {
-        viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, error = null) }
-            movieRepo.genreList().collect { result ->
-                when (result) {
-                    is DataState.Loading -> _uiState.update { it.copy(isLoading = true) }
-                    is DataState.Success -> _uiState.update {
-                        it.copy(genres = result.data, isLoading = false, error = null)
-                    }
+        if (searchKey.trim().isEmpty()) {
+            _uiState.value = _uiState.value.copy(
+                tvSeriesSearchResults = emptyList(),
+                isTvSeriesSearchLoading = false
+            )
+            return
+        }
 
-                    is DataState.Error -> _uiState.update {
-                        it.copy(isLoading = false, error = result.exception)
+        tvSeriesSearchJob = viewModelScope.launch {
+            delay(SEARCH_DEBOUNCE_MILLIS)
+            tvSeriesRepo.searchTvSeries(searchKey)
+                .catch { exception ->
+                    _uiState.value = _uiState.value.copy(
+                        isTvSeriesSearchLoading = false,
+                        error = exception
+                    )
+                }
+                .collect { result ->
+                    when (result) {
+                        is DataState.Success -> {
+                            _uiState.value = _uiState.value.copy(
+                                tvSeriesSearchResults = result.data.results,
+                                isTvSeriesSearchLoading = false
+                            )
+                        }
+
+                        is DataState.Error -> {
+                            _uiState.value = _uiState.value.copy(
+                                isTvSeriesSearchLoading = false,
+                                error = result.exception
+                            )
+                        }
+
+                        is DataState.Loading -> {
+                            _uiState.value = _uiState.value.copy(
+                                isTvSeriesSearchLoading = true,
+                                error = null
+                            )
+                        }
                     }
                 }
-            }
+        }
+    }
+
+    fun searchCelebrities(searchKey: String) {
+        _uiState.value = _uiState.value.copy(celebritySearchQuery = searchKey)
+        celebritySearchJob?.cancel()
+
+        if (searchKey.trim().isEmpty()) {
+            _uiState.value = _uiState.value.copy(
+                celebritySearchResults = emptyList(),
+                isCelebritySearchLoading = false
+            )
+            return
+        }
+
+        celebritySearchJob = viewModelScope.launch {
+            delay(SEARCH_DEBOUNCE_MILLIS)
+            celebrityRepo.searchCelebrity(searchKey)
+                .catch { exception ->
+                    _uiState.value = _uiState.value.copy(
+                        isCelebritySearchLoading = false,
+                        error = exception
+                    )
+                }
+                .collect { result ->
+                    when (result) {
+                        is DataState.Success -> {
+                            _uiState.value = _uiState.value.copy(
+                                celebritySearchResults = result.data.results,
+                                isCelebritySearchLoading = false
+                            )
+                        }
+
+                        is DataState.Error -> {
+                            _uiState.value = _uiState.value.copy(
+                                isCelebritySearchLoading = false,
+                                error = result.exception
+                            )
+                        }
+
+                        is DataState.Loading -> {
+                            _uiState.value = _uiState.value.copy(
+                                isCelebritySearchLoading = true,
+                                error = null
+                            )
+                        }
+                    }
+                }
         }
     }
 

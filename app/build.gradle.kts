@@ -82,7 +82,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
-    implementation(libs.androidx.material.icons.core)
+    implementation(libs.androidx.material.icons.extended)
 
     implementation(libs.androidx.navigation3.runtime)
     implementation(libs.androidx.navigation3.ui)
@@ -100,6 +100,7 @@ dependencies {
 
     // Additional libraries
     implementation(libs.androidx.paging.compose)
+    implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.core.splashscreen)
     implementation(libs.material)
 

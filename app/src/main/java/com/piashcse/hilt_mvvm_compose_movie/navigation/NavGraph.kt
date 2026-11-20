@@ -92,20 +92,11 @@ fun Navigation(
 @Composable
 fun navigationTitle(navigator: Navigator): String {
     return when (navigator.currentKey) {
-        NowPlayingMovieRoute -> stringResource(R.string.now_playing)
-        PopularMovieRoute, PopularTvSeriesRoute, PopularCelebritiesRoute ->
-            stringResource(R.string.popular)
-
-        TopRatedMovieRoute, TopRatedTvSeriesRoute -> stringResource(R.string.top_rated)
-        UpcomingMovieRoute -> stringResource(R.string.up_coming)
-        AiringTodayTvSeriesRoute -> stringResource(R.string.airing_today)
-        OnTheAirTvSeriesRoute -> stringResource(R.string.on_the_air)
-        TrendingCelebritiesRoute -> stringResource(R.string.trending)
-        is MovieDetailRoute -> stringResource(R.string.movie_detail)
-        is TvSeriesDetailRoute -> stringResource(R.string.tv_series_detail)
-        is ArtistDetailRoute -> stringResource(R.string.artist_detail)
-        FavoriteMovieRoute -> stringResource(R.string.favorite_movie)
-        FavoriteTvSeriesRoute -> stringResource(R.string.favorite_tv_series)
+        is MovieDetailRoute -> stringResource(id = R.string.movie_detail)
+        is TvSeriesDetailRoute -> stringResource(id = R.string.tv_series_detail)
+        is ArtistDetailRoute -> stringResource(id = R.string.artist_detail)
+        FavoriteMovieRoute -> stringResource(id = R.string.favorite_movie)
+        FavoriteTvSeriesRoute -> stringResource(id = R.string.favorite_tv_series)
         else -> stringResource(R.string.app_name)
     }
 }

@@ -1,17 +1,29 @@
 package com.piashcse.hilt_mvvm_compose_movie.utils
 
-import androidx.annotation.StringRes
 import androidx.navigation3.runtime.NavKey
-import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
+import kotlin.math.pow
+import kotlin.math.roundToInt
+import kotlin.time.Duration.Companion.minutes
 
-/** Maps the TMDB gender id to a localised label resource. */
-@StringRes
-fun Int.genderRes(): Int = when (this) {
-    1 -> R.string.gender_female
-    2 -> R.string.gender_male
-    else -> 0
+fun Int.hourMinutes(): String {
+    return "${this.minutes.inWholeHours}h ${this % 60}m"
 }
+
+fun Int.genderInString(): String {
+    return when (this) {
+        1 -> "Female"
+        2 -> "Male"
+        else -> ""
+    }
+}
+
+fun Double.roundTo(numFractionDigits: Int): Double {
+    val factor = 10.0.pow(numFractionDigits.toDouble())
+    return (this * factor).roundToInt() / factor
+}
+
+
 
 /**
  * Switches to a tab/root destination, keeping a single root on the back stack.

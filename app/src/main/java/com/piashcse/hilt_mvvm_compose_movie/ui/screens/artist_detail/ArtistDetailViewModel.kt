@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.artist.ArtistRepository
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
-import com.piashcse.hilt_mvvm_compose_movie.utils.network.toUserMessage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -69,7 +68,7 @@ class ArtistDetailViewModel @Inject constructor(
 
                 is DataState.Error -> currentState.copy(
                     isLoading = false,
-                    errorMessage = result.exception.toUserMessage(),
+                    errorMessage = result.exception.message ?: "Unknown error",
                 )
             }
         }
