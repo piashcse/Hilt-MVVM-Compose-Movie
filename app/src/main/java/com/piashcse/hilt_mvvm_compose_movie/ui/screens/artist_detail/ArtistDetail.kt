@@ -25,7 +25,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
@@ -45,6 +45,7 @@ import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 import component.base.BaseColumn
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.ArtistDetailShimmer
 
 @Composable
 fun ArtistDetail(navController: Navigator, personId: Int) {
@@ -62,7 +63,11 @@ fun ArtistDetailUi(
     artistUiState: ArtistDetailUiState,
     navController: Navigator,
 ) {
-    BaseColumn(loading = artistUiState.isLoading, errorMessage = artistUiState.errorMessage) {
+    BaseColumn(
+        loading = artistUiState.isLoading,
+        errorMessage = artistUiState.errorMessage,
+        loadingContent = { ArtistDetailShimmer() },
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

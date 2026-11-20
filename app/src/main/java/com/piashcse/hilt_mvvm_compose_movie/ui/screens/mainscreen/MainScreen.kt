@@ -37,7 +37,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation3.runtime.NavKey
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
@@ -57,7 +57,6 @@ import com.piashcse.hilt_mvvm_compose_movie.navigation.TrendingCelebritiesRoute
 import com.piashcse.hilt_mvvm_compose_movie.navigation.UpcomingMovieRoute
 import com.piashcse.hilt_mvvm_compose_movie.navigation.navigationTitle
 import com.piashcse.hilt_mvvm_compose_movie.navigation.rememberNavigator
-import com.piashcse.hilt_mvvm_compose_movie.ui.component.CircularIndeterminateProgressBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchBar
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.SearchUI
 import com.piashcse.hilt_mvvm_compose_movie.ui.component.ShowExitDialog
@@ -216,8 +215,6 @@ fun MainScreen() {
                 genres = uiState.genres?.genres,
                 isFavorite = isFavoriteActive.value
             )
-
-            CircularIndeterminateProgressBar(isDisplayed = uiState.isLoading, 0.1f)
 
             if (!isAppBarVisible.value) {
                 // Overlay search results on top of main content

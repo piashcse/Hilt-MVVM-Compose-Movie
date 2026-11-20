@@ -62,16 +62,16 @@ Movie World app built with Jetpack Compose, Navigation 3, Hilt, Coroutines, Flow
 
 ## API Key 🔑
 You will need to provide a developer key to fetch the data from TMDB API.
-* Generate a new key (v3 auth) from [here](https://www.themoviedb.org/settings/api). Copy the key and go back to the project.
-* Add the key to build config in `./app/build.gradle`:
+* Generate a new key (v3 auth) from [here](https://www.themoviedb.org/settings/api).
+* Provide the key in one of the following places (first match wins):
+  1. `local.properties` (not committed):
+     ```properties
+     TMDB_API_KEY=your_key_here
+     ```
+  2. A Gradle property: `-PTMDB_API_KEY=your_key_here` or in `~/.gradle/gradle.properties`.
+  3. The `TMDB_API_KEY` environment variable (used by CI secrets).
 
-```kotlin
-defaultConfig {
-    ...
-    buildConfigField("String", "API_KEY", '"TMDB_API_KEY"')
-    ...
-}
-```
+The key is exposed to the app as `BuildConfig.API_KEY`; no source file needs to be edited.
 
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.

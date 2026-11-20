@@ -30,6 +30,7 @@ import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.DefaultBackgroundColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.SecondaryFontColor
 import com.piashcse.hilt_mvvm_compose_movie.ui.theme.cornerRadius
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.MediaGridShimmer
 import com.piashcse.hilt_mvvm_compose_movie.utils.items
 import com.piashcse.hilt_mvvm_compose_movie.utils.pagingLoadingState
 import com.skydoves.landscapist.ImageOptions
@@ -57,10 +58,11 @@ fun Celebrities(
     Column(modifier = Modifier.background(DefaultBackgroundColor)) {
         // Display genres if provided
 
-        // Show loading indicator if progressBar is true
-        CircularIndeterminateProgressBar(isDisplayed = progressBar.value, 0.4f)
-
-        DisplayCelebrities(celebrities = celebrities, navController = navController)
+        if (progressBar.value && celebrities.itemCount == 0) {
+            MediaGridShimmer()
+        } else {
+            DisplayCelebrities(celebrities = celebrities, navController = navController)
+        }
         // Show exit dialog if back button is pressed
         if (openDialog.value) {
             ShowExitDialog(activity, openDialog)

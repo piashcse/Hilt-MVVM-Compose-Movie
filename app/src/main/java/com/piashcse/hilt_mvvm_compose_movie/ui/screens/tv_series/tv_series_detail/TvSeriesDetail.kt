@@ -46,7 +46,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
@@ -70,6 +70,7 @@ import com.skydoves.landscapist.components.rememberImageComponent
 import com.skydoves.landscapist.placeholder.shimmer.Shimmer
 import com.skydoves.landscapist.placeholder.shimmer.ShimmerPlugin
 import component.base.BaseColumn
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.MediaDetailShimmer
 
 @Composable
 fun TvSeriesDetail(navController: Navigator, tvSeriesId: Int) {
@@ -79,7 +80,6 @@ fun TvSeriesDetail(navController: Navigator, tvSeriesId: Int) {
 
     LaunchedEffect(tvSeriesId) {
         viewModel.fetchTvSeriesDetails(tvSeriesId)
-        viewModel.observeFavoriteStatus(tvSeriesId)
     }
 
     TvSeriesDetailContent(
@@ -102,7 +102,11 @@ fun TvSeriesDetailContent(
 ) {
     val screenHeight = LocalConfiguration.current.screenHeightDp.dp
     val calculatedOffset = screenHeight / 5.5f
-    BaseColumn(loading = uiState.isLoading, errorMessage = uiState.errorMessage) {
+    BaseColumn(
+        loading = uiState.isLoading,
+        errorMessage = uiState.errorMessage,
+        loadingContent = { MediaDetailShimmer() },
+    ) {
         Column(
             modifier = Modifier
                 .fillMaxSize()

@@ -4,7 +4,7 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.movies.upcoming
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
@@ -17,8 +17,8 @@ fun UpcomingMovie(
     navController: Navigator,
     genres: List<Genre>? = null,
 ) {
-    val viewModel = hiltViewModel<UpComingMovieViewModel>()
-    val moviesItems = viewModel.upcomingMovies.collectAsLazyPagingItems()
+    val viewModel = hiltViewModel<UpcomingMovieViewModel>()
+    val moviesItems = viewModel.items.collectAsLazyPagingItems()
     val uiState by viewModel.uiState.collectAsState()
 
     AutoPaginationScreen(

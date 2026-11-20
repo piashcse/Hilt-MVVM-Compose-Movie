@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.artist.ArtistRepository
 import com.piashcse.hilt_mvvm_compose_movie.utils.network.DataState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -18,24 +19,36 @@ class ArtistDetailViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ArtistDetailUiState())
-    val uiState: StateFlow<ArtistDetailUiState> get() = _uiState.asStateFlow()
+    val uiState: StateFlow<ArtistDetailUiState> = _uiState.asStateFlow()
+
+    private var personId: Int? = null
+    private var loadJob: Job? = null
 
     fun fetchArtistDetails(personId: Int) {
-        viewModelScope.launch {
-            launch { artistDetail(personId) }
-            launch { artistMovies(personId) }
-        }
+        if (this.personId == personId) return
+        this.personId = personId
+        load(personId)
     }
 
-    private suspend fun artistDetail(personId: Int) {
-        repo.artistDetail(personId).collect { result ->
-            handleStateUpdate(result) { state, data -> state.copy(artistDetail = data) }
-        }
+    fun retry() {
+        personId?.let(::load)
     }
 
-    private suspend fun artistMovies(personId: Int) {
-        repo.artistAllMovies(personId).collect { result ->
-            handleStateUpdate(result) { state, data -> state.copy(artistMovies = data?.cast) }
+    private fun load(personId: Int) {
+        loadJob?.cancel()
+        loadJob = viewModelScope.launch {
+            launch {
+                repo.artistDetail(personId).collect { result ->
+                    handleStateUpdate(result) { state, data -> state.copy(artistDetail = data) }
+                }
+            }
+            launch {
+                repo.artistAllMovies(personId).collect { result ->
+                    handleStateUpdate(result) { state, data ->
+                        state.copy(artistMovies = data?.cast)
+                    }
+                }
+            }
         }
     }
 
@@ -45,14 +58,17 @@ class ArtistDetailViewModel @Inject constructor(
     ) {
         _uiState.update { currentState ->
             when (result) {
-                is DataState.Loading -> currentState.copy(isLoading = true, errorMessage = null)
-                is DataState.Success -> stateUpdater(
-                    currentState, result.data
-                ).copy(isLoading = false, errorMessage = null)
+                is DataState.Loading -> currentState.copy(
+                    isLoading = currentState.artistDetail == null,
+                    errorMessage = null,
+                )
+
+                is DataState.Success -> stateUpdater(currentState, result.data)
+                    .copy(isLoading = false, errorMessage = null)
 
                 is DataState.Error -> currentState.copy(
                     isLoading = false,
-                    errorMessage = result.exception.message ?: "Unknown error"
+                    errorMessage = result.exception.message ?: "Unknown error",
                 )
             }
         }

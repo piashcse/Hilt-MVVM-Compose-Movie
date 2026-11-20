@@ -16,5 +16,5 @@ interface TvSeriesRepository {
     suspend fun searchTvSeries(searchKey: String): Flow<DataState<SearchBaseModel>>
     suspend fun tvSeriesDetail(seriesId: Int): Flow<DataState<TvSeriesDetail>>
     suspend fun recommendedTvSeries(seriesId: Int): Flow<DataState<List<TvSeriesItem>>>
-    suspend fun artistDetail(personId: Int): Flow<DataState<Artist>>
+    suspend fun tvSeriesCredit(seriesId: Int): Flow<DataState<Artist>>
 }

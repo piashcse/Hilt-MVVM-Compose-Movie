@@ -1,8 +1,5 @@
 package com.piashcse.hilt_mvvm_compose_movie.di
 
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.dao.FavoriteMovieDao
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.local.dao.FavoriteTvSeriesDao
-import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiService
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.local.movie.LocalMovieRepository
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.local.movie.LocalMovieRepositoryImpl
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.local.tvseries.LocalTvSeriesRepository
@@ -15,92 +12,37 @@ import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.movie.MovieRe
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.movie.MovieRepositoryImpl
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.tvseries.TvSeriesRepository
 import com.piashcse.hilt_mvvm_compose_movie.data.repository.remote.tvseries.TvSeriesRepositoryImpl
+import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RepositoryModule {
-    /**
-     * Provides MovieRepository for access api service method
-     */
+abstract class RepositoryModule {
+
+    @Binds
     @Singleton
-    @Provides
-    fun provideMovieRepository(
-        apiService: ApiService,
-    ): MovieRepository {
-        return MovieRepositoryImpl(
-            apiService
-        )
-    }
+    abstract fun bindMovieRepository(impl: MovieRepositoryImpl): MovieRepository
 
-    /**
-     * Provides TvSeriesRepository for access api service method
-     */
+    @Binds
     @Singleton
-    @Provides
-    fun provideTvSeriesRepository(
-        apiService: ApiService,
-    ): TvSeriesRepository {
-        return TvSeriesRepositoryImpl(
-            apiService
-        )
-    }
+    abstract fun bindTvSeriesRepository(impl: TvSeriesRepositoryImpl): TvSeriesRepository
 
-    /**
-     * Provides ArtistRepository for access api service method
-     */
+    @Binds
     @Singleton
-    @Provides
-    fun provideArtistRepository(
-        apiService: ApiService,
-    ): ArtistRepository {
-        return ArtistRepositoryImpl(
-            apiService
-        )
-    }
+    abstract fun bindArtistRepository(impl: ArtistRepositoryImpl): ArtistRepository
 
-    /**
-     * Provides ArtistRepository for access api service method
-     */
+    @Binds
     @Singleton
-    @Provides
-    fun provideCelebrityRepository(
-        apiService: ApiService,
-    ): CelebrityRepository {
-        return CelebrityRepositoryImpl(
-            apiService
-        )
-    }
+    abstract fun bindCelebrityRepository(impl: CelebrityRepositoryImpl): CelebrityRepository
 
-    /**
-     * Provides LocalMovieRepository for access api service method
-     */
+    @Binds
     @Singleton
-    @Provides
-    fun provideLocalMovieRepository(
-        movieDao: FavoriteMovieDao,
-    ): LocalMovieRepository {
-        return LocalMovieRepositoryImpl(
-            movieDao
-        )
-    }
+    abstract fun bindLocalMovieRepository(impl: LocalMovieRepositoryImpl): LocalMovieRepository
 
-
-    /**
-     * Provides LocalMovieRepository for access api service method
-     */
+    @Binds
     @Singleton
-    @Provides
-    fun provideLocalTvSeriesRepository(
-        tvSeriesDao: FavoriteTvSeriesDao,
-    ): LocalTvSeriesRepository {
-        return LocalTvSeriesRepositoryImpl(
-            tvSeriesDao
-        )
-    }
-
+    abstract fun bindLocalTvSeriesRepository(impl: LocalTvSeriesRepositoryImpl): LocalTvSeriesRepository
 }

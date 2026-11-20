@@ -3,7 +3,7 @@ package com.piashcse.hilt_mvvm_compose_movie.ui.screens.tv_series.popular
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.data.model.moviedetail.Genre
@@ -17,7 +17,7 @@ fun PopularTvSeries(
     genres: List<Genre>? = null,
 ) {
     val viewModel = hiltViewModel<PopularTvSeriesViewModel>()
-    val tvSeriesItems = viewModel.popularTvSeries.collectAsLazyPagingItems()
+    val tvSeriesItems = viewModel.items.collectAsLazyPagingItems()
     val uiState by viewModel.uiState.collectAsState()
 
     AutoPaginationScreen(

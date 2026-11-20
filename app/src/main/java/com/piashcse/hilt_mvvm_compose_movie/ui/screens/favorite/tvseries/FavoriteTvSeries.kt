@@ -18,8 +18,6 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -30,7 +28,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.piashcse.hilt_mvvm_compose_movie.navigation.Navigator
 import com.piashcse.hilt_mvvm_compose_movie.R
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
@@ -52,9 +50,6 @@ fun FavoriteTvSeries(navController: Navigator) {
     val viewModel = hiltViewModel<FavoriteTvSeriesViewModel>()
     val favoriteTvSeries by viewModel.favoriteTvSeries.collectAsState()
 
-    LaunchedEffect(Unit) {
-        viewModel.favoriteTvSeriesFromDB()
-    }
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -79,9 +74,6 @@ fun FavoriteTvSeriesItemView(
     viewModel: FavoriteTvSeriesViewModel,
 ) {
     val openDialog = remember { mutableStateOf(false) }
-    SideEffect {
-        viewModel.favoriteTvSeriesFromDB()
-    }
     Column(
         modifier = Modifier
             .padding(start = 5.dp, end = 5.dp, top = 0.dp, bottom = 10.dp)

@@ -1,3 +1,5 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
@@ -8,6 +10,15 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+val localProperties = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+val tmdbApiKey: String = localProperties.getProperty("TMDB_API_KEY")
+    ?: providers.gradleProperty("TMDB_API_KEY").orNull
+    ?: providers.environmentVariable("TMDB_API_KEY").orNull
+    ?: ""
+
 android {
     compileSdk = 37
     compileSdkMinor = 1
@@ -16,8 +27,8 @@ android {
         applicationId = "com.piashcse.hilt_mvvm_compose_movie"
         minSdk = 24
         targetSdk = 37
-        versionCode = 40
-        versionName = "2.2.0"
+        versionCode = 41
+        versionName = "2.3.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {
@@ -31,7 +42,7 @@ android {
     productFlavors {
         create("develop") {
             dimension = "version"
-            buildConfigField("String", "API_KEY", "\"59cd6896d8432f9c69aed9b86b9c2931\"")
+            buildConfigField("String", "API_KEY", "\"$tmdbApiKey\"")
         }
     }
 
@@ -88,10 +99,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     // Additional libraries
-    implementation(libs.androidx.constraintlayout.compose)
     implementation(libs.androidx.paging.compose)
     implementation(libs.androidx.core.splashscreen)
-    implementation(libs.androidx.multidex)
     implementation(libs.material)
 
     // Networking
@@ -107,7 +116,7 @@ dependencies {
 
     // Dependency Injection
     implementation(libs.hilt.android)
-    implementation(libs.androidx.hilt.navigation.compose)
+    implementation(libs.androidx.hilt.lifecycle.viewmodel.compose)
     ksp(libs.hilt.compiler)
     ksp(libs.kotlin.metadata.jvm)
 
@@ -118,7 +127,6 @@ dependencies {
     implementation(libs.room.runtime)
     implementation(libs.room.ktx)
     ksp(libs.room.compiler)
-    annotationProcessor(libs.room.compiler)
 
     implementation(libs.kotlinx.serialization.json)
 }
