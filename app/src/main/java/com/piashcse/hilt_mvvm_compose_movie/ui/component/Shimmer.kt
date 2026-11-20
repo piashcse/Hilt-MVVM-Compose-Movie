@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -110,88 +111,169 @@ fun MediaDetailShimmer(modifier: Modifier = Modifier) {
             .verticalScroll(rememberScrollState())
             .background(MaterialTheme.colorScheme.background),
     ) {
+        // Backdrop
         ShimmerBox(
             modifier = Modifier
                 .fillMaxWidth()
-                .aspectRatio(16f / 9f),
+                .height(230.dp),
             brush = brush,
             cornerRadius = 0.dp,
         )
-        Row(modifier = Modifier.padding(12.dp)) {
+
+        // Poster, title and rating
+        Row(modifier = Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
             ShimmerBox(
                 modifier = Modifier
-                    .width(110.dp)
+                    .width(112.dp)
                     .aspectRatio(2f / 3f),
                 brush = brush,
-                cornerRadius = 10.dp,
+                cornerRadius = 12.dp,
             )
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(start = 12.dp),
+                    .padding(start = 16.dp),
             ) {
                 ShimmerBox(
                     modifier = Modifier
-                        .fillMaxWidth(0.75f)
+                        .fillMaxWidth(0.8f)
                         .height(26.dp),
                     brush = brush,
                     cornerRadius = 6.dp,
                 )
+                Spacer(modifier = Modifier.height(8.dp))
+                ShimmerBox(
+                    modifier = Modifier
+                        .fillMaxWidth(0.55f)
+                        .height(12.dp),
+                    brush = brush,
+                    cornerRadius = 4.dp,
+                )
                 Spacer(modifier = Modifier.height(12.dp))
-                repeat(4) {
-                    ShimmerBox(
-                        modifier = Modifier
-                            .fillMaxWidth(0.55f)
-                            .height(12.dp),
-                        brush = brush,
-                        cornerRadius = 4.dp,
-                    )
-                    Spacer(modifier = Modifier.height(8.dp))
+                ShimmerBox(
+                    modifier = Modifier
+                        .width(150.dp)
+                        .height(18.dp),
+                    brush = brush,
+                    cornerRadius = 4.dp,
+                )
+                Spacer(modifier = Modifier.height(12.dp))
+                ShimmerBox(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(28.dp),
+                    brush = brush,
+                    cornerRadius = 14.dp,
+                )
+            }
+        }
+
+        // Details grid
+        ShimmerBox(
+            modifier = Modifier
+                .padding(start = 16.dp, top = 8.dp)
+                .width(80.dp)
+                .height(18.dp),
+            brush = brush,
+            cornerRadius = 4.dp,
+        )
+        Spacer(modifier = Modifier.height(12.dp))
+        repeat(2) {
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 16.dp, vertical = 6.dp),
+                horizontalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                repeat(2) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        ShimmerBox(
+                            modifier = Modifier
+                                .fillMaxWidth(0.5f)
+                                .height(10.dp),
+                            brush = brush,
+                            cornerRadius = 4.dp,
+                        )
+                        Spacer(modifier = Modifier.height(6.dp))
+                        ShimmerBox(
+                            modifier = Modifier
+                                .fillMaxWidth(0.8f)
+                                .height(14.dp),
+                            brush = brush,
+                            cornerRadius = 4.dp,
+                        )
+                    }
                 }
             }
         }
+
+        // Overview
         ShimmerBox(
             modifier = Modifier
-                .padding(horizontal = 12.dp)
-                .width(120.dp)
+                .padding(start = 16.dp, top = 16.dp)
+                .width(110.dp)
                 .height(18.dp),
             brush = brush,
             cornerRadius = 4.dp,
         )
         Spacer(modifier = Modifier.height(10.dp))
-        repeat(3) {
+        repeat(4) {
             ShimmerBox(
                 modifier = Modifier
-                    .padding(horizontal = 12.dp, vertical = 4.dp)
+                    .padding(horizontal = 16.dp, vertical = 4.dp)
                     .fillMaxWidth()
                     .height(12.dp),
                 brush = brush,
                 cornerRadius = 4.dp,
             )
         }
-        Spacer(modifier = Modifier.height(16.dp))
+
+        // Cast
         ShimmerBox(
             modifier = Modifier
-                .padding(horizontal = 12.dp)
-                .width(100.dp)
+                .padding(start = 16.dp, top = 20.dp)
+                .width(70.dp)
                 .height(18.dp),
             brush = brush,
             cornerRadius = 4.dp,
         )
         Row(
-            modifier = Modifier.padding(12.dp),
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            modifier = Modifier.padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(14.dp),
+        ) {
+            repeat(4) {
+                ShimmerBox(
+                    modifier = Modifier.size(70.dp),
+                    brush = brush,
+                    cornerRadius = 35.dp,
+                )
+            }
+        }
+
+        // Similar
+        ShimmerBox(
+            modifier = Modifier
+                .padding(start = 16.dp, top = 4.dp)
+                .width(90.dp)
+                .height(18.dp),
+            brush = brush,
+            cornerRadius = 4.dp,
+        )
+        Row(
+            modifier = Modifier.padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp),
         ) {
             repeat(3) {
                 ShimmerBox(
                     modifier = Modifier
-                        .width(110.dp)
+                        .width(112.dp)
                         .aspectRatio(2f / 3f),
                     brush = brush,
                     cornerRadius = 10.dp,
                 )
             }
         }
+        Spacer(modifier = Modifier.height(16.dp))
     }
 }
 

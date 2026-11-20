@@ -1,5 +1,6 @@
 package com.piashcse.hilt_mvvm_compose_movie.di
 
+import com.piashcse.hilt_mvvm_compose_movie.BuildConfig
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiService
 import com.piashcse.hilt_mvvm_compose_movie.data.datasource.remote.ApiURL
 import com.piashcse.hilt_mvvm_compose_movie.network.ApiKeyInterceptor
@@ -32,9 +33,14 @@ object NetworkModule {
      */
     @Singleton
     @Provides
-    fun provideLoggingInterceptor(): HttpLoggingInterceptor {
-        return HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY)
-    }
+    fun provideLoggingInterceptor(): HttpLoggingInterceptor =
+        HttpLoggingInterceptor().apply {
+            level = if (BuildConfig.DEBUG) {
+                HttpLoggingInterceptor.Level.BODY
+            } else {
+                HttpLoggingInterceptor.Level.NONE
+            }
+        }
 
     /**
      * Provides API Key Interceptor
@@ -54,16 +60,14 @@ object NetworkModule {
         loggingInterceptor: HttpLoggingInterceptor,
         apiKeyInterceptor: ApiKeyInterceptor,
     ): OkHttpClient {
-        val okHttpClient = OkHttpClient().newBuilder()
-
-        okHttpClient.callTimeout(40, TimeUnit.SECONDS)
-        okHttpClient.connectTimeout(40, TimeUnit.SECONDS)
-        okHttpClient.readTimeout(40, TimeUnit.SECONDS)
-        okHttpClient.writeTimeout(40, TimeUnit.SECONDS)
-        okHttpClient.addInterceptor(loggingInterceptor)
-        okHttpClient.addInterceptor(apiKeyInterceptor)
-        okHttpClient.build()
-        return okHttpClient.build()
+        return OkHttpClient.Builder()
+            .callTimeout(40, TimeUnit.SECONDS)
+            .connectTimeout(40, TimeUnit.SECONDS)
+            .readTimeout(40, TimeUnit.SECONDS)
+            .writeTimeout(40, TimeUnit.SECONDS)
+            .addInterceptor(loggingInterceptor)
+            .addInterceptor(apiKeyInterceptor)
+            .build()
     }
 
     /**

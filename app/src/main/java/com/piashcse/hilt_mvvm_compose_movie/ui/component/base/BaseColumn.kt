@@ -1,13 +1,11 @@
-package component.base
+package com.piashcse.hilt_mvvm_compose_movie.ui.component.base
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,32 +20,19 @@ fun BaseColumn(
     errorMessage: String?,
     modifier: Modifier = Modifier,
     loadingContent: @Composable () -> Unit = { MediaGridShimmer() },
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
-    var errorState by remember { mutableStateOf<String?>(null) }
+    var dismissedError by remember(errorMessage) { mutableStateOf(false) }
 
-    // Update errorState whenever errorMessage changes
-    LaunchedEffect(errorMessage) {
-        errorState = errorMessage
-    }
     Column(
         modifier = modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = if (loading) Arrangement.Center else Arrangement.Top
     ) {
-        when {
-            loading -> loadingContent()
-
-            else -> content()
-        }
+        if (loading) loadingContent() else content()
     }
 
-    // Show Error Alert Dialog
-    errorState?.let {
-        ErrorAlert(errorMessage = it) {
-            // Clear the error state when the "OK" button is clicked
-            errorState = null
-        }
+    if (errorMessage != null && !dismissedError) {
+        ErrorAlert(errorMessage = errorMessage) { dismissedError = true }
     }
 }
 
@@ -61,5 +46,6 @@ fun ErrorAlert(errorMessage: String, onDismiss: () -> Unit) {
             TextButton(onClick = onDismiss) {
                 Text("OK")
             }
-        })
+        },
+    )
 }

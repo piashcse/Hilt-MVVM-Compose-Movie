@@ -20,7 +20,7 @@ fun DisplayGenres(
             .padding(8.dp)
             .fillMaxWidth()
     ) {
-        items(genres) { item ->
+        items(genres, key = { it.id ?: it.name }) { item ->
             SelectableGenreChip(
                 selected = item.name == selectedName?.name,
                 genre = item.name,

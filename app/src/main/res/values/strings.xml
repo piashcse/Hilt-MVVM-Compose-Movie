@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">Movie World</string>
-    <string name="title">Title</string>
     <string name="movie">Movie</string>
     <string name="tv_series">TV Series</string>
     <string name="celebrities">Celebrities</string>
@@ -11,29 +10,20 @@
     <string name="up_coming">Up coming</string>
     <string name="airing_today">Airing today</string>
     <string name="on_the_air">On the air</string>
-    <string name="number_of_episodes">Number of episodes</string>
     <string name="description">Description</string>
     <string name="release_date">Release Date</string>
-    <string name="rating">Rating</string>
     <string name="language">Language</string>
-    <string name="duration">Duration</string>
     <string name="movie_detail">Movie Detail</string>
     <string name="tv_series_detail">TV Series Detail</string>
     <string name="similar">Similar</string>
     <string name="artist_movies">Artist\'s Movies &#38; TV Shows </string>
     <string name="cast">Cast</string>
-    <string name="screen_one">Screen one</string>
-    <string name="screen_two">Screen two</string>
-    <string name="open_drawer">Open drawer</string>
     <string name="rating_search">Rating :</string>
     <string name="yes">Yes</string>
     <string name="do_you_want_to_exit_the_app">Do you want to exit the app?</string>
     <string name="close_the_app">Close the app</string>
     <string name="no">No</string>
     <string name="there_is_no_internet">There is no internet!</string>
-    <string name="enter_username">Enter username</string>
-    <string name="enter_password">Enter password</string>
-    <string name="login">Login</string>
     <string name="artist_detail">Artist Detail</string>
     <string name="know_for">Known for</string>
     <string name="biography">Biography</string>
@@ -44,4 +34,20 @@
     <string name="favorite_tv_series">Favorite Tv Series</string>
     <string name="remove_from_favorite">Remove from favorite</string>
     <string name="do_you_wanna_remove_this_from_favorite">Do you want to remove this item from favorite list?</string>
+    <string name="details">Details</string>
+    <string name="status">Status</string>
+    <string name="runtime">Runtime</string>
+    <string name="seasons">Seasons</string>
+    <string name="episodes">Episodes</string>
+    <string name="first_air_date">First air date</string>
+    <string name="last_air_date">Last air date</string>
+    <string name="votes">%1$s votes</string>
+    <string name="add_to_favorites">Add to favorites</string>
+    <string name="remove_from_favorites">Remove from favorites</string>
+    <string name="poster_content_description">%1$s poster</string>
+    <string name="backdrop_content_description">%1$s backdrop</string>
+    <string name="profile_content_description">%1$s profile photo</string>
+    <string name="director">Director</string>
+    <string name="creator">Creator</string>
+    <string name="network">Network</string>
 </resources>

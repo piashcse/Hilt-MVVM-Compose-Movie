@@ -145,7 +145,7 @@ fun ExpandingText(
         ClickableText(
             text = textWithMoreLess,
             style = TextStyle(
-                color = SecondaryFontColor,
+                color = androidx.compose.material3.MaterialTheme.colorScheme.onSurfaceVariant,
                 fontSize = 15.sp
             ),
             onClick = { offset ->

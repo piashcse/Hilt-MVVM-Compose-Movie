@@ -5,7 +5,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.paging.CombinedLoadStates
 import androidx.paging.compose.LazyPagingItems
 import com.piashcse.hilt_mvvm_compose_movie.ui.state.UiState
-import component.base.BaseColumn
+import com.piashcse.hilt_mvvm_compose_movie.ui.component.base.BaseColumn
 
 @Composable
 fun <T : Any> AutoPaginationScreen(
